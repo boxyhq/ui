@@ -1,0 +1,30 @@
+{
+  "name": "ui",
+  "version": "1.0.0",
+  "description": "UI toolkit to ease BoxyHQ integration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boxyhq/ui.git"
+  },
+  "keywords": [
+    "components",
+    "ui"
+  ],
+  "contributors": [
+    "Aswin V <aswin@boxyhq.com>",
+    "Rajiv Sahal <rajiv@boxyhq.com>"
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/boxyhq/ui/issues"
+  },
+  "homepage": "https://github.com/boxyhq/ui#readme",
+  "devDependencies": {
+    "@builder.io/mitosis": "0.0.99",
+    "@builder.io/mitosis-cli": "0.0.58"
+  }
+}
