@@ -1,4 +1,4 @@
-import { useState, useStore, Show } from '@builder.io/mitosis';
+import { useStore, Show } from '@builder.io/mitosis';
 import type { LoginProps } from './types';
 import getUniqueId from './utils/getUniqueId';
 import defaultClasses from './index.module.css';
@@ -14,45 +14,45 @@ const DEFAULT_VALUES = {
 };
 
 export default function Login(props: LoginProps) {
-  const [ssoIdentifierState, setSsoIdentifierState] = useState('');
-  // const [ssoIdentifierPrivate, setSsoIdentifierPrivate] = useState('');
-  const [errMsg, setErrMsg] = useState('');
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const state = useStore({
+  const state: any = useStore({
+    ssoIdentifier: '',
+    errMsg: '',
+    isProcessing: false,
+    get isError() {
+      return !!state.errMsg;
+    },
+    get disableButton() {
+      return (
+        !(state.ssoIdentifier || props.ssoIdentifier || DEFAULT_VALUES.ssoIdentifier) || state.isProcessing
+      );
+    },
+    get shouldRenderInput() {
+      return !(props.ssoIdentifier || DEFAULT_VALUES.ssoIdentifier);
+    },
     get InputId() {
       return getUniqueId(COMPONENT, 'input');
     },
     get ErrorSpanId() {
       return getUniqueId(COMPONENT, 'span');
     },
-    isError: !!errMsg,
-    shouldRenderInput: !(props.ssoIdentifier || DEFAULT_VALUES.ssoIdentifier),
-    disableButton:
-      !(ssoIdentifierState || props.ssoIdentifier || DEFAULT_VALUES.ssoIdentifier) || isProcessing,
-
-    // input event listeners
-    // handle on change of element
-    handleChange: (e) => {
-      setErrMsg('');
-      setSsoIdentifierState(e.currentTarget.value);
+    handleChange(e) {
+      state.errMsg = '';
+      state.ssoIdentifier = e.currentTarget.value;
     },
-
-    // handle submission
-    onSubmitButton: (event) => {
+    onSubmitButton(event) {
       void (async function (e) {
         e.preventDefault();
-        setIsProcessing(true);
+        state.isProcessing = true;
         const {
           error: { message },
         } = (await props.onSubmit(
-          ssoIdentifierState || props.ssoIdentifier || DEFAULT_VALUES.ssoIdentifier
+          state.ssoIdentifier || props.ssoIdentifier || DEFAULT_VALUES.ssoIdentifier
         )) || {
           error: {},
         };
-        setIsProcessing(false);
+        state.isProcessing = false;
         if (typeof message === 'string' && message) {
-          setErrMsg(message);
+          state.errMsg = message;
         }
       })(event);
     },
@@ -74,7 +74,7 @@ export default function Login(props: LoginProps) {
           </label>
           <input
             id={state.InputId}
-            value={ssoIdentifierState}
+            value={state.ssoIdentifier}
             placeholder={props.placeholder || DEFAULT_VALUES.placeholder}
             onChange={(e) => state.handleChange(e)}
             style={props.styles?.input}
@@ -84,7 +84,7 @@ export default function Login(props: LoginProps) {
             {...props.innerProps?.input}
           />
           <Show when={state.isError}>
-            <span id={state.ErrorSpanId}>{errMsg}</span>
+            <span id={state.ErrorSpanId}>{state.errMsg}</span>
           </Show>
         </>
       </Show>
