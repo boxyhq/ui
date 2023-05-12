@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "postcss": "postcss src/**/*.css --base src --dir 'output/react/src'",
     "build": "mitosis build"
   },
   "repository": {
@@ -31,6 +32,8 @@
     "@typescript-eslint/eslint-plugin": "5.59.5",
     "@typescript-eslint/parser": "5.59.5",
     "eslint": "8.40.0",
+    "postcss": "8.4.23",
+    "postcss-cli": "10.1.0",
     "prettier": "2.8.8",
     "typescript": "4.9.5"
   }
