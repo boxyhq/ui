@@ -4,6 +4,7 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import typescript from '@rollup/plugin-typescript';
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 export default defineConfig({
   build: {
@@ -29,6 +30,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    cssInjectedByJsPlugin(),
     // use @rollup/plugin-typescript to generate .d.ts files
     // https://github.com/rollup/plugins/tree/master/packages/typescript#noforceemit
     typescript({
@@ -37,6 +39,7 @@ export default defineConfig({
       noForceEmit: true,
       declarationDir: resolve(__dirname, 'dist/types'),
       rootDir: resolve(__dirname, 'src'),
+      exclude: ['**/demos/*'],
     }),
   ],
 });
