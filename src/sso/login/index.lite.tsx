@@ -64,29 +64,27 @@ export default function Login(props: LoginProps) {
       class={cssClassAssembler(props.classNames?.container, defaultClasses.container)}
       {...props.innerProps?.container}>
       <Show when={state.shouldRenderInput}>
-        <>
-          <label
-            htmlFor={state.InputId}
-            style={props.styles?.label}
-            className={cssClassAssembler(props.classNames?.label, defaultClasses.label)}
-            {...props.innerProps?.label}>
-            {props.inputLabel || DEFAULT_VALUES.inputLabel}
-          </label>
-          <input
-            id={state.InputId}
-            value={state.ssoIdentifier}
-            placeholder={props.placeholder || DEFAULT_VALUES.placeholder}
-            onChange={(e) => state.handleChange(e)}
-            style={props.styles?.input}
-            class={cssClassAssembler(props.classNames?.input, defaultClasses.input)}
-            aria-invalid={state.isError}
-            aria-describedby={state.ErrorSpanId}
-            {...props.innerProps?.input}
-          />
-          <Show when={state.isError}>
-            <span id={state.ErrorSpanId}>{state.errMsg}</span>
-          </Show>
-        </>
+        <label
+          htmlFor={state.InputId}
+          style={props.styles?.label}
+          className={cssClassAssembler(props.classNames?.label, defaultClasses.label)}
+          {...props.innerProps?.label}>
+          {props.inputLabel || DEFAULT_VALUES.inputLabel}
+        </label>
+        <input
+          id={state.InputId}
+          value={state.ssoIdentifier}
+          placeholder={props.placeholder || DEFAULT_VALUES.placeholder}
+          onChange={(e) => state.handleChange(e)}
+          style={props.styles?.input}
+          class={cssClassAssembler(props.classNames?.input, defaultClasses.input)}
+          aria-invalid={state.isError}
+          aria-describedby={state.ErrorSpanId}
+          {...props.innerProps?.input}
+        />
+        <Show when={state.isError}>
+          <span id={state.ErrorSpanId}>{state.errMsg}</span>
+        </Show>
       </Show>
       <button
         disabled={state.disableButton}
