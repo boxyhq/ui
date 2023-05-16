@@ -10,7 +10,7 @@ export default defineConfig({
       pagesDir: path.join(__dirname, 'pages'),
       pageStrategy: new DefaultPageStrategy({
         extraFindPages: async (pagesDir, helpers) => {
-          const srcPath = path.join(__dirname, '../src');
+          const srcPath = path.join(__dirname, './');
           if (String(process.env.SHOW_ALL_COMPONENT_DEMOS) === 'true') {
             // show all component demos during dev
             // put them in page `/components/demos/${componentName}`
