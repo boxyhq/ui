@@ -26,6 +26,10 @@
     ".": {
       "import": "./src/index.ts",
       "require": "./src/index.ts"
+    },
+    "./sso": {
+      "import": "./src/sso/index.ts",
+      "require": "./src/sso/index.ts"
     }
   },
   "scripts": {
