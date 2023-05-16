@@ -1,29 +1,29 @@
-import React from 'react'
-import { createTheme, defaultSideNavs } from 'vite-pages-theme-doc'
+import React from 'react';
+import { createTheme, defaultSideNavs } from 'vite-pages-theme-doc';
 
-import Component404 from './404'
+import Component404 from './404';
+import logo from './logo.png';
 
 export default createTheme({
-  logo: <div style={{ fontSize: '20px' }}>📘 Vite Pages</div>,
+  logo: (
+    <div style={{ fontSize: '20px', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <img src={logo} alt='BoxyHQ logo' width='40' height='40' />
+      BoxyHQ React SDK
+    </div>
+  ),
   topNavs: [
     {
-      label: 'Index',
+      label: 'SDK',
       path: '/',
       activeIfMatch: {
         // match all first-level paths
         path: '/:foo',
-        end: true,
       },
     },
     {
       label: 'Components',
-      path: '/components/Button',
+      path: '/components/demos/sso',
       activeIfMatch: '/components',
-    },
-    { label: 'Vite', href: 'https://github.com/vitejs/vite' },
-    {
-      label: 'Vite Pages',
-      href: 'https://github.com/vitejs/vite-plugin-react-pages',
     },
   ],
   sideNavs: (ctx) => {
@@ -34,17 +34,13 @@ export default createTheme({
             label: 'Demos (dev only)',
             order: -1,
           },
-          general: {
-            label: 'General',
+          sso: {
+            label: 'SSO',
             order: 1,
-          },
-          'data-display': {
-            label: 'Data Display',
-            order: 2,
           },
         },
       },
-    })
+    });
   },
   Component404,
-})
+});
