@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postcss": "postcss src/**/*.css --base src --dir 'react/src'",
-    "build": "mitosis build && npm run postcss"
+    "postcss:build": "postcss src/**/*.css --base src --dir 'react/src'",
+    "mitosis:build": "mitosis build",
+    "build": "npm run mitosis:build && npm run postcss:build"
   },
   "repository": {
     "type": "git",
