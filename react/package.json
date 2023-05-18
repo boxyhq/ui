@@ -19,14 +19,7 @@
     "url": "https://github.com/boxyhq/ui/issues?q=is%3Aopen+is%3Aissue+label%3Asdk"
   },
   "license": "Apache-2.0",
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "types": "./src/index.ts",
   "exports": {
-    ".": {
-      "import": "./src/index.ts",
-      "require": "./src/index.ts"
-    },
     "./sso": {
       "import": "./src/sso/index.ts",
       "require": "./src/sso/index.ts"
@@ -36,7 +29,8 @@
     "dev": "SHOW_ALL_COMPONENT_DEMOS=true vite serve docs",
     "build-docs": "rimraf docs/dist && vite build docs && serve -s docs/dist",
     "ssr-docs": "rimraf docs/dist && vite-pages ssr docs && serve docs/dist",
-    "build-lib": "vite build"
+    "build-lib": "vite build",
+    "prepare": "npm run build-lib"
   },
   "dependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
