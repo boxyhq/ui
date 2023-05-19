@@ -15,19 +15,17 @@ const DEFAULT_VALUES = {
 
 export default function Login(props: LoginProps) {
   const state: any = useStore({
-    ssoIdentifier: '',
+    _ssoIdentifier: DEFAULT_VALUES.ssoIdentifier,
     errMsg: '',
     isProcessing: false,
     get isError() {
       return !!state.errMsg;
     },
     get disableButton() {
-      return (
-        !(state.ssoIdentifier || props.ssoIdentifier || DEFAULT_VALUES.ssoIdentifier) || state.isProcessing
-      );
+      return !(state._ssoIdentifier || props.ssoIdentifier) || state.isProcessing;
     },
     get shouldRenderInput() {
-      return !(props.ssoIdentifier || DEFAULT_VALUES.ssoIdentifier);
+      return !props.ssoIdentifier;
     },
     get InputId() {
       return getUniqueId(COMPONENT, 'input');
@@ -37,7 +35,7 @@ export default function Login(props: LoginProps) {
     },
     handleChange(e) {
       state.errMsg = '';
-      state.ssoIdentifier = e.currentTarget.value;
+      state._ssoIdentifier = e.currentTarget.value;
     },
     onSubmitButton(event) {
       void (async function (e) {
@@ -45,9 +43,7 @@ export default function Login(props: LoginProps) {
         state.isProcessing = true;
         const {
           error: { message },
-        } = (await props.onSubmit(
-          state.ssoIdentifier || props.ssoIdentifier || DEFAULT_VALUES.ssoIdentifier
-        )) || {
+        } = (await props.onSubmit(state._ssoIdentifier || props.ssoIdentifier)) || {
           error: {},
         };
         state.isProcessing = false;
@@ -73,7 +69,7 @@ export default function Login(props: LoginProps) {
         </label>
         <input
           id={state.InputId}
-          value={state.ssoIdentifier}
+          value={state._ssoIdentifier}
           placeholder={props.placeholder || DEFAULT_VALUES.placeholder}
           onChange={(e) => state.handleChange(e)}
           style={props.styles?.input}
