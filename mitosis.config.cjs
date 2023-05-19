@@ -4,4 +4,5 @@ module.exports = {
   dest: '.',
   options: { react: { typescript: true } },
   targets: ['react'],
+  exclude: ['src/css.d.ts'],
 };
