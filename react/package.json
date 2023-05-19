@@ -21,8 +21,8 @@
   "license": "Apache-2.0",
   "exports": {
     "./sso": {
-      "import": "./src/sso/index.ts",
-      "require": "./src/sso/index.ts"
+      "import": "./dist/@boxyhq/react-ui/sso.js",
+      "require": "./dist/@boxyhq/react-ui/sso.umd.cjs"
     }
   },
   "scripts": {
