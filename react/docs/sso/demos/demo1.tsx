@@ -4,10 +4,8 @@
  * @order 1
  */
 
-import { sso } from '@boxyhq/react-ui';
+import { Login } from '@boxyhq/react-ui/sso';
 import './demo1.css';
-
-const { Login } = sso;
 
 const Demo1 = () => {
   return (
