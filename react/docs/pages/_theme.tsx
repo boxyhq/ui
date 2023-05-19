@@ -1,4 +1,3 @@
-import React from 'react';
 import { createTheme, defaultSideNavs } from 'vite-pages-theme-doc';
 
 import Component404 from './404';
@@ -31,7 +30,7 @@ export default createTheme({
       groupConfig: {
         components: {
           demos: {
-            label: 'Demos (dev only)',
+            label: 'Demos',
             order: -1,
           },
           sso: {
