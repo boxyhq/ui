@@ -8,6 +8,7 @@ import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 export default defineConfig({
   build: {
+    sourcemap: true,
     // use vite library mode to build the package
     // https://vitejs.dev/guide/build.html#library-mode
     lib: {
@@ -32,14 +33,12 @@ export default defineConfig({
   plugins: [
     cssInjectedByJsPlugin(),
     // use @rollup/plugin-typescript to generate .d.ts files
-    // https://github.com/rollup/plugins/tree/master/packages/typescript#noforceemit
     typescript({
       declaration: true,
       emitDeclarationOnly: true,
       noForceEmit: true,
       declarationDir: resolve(__dirname, 'dist/types'),
       rootDir: resolve(__dirname, 'src'),
-      exclude: ['**/demos/*'],
     }),
   ],
 });
