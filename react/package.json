@@ -2,7 +2,6 @@
   "name": "@boxyhq/react-ui",
   "description": "React UI components from BoxyHQ",
   "version": "0.0.0",
-  "private": true,
   "type": "module",
   "keywords": [
     "react",
