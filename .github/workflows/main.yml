@@ -1,0 +1,65 @@
+name: Publish React component SDK to npmjs
+on:
+  workflow_dispatch:
+    inputs:
+      npmversion:
+        required: true
+        type: string
+        default: 2.0.0
+      publishtag:
+        required: true
+        type: string
+        default: alpha
+jobs:
+  mitosis:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: 'https://registry.npmjs.org'
+          check-latest: true
+      - run: npm ci
+      - name: Run mitosis build
+        run: npm build
+      - name: Export framework code for react
+        uses: actions/upload-artifact@v3
+        with:
+          name: react-ui
+          path: ./react/src
+
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./react
+
+    steps:
+      - uses: actions/checkout@v3
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: 'https://registry.npmjs.org'
+          check-latest: true
+      - uses: actions/download-artifact@v3
+        with:
+          name: react-ui
+          path: ./react/src
+      - run: npm ci
+      - name: Publish NPM
+        if: github.ref == 'refs/heads/release' || contains(github.ref, 'refs/tags/beta-v')
+        run: |
+          npm install -g json
+          PKG_VERSION=${{ inputs.npmversion }}
+          json -I -f package.json -e "this.version=\"${PKG_VERSION}\""
+
+          npm publish --tag ${{ inputs.publishtag }} --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
