@@ -2,7 +2,7 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "paths": {
-      "@boxyhq/react-ui/sso": ["../dist/@boxyhq/react-ui/sso"]
+      "@boxyhq/react-ui/sso": ["../dist/sso"]
     }
   }
 }
