@@ -17,7 +17,7 @@ There are mainly 2 ways of using the SSO Login Component as outlined below:
 If a value is passed for `ssoIdentifier`, it would render a button that on click calls the passed-in handler (onSubmit) with the `ssoIdentifier` value. The handler can then initiate a redirect to the SSO service forwarding the value for ssoIdentifier.
 
 ```tsx
-import { Login as SSOLogin } from '@boxyhq/react-ui';
+import { Login as SSOLogin } from '@boxyhq/react-ui/sso';
 
 const onSSOSubmit = async (ssoIdentifier: string) => {
   // Below calls signIn from next-auth. Replace this with whatever auth lib that you are using.
@@ -40,7 +40,7 @@ const onSSOSubmit = async (ssoIdentifier: string) => {
 If a value is not passed for `ssoIdentifier`, it would render an input field for the user to enter the `ssoIdentifier` value. And then on submit, the value gets passed to the handler. The handler can then initiate a redirect to the SSO service forwarding the value for ssoIdentifier.
 
 ```tsx
-import { Login as SSOLogin } from '@boxyhq/react-ui';
+import { Login as SSOLogin } from '@boxyhq/react-ui/sso';
 
 const onSSOSubmit = async (ssoIdentifier: string) => {
   // Below calls signIn from next-auth. Replace this with whatever auth lib that you are using.
