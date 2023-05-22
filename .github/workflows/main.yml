@@ -1,17 +1,16 @@
-name: Publish React component SDK to npmjs
+name: UI Component SDK build and publish
 on:
   workflow_dispatch:
     inputs:
       npmversion:
         required: true
         type: string
-        default: 2.0.0
       publishtag:
         required: true
         type: string
-        default: alpha
+        default: latest
 jobs:
-  mitosis:
+  mitosis-generate:
     runs-on: ubuntu-latest
 
     defaults:
@@ -33,7 +32,7 @@ jobs:
           name: react-ui
           path: ./react/src
 
-  build:
+  build-publish-framework-lib:
     runs-on: ubuntu-latest
 
     defaults:
