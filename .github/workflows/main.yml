@@ -1,18 +1,22 @@
 name: UI Component SDK build and publish
 on:
-  workflow_dispatch:
-    inputs:
-      npmversion:
-        required: true
-        type: string
-      publishtag:
-        required: true
-        type: string
-        default: latest
+  push:
+    branches:
+      - main
+      - release
+    tags:
+      - 'beta-v*'
+  pull_request:
+    # Trigger only for PRs that target main branch
+    branches:
+      - main
+
 jobs:
   mitosis-generate:
     runs-on: ubuntu-latest
-
+    outputs:
+      NPM_VERSION: ${{ steps.sdk-version.outputs.NPM_VERSION }}
+      PUBLISH_TAG: ${{ steps.sdk-version.outputs.PUBLISH_TAG }}
     defaults:
       run:
         working-directory: .
@@ -31,8 +35,28 @@ jobs:
         with:
           name: react-ui
           path: ./react/src
+      - id: sdk-version
+        name: Retrieve version and publishtag
+        run: |
+          npm install -g json
+          JACKSON_VERSION=$(echo $(cat package.json) | json version)
+
+          publishTag="latest"
+
+          if [[ "$GITHUB_REF" == *\/release ]]
+          then
+            echo "Release branch"
+          else
+            echo "Non release branch"
+            publishTag="beta"
+            JACKSON_VERSION="${JACKSON_VERSION}-beta.${GITHUB_RUN_NUMBER}"
+          fi
+
+          echo "NPM_VERSION=${JACKSON_VERSION}" >> $GITHUB_OUTPUT
+          echo "PUBLISH_TAG=${publishTag}" >> $GITHUB_OUTPUT
 
   build-publish-framework-lib:
+    needs: ['mitosis-generate']
     runs-on: ubuntu-latest
 
     defaults:
@@ -56,7 +80,7 @@ jobs:
         if: github.ref == 'refs/heads/release' || contains(github.ref, 'refs/tags/beta-v')
         run: |
           npm install -g json
-          PKG_VERSION=${{ inputs.npmversion }}
+          PKG_VERSION=${{ needs.mitosis-generate.outputs.NPM_VERSION }}
           json -I -f package.json -e "this.version=\"${PKG_VERSION}\""
 
           npm publish --tag ${{ inputs.publishtag }} --access public
