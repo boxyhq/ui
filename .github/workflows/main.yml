@@ -65,6 +65,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - run: echo "SDK version::${{ needs.mitosis-generate.outputs.NPM_VERSION }}"
+      - run: echo "SDK release_tag::${{ needs.mitosis-generate.outputs.PUBLISH_TAG }}"
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v3
         with:
