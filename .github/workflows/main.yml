@@ -29,7 +29,7 @@ jobs:
           check-latest: true
       - run: npm ci
       - name: Run mitosis build
-        run: npm build
+        run: npm run build
       - name: Export framework code for react
         uses: actions/upload-artifact@v3
         with:
@@ -83,6 +83,6 @@ jobs:
           PKG_VERSION=${{ needs.mitosis-generate.outputs.NPM_VERSION }}
           json -I -f package.json -e "this.version=\"${PKG_VERSION}\""
 
-          npm publish --tag ${{ inputs.publishtag }} --access public
+          npm publish --tag ${{ needs.mitosis-generate.outputs.PUBLISH_TAG }} --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
