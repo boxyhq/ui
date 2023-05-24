@@ -1,10 +1,4 @@
-import type {
-  ButtonHTMLAttributes,
-  CSSProperties,
-  HTMLAttributes,
-  InputHTMLAttributes,
-  LabelHTMLAttributes,
-} from "react";
+import type { JSX } from '@builder.io/mitosis/jsx-runtime';
 
 export interface LoginProps {
   /**
@@ -16,9 +10,7 @@ export interface LoginProps {
    * @param {string} ssoIdentifier Could be email, tenant or anything that can help to resolve the SSO connection.
    * @returns {Promise} Any error raised while trying to resolve the ssoIdentifier. This could be displayed inline in the component. In case the error is handled upstream by means of a toast or a UI notification, nothing needs to be returned.
    */
-  onSubmit: (
-    ssoIdentifier: string
-  ) => Promise<{ error: { message: string } } | void>;
+  onSubmit: (ssoIdentifier: string) => Promise<{ error: { message: string } } | void>;
   /**
    * Label for the input field that can accept the ssoIdentifier value
    * @defaultValue Tenant
@@ -38,10 +30,10 @@ export interface LoginProps {
    * Styles for each inner component that Login is made up of.
    */
   styles?: {
-    container?: CSSProperties;
-    button?: CSSProperties;
-    input?: CSSProperties;
-    label?: CSSProperties;
+    container?: JSX.CSS;
+    button?: JSX.CSS;
+    input?: JSX.CSS;
+    label?: JSX.CSS;
   };
   /**
    * Classnames for each inner components that Login is made up of.
@@ -53,11 +45,11 @@ export interface LoginProps {
     label?: string;
   };
   innerProps?: {
-    input?: InputHTMLAttributes<HTMLInputElement> & { "data-testid"?: string };
-    button?: ButtonHTMLAttributes<HTMLButtonElement> & {
-      "data-testid"?: string;
+    input?: { 'data-testid'?: string };
+    button?: {
+      'data-testid'?: string;
     };
-    label?: LabelHTMLAttributes<HTMLLabelElement> & { "data-testid"?: string };
-    container?: HTMLAttributes<HTMLDivElement> & { "data-testid"?: string };
+    label?: { 'data-testid'?: string };
+    container?: { 'data-testid'?: string };
   };
 }
