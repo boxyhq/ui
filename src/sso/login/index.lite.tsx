@@ -41,9 +41,9 @@ export default function Login(props: LoginProps) {
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
-    handleChange(e) {
+    handleChange(event) {
       state.errMsg = '';
-      state._ssoIdentifier = e.currentTarget.value;
+      state._ssoIdentifier = event.currentTarget.value;
     },
     onSubmitButton(event) {
       void (async function (e) {
