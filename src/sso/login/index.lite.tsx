@@ -33,6 +33,14 @@ export default function Login(props: LoginProps) {
     get ErrorSpanId() {
       return getUniqueId(COMPONENT, 'span');
     },
+    get classes() {
+      return {
+        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
+        label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
+        input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
+        button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
+      };
+    },
     handleChange(e) {
       state.errMsg = '';
       state._ssoIdentifier = e.currentTarget.value;
@@ -55,15 +63,12 @@ export default function Login(props: LoginProps) {
   });
 
   return (
-    <div
-      style={props.styles?.container}
-      class={cssClassAssembler(props.classNames?.container, defaultClasses.container)}
-      {...props.innerProps?.container}>
+    <div style={props.styles?.container} class={state.classes.container} {...props.innerProps?.container}>
       <Show when={state.shouldRenderInput}>
         <label
           htmlFor={state.InputId}
           style={props.styles?.label}
-          className={cssClassAssembler(props.classNames?.label, defaultClasses.label)}
+          class={state.classes.label}
           {...props.innerProps?.label}>
           {props.inputLabel || DEFAULT_VALUES.inputLabel}
         </label>
@@ -73,7 +78,7 @@ export default function Login(props: LoginProps) {
           placeholder={props.placeholder || DEFAULT_VALUES.placeholder}
           onChange={(e) => state.handleChange(e)}
           style={props.styles?.input}
-          class={cssClassAssembler(props.classNames?.input, defaultClasses.input)}
+          class={state.classes.input}
           aria-invalid={state.isError}
           aria-describedby={state.ErrorSpanId}
           {...props.innerProps?.input}
@@ -87,7 +92,7 @@ export default function Login(props: LoginProps) {
         type='button'
         onClick={(e) => state.onSubmitButton(e)}
         style={props.styles?.button}
-        class={cssClassAssembler(props.classNames?.button, defaultClasses.button)}
+        class={state.classes.button}
         {...props.innerProps?.button}>
         {props.buttonText || DEFAULT_VALUES.buttonText}
       </button>
