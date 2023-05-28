@@ -1,19 +1,31 @@
 {
-  "name": "vue",
+  "name": "@boxyhq/vue-ui",
   "version": "0.0.0",
-  "private": true,
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "type-check": "vue-tsc --declaration --emitDeclarationOnly --declarationDir dist/ --rootDir src -p tsconfig.app.json --composite false",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "vue": "3.3.4"
+  },
+  "files": [
+    "dist",
+    "index.d.ts",
+    "sso.d.ts"
+  ],
+  "types": "./index.d.ts",
+  "exports": {
+    "./sso": {
+      "import": "./dist/sso.js",
+      "require": "./dist/sso.umd.cjs"
+    }
   },
   "devDependencies": {
     "@tsconfig/node18": "2.0.1",
@@ -25,5 +37,8 @@
     "vite": "4.3.8",
     "vitepress": "1.0.0-beta.1",
     "vue-tsc": "1.6.5"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.4 || ^2.7.x"
   }
 }
