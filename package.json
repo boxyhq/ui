@@ -4,7 +4,6 @@
   "description": "UI toolkit to ease BoxyHQ integration",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "postcss:cp2react": "postcss src/**/*.css --base src --dir 'react/src'",
     "mitosis:build": "mitosis build",
     "build": "npm run mitosis:build && npm run postcss:cp2react",
