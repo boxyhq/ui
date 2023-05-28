@@ -2,7 +2,7 @@
 module.exports = {
   files: 'src/**',
   dest: '.',
-  options: { react: { typescript: true }, vue: { typescript: true } },
+  options: { react: { typescript: true }, vue: { typescript: true, api: 'composition' } },
   targets: ['react', 'vue'],
   getTargetPath: ({ target }) => {
     switch (target) {
