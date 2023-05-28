@@ -8,9 +8,10 @@ export interface LoginProps {
   /**
    * Function to be passed into the component, takes in a value (ssoIdentifier) that can be used to resolve the SSO Connection in the Jackson SSO service.
    * @param {string} ssoIdentifier Could be email, tenant or anything that can help to resolve the SSO connection.
-   * @returns {Promise} Any error raised while trying to resolve the ssoIdentifier. This could be displayed inline in the component. In case the error is handled upstream by means of a toast or a UI notification, nothing needs to be returned.
+   * @param {requestCallback} cb - The callback that gets passed with the error message, this will be displayed below the sso input field.
+   * @returns {void}
    */
-  onSubmit: (ssoIdentifier: string) => Promise<{ error: { message: string } } | void>;
+  onSubmit: (ssoIdentifier: string, cb: (err: { error: { message: string } } | null) => void) => void;
   /**
    * Label for the input field that can accept the ssoIdentifier value
    * @defaultValue Tenant

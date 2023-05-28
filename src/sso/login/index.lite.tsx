@@ -41,24 +41,20 @@ export default function Login(props: LoginProps) {
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
-    handleChange(event) {
+    handleChange(event: Event) {
       state.errMsg = '';
-      state._ssoIdentifier = event.currentTarget.value;
+      state._ssoIdentifier = (event.currentTarget as HTMLInputElement)?.value;
     },
-    onSubmitButton(event) {
-      void (async function (e) {
-        e.preventDefault();
-        state.isProcessing = true;
-        const {
-          error: { message },
-        } = (await props.onSubmit(state._ssoIdentifier || props.ssoIdentifier)) || {
-          error: {},
-        };
+    onSubmitButton(event: Event) {
+      event.preventDefault();
+      state.isProcessing = true;
+      const ssoIdentifierToSubmit = (state._ssoIdentifier || props.ssoIdentifier) ?? '';
+      props.onSubmit(ssoIdentifierToSubmit, (err) => {
         state.isProcessing = false;
-        if (typeof message === 'string' && message) {
-          state.errMsg = message;
+        if (err?.error.message) {
+          state.errMsg = err.error.message;
         }
-      })(event);
+      });
     },
   });
 
@@ -76,7 +72,7 @@ export default function Login(props: LoginProps) {
           id={state.InputId}
           value={state._ssoIdentifier}
           placeholder={props.placeholder || DEFAULT_VALUES.placeholder}
-          onChange={(e) => state.handleChange(e)}
+          onInput={(event) => state.handleChange(event)}
           style={props.styles?.input}
           class={state.classes.input}
           aria-invalid={state.isError}
@@ -90,7 +86,7 @@ export default function Login(props: LoginProps) {
       <button
         disabled={state.disableButton}
         type='button'
-        onClick={(e) => state.onSubmitButton(e)}
+        onClick={(event) => state.onSubmitButton(event)}
         style={props.styles?.button}
         class={state.classes.button}
         {...props.innerProps?.button}>
