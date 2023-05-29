@@ -3,23 +3,18 @@
 layout: home
 
 hero:
-  name: "boxyhq-ui"
-  text: "Vue.js UI components from BoxyHQ"
-  tagline: My great project tagline
+  name: 'boxyhq-ui'
+  text: 'UI components for Vue.js'
+  tagline: Components to ease BoxyHQ integration
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
-    - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: SSO
+      link: /components/sso
+    # - theme: alt
+    #   text: Retraced
+    #   link: /api-examples
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: SSO (Single-Sign-On)
+    details: Save hundreds of development hours by easily integrating SSO into your SaaS app. Our solution supports SAML & OIDC.
 ---
-
