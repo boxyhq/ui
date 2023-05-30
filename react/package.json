@@ -21,7 +21,7 @@
     "index.d.ts",
     "sso.d.ts"
   ],
-  "types": "./dist/index.d.ts",
+  "types": "./index.d.ts",
   "exports": {
     "./sso": {
       "import": "./dist/sso.js",
