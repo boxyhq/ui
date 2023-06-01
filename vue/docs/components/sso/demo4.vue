@@ -1,9 +1,9 @@
 <script setup>
 import { Login } from '@boxyhq/vue-ui/sso';
 
-async function onSubmit(ssoIdentifier, errorCallback) {
+async function onSubmit({ ssoIdentifier, cb }) {
   console.log(ssoIdentifier);
-  errorCallback({
+  cb({
     error: {
       message: 'Invalid team domain',
     },
