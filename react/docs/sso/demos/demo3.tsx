@@ -9,7 +9,7 @@ import { Login } from '@boxyhq/react-ui/sso';
 const Demo3 = () => {
   return (
     <Login
-      onSubmit={async (ssoIdentifier) => {
+      onSubmit={async ({ ssoIdentifier, cb }) => {
         // initiate the SSO flow here
       }}
       ssoIdentifier='some-identifier'

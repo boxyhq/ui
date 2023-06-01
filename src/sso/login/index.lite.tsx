@@ -49,11 +49,14 @@ export default function Login(props: LoginProps) {
       event.preventDefault();
       state.isProcessing = true;
       const ssoIdentifierToSubmit = (state._ssoIdentifier || props.ssoIdentifier) ?? '';
-      props.onSubmit(ssoIdentifierToSubmit, (err) => {
-        state.isProcessing = false;
-        if (err?.error.message) {
-          state.errMsg = err.error.message;
-        }
+      props.onSubmit({
+        ssoIdentifier: ssoIdentifierToSubmit,
+        cb(err) {
+          state.isProcessing = false;
+          if (err?.error.message) {
+            state.errMsg = err.error.message;
+          }
+        },
       });
     },
   });

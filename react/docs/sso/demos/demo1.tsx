@@ -10,7 +10,7 @@ import './demo1.css';
 const Demo1 = () => {
   return (
     <Login
-      onSubmit={async (ssoIdentifier) => {
+      onSubmit={async ({ ssoIdentifier, cb }) => {
         // initiate the SSO flow here
       }}
       styles={{

@@ -9,11 +9,14 @@ import { Login } from '@boxyhq/react-ui/sso';
 const Demo4 = () => {
   return (
     <Login
-      onSubmit={async (ssoIdentifier) => ({
-        error: {
-          message: 'Invalid team domain',
-        },
-      })}
+      onSubmit={async ({ ssoIdentifier, cb }) => {
+        console.log(ssoIdentifier);
+        cb({
+          error: {
+            message: 'Invalid team domain',
+          },
+        });
+      }}
       inputLabel='Team domain *'
       placeholder='contoso@boxyhq.com'
     />
