@@ -12,17 +12,17 @@ module.exports = {
             post: (code) => {
               const updatedCode = [];
 
+              // Split mitosis output code using '\n\n'
+              // map through the splitted array and replace every instance of
+              // 'node, vars' with 'node: any, vars: any'
               code.split('\n\n').map((el) => {
-                // console.log('----');
-                const x = el.replace('node, vars', 'node: any, vars: any');
-                // console.log('New new element: ', x);
-                // console.log('Old element: ', el);
-                el = x;
+                const replacedInstance = el.replace('node, vars', 'node: any, vars: any');
+
+                el = replacedInstance;
                 updatedCode.push(el);
-                // console.log('----');
               });
               code = updatedCode.join('\n\n');
-              console.log(updatedCode.join('\n\n'));
+
               return code;
             },
           },
