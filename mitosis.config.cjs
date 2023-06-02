@@ -1,8 +1,91 @@
+const getTargetPath = ({ target }) => {
+  switch (target) {
+    // Tweak the folder structure a lil bit for the angular generated component
+    // so that the generated output is included in the rootDirectory of the angular library
+    case 'angular':
+      return 'angular/projects/boxyhq/angular-ui/lib';
+    default:
+      return `${target}`;
+  }
+};
+
 /** @type {import('@builder.io/mitosis').MitosisConfig} */
 module.exports = {
   files: 'src/**',
   dest: '.',
-  options: { react: { typescript: true } },
-  targets: ['react'],
+  getTargetPath,
+  options: {
+    react: { typescript: true },
+    angular: {
+      standalone: true,
+      typescript: true,
+      plugins: [
+        () => ({
+          json: {
+            pre: (json) => {
+              if (json.name === 'Login') {
+                // Split code for disableButton logic and replace
+                // value of state isProcessing with null
+                const splitDisableButton = json.state.disableButton.code.split('\n');
+                const elementToBeReplaced = splitDisableButton[1].replace('state.isProcessing', 'null');
+
+                splitDisableButton[1] = elementToBeReplaced;
+
+                const newDisableButtonLogic = splitDisableButton.join('\n');
+                json.state.disableButton.code = newDisableButtonLogic;
+
+                // Remove second argument from the cssClassAssembler function
+                // split code that is present in classes with a new line
+                const splitStateClasses = json.state.classes.code.split('\n');
+                let replacedArray = [];
+
+                // Map over the splitted array and remove the second argument from the cssClassAssembler
+                // push this in a new array named replacedArray
+                splitStateClasses.map((el, i) => {
+                  replacedValue = el.replace(/(\w+)\(([^,]+),([^)]+)\)/, '$1($2)');
+                  replacedArray.push(replacedValue);
+                });
+                const newClassesCode = replacedArray.join('\n');
+                json.state.classes.code = newClassesCode;
+
+                // Remove extra import defaultClasses
+                // filter imports and return only those paths that dont have the path
+                // containing './index.module.css'
+                const filteredImports = json.imports.filter((imp) => {
+                  return imp.path !== './index.module.css';
+                });
+                json.imports = filteredImports;
+              }
+            },
+          },
+          code: {
+            post: (code) => {
+              // Add a styleUrls that links all default styles for the component
+              // split code with a ',\n' character
+              const splitAngularCode = code.split(',\n');
+              let updatedAngularCode = [];
+
+              // Map through the splitted array and replace any instances of
+              // 'standalone: true' with `standalone: true,\n  styleUrls: ['../../../login.component.css']`
+              splitAngularCode.map((el) => {
+                const replacedCodeSnippet = el.replace(
+                  'standalone: true',
+                  `standalone: true,\n  styleUrls: ['../../../login.component.css']`
+                );
+                el = replacedCodeSnippet;
+                updatedAngularCode.push(el);
+              });
+              const updatedCode = updatedAngularCode.join(',\n');
+              // Reassign code with the value of updatedCode
+              code = updatedCode;
+
+              return code;
+            },
+          },
+        }),
+      ],
+    },
+  },
+  targets: ['react', 'angular'],
   exclude: ['src/css.d.ts'],
 };
