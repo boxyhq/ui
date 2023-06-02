@@ -10,7 +10,11 @@ export interface LoginProps {
    * @param {string} ssoIdentifier Could be email, tenant or anything that can help to resolve the SSO connection.
    * @returns {Promise} Any error raised while trying to resolve the ssoIdentifier. This could be displayed inline in the component. In case the error is handled upstream by means of a toast or a UI notification, nothing needs to be returned.
    */
-  onSubmit: (ssoIdentifier: string) => Promise<{ error: { message: string } } | void>;
+  // onSubmit: (ssoIdentifier: string) => Promise<{ error: { message: string } } | void>;
+  onSubmit: (payload: {
+    ssoIdentifier: string;
+    cb: (err: { error: { message: string } } | null) => void;
+  }) => Promise<void>;
   /**
    * Label for the input field that can accept the ssoIdentifier value
    * @defaultValue Tenant
