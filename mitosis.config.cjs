@@ -79,6 +79,25 @@ module.exports = {
               // Reassign code with the value of updatedCode
               code = updatedCode;
 
+              // Map types for the Output event emitter onSubmit
+              // Loop through the splitted array and replace any instances of
+              // 'EventEmitter()' with the appropriate types with reference to the types.ts file
+              let newCode = [];
+              code.split('\n').map((el) => {
+                const replacedCodeSnippet = el.replace(
+                  'EventEmitter()',
+                  `EventEmitter<{
+    ssoIdentifier: string;
+    cb: (err: { error: { message: string } } | null) => void;
+  }>()`
+                );
+                el = replacedCodeSnippet;
+                newCode.push(el);
+              });
+
+              // Reassign code with the value of newCode
+              code = newCode.join('\n');
+
               return code;
             },
           },
