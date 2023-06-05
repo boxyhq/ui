@@ -30,13 +30,24 @@ jobs:
       - run: npm ci
       - name: Run mitosis build
         run: npm run build
-      - name: Export framework code for react, vue3
+      - name: Export framework code for react
         uses: actions/upload-artifact@v3
         with:
-          name: mitosis-out
+          name: mitosis-out-react
           path: |
             ./react/src
+      - name: Export framework code for vue
+        uses: actions/upload-artifact@v3
+        with:
+          name: mitosis-out-vue
+          path: |
             ./vue/src
+      - name: Export framework code for vue2
+        uses: actions/upload-artifact@v3
+        with:
+          name: mitosis-out-vue2
+          path: |
+            ./vue2/src
       - id: sdk-version
         name: Retrieve version and publishtag
         run: |
@@ -79,7 +90,7 @@ jobs:
           check-latest: true
       - uses: actions/download-artifact@v3
         with:
-          name: mitosis-out
+          name: mitosis-out-react
           path: ./react/src
       - run: npm ci
       - name: Publish NPM
