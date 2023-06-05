@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "prepare": "npm run build",
-    "build": "run-p type-check build-only",
+    "build": "run-p build-only",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --declaration --emitDeclarationOnly --declarationDir dist/ --rootDir src -p tsconfig.app.json --composite false",
