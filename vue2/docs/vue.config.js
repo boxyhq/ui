@@ -1,5 +1,8 @@
 const { defineConfig } = require('@vue/cli-service');
 const path = require('path');
+/**
+ * @type {import('@vue/cli-service').ProjectOptions}
+ */
 module.exports = defineConfig({
   transpileDependencies: true,
   configureWebpack: {
@@ -9,4 +12,5 @@ module.exports = defineConfig({
       },
     },
   },
+  outputDir: 'docs-build',
 });
