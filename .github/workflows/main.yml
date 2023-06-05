@@ -72,9 +72,12 @@ jobs:
     needs: ['mitosis-generate']
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        framework: [react, vue, vue2]
     defaults:
       run:
-        working-directory: ./react
+        working-directory: ${{ matrix.framework}}
 
     steps:
       - uses: actions/checkout@v3
@@ -90,8 +93,8 @@ jobs:
           check-latest: true
       - uses: actions/download-artifact@v3
         with:
-          name: mitosis-out-react
-          path: ./react/src
+          name: mitosis-out-${{ matrix.framework }}
+          path: ./${{ matrix.framework }}/src
       - run: npm ci
       - name: Publish NPM
         if: github.ref == 'refs/heads/release' || contains(github.ref, 'refs/tags/beta-v')
