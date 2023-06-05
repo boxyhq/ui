@@ -3,8 +3,8 @@ module.exports = {
   files: 'src/**',
   dest: '.',
   options: {
-    react: { typescript: true },
-    vue: { typescript: true, api: 'composition' },
+    react: { typescript: false },
+    vue: { typescript: false, api: 'composition' },
     vue2: {
       typescript: false,
       api: 'composition',
