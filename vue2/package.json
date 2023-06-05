@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prepare": "npm run build",
     "build": "vite build",
     "preview": "vite preview"
   },

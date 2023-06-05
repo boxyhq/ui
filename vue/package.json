@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prepare": "npm run build",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
