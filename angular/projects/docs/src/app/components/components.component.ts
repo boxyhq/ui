@@ -90,7 +90,7 @@ import * as Prism from 'prismjs';
     <div class="border-[rgba(5, 5, 5, 0.1)] my-5 border-[1px] p-10">
       <login
         [inputLabel]="'Team domain*'"
-        (onSubmit)="onSubmitFailing('some-identifier')"
+        (onSubmit)="(onSubmitFailing)"
         [styles]="onsubmitFailStylesCode"
         [placeholder]="'contoso@boxyhq.com'"
         [buttonText]="'SIGN IN WITH SSO'"></login>
@@ -161,11 +161,14 @@ export class ComponentsComponent {
     },
   };
 
-  onSubmitFailing = async function (
-    ssoIdentifier: string,
-    cb: (err: { error: { message: string } } | null) => void
-  ) {
-    console.log('hi');
+  onSubmitFailing = async function ({
+    ssoIdentifier,
+    cb,
+  }: {
+    ssoIdentifier: string;
+    cb: (err: { error: { message: string } } | null) => void;
+  }) {
+    console.log('SSO flow initiated');
     console.log(ssoIdentifier);
 
     cb({
@@ -174,8 +177,6 @@ export class ComponentsComponent {
       },
     });
   };
-
-  cb = (err: (err: { error: { message: string } } | null) => void) => {};
 
   toggleButton(propValue: boolean, propName: string) {
     if (propName === 'displayCustomStyle') {
