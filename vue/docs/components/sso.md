@@ -5,34 +5,32 @@ outline: deep
 # SSO Login Component Usage
 
 <script setup>
-import Demo1 from './sso/demo1.vue'
-import Demo2 from "./sso/demo2.vue"
-import Demo3 from "./sso/demo3.vue"
-import Demo4 from "./sso/demo4.vue"
+import CustomStyling from './sso/CustomStyling.vue'
+import DefaultStyling from "./sso/DefaultStyling.vue"
+import PresetSSOIdentifier from "./sso/PresetSSOIdentifier.vue"
+import FailingSubmit from "./sso/FailingSubmit.vue"
 </script>
 
 ## With custom styling
 
-You may show demo below with the code snippet.
+  <CustomStyling/>
 
-  <Demo1/>
-
-<<< @/components/sso/demo1.vue
+<<< @/components/sso/CustomStyling.vue
 
 ## With default styles
 
- <Demo2/>
+ <DefaultStyling/>
 
-<<< @/components/sso/demo2.vue
+<<< @/components/sso/DefaultStyling.vue
 
 ## Without input display
 
- <Demo3/>
+ <PresetSSOIdentifier/>
 
-<<< @/components/sso/demo3.vue
+<<< @/components/sso/PresetSSOIdentifier.vue
 
 ## With failing onSubmit
 
- <Demo4/>
+ <FailingSubmit/>
 
-<<< @/components/sso/demo4.vue
+<<< @/components/sso/FailingSubmit.vue

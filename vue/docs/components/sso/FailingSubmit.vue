@@ -12,5 +12,9 @@ async function onSubmit({ ssoIdentifier, cb }) {
 </script>
 
 <template>
-  <Login :onSubmit="onSubmit" inputLabel="Team domain *" placeholder="contoso@boxyhq.com" />
+  <Login
+    :onSubmit="onSubmit"
+    inputLabel="Team domain *"
+    placeholder="contoso@boxyhq.com"
+    :innerProps="{ input: { id: 'demo4-input' }, label: { for: 'demo4-input' } }" />
 </template>
