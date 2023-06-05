@@ -87,7 +87,7 @@ import * as Prism from 'prismjs';
       </div>
     </div>
 
-    <div class="border-[rgba(5, 5, 5, 0.1)] my-5 border-[1px] p-10">
+    <div class="border-[rgba(5, 5, 5, 0.1)] my-5 border-[1px] p-10 mx-10">
       <login
         [inputLabel]="'Team domain*'"
         (onSubmit)="(onSubmitFailing)"
