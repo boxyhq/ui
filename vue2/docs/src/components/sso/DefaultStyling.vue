@@ -13,5 +13,6 @@ function onSubmit({ ssoIdentifier, cb }) {
     :onSubmit="onSubmit"
     :styles="{ input: { border: '1px solid darkcyan' } }"
     inputLabel="Team domain *"
-    placeholder="contoso@boxyhq.com" />
+    placeholder="contoso@boxyhq.com"
+    :innerProps="{ input: { id: 'demo2-input' }, label: { for: 'demo2-input' } }" />
 </template>

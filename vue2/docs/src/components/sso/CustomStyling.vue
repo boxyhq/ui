@@ -18,5 +18,5 @@ function onSubmit({ ssoIdentifier, cb }) {
     placeholder="contoso@boxyhq.com"
     inputLabel="Team Domain *"
     buttonText="Login with SSO"
-    :innerProps="{ input: { type: 'email' } }" />
+    :innerProps="{ input: { type: 'email', id: 'demo1-input' }, label: { for: 'demo1-input' } }" />
 </template>

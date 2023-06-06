@@ -9,5 +9,9 @@ function onSubmit({ ssoIdentifier, cb }) {
 </script>
 
 <template>
-  <Login :onSubmit="onSubmit" ssoIdentifier="some-identifier" buttonText="SIGN IN WITH SSO" />
+  <Login
+    :onSubmit="onSubmit"
+    ssoIdentifier="some-identifier"
+    buttonText="SIGN IN WITH SSO"
+    :innerProps="{ input: { id: 'demo3-input' }, label: { for: 'demo3-input' } }" />
 </template>
