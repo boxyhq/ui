@@ -1,16 +1,28 @@
 {
   "name": "@boxyhq/svelte-ui",
   "description": "Svelte UI components from BoxyHQ",
-  "version": "0.0.0",
+  "version": "2.1.0",
   "type": "module",
   "keywords": [
     "svelte",
     "boxyhq",
     "sso",
-    "enterprise-features"
+    "enterprise-features",
+    "mitosis",
+    "component-library"
   ],
-  "main": "./src/sso/index.ts",
-  "module": "./src/sso/index.ts",
+  "files": [
+    "dist",
+    "index.d.ts",
+    "sso.d.ts"
+  ],
+  "types": "./index.d.ts",
+  "exports": {
+    "./sso": {
+      "import": "./dist/sso.js",
+      "require": "./dist/sso.umd.cjs"
+    }
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
