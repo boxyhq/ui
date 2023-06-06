@@ -1,0 +1,28 @@
+{
+  "name": "docs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "preserve": "cpy '../dist' .",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "core-js": "3.30.2",
+    "prismjs": "1.29.0",
+    "vue": "2.7.14",
+    "vue-router": "3.6.5"
+  },
+  "devDependencies": {
+    "@babel/core": "7.22.1",
+    "@babel/eslint-parser": "7.21.8",
+    "@vue/cli-plugin-babel": "5.0.8",
+    "@vue/cli-plugin-eslint": "5.0.8",
+    "@vue/cli-plugin-router": "5.0.8",
+    "@vue/cli-service": "5.0.8",
+    "cpy-cli": "4.2.0",
+    "eslint": "8.41.0",
+    "eslint-plugin-vue": "9.14.1"
+  }
+}

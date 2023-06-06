@@ -5,12 +5,12 @@
  */
 
 import { Login } from '@boxyhq/react-ui/sso';
-import './demo1.css';
+import './CustomStyling.css';
 
-const Demo1 = () => {
+const CustomStyling = () => {
   return (
     <Login
-      onSubmit={async (ssoIdentifier) => {
+      onSubmit={async ({ ssoIdentifier, cb }) => {
         // initiate the SSO flow here
       }}
       styles={{
@@ -26,4 +26,4 @@ const Demo1 = () => {
   );
 };
 
-export default Demo1;
+export default CustomStyling;

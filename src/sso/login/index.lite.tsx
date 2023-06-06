@@ -33,37 +33,41 @@ export default function Login(props: LoginProps) {
     get ErrorSpanId() {
       return getUniqueId(COMPONENT, 'span');
     },
-    handleChange(e) {
-      state.errMsg = '';
-      state._ssoIdentifier = e.currentTarget.value;
+    get classes() {
+      return {
+        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
+        label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
+        input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
+        button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
+      };
     },
-    onSubmitButton(event) {
-      void (async function (e) {
-        e.preventDefault();
-        state.isProcessing = true;
-        const {
-          error: { message },
-        } = (await props.onSubmit(state._ssoIdentifier || props.ssoIdentifier)) || {
-          error: {},
-        };
-        state.isProcessing = false;
-        if (typeof message === 'string' && message) {
-          state.errMsg = message;
-        }
-      })(event);
+    handleChange(event: Event) {
+      state.errMsg = '';
+      state._ssoIdentifier = (event.currentTarget as HTMLInputElement)?.value;
+    },
+    onSubmitButton(event: Event) {
+      event.preventDefault();
+      state.isProcessing = true;
+      const ssoIdentifierToSubmit = (state._ssoIdentifier || props.ssoIdentifier) ?? '';
+      props.onSubmit({
+        ssoIdentifier: ssoIdentifierToSubmit,
+        cb: (err) => {
+          state.isProcessing = false;
+          if (err?.error.message) {
+            state.errMsg = err.error.message;
+          }
+        },
+      });
     },
   });
 
   return (
-    <div
-      style={props.styles?.container}
-      class={cssClassAssembler(props.classNames?.container, defaultClasses.container)}
-      {...props.innerProps?.container}>
+    <div style={props.styles?.container} class={state.classes.container} {...props.innerProps?.container}>
       <Show when={state.shouldRenderInput}>
         <label
           htmlFor={state.InputId}
           style={props.styles?.label}
-          className={cssClassAssembler(props.classNames?.label, defaultClasses.label)}
+          class={state.classes.label}
           {...props.innerProps?.label}>
           {props.inputLabel || DEFAULT_VALUES.inputLabel}
         </label>
@@ -71,9 +75,9 @@ export default function Login(props: LoginProps) {
           id={state.InputId}
           value={state._ssoIdentifier}
           placeholder={props.placeholder || DEFAULT_VALUES.placeholder}
-          onChange={(e) => state.handleChange(e)}
+          onInput={(event) => state.handleChange(event)}
           style={props.styles?.input}
-          class={cssClassAssembler(props.classNames?.input, defaultClasses.input)}
+          class={state.classes.input}
           aria-invalid={state.isError}
           aria-describedby={state.ErrorSpanId}
           {...props.innerProps?.input}
@@ -85,9 +89,9 @@ export default function Login(props: LoginProps) {
       <button
         disabled={state.disableButton}
         type='button'
-        onClick={(e) => state.onSubmitButton(e)}
+        onClick={(event) => state.onSubmitButton(event)}
         style={props.styles?.button}
-        class={cssClassAssembler(props.classNames?.button, defaultClasses.button)}
+        class={state.classes.button}
         {...props.innerProps?.button}>
         {props.buttonText || DEFAULT_VALUES.buttonText}
       </button>
