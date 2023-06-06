@@ -9,8 +9,7 @@
     "postcss:cp2vue2": "postcss src/**/*.css --base src --dir 'vue2/src'",
     "copycss": "run-p postcss:cp2react postcss:cp2vue postcss:cp2vue2",
     "mitosis:build": "mitosis build",
-    "build": "npm run mitosis:build && npm run copycss",
-    "react:docs": "cd react && npm run dev"
+    "build": "npm run mitosis:build && npm run copycss"
   },
   "repository": {
     "type": "git",
