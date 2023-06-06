@@ -6,7 +6,7 @@
 
 import { Login } from '@boxyhq/react-ui/sso';
 
-const Demo4 = () => {
+const FailingSubmit = () => {
   return (
     <Login
       onSubmit={async ({ ssoIdentifier, cb }) => {
@@ -23,4 +23,4 @@ const Demo4 = () => {
   );
 };
 
-export default Demo4;
+export default FailingSubmit;

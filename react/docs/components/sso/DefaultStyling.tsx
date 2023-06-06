@@ -6,7 +6,7 @@
 
 import { Login } from '@boxyhq/react-ui/sso';
 
-const Demo2 = () => {
+const DefaultStyling = () => {
   return (
     <Login
       onSubmit={async ({ ssoIdentifier, cb }) => {
@@ -19,4 +19,4 @@ const Demo2 = () => {
   );
 };
 
-export default Demo2;
+export default DefaultStyling;

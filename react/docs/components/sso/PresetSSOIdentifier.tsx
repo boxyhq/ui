@@ -6,7 +6,7 @@
 
 import { Login } from '@boxyhq/react-ui/sso';
 
-const Demo3 = () => {
+const PresetSSOIdentifier = () => {
   return (
     <Login
       onSubmit={async ({ ssoIdentifier, cb }) => {
@@ -18,4 +18,4 @@ const Demo3 = () => {
   );
 };
 
-export default Demo3;
+export default PresetSSOIdentifier;
