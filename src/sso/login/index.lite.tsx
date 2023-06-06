@@ -51,7 +51,7 @@ export default function Login(props: LoginProps) {
       const ssoIdentifierToSubmit = (state._ssoIdentifier || props.ssoIdentifier) ?? '';
       props.onSubmit({
         ssoIdentifier: ssoIdentifierToSubmit,
-        cb(err) {
+        cb: (err) => {
           state.isProcessing = false;
           if (err?.error.message) {
             state.errMsg = err.error.message;
