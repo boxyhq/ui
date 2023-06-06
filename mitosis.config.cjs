@@ -1,14 +1,17 @@
 /** @type {import('@builder.io/mitosis').MitosisConfig} */
+
+const VUE_OPTIONS = {
+  typescript: false,
+  api: 'composition',
+};
+
 module.exports = {
   files: 'src/**',
   dest: '.',
   options: {
     react: { typescript: false },
-    vue: { typescript: false, api: 'composition' },
-    vue2: {
-      typescript: false,
-      api: 'composition',
-    },
+    vue: VUE_OPTIONS,
+    vue2: VUE_OPTIONS,
   },
   targets: ['react', 'vue', 'vue2'],
   getTargetPath: ({ target }) => {
