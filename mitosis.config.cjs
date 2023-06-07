@@ -1,15 +1,23 @@
 const getTargetPath = ({ target }) => {
   switch (target) {
-    // Tweak the folder structure a lil bit for the angular generated component
+    case 'vue3':
+      return 'vue';
+    // Tweak the folder structure for the angular generated component
     // so that the generated output is included in the rootDirectory of the angular library
     case 'angular':
       return 'angular/projects/boxyhq/angular-ui/lib';
     default:
-      return `${target}`;
+      return target;
   }
 };
 
 /** @type {import('@builder.io/mitosis').MitosisConfig} */
+
+const VUE_OPTIONS = {
+  typescript: false,
+  api: 'composition',
+};
+
 module.exports = {
   files: 'src/**',
   dest: '.',
@@ -104,7 +112,12 @@ module.exports = {
         }),
       ],
     },
+    vue: VUE_OPTIONS,
+    vue2: VUE_OPTIONS,
   },
-  targets: ['react', 'angular'],
+  options: {
+    react: { typescript: false },
+  },
+  targets: ['react', 'angular', 'vue', 'vue2'],
   exclude: ['src/css.d.ts'],
 };

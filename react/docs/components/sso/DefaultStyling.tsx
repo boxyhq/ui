@@ -6,10 +6,10 @@
 
 import { Login } from '@boxyhq/react-ui/sso';
 
-const Demo2 = () => {
+const DefaultStyling = () => {
   return (
     <Login
-      onSubmit={async (ssoIdentifier) => {
+      onSubmit={async ({ ssoIdentifier, cb }) => {
         // initiate the SSO flow here
       }}
       styles={{ input: { border: '1px solid darkcyan' } }}
@@ -19,4 +19,4 @@ const Demo2 = () => {
   );
 };
 
-export default Demo2;
+export default DefaultStyling;

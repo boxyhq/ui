@@ -21,6 +21,9 @@ export default function Login(props: LoginProps) {
     get isError() {
       return !!state.errMsg;
     },
+    get disableButton() {
+      return !(state._ssoIdentifier || props.ssoIdentifier) || state.isProcessing;
+    },
     get shouldRenderInput() {
       return !props.ssoIdentifier;
     },
@@ -29,9 +32,6 @@ export default function Login(props: LoginProps) {
     },
     get ErrorSpanId() {
       return getUniqueId(COMPONENT, 'span');
-    },
-    get disableButton() {
-      return !(state._ssoIdentifier || props.ssoIdentifier) || state.isProcessing;
     },
     get classes() {
       return {
