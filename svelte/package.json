@@ -1,7 +1,7 @@
 {
   "name": "@boxyhq/svelte-ui",
   "description": "Svelte UI components from BoxyHQ",
-  "version": "0.0.0",
+  "version": "2.3.0",
   "type": "module",
   "keywords": [
     "svelte",
@@ -33,9 +33,9 @@
   "devDependencies": {
     "@sveltejs/adapter-auto": "2.0.0",
     "@sveltejs/kit": "1.5.0",
-    "svelte": "3.54.0",
-    "svelte-check": "3.0.1",
-    "typescript": "5.0.0",
+    "svelte": "3.59.1",
+    "svelte-check": "3.4.3",
+    "typescript": "5.1.3",
     "vite": "4.3.0"
   }
 }
