@@ -7,7 +7,8 @@
     "postcss:cp2react": "postcss src/**/*.css --base src --dir 'react/src'",
     "postcss:cp2vue": "postcss src/**/*.css --base src --dir 'vue/src'",
     "postcss:cp2vue2": "postcss src/**/*.css --base src --dir 'vue2/src'",
-    "copycss": "run-p postcss:cp2react postcss:cp2vue postcss:cp2vue2",
+    "postcss:cp2svelte": "postcss src/**/*.css --base src --dir 'svelte/src'",
+    "copycss": "run-p postcss:cp2react postcss:cp2vue postcss:cp2vue2 postcss:cp2svelte",
     "mitosis:build": "mitosis build",
     "build": "npm run mitosis:build && npm run copycss"
   },
