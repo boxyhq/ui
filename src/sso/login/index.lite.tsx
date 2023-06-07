@@ -30,9 +30,6 @@ export default function Login(props: LoginProps) {
     get ErrorSpanId() {
       return getUniqueId(COMPONENT, 'span');
     },
-    get disableButton() {
-      return !(state._ssoIdentifier || props.ssoIdentifier) || state.isProcessing;
-    },
     get classes() {
       return {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
@@ -51,7 +48,7 @@ export default function Login(props: LoginProps) {
       const ssoIdentifierToSubmit = (state._ssoIdentifier || props.ssoIdentifier) ?? '';
       props.onSubmit({
         ssoIdentifier: ssoIdentifierToSubmit,
-        cb(err) {
+        cb: (err) => {
           state.isProcessing = false;
           if (err?.error.message) {
             state.errMsg = err.error.message;

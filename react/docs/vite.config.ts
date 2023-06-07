@@ -16,10 +16,10 @@ export default defineConfig({
             // put them in page `/components/demos/${componentName}`
             helpers.watchFiles(
               srcPath,
-              '*/demos/**/*.{[tj]sx,md?(x)}',
+              'components/**/*.{[tj]sx,md?(x)}',
               async function fileHandler(file, api) {
                 const { relative, path: absolute } = file;
-                const match = relative.match(/(.*)\/demos\/(.*)\.([tj]sx|mdx?)$/);
+                const match = relative.match(/components\/(.*)\/(.*)\.([tj]sx|mdx?)$/);
                 if (!match) throw new Error('unexpected file: ' + absolute);
                 const [_, componentName, demoName] = match;
                 const pageId = `/components/demos/${componentName}`;
