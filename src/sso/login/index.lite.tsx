@@ -21,6 +21,9 @@ export default function Login(props: LoginProps) {
     get isError() {
       return !!state.errMsg;
     },
+    get disableButton() {
+      return !(state._ssoIdentifier || props.ssoIdentifier) || state.isProcessing;
+    },
     get shouldRenderInput() {
       return !props.ssoIdentifier;
     },
