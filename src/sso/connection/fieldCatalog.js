@@ -9,13 +9,7 @@
 
 import type { FieldCatalogItem } from './utils';
 
-export const getCommonFields = ({
-  isEditView,
-  isSettingsView,
-}: {
-  isEditView?: boolean;
-  isSettingsView?: boolean;
-}): FieldCatalogItem[] => [
+export const getCommonFields = ({ isEditView, isSettingsView }) => [
   {
     key: 'name',
     label: 'Name',
@@ -214,7 +208,7 @@ export const getCommonFields = ({
   },
 ];
 
-export const EditViewOnlyFields: FieldCatalogItem[] = [
+export const EditViewOnlyFields = [
   {
     key: 'idpMetadata',
     label: 'IdP Metadata',
@@ -237,7 +231,7 @@ export const EditViewOnlyFields: FieldCatalogItem[] = [
     label: 'IdP Certificate Validity',
     type: 'pre',
     attributes: {
-      isHidden: (value): boolean => !value || new Date(value).toString() == 'Invalid Date',
+      isHidden: (value) => !value || new Date(value).toString() == 'Invalid Date',
       rows: 10,
       editable: false,
       connection: 'saml',
