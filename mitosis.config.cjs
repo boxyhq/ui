@@ -11,13 +11,12 @@ const getTargetPath = ({ target }) => {
   }
 };
 
-/** @type {import('@builder.io/mitosis').MitosisConfig} */
-
 const VUE_OPTIONS = {
   typescript: false,
   api: 'composition',
 };
 
+/** @type {import('@builder.io/mitosis').MitosisConfig} */
 module.exports = {
   files: 'src/**',
   dest: '.',
@@ -114,9 +113,6 @@ module.exports = {
     },
     vue: VUE_OPTIONS,
     vue2: VUE_OPTIONS,
-  },
-  options: {
-    react: { typescript: false },
   },
   targets: ['react', 'angular', 'vue', 'vue2'],
   exclude: ['src/css.d.ts'],
