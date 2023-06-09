@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "vite",
     "prepare": "npm run build",
-    "build": "run-p build-only",
+    "build": "run-p build-only type-check",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --declaration --emitDeclarationOnly --declarationDir dist/ --rootDir src -p tsconfig.app.json --composite false",
+    "type-check": "vue-tsc --declaration --emitDeclarationOnly --declarationDir dist/ --rootDir src -p tsconfig.json",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
@@ -21,6 +21,7 @@
   "types": "./index.d.ts",
   "exports": {
     "./sso": {
+      "types": "./dist/sso/index.d.ts",
       "import": "./dist/sso.js",
       "require": "./dist/sso.umd.cjs"
     }
