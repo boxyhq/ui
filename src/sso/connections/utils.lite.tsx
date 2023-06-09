@@ -1,4 +1,4 @@
-import { onMount, onUpdate } from '@builder.io/mitosis';
+import { onMount, onUpdate, useStore, Show } from '@builder.io/mitosis';
 import { ButtonLink } from '@components/ButtonLink';
 import { EditViewOnlyFields, getCommonFields } from './fieldCatalog';
 
@@ -146,3 +146,80 @@ export const useFieldCatalog = ({
 
   return fieldCatalog;
 };
+
+export default function renderFieldList(args: {
+  isEditView?: boolean;
+  formObj: FormObj;
+  setFormObj: any;
+  formObjParentKey?: string;
+  activateFallback: (activeKey, fallbackKey) => void;
+}) {
+  const FieldList = ({
+    key,
+    placeholder,
+    label,
+    type,
+    members,
+    attributes: {
+      isHidden,
+      isArray,
+      rows,
+      formatForDisplay,
+      editable,
+      maxLength,
+      showWarning,
+      required = true,
+      'data-testid': dataTestId,
+    },
+    fallback,
+  }: FieldCatalogItem) => {
+    const state = useStore({
+      disabled: editable === false,
+      get value() {
+        return state.disabled && typeof formatForDisplay === 'function'
+          ? formatForDisplay(
+              args.formObjParentKey ? args.formObj[args.formObjParentKey]?.[key] : args.formObj[key]
+            )
+          : args.formObjParentKey
+          ? args.formObj[args.formObjParentKey]?.[key]
+          : args.formObj[key];
+      },
+      get isHiddenClassName() {
+        return typeof isHidden === 'function' && isHidden(args.formObj[key]) == true ? ' hidden' : '';
+      },
+      get fallbackLogic() {
+        return typeof fallback.activateCondition === 'function' ? fallback.activateCondition(value) : true;
+      },
+    });
+
+    return (
+      <div>
+        <Show when={type === 'object'}>
+          <Show when={typeof fallback === 'object' && state.fallbackLogic}>
+            <div key={key}>
+              <ButtonLink
+                className='mb-2 px-0'
+                type='button'
+                data-testid={fallback.switch['data-testid']}
+                onClick={() => {
+                  /** Switch to fallback.key*/
+                  args.activateFallback(key, fallback.key);
+                }}>
+                {fallback.switch.label}
+              </ButtonLink>
+            </div>
+          </Show>
+          {members?.map(
+            renderFieldList({
+              ...args,
+              formObjParentKey: key,
+            })
+          )}
+        </Show>
+        <Show when={type !== 'object'}></Show>
+      </div>
+    );
+  };
+
+  return FieldList;
+}
