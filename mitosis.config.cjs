@@ -77,7 +77,7 @@ module.exports = {
               splitAngularCode.map((el) => {
                 const replacedCodeSnippet = el.replace(
                   'standalone: true',
-                  `standalone: true,\n  styleUrls: ['../../../login.component.css']`
+                  `standalone: true,\n  styleUrls: ['./index.css']`
                 );
                 el = replacedCodeSnippet;
                 updatedAngularCode.push(el);
