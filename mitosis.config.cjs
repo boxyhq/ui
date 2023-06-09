@@ -111,7 +111,7 @@ module.exports = {
         }),
       ],
     },
-    vue: VUE_OPTIONS,
+    vue: { ...VUE_OPTIONS, typescript: true },
     vue2: VUE_OPTIONS,
   },
   targets: ['react', 'angular', 'vue', 'vue2'],
