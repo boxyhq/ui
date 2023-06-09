@@ -2,10 +2,10 @@ const getTargetPath = ({ target }) => {
   switch (target) {
     case 'vue3':
       return 'vue';
-    // Tweak the folder structure for the angular generated component
-    // so that the generated output is included in the rootDirectory of the angular library
+    // Generate angular artifacts in a temporary folder, then move different entry points to independent folders (by means of scripts)
+    // Reference: https://sandroroth.com/blog/angular-library#more-entry-points
     case 'angular':
-      return 'angular/projects/boxyhq/angular-ui/lib';
+      return 'angular/projects/boxyhq/angular-ui/tmp';
     default:
       return target;
   }
