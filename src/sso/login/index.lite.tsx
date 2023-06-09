@@ -1,8 +1,8 @@
 import { useStore, Show } from '@builder.io/mitosis';
 import type { LoginProps } from './types';
-import getUniqueId from './utils/getUniqueId';
+import getUniqueId from '../utils/getUniqueId';
+import cssClassAssembler from '../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
-import cssClassAssembler from './utils/cssClassAssembler';
 
 const COMPONENT = 'sso';
 
