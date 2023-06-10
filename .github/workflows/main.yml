@@ -77,7 +77,7 @@ jobs:
         framework: [react, vue, vue2]
     defaults:
       run:
-        working-directory: ${{ matrix.framework}}
+        working-directory: ${{ matrix.framework }}
 
     steps:
       - uses: actions/checkout@v3
