@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "dev": "ng serve",
+    "prepare": "npm run build",
     "build": "ng build @boxyhq/angular-ui",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
