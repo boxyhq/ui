@@ -101,7 +101,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: mitosis-out-${{ matrix.framework }}
-          path: ${{  matrix.framework == 'angular' && format('./${0}/projects/boxyhq/angular-ui',matrix.framework) || format('./{$0}/src',matrix.framework) }}
+          path: ${{  matrix.framework == 'angular' && format('./{0}/projects/boxyhq/angular-ui',matrix.framework) || format('./{0}/src',matrix.framework) }}
       - run: npm ci
       - name: Publish NPM
         if: github.ref == 'refs/heads/release' || contains(github.ref, 'refs/tags/beta-v')
