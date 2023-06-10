@@ -48,6 +48,13 @@ jobs:
           name: mitosis-out-vue2
           path: |
             ./vue2/src
+      - name: Export framework code for angular
+        uses: actions/upload-artifact@v3
+        with:
+          name: mitosis-out-angular
+          path: |
+            ./angular/projects/boxyhq/angular-ui/**/*
+            !./angular/projects/boxyhq/angular-ui/*
       - id: sdk-version
         name: Retrieve version and publishtag
         run: |
@@ -74,7 +81,7 @@ jobs:
 
     strategy:
       matrix:
-        framework: [react, vue, vue2]
+        framework: [react, angular, vue, vue2]
     defaults:
       run:
         working-directory: ${{ matrix.framework }}
@@ -94,7 +101,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: mitosis-out-${{ matrix.framework }}
-          path: ./${{ matrix.framework }}/src
+          path: ${{  matrix.framework == 'angular' && './${{ matrix.framework }}/projects/boxyhq/angular-ui' || './${{ matrix.framework }}/src' }}
       - run: npm ci
       - name: Publish NPM
         if: github.ref == 'refs/heads/release' || contains(github.ref, 'refs/tags/beta-v')
