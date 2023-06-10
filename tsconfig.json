@@ -11,5 +11,5 @@
       "react": ["./react/node_modules/@types/react/index.d.ts"]
     }
   },
-  "include": ["src", "overrides"]
+  "include": ["src"]
 }
