@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Login } from '@boxyhq/angular-ui';
+import { Login } from '@boxyhq/angular-ui/sso';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { PrismService } from '../services/prism.services';
@@ -65,8 +65,8 @@ import * as Prism from 'prismjs';
     <div class="border-[rgba(5, 5, 5, 0.1)] my-5 border-[1px] p-10 mx-10">
       <login
         [ssoIdentifier]="'some-sso-identifier'"
-        [styles]="defaultStylesCode"
-        [buttonText]="'SIGN IN WITH SSO'"></login>
+        [buttonText]="'SIGN IN WITH SSO'"
+        (onSubmit)="onSubmitFailing($event)"></login>
       <h1 class="mb-2 mt-4 border-b-[1px] border-[#eaecef] pb-[0.5em]">
         Login Component without input display
       </h1>
@@ -90,7 +90,7 @@ import * as Prism from 'prismjs';
     <div class="border-[rgba(5, 5, 5, 0.1)] my-5 border-[1px] p-10 mx-10">
       <login
         [inputLabel]="'Team domain*'"
-        (onSubmit)="(onSubmitFailing)"
+        (onSubmit)="onSubmitFailing($event)"
         [styles]="onsubmitFailStylesCode"
         [placeholder]="'contoso@boxyhq.com'"
         [buttonText]="'SIGN IN WITH SSO'"></login>
@@ -132,7 +132,7 @@ export class ComponentsComponent {
   defaultStylesCode = {
     container: {
       display: 'flex',
-      flexDirection: 'column',
+      'flex-direction': 'column',
       width: '50%',
     },
     input: { border: '1px solid darkcyan' },
@@ -141,11 +141,11 @@ export class ComponentsComponent {
   customStyles = {
     container: {
       display: 'flex',
-      flexDirection: 'column',
+      'flex-direction': 'column',
       width: '50%',
     },
     input: {
-      borderColor: '#ebedf0',
+      'border-color': '#ebedf0',
     },
     button: {
       padding: '.85rem',
@@ -156,7 +156,7 @@ export class ComponentsComponent {
   onsubmitFailStylesCode = {
     container: {
       display: 'flex',
-      flexDirection: 'column',
+      'flex-direction': 'column',
       width: '50%',
     },
   };
