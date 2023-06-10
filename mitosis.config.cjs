@@ -49,7 +49,8 @@ module.exports = {
                 // Map over the splitted array and remove the second argument from the cssClassAssembler
                 // push this in a new array named replacedArray
                 splitStateClasses.map((el, i) => {
-                  replacedValue = el.replace(/(\w+)\(([^,]+),([^)]+)\)/, '$1($2)');
+                  // replacedValue = el.replace(/(\w+)\(([^,]+),([^)]+)\)/, '$1($2)');
+                  replacedValue = el.replace(/defaultClasses\.(\w+)/, "'$1'");
                   replacedArray.push(replacedValue);
                 });
                 const newClassesCode = replacedArray.join('\n');
