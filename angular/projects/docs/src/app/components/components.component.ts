@@ -37,7 +37,7 @@ import * as Prism from 'prismjs';
 
     <div class="border-[rgba(5, 5, 5, 0.1)] my-5 border-[1px] p-10 mx-10">
       <login
-        [styles]="defaultStylesCode"
+        [styles]="defaultStyles"
         [inputLabel]="'Team domain*'"
         [placeholder]="'contoso@boxyhq.com'"
         [buttonText]="'Login with SSO'"></login>
@@ -49,14 +49,14 @@ import * as Prism from 'prismjs';
         passing of style attribute for each inner element (Note that inline style will override other styles).
       </h1>
       <button
-        (click)="toggleButton(displayDeafaultStyle, 'displayDeafaultStyle')"
+        (click)="toggleButton(displayDefaultStyle, 'displayDefaultStyle')"
         class="my-[1em] rounded-md bg-[#0070f3] px-[0.7em] py-[0.5em] font-medium text-white">
         Hide code
       </button>
-      <div *ngIf="displayDeafaultStyle">
+      <div *ngIf="displayDefaultStyle">
         <pre aria-hidden="true" class="pre">
           <code #codeContent [ngClass]="['code', 'language-' + codeType]">
-{{defaulatStylesCode}}
+{{defaultStylesCode}}
           </code>
         </pre>
       </div>
@@ -91,7 +91,7 @@ import * as Prism from 'prismjs';
       <login
         [inputLabel]="'Team domain*'"
         (onSubmit)="onSubmitFailing($event)"
-        [styles]="onsubmitFailStylesCode"
+        [styles]="onsubmitFailStyles"
         [placeholder]="'contoso@boxyhq.com'"
         [buttonText]="'SIGN IN WITH SSO'"></login>
       <h1 class="mb-2 mt-4 border-b-[1px] border-[#eaecef] pb-[0.5em]">
@@ -120,7 +120,7 @@ import * as Prism from 'prismjs';
 })
 export class ComponentsComponent {
   displayCustomStyle = true;
-  displayDeafaultStyle = true;
+  displayDefaultStyle = true;
   displayLoginWithouInput = true;
   displayFailingOnSubmit = true;
 
@@ -129,7 +129,7 @@ export class ComponentsComponent {
     input: 'inp',
   };
 
-  defaultStylesCode = {
+  defaultStyles = {
     container: {
       display: 'flex',
       'flex-direction': 'column',
@@ -153,7 +153,7 @@ export class ComponentsComponent {
     },
   };
 
-  onsubmitFailStylesCode = {
+  onsubmitFailStyles = {
     container: {
       display: 'flex',
       'flex-direction': 'column',
@@ -181,8 +181,8 @@ export class ComponentsComponent {
   toggleButton(propValue: boolean, propName: string) {
     if (propName === 'displayCustomStyle') {
       this.displayCustomStyle = !propValue;
-    } else if (propName === 'displayDeafaultStyle') {
-      this.displayDeafaultStyle = !propValue;
+    } else if (propName === 'displayDefaultStyle') {
+      this.displayDefaultStyle = !propValue;
     } else if (propName === 'displayLoginWithouInput') {
       this.displayLoginWithouInput = !propValue;
     } else if (propName === 'displayFailingOnSubmit') {
@@ -205,7 +205,7 @@ export class ComponentsComponent {
         [buttonText]="'Login with SSO'"
         [inputLabel]="'Team Domain*'"
         [placeholder]="'contoso@boxyhq.com'"
-        (onSubmit)="onSubmitButton()"></sso-login>
+        (onSubmit)="onSubmitButton($event)"></sso-login>
       ',
       standalone: true,
       imports: [CommonModule, LoginComponent],
@@ -227,7 +227,7 @@ export class ComponentsComponent {
      };
     }`;
 
-  defaulatStylesCode = `    import { Component } from '@angular/core';
+  defaultStylesCode = `    import { Component } from '@angular/core';
     import { CommonModule } from '@angular/common';
     import { LoginTrialComponent } from '@boxyhq/angular-ui';
         
@@ -238,7 +238,7 @@ export class ComponentsComponent {
           [styles]="componentStyles"
           [inputLabel]="'Team Domain*'"
           [placeholder]="'contoso@boxyhq.com'"
-          (onSubmit)="onSubmitButton()"></sso-login>
+          (onSubmit)="onSubmitButton($event)"></sso-login>
         ',
         standalone: true,
         imports: [CommonModule, LoginComponent],
@@ -264,7 +264,7 @@ export class ComponentsComponent {
           <sso-login
               [buttonText]="'SIGN IN WITH SSO'"
               [ssoIdentifier]="'some-identifier'"
-              (onSubmit)="onSubmitButton()"></sso-login>
+              (onSubmit)="onSubmitButton($event)"></sso-login>
           ',
         standalone: true,
         imports: [CommonModule, LoginComponent],
@@ -286,7 +286,7 @@ export class ComponentsComponent {
             <sso-login
               [buttonText]="'SIGN IN WITH SSO'"
               [ssoIdentifier]="'some-identifier'"
-              (onSubmit)="onSubmitButton()"></sso-login>
+              (onSubmit)="onSubmitFailing($event)"></sso-login>
             ',
         standalone: true,
         imports: [CommonModule, LoginComponent],
