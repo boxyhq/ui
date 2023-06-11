@@ -75,7 +75,7 @@ jobs:
           echo "NPM_VERSION=${JACKSON_VERSION}" >> $GITHUB_OUTPUT
           echo "PUBLISH_TAG=${publishTag}" >> $GITHUB_OUTPUT
 
-  build-publish-framework-lib:
+  build-publish-lib:
     needs: ['mitosis-generate']
     runs-on: ubuntu-latest
 
@@ -101,9 +101,11 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: mitosis-out-${{ matrix.framework }}
-          path: ${{  matrix.framework == 'angular' && format('./{0}/projects/boxyhq/angular-ui',matrix.framework) || format('./{0}/src',matrix.framework) }}
+          path: ${{  matrix.framework == 'angular' && './angular/projects/boxyhq/angular-ui' || format('./{0}/src',matrix.framework) }}
       - run: npm ci
       - name: Publish NPM
+        # Publish angular package from the dist folder
+        working-directory: ${{ matrix.framework == 'angular' && 'angular/dist/boxyhq/angular-ui' || matrix.framework }}
         if: github.ref == 'refs/heads/release' || contains(github.ref, 'refs/tags/beta-v')
         run: |
           npm install -g json
