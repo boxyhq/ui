@@ -53,7 +53,6 @@ jobs:
         with:
           name: mitosis-out-angular
           path: |
-            !./angular/projects/boxyhq/angular-ui/*
             ./angular/projects/boxyhq/angular-ui/**/*
       - id: sdk-version
         name: Retrieve version and publishtag
