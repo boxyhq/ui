@@ -6,7 +6,7 @@
  * @returns {string} Id that is gauranteed to be unique and suitable for html id attributes across various components
  */
 
-const htmlIdGenerator = (prefix: string, elementType = "logged") => {
+const htmlIdGenerator = (prefix: string, elementType: string) => {
   return `boxyhq-${prefix}-${elementType}`;
 };
 

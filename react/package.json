@@ -24,6 +24,7 @@
   "types": "./index.d.ts",
   "exports": {
     "./sso": {
+      "types": "./dist/sso/index.d.ts",
       "import": "./dist/sso.js",
       "require": "./dist/sso.umd.cjs"
     }
