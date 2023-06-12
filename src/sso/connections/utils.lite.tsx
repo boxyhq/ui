@@ -195,8 +195,16 @@ export default function renderFieldList(args: {
         return typeof isHidden === 'function' && isHidden(args.formObj[key]) == true ? ' hidden' : '';
       },
       get fallbackLogic() {
-        return typeof fallback.activateCondition === 'function' ? fallback.activateCondition(value) : true;
+        return typeof fallback!.activateCondition === 'function'
+          ? fallback!.activateCondition(state.value)
+          : true;
       },
+      renderedFieldListt: members?.map(
+        renderFieldList({
+          ...args,
+          formObjParentKey: key,
+        })
+      ),
     });
 
     return (
@@ -207,15 +215,16 @@ export default function renderFieldList(args: {
               <ButtonLink
                 className='mb-2 px-0'
                 type='button'
-                data-testid={fallback.switch['data-testid']}
+                data-testid={fallback!.switch['data-testid']}
                 onClick={() => {
                   /** Switch to fallback.key*/
-                  args.activateFallback(key, fallback.key);
+                  args.activateFallback(key, fallback!.key);
                 }}>
-                {fallback.switch.label}
+                {fallback!.switch.label}
               </ButtonLink>
             </div>
           </Show>
+          {state.renderedFieldListt}
         </Show>
         <Show when={type !== 'object'}>
           <div className='mb-6' key={key}>
@@ -224,25 +233,26 @@ export default function renderFieldList(args: {
                 <label
                   htmlFor={key}
                   className={
-                    'mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300' + isHiddenClassName
+                    'mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300' +
+                    state.isHiddenClassName
                   }>
                   {label}
                 </label>
                 <Show
                   when={
                     typeof fallback === 'object' && typeof fallback.activateCondition === 'function'
-                      ? fallback.activateCondition(value)
+                      ? fallback.activateCondition(state.value)
                       : true
                   }>
                   <ButtonLink
                     className='mb-2 px-0'
                     type='button'
-                    data-testid={fallback.switch['data-testid']}
+                    data-testid={fallback!.switch['data-testid']}
                     onClick={() => {
                       /** Switch to fallback.key*/
-                      args.activateFallback(key, fallback.key);
+                      args.activateFallback(key, fallback!.key);
                     }}>
-                    {fallback.switch.label}
+                    {fallback!.switch.label}
                   </ButtonLink>
                 </Show>
               </div>
@@ -299,7 +309,7 @@ export default function renderFieldList(args: {
                     key: 'checked',
                     formObjParentKey: args.formObjParentKey,
                   })}
-                  className={'checkbox-primary checkbox ml-5 align-middle' + isHiddenClassName}
+                  className={'checkbox-primary checkbox ml-5 align-middle' + state.isHiddenClassName}
                   data-testid={dataTestId}
                 />
               </>
