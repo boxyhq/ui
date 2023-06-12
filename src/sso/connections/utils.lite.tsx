@@ -116,6 +116,13 @@ type fieldAttributes = {
   'data-testid'?: string;
 };
 
+export type AdminPortalSSODefaults = {
+  tenant: string;
+  product: string;
+  redirectUrl: string;
+  defaultRedirectUrl: string;
+};
+
 type FormObjValues = string | boolean | string[];
 
 export type FormObj = Record<string, FormObjValues | Record<string, FormObjValues>>;
@@ -211,9 +218,9 @@ export default function renderFieldList(args: {
           </Show>
         </Show>
         <Show when={type !== 'object'}>
-          <div class='mb-6' key={key}>
+          <div className='mb-6' key={key}>
             <Show when={type !== 'checkbox'}>
-              <div class='flex items-center justify-between'>
+              <div className='flex items-center justify-between'>
                 <label
                   htmlFor={key}
                   className={
