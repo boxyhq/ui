@@ -125,36 +125,50 @@ export default function CreateConnection({
           </div>
         </div>
       </Show>
-      <div className='mb-4 flex items-center'>
-        <div className='mr-2 py-3'>{t('select_sso_type')}:</div>
-        <div className='flex w-52'>
-          <div className='form-control'>
-            <label className='label mr-4 cursor-pointer'>
-              <input
-                type='radio'
-                name='connection'
-                value='saml'
-                className='radio-primary radio'
-                checked={state.newConnectionType === 'saml'}
-                onChange={state.handleNewConnectionTypeChange}
-              />
-              <span className='label-text ml-1'>{t('saml')}</span>
-            </label>
-          </div>
-          <div className='form-control'>
-            <label className='label mr-4 cursor-pointer' data-testid='sso-type-oidc'>
-              <input
-                type='radio'
-                name='connection'
-                value='oidc'
-                className='radio-primary radio'
-                checked={state.newConnectionType === 'oidc'}
-                onChange={state.handleNewConnectionTypeChange}
-              />
-              <span className='label-text ml-1'>{t('oidc')}</span>
-            </label>
+      <div>
+        <h2 className='mb-5 mt-5 font-bold text-gray-700 dark:text-white md:text-xl'>
+          {t('create_sso_connection')}
+        </h2>
+        <div className='mb-4 flex items-center'>
+          <div className='mr-2 py-3'>{t('select_sso_type')}:</div>
+          <div className='flex w-52'>
+            <div className='form-control'>
+              <label className='label mr-4 cursor-pointer'>
+                <input
+                  type='radio'
+                  name='connection'
+                  value='saml'
+                  className='radio-primary radio'
+                  checked={state.newConnectionType === 'saml'}
+                  onChange={state.handleNewConnectionTypeChange}
+                />
+                <span className='label-text ml-1'>{t('saml')}</span>
+              </label>
+            </div>
+            <div className='form-control'>
+              <label className='label mr-4 cursor-pointer' data-testid='sso-type-oidc'>
+                <input
+                  type='radio'
+                  name='connection'
+                  value='oidc'
+                  className='radio-primary radio'
+                  checked={state.newConnectionType === 'oidc'}
+                  onChange={state.handleNewConnectionTypeChange}
+                />
+                <span className='label-text ml-1'>{t('oidc')}</span>
+              </label>
+            </div>
           </div>
         </div>
+        <form>
+          <div className='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
+            <div className='flex'>
+              <ButtonPrimary loading={state.loading} data-testid='submit-form-create-sso'>
+                {t('save_changes')}
+              </ButtonPrimary>
+            </div>
+          </div>
+        </form>
       </div>
     </>
   );
