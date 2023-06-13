@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run --prefix docs serve",
     "prepare": "npm run build",
     "build": "vite build",
     "preview": "vite preview"
@@ -25,5 +25,8 @@
     "vite": "4.3.9",
     "vite-plugin-css-injected-by-js": "3.1.1",
     "vue": "2.7.14"
+  },
+  "peerDependencies": {
+    "vue": "^2.7.14"
   }
 }
