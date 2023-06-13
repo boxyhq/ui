@@ -1,7 +1,7 @@
 {
   "name": "@boxyhq/svelte-ui",
   "description": "Svelte UI components from BoxyHQ",
-  "version": "2.3.0",
+  "version": "0.0.0",
   "type": "module",
   "keywords": [
     "svelte",
