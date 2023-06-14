@@ -2,6 +2,7 @@
   "name": "@boxyhq/vue2-ui",
   "version": "0.0.0",
   "type": "module",
+  "license": "Apache-2.0",
   "scripts": {
     "dev": "npm run --prefix docs serve",
     "prepare": "npm run build",

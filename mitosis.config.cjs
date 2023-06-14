@@ -6,6 +6,8 @@ const getTargetPath = ({ target }) => {
     // Reference: https://sandroroth.com/blog/angular-library#more-entry-points
     case 'angular':
       return 'angular/projects/boxyhq/angular-ui/tmp';
+    case 'svelte':
+      return 'svelte/src/tmp';
     default:
       return target;
   }
@@ -114,7 +116,8 @@ module.exports = {
     },
     vue: { ...VUE_OPTIONS, typescript: true },
     vue2: VUE_OPTIONS,
+    svelte: { typescript: true },
   },
-  targets: ['react', 'angular', 'vue', 'vue2'],
+  targets: ['react', 'angular', 'vue', 'vue2', 'svelte'],
   exclude: ['src/css.d.ts'],
 };
