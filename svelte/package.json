@@ -10,6 +10,7 @@
 		"mitosis",
 		"component-library"
 	],
+	"license": "Apache-2.0",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "npm run package && vite build",

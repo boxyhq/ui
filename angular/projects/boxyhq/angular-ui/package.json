@@ -1,6 +1,7 @@
 {
   "name": "@boxyhq/angular-ui",
   "version": "0.0.0",
+  "license": "Apache-2.0",
   "peerDependencies": {
     "@angular/common": "^15.2.9 || ^16.0.0",
     "@angular/core": "^15.2.9 || ^16.0.0"
