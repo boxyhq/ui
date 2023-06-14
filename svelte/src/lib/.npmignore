@@ -1,0 +1,2 @@
+# If there's no .npmignore file, but there is a .gitignore file, then npm will ignore the stuff matched by the .gitignore file
+# And since there's no way to exclude the .gitignore from becoming part of the dist, we need to keep this empty .npmignore
