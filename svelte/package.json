@@ -1,5 +1,6 @@
 {
 	"name": "@boxyhq/svelte-ui",
+	"description": "Svelte UI components from BoxyHQ",
 	"version": "0.0.0",
 	"keywords": [
 		"svelte",
