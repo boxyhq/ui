@@ -86,7 +86,7 @@ jobs:
 
     strategy:
       matrix:
-        framework: [react, angular, vue, vue2. svelte]
+        framework: [react, angular, vue, vue2, svelte]
     defaults:
       run:
         working-directory: ${{ matrix.framework }}
@@ -106,7 +106,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: mitosis-out-${{ matrix.framework }}
-          path: ${{  matrix.framework == 'angular' && './angular/projects/boxyhq/angular-ui' || matrix.framework == 'svelte' && 'svelte/src/lib' || format('./{0}/src',matrix.framework) }}
+          path: ${{  matrix.framework == 'angular' && 'angular/projects/boxyhq/angular-ui' || matrix.framework == 'svelte' && 'svelte/src/lib' || format('./{0}/src',matrix.framework) }}
       - run: npm ci
       - name: Publish NPM
         # Publish angular package from the dist folder
