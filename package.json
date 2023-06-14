@@ -8,11 +8,13 @@
     "postcss:cp2vue": "postcss src/**/*.css --base src --dir 'vue/src'",
     "postcss:cp2vue2": "postcss src/**/*.css --base src --dir 'vue2/src'",
     "postcss:cp2angular": "postcss src/**/*.css --base src --dir 'angular/projects/boxyhq/angular-ui/tmp/src'",
-    "postcss:cp2svelte": "postcss src/**/*.css --base src --dir 'svelte/src'",
+    "postcss:cp2svelte": "postcss src/**/*.css --base src --dir 'svelte/src/tmp/src'",
     "copycss": "run-p postcss:cp2react postcss:cp2vue postcss:cp2vue2 postcss:cp2angular postcss:cp2svelte",
     "mitosis:build": "mitosis build",
     "build": "npm run mitosis:build && npm run copycss",
-    "postbuild": "node scripts/angular-multi-entry.mjs"
+    "postbuild": "run-p angular:multi-entry svelte:lib-placement",
+    "angular:multi-entry": "node scripts/angular-multi-entry.mjs",
+    "svelte:lib-placement": "node scripts/svelte-lib-placement.mjs"
   },
   "repository": {
     "type": "git",
