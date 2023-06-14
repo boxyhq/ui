@@ -1,58 +1,83 @@
-# create-svelte
+# @boxyhq/svelte-ui
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+UI components from [BoxyHQ](https://boxyhq.com/) for plug-and-play enterprise features.
 
-Read more about creating a library [in the docs](https://kit.svelte.dev/docs/packaging).
+## Installation
 
-## Creating a project
+`npm install @boxyhq/svelte-ui --save`
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Usage
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+### SSO Login Component
 
-# create a new project in my-app
-npm create svelte@latest my-app
+There are mainly 2 ways of using the SSO Login Component as outlined below:
+
+#### Preset value for `ssoIdentifier`
+
+If a value is passed for `ssoIdentifier`, it would render a button that on click calls the passed-in handler (onSubmit) with the `ssoIdentifier` value. The handler can then initiate a redirect to the SSO service forwarding the value for ssoIdentifier.
+
+```svelte
+<script>
+	import { Login } from '@boxyhq/svelte-ui/sso';
+
+	const onSSOSubmit = async ({ ssoIdentifier }) => {
+		// initiate the SSO flow here
+		console.log(ssoIdentifier);
+	};
+</script>
+
+<Login
+	buttonText={'Login with SSO'}
+	ssoIdentifier={`tenant=${tenant}&product=${product}`}
+	onSubmit={onSSOSubmit}
+	classNames={{
+		container: 'mt-2',
+		button: 'btn-primary btn-block btn rounded-md active:-scale-95'
+	}}
+/>;
 ```
 
-## Developing
+#### Accept input from the user for `ssoIdentifier`
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+If a value is not passed for `ssoIdentifier`, it would render an input field for the user to enter the `ssoIdentifier` value. And then on submit, the value gets passed to the handler. The handler can then initiate a redirect to the SSO service forwarding the value for ssoIdentifier.
 
-```bash
-npm run dev
+```svelte
+<script>
+	import { Login } from '@boxyhq/svelte-ui/sso';
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+	const onSSOSubmit = async ({ ssoIdentifier }) => {
+		// initiate the SSO flow here
+		console.log(ssoIdentifier);
+	};
+</script>
+
+<Login
+	buttonText={'Login with SSO'}
+	onSubmit={onSSOSubmit}
+	classNames={{
+		container: 'mt-2',
+		label: 'text-gray-400',
+		button: 'btn-primary btn-block btn rounded-md active:-scale-95',
+		input: 'input-bordered input mb-5 mt-2 w-full rounded-md'
+	}}
+/>;
 ```
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+#### Styling
 
-## Building
+If the classNames prop is passed in, we can override the default styling for each inner element. In case an inner element is omitted from the classNames prop, default styles will be set for the element. For example, In the below snippet, all the inner elements are styled by passing in the classNames for each inner one.
 
-To build your library:
-
-```bash
-npm run package
+```svelte
+<Login
+	buttonText={'Login with SSO'}
+	onSubmit={onSSOSubmit}
+	classNames={{
+		container: 'mt-2',
+		label: 'text-gray-400',
+		button: 'btn-primary btn-block btn rounded-md active:-scale-95',
+		input: 'input-bordered input mb-5 mt-2 w-full rounded-md'
+	}}
+/>
 ```
 
-To create a production version of your showcase app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```bash
-npm publish
-```
+Styling via style attribute is also supported for each inner element.

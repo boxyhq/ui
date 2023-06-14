@@ -6,10 +6,10 @@
 	import Navbar from '../Navbar.svelte';
 	import Prism from 'prismjs';
 
-	let customStylesCode = `<script>\n  import { Login } from '@boxyhq/svelte-ui';\n  import demo1 from './demo1.css?inline'\n\n  async function onSubmitButton() {\n     // initiate the SSO flow here\n  };\n< /script>\n\n<main>\n  <Login\n    onSubmit={onSubmitButton}\n    styles={{\n      input: { borderColor: '#ebedf0' },\n      button: { padding: '.85rem' },\n    }}\n    classNames={{ button: 'btn', input: 'inp' }}\n    placeholder='contoso@boxyhq.com'\n    inputLabel='Team Domain *'\n    buttonText='Login with SSO'\n    innerProps={{ input: { type: 'email' } }}\n  />;\n</main>`;
-	let defaultStylesCode = `<script>\n  import { Login } from '@boxyhq/svelte-ui';\n\n  async function onSubmitButton() {\n     // initiate the SSO flow here\n  };\n< /script>\n\n<main>\n  <Login\n    onSubmit={onSubmitButton}\n    styles={{ input: { border: '1px solid darkcyan' } }}\n    placeholder='contoso@boxyhq.com'\n    inputLabel='Team Domain *'\n  />;\n</main>`;
-	let loginWithoutInputCode = `<script>\n  import { Login } from '@boxyhq/svelte-ui';\n\n  async function onSubmitButton() {\n     // initiate the SSO flow here\n  };\n< /script>\n\n<main>\n  <Login\n    onSubmit={onSubmitButton}\n    ssoIdentifier={'some-identifier'}\n    buttonText='SIGN IN WITH SSO'\n  />;\n</main>`;
-	let loginWithFailingOnsubmitCode = `<script>\n  import { Login } from '@boxyhq/svelte-ui';\n\n  async onSubmitButton() => ({\n     error: {\n      message: 'Invalid team domain',\n     },\n  });\n< /script>\n\n<main>\n  <Login\n    onSubmit={onSubmitButton}\n    inputLabel='Team Domain *'\n    placeholder='contoso@boxyhq.com'\n  />;\n</main>`;
+	let customStylesCode = `<script>\n  import { Login } from '@boxyhq/svelte-ui/sso';\n  import demo1 from './demo1.css'\n\n  async function onSubmitButton({ssoIdentifier}) {\n     // initiate the SSO flow here\n  };\n< /script>\n\n<main>\n  <Login\n    onSubmit={onSubmitButton}\n    styles={{\n      input: { borderColor: '#ebedf0' },\n      button: { padding: '.85rem' },\n    }}\n    classNames={{ button: 'btn', input: 'inp' }}\n    placeholder='contoso@boxyhq.com'\n    inputLabel='Team Domain *'\n    buttonText='Login with SSO'\n    innerProps={{ input: { type: 'email' } }}\n  />;\n</main>`;
+	let defaultStylesCode = `<script>\n  import { Login } from '@boxyhq/svelte-ui/sso';\n\n  async function onSubmitButton({ssoIdentifier}) {\n     // initiate the SSO flow here\n  };\n< /script>\n\n<main>\n  <Login\n    onSubmit={onSubmitButton}\n    styles={{ input: { border: '1px solid darkcyan' } }}\n    placeholder='contoso@boxyhq.com'\n    inputLabel='Team Domain *'\n  />;\n</main>`;
+	let loginWithoutInputCode = `<script>\n  import { Login } from '@boxyhq/svelte-ui/sso';\n\n  async function onSubmitButton({ssoIdentifier}) {\n     // initiate the SSO flow here\n  };\n< /script>\n\n<main>\n  <Login\n    onSubmit={onSubmitButton}\n    ssoIdentifier={'some-identifier'}\n    buttonText='SIGN IN WITH SSO'\n  />;\n</main>`;
+	let loginWithFailingOnsubmitCode = `<script>\n  import { Login } from '@boxyhq/svelte-ui/sso';\n\n  async onSubmitButton(({cb}) => cb({\n     error: {\n      message: 'Invalid team domain',\n     }\n  }));\n< /script>\n\n<main>\n  <Login\n    onSubmit={onSubmitButton}\n    inputLabel='Team Domain *'\n    placeholder='contoso@boxyhq.com'\n  />;\n</main>`;
 
 	let language = 'javascript';
 	let customStylesIsActive = false;
@@ -118,7 +118,8 @@
 			/>
 			<h2 class="login-with-failing-onsubmit-title">Login Component with failing onSubmit</h2>
 			<h2 class="login-with-failing-onsubmit-description">
-				If error object is returned with the error message, the message would be displayed inline.
+				If error object with the error message is passed to the callback, the message would be
+				displayed inline.
 			</h2>
 			<button
 				class="btn-toggle"
