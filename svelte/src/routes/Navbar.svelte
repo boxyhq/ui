@@ -1,8 +1,3 @@
-<script>
-	// import logo from '$lib/images/logo.png';
-	// import logo from '/logo.png';
-</script>
-
 <nav>
 	<div class="boxyhq-logo">
 		<div>
