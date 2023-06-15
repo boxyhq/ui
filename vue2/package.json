@@ -1,5 +1,6 @@
 {
   "name": "@boxyhq/vue2-ui",
+  "description": "Vue 2 UI components from BoxyHQ",
   "version": "0.0.0",
   "type": "module",
   "license": "Apache-2.0",
