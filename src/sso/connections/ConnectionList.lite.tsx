@@ -8,7 +8,6 @@ import { InputWithCopyButton } from '@components/ClipboardButton';
 import { Pagination, pageLimit, NoMoreResults } from '@components/Pagination';
 import usePaginate from '@lib/ui/hooks/usePaginate';
 import type { OIDCSSORecord, SAMLSSORecord } from '@boxyhq/saml-jackson';
-// import useSWR from 'swr';
 import { fetcher } from '@lib/ui/utils';
 import Loading from '@components/Loading';
 import { errorToast } from '@components/Toaster';
