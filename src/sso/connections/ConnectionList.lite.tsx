@@ -69,27 +69,32 @@ export default function ConnectionList({
   });
 
   return (
-    <>
-      <div>
-        <div className='mb-5 flex items-center justify-between'>
-          <h2 className='font-bold text-gray-700 dark:text-white md:text-xl'>
-            {state.t(isSettingsView ? 'admin_portal_sso' : 'enterprise_sso')}
-          </h2>
-          <div className='flex gap-2'>
-            <LinkPrimary Icon={PlusIcon} href={state.createConnectionUrl} data-testid='create-connection'>
-              {state.t('new_connection')}
+    <div>
+      <div className='mb-5 flex items-center justify-between'>
+        <h2 className='font-bold text-gray-700 dark:text-white md:text-xl'>
+          {state.t(isSettingsView ? 'admin_portal_sso' : 'enterprise_sso')}
+        </h2>
+        <div className='flex gap-2'>
+          <LinkPrimary Icon={PlusIcon} href={state.createConnectionUrl} data-testid='create-connection'>
+            {state.t('new_connection')}
+          </LinkPrimary>
+          <Show when={!setupLinkToken && !isSettingsView}>
+            <LinkPrimary
+              Icon={LinkIcon}
+              href='/admin/sso-connection/setup-link/new'
+              data-testid='create-setup-link'>
+              {state.t('new_setup_link')}
             </LinkPrimary>
-            <Show when={!setupLinkToken && !isSettingsView}>
-              <LinkPrimary
-                Icon={LinkIcon}
-                href='/admin/sso-connection/setup-link/new'
-                data-testid='create-setup-link'>
-                {state.t('new_setup_link')}
-              </LinkPrimary>
-            </Show>
-          </div>
+          </Show>
         </div>
       </div>
-    </>
+      <Show when={idpEntityID && setupLinkToken}>
+        <div className='mb-5 mt-5 items-center justify-between'>
+          <div className='form-control'>
+            <InputWithCopyButton text={idpEntityID} label={state.t('idp_entity_id')} />
+          </div>
+        </div>
+      </Show>
+    </div>
   );
 }
