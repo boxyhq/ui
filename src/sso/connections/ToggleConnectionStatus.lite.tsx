@@ -2,7 +2,7 @@ import type { OIDCSSORecord, SAMLSSORecord } from '@boxyhq/saml-jackson';
 import { errorToast, successToast } from '@components/Toaster';
 import type { ApiResponse } from 'types';
 import { ConnectionToggle } from '@components/ConnectionToggle';
-import { useStore, onMount, onUpdate } from '@builder.io/mitosis';
+import { useStore, onMount, onUpdate, useState } from '@builder.io/mitosis';
 
 interface Props {
   connection: SAMLSSORecord | OIDCSSORecord;
@@ -10,13 +10,23 @@ interface Props {
   translation: any;
 }
 
-export function ToggleConnectionStatus(props: Props) {
-  const { connection, setupLinkToken } = props;
-
-  const { t } = props.translation;
+export default function ToggleConnectionStatus(props: Props) {
+  const [connection, setConnection] = useState<SAMLSSORecord | OIDCSSORecord>(() => {
+    const { connection } = props;
+    return connection;
+  });
 
   const state = useStore({
     active: !connection.deactivated,
+    // Getting translation from the parent
+    get t() {
+      const { t } = props.translation;
+      return t;
+    },
+    get setupLinkToken() {
+      const { setupLinkToken } = props;
+      return setupLinkToken;
+    },
 
     // Update connection status on every onChange
     updateConnectionStatus: (event: Event) => {
@@ -39,7 +49,9 @@ export function ToggleConnectionStatus(props: Props) {
         }
 
         const res = await fetch(
-          setupLinkToken ? `/api/setup/${setupLinkToken}/sso-connection` : '/api/admin/connections',
+          state.setupLinkToken
+            ? `/api/setup/${state.setupLinkToken}/sso-connection`
+            : '/api/admin/connections',
           {
             method: 'PATCH',
             headers: {
@@ -57,9 +69,9 @@ export function ToggleConnectionStatus(props: Props) {
         }
 
         if (body.deactivated) {
-          successToast(t('connection_deactivated'));
+          successToast(state.t('connection_deactivated'));
         } else {
-          successToast(t('connection_activated'));
+          successToast(state.t('connection_activated'));
         }
       })(event);
     },
