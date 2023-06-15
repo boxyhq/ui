@@ -13,7 +13,7 @@ export default defineConfig({
     // https://vitejs.dev/guide/build.html#library-mode
     lib: {
       entry: {
-        sso: resolve(__dirname, 'src/sso/index.js'),
+        sso: resolve(__dirname, 'src/sso/index.ts'),
       },
       name: 'BoxyHQUI',
     },

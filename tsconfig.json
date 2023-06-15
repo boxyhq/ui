@@ -8,8 +8,11 @@
     "forceConsistentCasingInFileNames": true,
     "jsxImportSource": "@builder.io/mitosis",
     "paths": {
-      "react": ["./react/node_modules/@types/react/index.d.ts"]
+      "react": ["./react/node_modules/@types/react/index.d.ts"],
+      "vue": ["./vue/node_modules/vue/dist/vue.d.ts"]
     }
   },
-  "include": ["src", "overrides"]
+  "include": ["src", "overrides"],
+  "exclude": ["overrides/angular/src/sso/index.ts"]
+  // "exclude": ["overrides/**/*"]
 }

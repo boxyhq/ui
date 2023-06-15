@@ -1,4 +1,4 @@
-import htmlIdGenerator from "./htmlIdGenerator";
+import htmlIdGenerator from './htmlIdGenerator';
 
 /**
  *
@@ -7,8 +7,8 @@ import htmlIdGenerator from "./htmlIdGenerator";
  * @returns {string} Id that is gauranteed to be unique suitable for use as HTML id attributes
  */
 
-const getUniqueId = (component: string, elementType?: string) => {
-  let id = "";
+const getUniqueId = (component: string, elementType: string) => {
+  let id = '';
 
   // call the htmlIdGenerator function to set a unique id for the user and then return it
   id = htmlIdGenerator(component, elementType);

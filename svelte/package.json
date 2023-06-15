@@ -1,0 +1,61 @@
+{
+	"name": "@boxyhq/svelte-ui",
+	"description": "Svelte UI components from BoxyHQ",
+	"version": "0.0.0",
+	"keywords": [
+		"svelte",
+		"boxyhq",
+		"sso",
+		"enterprise-features",
+		"mitosis",
+		"component-library"
+	],
+	"license": "Apache-2.0",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "npm run package && vite build",
+		"preview": "vite preview",
+		"package": "svelte-kit sync && svelte-package && publint",
+		"prepare": "npm run build",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+		"format": "prettier --plugin-search-dir . --write ."
+	},
+	"exports": {
+		"./sso": {
+			"types": "./dist/sso/index.d.ts",
+			"svelte": "./dist/sso/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"index.d.ts",
+		"sso.d.ts",
+		"!dist/**/*.test.*",
+		"!dist/**/*.spec.*"
+	],
+	"peerDependencies": {
+		"svelte": "^3.59.1"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "2.1.0",
+		"@sveltejs/kit": "1.20.2",
+		"@sveltejs/package": "2.0.2",
+		"@typescript-eslint/eslint-plugin": "5.59.11",
+		"@typescript-eslint/parser": "5.59.11",
+		"eslint": "8.42.0",
+		"eslint-config-prettier": "8.8.0",
+		"eslint-plugin-svelte": "2.30.0",
+		"prettier": "2.8.8",
+		"prettier-plugin-svelte": "2.10.1",
+		"prismjs": "1.29.0",
+		"publint": "0.1.12",
+		"svelte": "3.59.1",
+		"svelte-check": "3.4.3",
+		"tslib": "2.5.3",
+		"typescript": "5.1.3",
+		"vite": "4.3.9"
+	},
+	"type": "module"
+}

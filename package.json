@@ -7,9 +7,14 @@
     "postcss:cp2react": "postcss src/**/*.css --base src --dir 'react/src'",
     "postcss:cp2vue": "postcss src/**/*.css --base src --dir 'vue/src'",
     "postcss:cp2vue2": "postcss src/**/*.css --base src --dir 'vue2/src'",
-    "copycss": "run-p postcss:cp2react postcss:cp2vue postcss:cp2vue2",
+    "postcss:cp2angular": "postcss src/**/*.css --base src --dir 'angular/projects/boxyhq/angular-ui/tmp/src'",
+    "postcss:cp2svelte": "postcss src/**/*.css --base src --dir 'svelte/src/tmp/src'",
+    "copycss": "run-p postcss:cp2react postcss:cp2vue postcss:cp2vue2 postcss:cp2angular postcss:cp2svelte",
     "mitosis:build": "mitosis build",
-    "build": "npm run mitosis:build && npm run copycss"
+    "build": "npm run mitosis:build && npm run copycss",
+    "postbuild": "run-p angular:multi-entry svelte:lib-placement",
+    "angular:multi-entry": "node scripts/angular-multi-entry.mjs",
+    "svelte:lib-placement": "node scripts/svelte-lib-placement.mjs"
   },
   "repository": {
     "type": "git",
@@ -30,15 +35,17 @@
   "homepage": "https://github.com/boxyhq/ui#readme",
   "devDependencies": {
     "@builder.io/eslint-plugin-mitosis": "0.0.14",
-    "@builder.io/mitosis": "0.0.103",
-    "@builder.io/mitosis-cli": "0.0.61",
+    "@builder.io/mitosis": "0.0.106",
+    "@builder.io/mitosis-cli": "0.0.64",
     "@typescript-eslint/eslint-plugin": "5.59.6",
     "@typescript-eslint/parser": "5.59.6",
+    "cpy": "10.1.0",
     "eslint": "8.40.0",
     "npm-run-all": "4.1.5",
     "postcss": "8.4.23",
     "postcss-cli": "10.1.0",
     "prettier": "2.8.8",
+    "rimraf": "5.0.1",
     "typescript": "5.0.4"
   }
 }
