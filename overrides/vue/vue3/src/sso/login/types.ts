@@ -1,4 +1,10 @@
-import type { CSSProperties } from 'vue';
+import type {
+  CSSProperties,
+  InputHTMLAttributes,
+  ButtonHTMLAttributes,
+  LabelHTMLAttributes,
+  HTMLAttributes,
+} from 'vue';
 
 export interface LoginProps {
   /**
@@ -50,11 +56,11 @@ export interface LoginProps {
     label?: string;
   };
   innerProps?: {
-    input?: { 'data-testid'?: string };
-    button?: {
+    input?: InputHTMLAttributes & { 'data-testid'?: string };
+    button?: ButtonHTMLAttributes & {
       'data-testid'?: string;
     };
-    label?: { 'data-testid'?: string };
-    container?: { 'data-testid'?: string };
+    label?: LabelHTMLAttributes & { 'data-testid'?: string };
+    container?: HTMLAttributes & { 'data-testid'?: string };
   };
 }

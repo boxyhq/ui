@@ -52,11 +52,11 @@ export interface LoginProps {
     label?: string;
   };
   innerProps?: {
-    input?: { 'data-testid'?: string };
-    button?: {
+    input?: Partial<HTMLInputElement> & { 'data-testid'?: string };
+    button?: Partial<HTMLButtonElement> & {
       'data-testid'?: string;
     };
-    label?: { 'data-testid'?: string };
-    container?: { 'data-testid'?: string };
+    label?: Partial<HTMLLabelElement> & { 'data-testid'?: string };
+    container?: Partial<HTMLDivElement> & { 'data-testid'?: string };
   };
 }
