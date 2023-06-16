@@ -75,6 +75,15 @@ onSubmit = async function ({
 If a value is not passed for `ssoIdentifier`, it would render an input field for the user to enter the `ssoIdentifier` value. And then on submit, the value gets passed to the handler. The handler can then initiate a redirect to the SSO service forwarding the value for ssoIdentifier.
 
 ```typescript
+...
+// app.module.ts
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, Login],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+...
 //app.component.ts
 export class AppComponent {
 onSSOSubmit = async function ({
