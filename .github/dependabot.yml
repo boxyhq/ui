@@ -23,6 +23,9 @@ updates:
       interval: "monthly"
   - package-ecosystem: "npm"
     directory: "/vue2/docs" # vue2 docs app
+    ignore:
+      - dependency-name: "vue"
+        update-types: ["version-update:semver-major"]
     schedule:
       interval: "monthly"      
   - package-ecosystem: "npm"
