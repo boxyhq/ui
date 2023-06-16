@@ -76,7 +76,7 @@ module.exports = {
               }
               // Ideally the generated code should use [disabled] instead of [attr.disabled], hence the below transformation is needed.
               if (tweakedCode.includes('[attr.disabled]')) {
-                tweakedCode = tweakedCode.replace('[attr.disabled]', '[disabled]');
+                tweakedCode = tweakedCode.replaceAll('[attr.disabled]', '[disabled]');
               }
               return tweakedCode;
             },
