@@ -13,9 +13,10 @@ import * as Prism from 'prismjs';
       <login
         [styles]="customStyles"
         [classNames]="customStyleClasses"
-        [inputLabel]="'Team domain*'"
-        [placeholder]="'contoso@boxyhq.com'"
-        [buttonText]="'Login with SSO'"></login>
+        inputLabel="Team domain*"
+        placeholder="contoso@boxyhq.com"
+        buttonText="Login with SSO"
+        (onSubmit)="handleSSOSubmit($event)"></login>
       <h1 class="mb-2 mt-4 border-b-[1px] border-[#eaecef] pb-[0.5em]">Login with custom styling</h1>
       <h1 class="border-b-[1px] border-dashed border-[#eaecef] pb-[0.5em]">
         Refer the code below to see the passed props. Also supported is the passing of style attribute for
@@ -40,7 +41,8 @@ import * as Prism from 'prismjs';
         [styles]="defaultStyles"
         [inputLabel]="'Team domain*'"
         [placeholder]="'contoso@boxyhq.com'"
-        [buttonText]="'Login with SSO'"></login>
+        [buttonText]="'Login with SSO'"
+        (onSubmit)="handleSSOSubmit($event)"></login>
       <h1 class="mb-2 mt-4 border-b-[1px] border-[#eaecef] pb-[0.5em]">
         Login Component with default styles
       </h1>
@@ -161,6 +163,12 @@ export class ComponentsComponent {
     },
   };
 
+  handleSSOSubmit = async function ({ ssoIdentifier }: { ssoIdentifier: string }) {
+    console.log(ssoIdentifier);
+    // Initiate SSO flow
+    // In case of error initiating the flow, invoke callback with error object
+  };
+
   onSubmitFailing = async function ({
     ssoIdentifier,
     cb,
@@ -194,7 +202,7 @@ export class ComponentsComponent {
 
   customStylingCode = `  import { Component } from '@angular/core';
   import { CommonModule } from '@angular/common';
-  import { LoginTrialComponent } from '@boxyhq/angular-ui';
+  import { Login } from '@boxyhq/angular-ui/sso';
     
     @Component({
       selector: "my-component, MyComponent",
@@ -229,7 +237,7 @@ export class ComponentsComponent {
 
   defaultStylesCode = `    import { Component } from '@angular/core';
     import { CommonModule } from '@angular/common';
-    import { LoginTrialComponent } from '@boxyhq/angular-ui';
+    import { Login } from '@boxyhq/angular-ui/sso';
         
       @Component({
         selector: "my-component, MyComponent",
@@ -256,7 +264,7 @@ export class ComponentsComponent {
 
   loginWithoutInputCode = `    import { Component } from '@angular/core';
     import { CommonModule } from '@angular/common';
-    import { LoginTrialComponent } from '@boxyhq/angular-ui';
+    import { Login } from '@boxyhq/angular-ui/sso';
           
       @Component({
         selector: "my-component, MyComponent",
@@ -278,7 +286,7 @@ export class ComponentsComponent {
 
   failingOnSubmitCode = `    import { Component } from '@angular/core';
     import { CommonModule } from '@angular/common';
-    import { LoginTrialComponent } from '@boxyhq/angular-ui';
+    import { Login } from '@boxyhq/angular-ui/sso';
                 
       @Component({
         selector: "my-component, MyComponent",
