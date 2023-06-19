@@ -49,7 +49,6 @@ export default function Pagination({
   return (
     <div>
       <Show
-        // Hide pagination if there are no items to paginate
         when={(itemsCount === 0 && offset === 0) || (itemsCount < pageLimit && offset === 0)}
         else={
           <div className='flex justify-center space-x-4 py-4'>
