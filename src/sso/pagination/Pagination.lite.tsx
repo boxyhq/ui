@@ -13,23 +13,6 @@ type PaginationProps = {
 
 export const pageLimit = 15;
 
-export const NoMoreResults = ({ colSpan, translation }: { colSpan: number; translation: any }) => {
-  const state = useStore({
-    get t() {
-      const { t } = translation('common');
-      return t;
-    },
-  });
-
-  return (
-    <tr>
-      <td colSpan={colSpan} className='px-6 py-3 text-center text-sm text-gray-500'>
-        {state.t('no_more_results')}
-      </td>
-    </tr>
-  );
-};
-
 export default function Pagination({
   itemsCount,
   offset,
