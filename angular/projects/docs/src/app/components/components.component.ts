@@ -13,9 +13,10 @@ import * as Prism from 'prismjs';
       <login
         [styles]="customStyles"
         [classNames]="customStyleClasses"
-        [inputLabel]="'Team domain*'"
-        [placeholder]="'contoso@boxyhq.com'"
-        [buttonText]="'Login with SSO'"></login>
+        inputLabel="Team domain*"
+        placeholder="contoso@boxyhq.com"
+        buttonText="Login with SSO"
+        (onSubmit)="handleSSOSubmit($event)"></login>
       <h1 class="mb-2 mt-4 border-b-[1px] border-[#eaecef] pb-[0.5em]">Login with custom styling</h1>
       <h1 class="border-b-[1px] border-dashed border-[#eaecef] pb-[0.5em]">
         Refer the code below to see the passed props. Also supported is the passing of style attribute for
@@ -38,9 +39,10 @@ import * as Prism from 'prismjs';
     <div class="border-[rgba(5, 5, 5, 0.1)] my-5 border-[1px] p-10 mx-10">
       <login
         [styles]="defaultStyles"
-        [inputLabel]="'Team domain*'"
-        [placeholder]="'contoso@boxyhq.com'"
-        [buttonText]="'Login with SSO'"></login>
+        inputLabel="Team domain*"
+        placeholder="contoso@boxyhq.com"
+        buttonText="Login with SSO"
+        (onSubmit)="handleSSOSubmit($event)"></login>
       <h1 class="mb-2 mt-4 border-b-[1px] border-[#eaecef] pb-[0.5em]">
         Login Component with default styles
       </h1>
@@ -64,8 +66,8 @@ import * as Prism from 'prismjs';
 
     <div class="border-[rgba(5, 5, 5, 0.1)] my-5 border-[1px] p-10 mx-10">
       <login
-        [ssoIdentifier]="'some-sso-identifier'"
-        [buttonText]="'SIGN IN WITH SSO'"
+        ssoIdentifier="some-sso-identifier"
+        buttonText="SIGN IN WITH SSO"
         (onSubmit)="onSubmitFailing($event)"></login>
       <h1 class="mb-2 mt-4 border-b-[1px] border-[#eaecef] pb-[0.5em]">
         Login Component without input display
@@ -89,11 +91,11 @@ import * as Prism from 'prismjs';
 
     <div class="border-[rgba(5, 5, 5, 0.1)] my-5 border-[1px] p-10 mx-10">
       <login
-        [inputLabel]="'Team domain*'"
+        inputLabel="Team domain*"
         (onSubmit)="onSubmitFailing($event)"
         [styles]="onsubmitFailStyles"
-        [placeholder]="'contoso@boxyhq.com'"
-        [buttonText]="'SIGN IN WITH SSO'"></login>
+        placeholder="contoso@boxyhq.com"
+        buttonText="SIGN IN WITH SSO"></login>
       <h1 class="mb-2 mt-4 border-b-[1px] border-[#eaecef] pb-[0.5em]">
         Login Component with failing onSubmit
       </h1>
@@ -161,6 +163,12 @@ export class ComponentsComponent {
     },
   };
 
+  handleSSOSubmit = async function ({ ssoIdentifier }: { ssoIdentifier: string }) {
+    console.log(ssoIdentifier);
+    // Initiate SSO flow
+    // In case of error initiating the flow, invoke callback with error object
+  };
+
   onSubmitFailing = async function ({
     ssoIdentifier,
     cb,
@@ -168,9 +176,8 @@ export class ComponentsComponent {
     ssoIdentifier: string;
     cb: (err: { error: { message: string } } | null) => void;
   }) {
-    console.log('SSO flow initiated');
     console.log(ssoIdentifier);
-
+    // some failure in SSO flow
     cb({
       error: {
         message: 'Invalid team domain',
@@ -194,21 +201,21 @@ export class ComponentsComponent {
 
   customStylingCode = `  import { Component } from '@angular/core';
   import { CommonModule } from '@angular/common';
-  import { LoginTrialComponent } from '@boxyhq/angular-ui';
+  import { Login } from '@boxyhq/angular-ui/sso';
     
     @Component({
       selector: "my-component, MyComponent",
       template: '
-      <sso-login
+      <login
         [classNames]="componentClassnames"
         [styles]="componentStyles"
-        [buttonText]="'Login with SSO'"
-        [inputLabel]="'Team Domain*'"
-        [placeholder]="'contoso@boxyhq.com'"
-        (onSubmit)="onSubmitButton($event)"></sso-login>
+        buttonText="Login with SSO"
+        inputLabel="Team Domain*"
+        placeholder="contoso@boxyhq.com"
+        (onSubmit)="onSubmit($event)"></login>
       ',
       standalone: true,
-      imports: [CommonModule, LoginComponent],
+      imports: [CommonModule, Login],
       styleUrls: ['./my-component.component.css'],
     })
     export class MyComponent{
@@ -222,26 +229,26 @@ export class ComponentsComponent {
         input: 'inp'
       };
     
-      async function onSubmitButton() {
+      async function onSubmit() {
         // initiate the SSO flow here
      };
     }`;
 
   defaultStylesCode = `    import { Component } from '@angular/core';
     import { CommonModule } from '@angular/common';
-    import { LoginTrialComponent } from '@boxyhq/angular-ui';
+    import { Login } from '@boxyhq/angular-ui/sso';
         
       @Component({
         selector: "my-component, MyComponent",
         template: '
-        <sso-login
+        <login
           [styles]="componentStyles"
-          [inputLabel]="'Team Domain*'"
-          [placeholder]="'contoso@boxyhq.com'"
-          (onSubmit)="onSubmitButton($event)"></sso-login>
+          inputLabel="Team Domain*"
+          placeholder="contoso@boxyhq.com"
+          (onSubmit)="onSubmit($event)"></login>
         ',
         standalone: true,
-        imports: [CommonModule, LoginComponent],
+        imports: [CommonModule, Login],
         styleUrls: ['./my-component.component.css'],
       })
       export class MyComponent{
@@ -249,52 +256,64 @@ export class ComponentsComponent {
           input: { border: '1px solid darkcyan' },
         }
     
-        async function onSubmitButton() {
+        async function onSubmit() {
           // initiate the SSO flow here
         };
       }`;
 
   loginWithoutInputCode = `    import { Component } from '@angular/core';
     import { CommonModule } from '@angular/common';
-    import { LoginTrialComponent } from '@boxyhq/angular-ui';
+    import { Login } from '@boxyhq/angular-ui/sso';
           
       @Component({
         selector: "my-component, MyComponent",
         template: '
-          <sso-login
-              [buttonText]="'SIGN IN WITH SSO'"
-              [ssoIdentifier]="'some-identifier'"
-              (onSubmit)="onSubmitButton($event)"></sso-login>
+          <login
+              buttonText="SIGN IN WITH SSO"
+              ssoIdentifier="some-identifier"
+              (onSubmit)="onSubmit($event)"></login>
           ',
         standalone: true,
-        imports: [CommonModule, LoginComponent],
+        imports: [CommonModule, Login],
         styleUrls: ['./my-component.component.css'],
       })
       export class MyComponent{
-        async function onSubmitButton() {
+        async function onSubmit() {
           // initiate the SSO flow here
         };
       }`;
 
   failingOnSubmitCode = `    import { Component } from '@angular/core';
     import { CommonModule } from '@angular/common';
-    import { LoginTrialComponent } from '@boxyhq/angular-ui';
+    import { Login } from '@boxyhq/angular-ui/sso';
                 
       @Component({
         selector: "my-component, MyComponent",
         template: '
-            <sso-login
-              [buttonText]="'SIGN IN WITH SSO'"
-              [ssoIdentifier]="'some-identifier'"
-              (onSubmit)="onSubmitFailing($event)"></sso-login>
+            <login
+              buttonText="SIGN IN WITH SSO"
+              ssoIdentifier="some-identifier"
+              (onSubmit)="onSubmitFailing($event)"></login>
             ',
         standalone: true,
-        imports: [CommonModule, LoginComponent],
+        imports: [CommonModule, Login],
         styleUrls: ['./my-component.component.css'],
       })
       export class MyComponent{
-        async function onSubmitButton() {
-          // initiate the SSO flow here
+        onSubmitFailing = async function ({
+          ssoIdentifier,
+          cb,
+        }: {
+          ssoIdentifier: string;
+          cb: (err: { error: { message: string } } | null) => void;
+        }) {
+          console.log(ssoIdentifier);
+          // some failure in SSO flow
+          cb({
+            error: {
+              message: 'Invalid team domain',
+            },
+          });
         };
       }`;
 

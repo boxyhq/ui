@@ -33,29 +33,15 @@ module.exports = {
           json: {
             pre: (json) => {
               if (json.name === 'Login') {
-                // Split code for disableButton logic and replace
-                // value of state isProcessing with null
-                const splitDisableButton = json.state.disableButton.code.split('\n');
-                const elementToBeReplaced = splitDisableButton[1].replace('state.isProcessing', 'null');
-
-                splitDisableButton[1] = elementToBeReplaced;
-
-                const newDisableButtonLogic = splitDisableButton.join('\n');
-                json.state.disableButton.code = newDisableButtonLogic;
-
-                // Remove second argument from the cssClassAssembler function
+                // Replace second argument passed to cssClassAssembler function with literal class name
                 // split code that is present in classes with a new line
                 const splitStateClasses = json.state.classes.code.split('\n');
-                let replacedArray = [];
-
-                // Map over the splitted array and remove the second argument from the cssClassAssembler
-                // push this in a new array named replacedArray
-                splitStateClasses.map((el, i) => {
+                // Map over the splitted array and replace the second argument passed to cssClassAssembler
+                const newClasses = splitStateClasses.map((el) => {
                   // replacedValue = el.replace(/(\w+)\(([^,]+),([^)]+)\)/, '$1($2)');
-                  replacedValue = el.replace(/defaultClasses\.(\w+)/, "'$1'");
-                  replacedArray.push(replacedValue);
+                  return el.replace(/defaultClasses\.(\w+)/, "'$1'");
                 });
-                const newClassesCode = replacedArray.join('\n');
+                const newClassesCode = newClasses.join('\n');
                 json.state.classes.code = newClassesCode;
 
                 // Remove extra import defaultClasses
@@ -69,46 +55,30 @@ module.exports = {
             },
           },
           code: {
-            post: (code) => {
-              // Add a styleUrls that links all default styles for the component
-              // split code with a ',\n' character
-              const splitAngularCode = code.split(',\n');
-              let updatedAngularCode = [];
-
-              // Map through the splitted array and replace any instances of
-              // 'standalone: true' with `standalone: true,\n  styleUrls: ['../../../login.component.css']`
-              splitAngularCode.map((el) => {
-                const replacedCodeSnippet = el.replace(
+            pre: (code) => {
+              let tweakedCode = code;
+              // Add a styleUrls that includes all default styles for the component
+              if (tweakedCode.includes('standalone: true')) {
+                tweakedCode = tweakedCode.replace(
                   'standalone: true',
                   `standalone: true,\n  styleUrls: ['./index.css']`
                 );
-                el = replacedCodeSnippet;
-                updatedAngularCode.push(el);
-              });
-              const updatedCode = updatedAngularCode.join(',\n');
-              // Reassign code with the value of updatedCode
-              code = updatedCode;
-
-              // Map types for the Output event emitter onSubmit
-              // Loop through the splitted array and replace any instances of
-              // 'EventEmitter()' with the appropriate types with reference to the types.ts file
-              let newCode = [];
-              code.split('\n').map((el) => {
-                const replacedCodeSnippet = el.replace(
+              }
+              // Add types for the emitted event object
+              if (tweakedCode.includes('EventEmitter()')) {
+                tweakedCode = tweakedCode.replace(
                   'EventEmitter()',
                   `EventEmitter<{
-    ssoIdentifier: string;
-    cb: (err: { error: { message: string } } | null) => void;
-  }>()`
+                  ssoIdentifier: string;
+                  cb: (err: { error: { message: string } } | null) => void;
+                }>()`
                 );
-                el = replacedCodeSnippet;
-                newCode.push(el);
-              });
-
-              // Reassign code with the value of newCode
-              code = newCode.join('\n');
-
-              return code;
+              }
+              // Ideally the generated code should use [disabled] instead of [attr.disabled], hence the below transformation is needed.
+              if (tweakedCode.includes('[attr.disabled]')) {
+                tweakedCode = tweakedCode.replaceAll('[attr.disabled]', '[disabled]');
+              }
+              return tweakedCode;
             },
           },
         }),

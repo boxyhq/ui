@@ -4,8 +4,12 @@
   "version": "0.0.0",
   "license": "Apache-2.0",
   "peerDependencies": {
-    "@angular/common": "^15.2.9 || ^16.0.0",
-    "@angular/core": "^15.2.9 || ^16.0.0"
+    "@angular/common": "^16.0.0",
+    "@angular/core": "^16.0.0"
+  },
+  "homepage": "https://github.com/boxyhq/ui",
+  "bugs": {
+    "url": "https://github.com/boxyhq/ui/issues?q=is%3Aopen+is%3Aissue+label%3Asdk"
   },
   "dependencies": {
     "tslib": "2.3.0"

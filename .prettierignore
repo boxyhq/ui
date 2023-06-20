@@ -16,3 +16,5 @@ npm/migration/**
 .eslintignore
 
 **/LICENSE
+
+README.md
