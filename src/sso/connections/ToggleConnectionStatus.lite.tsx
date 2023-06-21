@@ -11,21 +11,16 @@ interface Props {
 }
 
 export default function ToggleConnectionStatus(props: Props) {
-  const [connection, setConnection] = useState<SAMLSSORecord | OIDCSSORecord>(() => {
-    const { connection } = props;
-    return connection;
-  });
-
   const state = useStore({
-    active: !connection.deactivated,
-    // Getting translation from the parent
-    get t() {
-      const { t } = props.translation;
-      return t;
+    active: !this._connection.deactivated,
+    get _connection() {
+      return props.connection;
     },
-    get setupLinkToken() {
-      const { setupLinkToken } = props;
-      return setupLinkToken;
+    get t() {
+      return props.translation;
+    },
+    get _setupLinkToken() {
+      return props.setupLinkToken;
     },
 
     // Update connection status on every onChange
@@ -35,22 +30,22 @@ export default function ToggleConnectionStatus(props: Props) {
         state.active = state.active;
 
         const body = {
-          clientID: connection?.clientID,
-          clientSecret: connection?.clientSecret,
-          tenant: connection?.tenant,
-          product: connection?.product,
+          clientID: state._connection?.clientID,
+          clientSecret: state._connection?.clientSecret,
+          tenant: state._connection?.tenant,
+          product: state._connection?.product,
           deactivated: !state.active,
         };
 
-        if ('idpMetadata' in connection) {
+        if ('idpMetadata' in state._connection) {
           body['isSAML'] = true;
         } else {
           body['isOIDC'] = true;
         }
 
         const res = await fetch(
-          state.setupLinkToken
-            ? `/api/setup/${state.setupLinkToken}/sso-connection`
+          state._setupLinkToken
+            ? `/api/setup/${state._setupLinkToken}/sso-connection`
             : '/api/admin/connections',
           {
             method: 'PATCH',
@@ -78,12 +73,12 @@ export default function ToggleConnectionStatus(props: Props) {
   });
 
   onMount(() => {
-    state.active = !connection.deactivated;
+    state.active = !state._connection.deactivated;
   });
 
   onUpdate(() => {
-    state.active = !connection.deactivated;
-  }, [connection]);
+    state.active = !state._connection.deactivated;
+  }, [state._connection]);
 
   return (
     <>
