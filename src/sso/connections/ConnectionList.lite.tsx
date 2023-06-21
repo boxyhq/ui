@@ -47,8 +47,7 @@ export default function ConnectionList({
         : '/admin/sso-connection/new';
     },
     get t() {
-      const { t } = translation;
-      return t;
+      return translation;
     },
     connectionDisplayName: (connection: SAMLSSORecord | OIDCSSORecord) => {
       if (connection.name) {
