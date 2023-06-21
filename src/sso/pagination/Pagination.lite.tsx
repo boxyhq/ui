@@ -22,8 +22,7 @@ export default function Pagination({
 }: PaginationProps) {
   const state = useStore({
     get t() {
-      const { t } = translation('common');
-      return t;
+      return translation;
     },
     prevDisabled: offset === 0,
     nextDisabled: itemsCount < pageLimit || itemsCount === 0,
@@ -38,14 +37,14 @@ export default function Pagination({
             <ButtonOutline
               Icon={ArrowLeftIcon}
               aria-label={state.t('previous')}
-              onClick={onPrevClick}
+              onClick={() => onPrevClick}
               disabled={state.prevDisabled}>
               {state.t('prev')}
             </ButtonOutline>
             <ButtonOutline
               Icon={ArrowRightIcon}
               aria-label={state.t('previous')}
-              onClick={onNextClick}
+              onClick={() => onNextClick}
               disabled={state.nextDisabled}>
               {state.t('next')}
             </ButtonOutline>
