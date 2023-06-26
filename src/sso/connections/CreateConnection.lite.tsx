@@ -75,14 +75,12 @@ export default function CreateConnection({
           </div>
         </div>
         <form>
-          <div className='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
-            <Show when={state.connectionIsSAML}>
-              <CreateSAMLConnection></CreateSAMLConnection>
-            </Show>
-            <Show when={state.connectionIsOIDC}>
-              <CreateOIDCConnection></CreateOIDCConnection>
-            </Show>
-          </div>
+          <Show when={state.connectionIsSAML}>
+            <CreateSAMLConnection></CreateSAMLConnection>
+          </Show>
+          <Show when={state.connectionIsOIDC}>
+            <CreateOIDCConnection></CreateOIDCConnection>
+          </Show>
         </form>
       </div>
     </>
