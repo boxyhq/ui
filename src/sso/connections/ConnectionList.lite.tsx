@@ -13,7 +13,7 @@ import Loading from '@components/Loading';
 import { errorToast } from '@components/Toaster';
 import type { ApiError, ApiSuccess } from 'types';
 import Badge from '@components/Badge';
-import { useStore, Show } from '@builder.io/mitosis';
+import { useStore, Show, onMount, onUpdate } from '@builder.io/mitosis';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -24,11 +24,13 @@ export default function ConnectionList({
   idpEntityID,
   isSettingsView,
   translation,
+  router,
 }: {
   setupLinkToken?: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
   translation: any;
+  router: any;
 }) {
   const state = useStore({
     displayTenantProduct: setupLinkToken ? false : true,
@@ -49,6 +51,12 @@ export default function ConnectionList({
     get t() {
       return translation;
     },
+    paginate: { offset: this.offset },
+    // store that maps the pageToken for the next page with the current offset
+    pageTokenMap: {},
+    get offset() {
+      return router.query.offset ? Number(router.query.offset) : 0;
+    },
     connectionDisplayName: (connection: SAMLSSORecord | OIDCSSORecord) => {
       if (connection.name) {
         return connection.name;
@@ -64,6 +72,7 @@ export default function ConnectionList({
 
       return 'Unknown';
     },
+    usePaginate: (router: any) => {},
   });
 
   return (
