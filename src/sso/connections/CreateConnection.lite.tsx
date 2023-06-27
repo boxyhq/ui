@@ -9,11 +9,13 @@ export default function CreateConnection({
   idpEntityID,
   t,
   backUrl,
+  cb,
 }: {
   setupLinkToken?: string;
   idpEntityID?: string;
   t: any;
   backUrl: string;
+  cb: any;
 }) {
   const state = useStore({
     loading: false,
@@ -74,14 +76,18 @@ export default function CreateConnection({
             </div>
           </div>
         </div>
-        <form>
-          <Show when={state.connectionIsSAML}>
-            <CreateSAMLConnection></CreateSAMLConnection>
-          </Show>
-          <Show when={state.connectionIsOIDC}>
-            <CreateOIDCConnection></CreateOIDCConnection>
-          </Show>
-        </form>
+        <Show when={state.connectionIsSAML}>
+          <CreateSAMLConnection
+            loading={state.loading}
+            setupLinkToken={setupLinkToken}
+            t={t}
+            connectionIsOIDC={state.connectionIsOIDC}
+            connectionIsSAML={state.connectionIsSAML}
+            cb={cb}></CreateSAMLConnection>
+        </Show>
+        <Show when={state.connectionIsOIDC}>
+          <CreateOIDCConnection></CreateOIDCConnection>
+        </Show>
       </div>
     </>
   );
