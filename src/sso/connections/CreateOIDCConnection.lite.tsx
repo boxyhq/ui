@@ -2,7 +2,7 @@ import { useStore } from '@builder.io/mitosis';
 
 export default function CreateOIDCConnection() {
   return (
-    <>
+    <form>
       <div className='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
         <label for='name'>Name</label>
         <input name='name' required={false} type='text' placeholder='MyApp' />
@@ -33,6 +33,6 @@ export default function CreateOIDCConnection() {
         <label for='defaultRedirectUrl'>Default redirect URL</label>
         <input name='defaultRedirectUrl' type='url' placeholder='http://localhost:3366/login/saml' />
       </div>
-    </>
+    </form>
   );
 }

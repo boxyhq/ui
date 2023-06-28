@@ -81,10 +81,10 @@ export default function ToggleConnectionStatus(props: Props) {
   }, [state._connection]);
 
   return (
-    <>
+    <div>
       <ConnectionToggle
         connection={{ active: state.active, type: 'sso' }}
         onChange={(event: Event) => state.updateConnectionStatus(event)}></ConnectionToggle>
-    </>
+    </div>
   );
 }

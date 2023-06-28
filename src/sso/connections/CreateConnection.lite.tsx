@@ -32,7 +32,7 @@ export default function CreateConnection({
   });
 
   return (
-    <>
+    <div>
       <LinkBack href={backUrl} />
       <Show when={idpEntityID && setupLinkToken}>
         <div className='mb-5 mt-5 items-center justify-between'>
@@ -89,6 +89,6 @@ export default function CreateConnection({
           <CreateOIDCConnection></CreateOIDCConnection>
         </Show>
       </div>
-    </>
+    </div>
   );
 }
