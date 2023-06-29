@@ -20,34 +20,34 @@ export default function CreateSAMLConnection({
   connectionIsOIDC: boolean;
 }) {
   const state = useStore({
-    name: '',
-    description: '',
-    tenant: '',
-    product: '',
-    redirectUrl: '',
-    defaultRedirectUrl: '',
-    rawMetadata: '',
-    metadataUrl: '',
-    forceAuthn: false,
+    _name: '',
+    _description: '',
+    _tenant: '',
+    _product: '',
+    _redirectUrl: '',
+    _defaultRedirectUrl: '',
+    _rawMetadata: '',
+    _metadataUrl: '',
+    _forceAuthn: false,
     handleChange(storeVariable: string, newValue: any) {
       if (storeVariable === 'name') {
-        state.name = newValue;
+        state._name = newValue;
       } else if (storeVariable === 'description') {
-        state.description = newValue;
+        state._description = newValue;
       } else if (storeVariable === 'tenant') {
-        state.tenant = newValue;
+        state._tenant = newValue;
       } else if (storeVariable === 'product') {
-        state.product = newValue;
+        state._product = newValue;
       } else if (storeVariable === 'redirectUrl') {
-        state.redirectUrl = newValue;
+        state._redirectUrl = newValue;
       } else if (storeVariable === 'defaultRedirectUrl') {
-        state.defaultRedirectUrl = newValue;
+        state._defaultRedirectUrl = newValue;
       } else if (storeVariable === 'rawMetadata') {
-        state.rawMetadata = newValue;
+        state._rawMetadata = newValue;
       } else if (storeVariable === 'metadataUrl') {
-        state.metadataUrl = newValue;
+        state._metadataUrl = newValue;
       } else if (storeVariable === 'forceAuthn') {
-        state.forceAuthn = newValue;
+        state._forceAuthn = newValue;
       }
     },
     save(event: Event) {
@@ -58,15 +58,15 @@ export default function CreateSAMLConnection({
 
         await saveConnection({
           formObj: {
-            name: state.name,
-            description: state.description,
-            tenant: state.tenant,
-            product: state.product,
-            redirectUrl: state.redirectUrl,
-            defaultRedirectUrl: state.defaultRedirectUrl,
-            rawMetadata: state.rawMetadata,
-            metadataUrl: state.metadataUrl,
-            forceAuthn: state.forceAuthn,
+            name: state._name,
+            description: state._description,
+            tenant: state._tenant,
+            product: state._product,
+            redirectUrl: state._redirectUrl,
+            defaultRedirectUrl: state._defaultRedirectUrl,
+            rawMetadata: state._rawMetadata,
+            metadataUrl: state._metadataUrl,
+            forceAuthn: state._forceAuthn,
           },
           connectionIsSAML: connectionIsSAML,
           connectionIsOIDC: connectionIsOIDC,
@@ -100,7 +100,7 @@ export default function CreateSAMLConnection({
         <input
           name='name'
           onChange={(event) => state.handleChange('name', event.target.value)}
-          value={state.name}
+          value={state._name}
           required={false}
           type='text'
           placeholder='MyApp'
@@ -111,7 +111,7 @@ export default function CreateSAMLConnection({
         <input
           name='description'
           onChange={(event) => state.handleChange('description', event.target.value)}
-          value={state.description}
+          value={state._description}
           required={false}
           maxLength={100}
           type='text'
@@ -123,7 +123,7 @@ export default function CreateSAMLConnection({
         <input
           name='tenant'
           onChange={(event) => state.handleChange('tenant', event.target.value)}
-          value={state.tenant}
+          value={state._tenant}
           type='text'
           placeholder='acme.com'
         />
@@ -133,7 +133,7 @@ export default function CreateSAMLConnection({
         <input
           name='product'
           onChange={(event) => state.handleChange('product', event.target.value)}
-          value={state.product}
+          value={state._product}
           type='text'
           placeholder='demo'
         />
@@ -143,7 +143,7 @@ export default function CreateSAMLConnection({
         <input
           name='redirectUrl'
           onChange={(event) => state.handleChange('redirectUrl', event.target.value)}
-          value={state.redirectUrl}
+          value={state._redirectUrl}
           type='textarea'
           placeholder='http://localhost:3366'
         />
@@ -153,7 +153,7 @@ export default function CreateSAMLConnection({
         <input
           name='defaultRedirectUrl'
           onChange={(event) => state.handleChange('defaultRedirectUrl', event.target.value)}
-          value={state.defaultRedirectUrl}
+          value={state._defaultRedirectUrl}
           type='url'
           placeholder='http://localhost:3366/login/saml'
         />
@@ -162,7 +162,7 @@ export default function CreateSAMLConnection({
         <label for='rawMetadata'>Raw IdP XML</label>
         <input
           name='rawMetadata'
-          value={state.rawMetadata}
+          value={state._rawMetadata}
           onChange={(event) => state.handleChange('rawMetadata', event.target.value)}
           required={false}
           type='textarea'
@@ -173,7 +173,7 @@ export default function CreateSAMLConnection({
         <label for='metadataUrl'>Metadata URL</label>
         <input
           name='metadataUrl'
-          value={state.metadataUrl}
+          value={state._metadataUrl}
           onChange={(event) => state.handleChange('metadataUrl', event.target.value)}
           required={false}
           type='url'
@@ -185,7 +185,7 @@ export default function CreateSAMLConnection({
         <input
           name='forceAuthn'
           onChange={(event) => state.handleChange('forceAuthn', event.target.value)}
-          checked={state.forceAuthn}
+          checked={state._forceAuthn}
           required={false}
           type='checkbox'
         />
