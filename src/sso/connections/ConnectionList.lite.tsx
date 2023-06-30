@@ -1,18 +1,10 @@
-import LinkIcon from '@heroicons/react/24/outline/LinkIcon';
-import PencilIcon from '@heroicons/react/24/outline/PencilIcon';
-import PlusIcon from '@heroicons/react/24/outline/PlusIcon';
-import EmptyState from '@components/EmptyState';
+import LinkIcon from '../../shared/LinkIcon.lite';
+import PencilIcon from '../../shared/PencilIcon.lite';
+import PlusIcon from '../../shared/PlusIcon.lite';
 import { LinkPrimary } from '@components/LinkPrimary';
-import { IconButton } from '@components/IconButton';
 import { InputWithCopyButton } from '@components/ClipboardButton';
 import { Pagination, pageLimit, NoMoreResults } from '@components/Pagination';
-import usePaginate from '@lib/ui/hooks/usePaginate';
 import type { OIDCSSORecord, SAMLSSORecord } from '@boxyhq/saml-jackson';
-import { fetcher } from '@lib/ui/utils';
-import Loading from '@components/Loading';
-import { errorToast } from '@components/Toaster';
-import type { ApiError, ApiSuccess } from 'types';
-import Badge from '@components/Badge';
 import { useStore, Show, onMount, onUpdate } from '@builder.io/mitosis';
 
 const DEFAULT_VALUES = {
