@@ -86,7 +86,13 @@ export default function CreateConnection({
             cb={cb}></CreateSAMLConnection>
         </Show>
         <Show when={state.connectionIsOIDC}>
-          <CreateOIDCConnection></CreateOIDCConnection>
+          <CreateOIDCConnection
+            loading={state.loading}
+            setupLinkToken={setupLinkToken}
+            t={t}
+            connectionIsOIDC={state.connectionIsOIDC}
+            connectionIsSAML={state.connectionIsSAML}
+            cb={cb}></CreateOIDCConnection>
         </Show>
       </div>
     </div>
