@@ -1,7 +1,7 @@
 import { useStore } from '@builder.io/mitosis';
 import { CreateConnectionProps } from './types';
 import { ApiResponse } from './types';
-import { saveConnection } from './utils';
+import { saveConnection } from './utils.lite';
 import { errorToast } from '@components/Toaster';
 import { ButtonPrimary } from '@components/ButtonPrimary';
 
