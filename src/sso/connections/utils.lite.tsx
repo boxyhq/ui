@@ -27,7 +27,7 @@ export const saveConnection = async ({
   } = formObj;
 
   const encodedRawMetadata = btoa((rawMetadata as string) || '');
-  const redirectUrlList = (redirectUrl as string)?.split(/\r\n|\r|\n/);
+  const redirectUrlList = redirectUrl as string;
 
   const res = await fetch(
     setupLinkToken ? `/api/setup/${setupLinkToken}/sso-connection` : '/api/admin/connections',
