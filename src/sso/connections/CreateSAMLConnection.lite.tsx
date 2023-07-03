@@ -1,24 +1,11 @@
 import { useStore } from '@builder.io/mitosis';
+import { CreateConnectionProps } from './types';
+import { ApiResponse } from './types';
 import { saveConnection } from './utils';
-import { ApiResponse } from 'types';
 import { errorToast } from '@components/Toaster';
 import { ButtonPrimary } from '@components/ButtonPrimary';
 
-export default function CreateSAMLConnection({
-  loading,
-  cb,
-  t,
-  setupLinkToken,
-  connectionIsSAML,
-  connectionIsOIDC,
-}: {
-  loading: boolean;
-  cb: any;
-  t: any;
-  setupLinkToken?: string;
-  connectionIsSAML: boolean;
-  connectionIsOIDC: boolean;
-}) {
+export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
     _name: '',
     _description: '',
@@ -54,7 +41,7 @@ export default function CreateSAMLConnection({
       void (async function (e) {
         e.preventDefault();
 
-        loading = true;
+        props.loading = true;
 
         await saveConnection({
           formObj: {
@@ -68,11 +55,11 @@ export default function CreateSAMLConnection({
             metadataUrl: state._metadataUrl,
             forceAuthn: state._forceAuthn,
           },
-          connectionIsSAML: connectionIsSAML,
-          connectionIsOIDC: connectionIsOIDC,
-          setupLinkToken,
+          connectionIsSAML: props.connectionIsSAML,
+          connectionIsOIDC: props.connectionIsOIDC,
+          setupLinkToken: props.setupLinkToken,
           callback: async (rawResponse: any) => {
-            loading = false;
+            props.loading = false;
 
             const response: ApiResponse = await rawResponse.json();
 
@@ -192,8 +179,8 @@ export default function CreateSAMLConnection({
       </div>
       <div className='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
         <div className='flex'>
-          <ButtonPrimary loading={loading} data-testid='submit-form-create-sso'>
-            {t('save_changes')}
+          <ButtonPrimary loading={props.loading} data-testid='submit-form-create-sso'>
+            {props.t('save_changes')}
           </ButtonPrimary>
         </div>
       </div>

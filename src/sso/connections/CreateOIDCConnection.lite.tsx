@@ -1,24 +1,11 @@
 import { useStore, Show } from '@builder.io/mitosis';
+import { CreateConnectionProps } from './types';
+import { ApiResponse } from './types';
 import { saveConnection } from './utils';
-import { ApiResponse } from 'types';
 import { errorToast } from '@components/Toaster';
 import { ButtonPrimary } from '@components/ButtonPrimary';
 
-export default function CreateOIDCConnection({
-  loading,
-  cb,
-  t,
-  setupLinkToken,
-  connectionIsSAML,
-  connectionIsOIDC,
-}: {
-  loading: boolean;
-  cb: any;
-  t: any;
-  setupLinkToken?: string;
-  connectionIsSAML: boolean;
-  connectionIsOIDC: boolean;
-}) {
+export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
     fieldValue: true,
     _name: '',
@@ -73,7 +60,7 @@ export default function CreateOIDCConnection({
       void (async function (e) {
         e.preventDefault();
 
-        loading = true;
+        props.loading = true;
 
         await saveConnection({
           formObj: {
@@ -86,11 +73,11 @@ export default function CreateOIDCConnection({
             oidcClientId: state._oidcClientId,
             oidcClientSecret: state._oidcClientSecret,
           },
-          connectionIsSAML: connectionIsSAML,
-          connectionIsOIDC: connectionIsOIDC,
-          setupLinkToken,
+          connectionIsSAML: props.connectionIsSAML,
+          connectionIsOIDC: props.connectionIsOIDC,
+          setupLinkToken: props.setupLinkToken,
           callback: async (rawResponse: any) => {
-            loading = false;
+            props.loading = false;
 
             const response: ApiResponse = await rawResponse.json();
 
@@ -268,8 +255,8 @@ export default function CreateOIDCConnection({
       </Show>
       <div className='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
         <div className='flex'>
-          <ButtonPrimary loading={loading} data-testid='submit-form-create-sso'>
-            {t('save_changes')}
+          <ButtonPrimary loading={props.loading} data-testid='submit-form-create-sso'>
+            {props.t('save_changes')}
           </ButtonPrimary>
         </div>
       </div>
