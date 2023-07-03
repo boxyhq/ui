@@ -1,11 +1,9 @@
 import LinkIcon from '../../shared/LinkIcon.lite';
-import PencilIcon from '../../shared/PencilIcon.lite';
 import PlusIcon from '../../shared/PlusIcon.lite';
 import { LinkPrimary } from '@components/LinkPrimary';
 import { InputWithCopyButton } from '@components/ClipboardButton';
-import { Pagination, pageLimit, NoMoreResults } from '@components/Pagination';
 import type { OIDCSSORecord, SAMLSSORecord } from '@boxyhq/saml-jackson';
-import { useStore, Show, onMount, onUpdate } from '@builder.io/mitosis';
+import { useStore, Show } from '@builder.io/mitosis';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -13,12 +11,14 @@ const DEFAULT_VALUES = {
 
 export default function ConnectionList({
   setupLinkToken,
+  createConnectionUrl,
   idpEntityID,
   isSettingsView,
   translation,
   router,
 }: {
   setupLinkToken?: string;
+  createConnectionUrl: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
   translation: any;
@@ -26,23 +26,7 @@ export default function ConnectionList({
 }) {
   const state = useStore({
     displayTenantProduct: setupLinkToken ? false : true,
-    get getConnectionsUrl() {
-      return setupLinkToken
-        ? `/api/setup/${setupLinkToken}/sso-connection`
-        : isSettingsView
-        ? `/api/admin/connections?isSystemSSO`
-        : `/api/admin/connections?pageOffset=${paginate.offset}&pageLimit=${pageLimit}`;
-    },
-    get createConnectionUrl() {
-      return setupLinkToken
-        ? `/setup/${setupLinkToken}/sso-connection/new`
-        : isSettingsView
-        ? `/admin/settings/sso-connection/new`
-        : '/admin/sso-connection/new';
-    },
-    get t() {
-      return translation;
-    },
+    // Translation is already being passed as prop
     paginate: { offset: this.offset },
     // store that maps the pageToken for the next page with the current offset
     pageTokenMap: {},
@@ -71,18 +55,18 @@ export default function ConnectionList({
     <div>
       <div className='mb-5 flex items-center justify-between'>
         <h2 className='font-bold text-gray-700 dark:text-white md:text-xl'>
-          {state.t(isSettingsView ? 'admin_portal_sso' : 'enterprise_sso')}
+          {translation(isSettingsView ? 'admin_portal_sso' : 'enterprise_sso')}
         </h2>
         <div className='flex gap-2'>
-          <LinkPrimary Icon={PlusIcon} href={state.createConnectionUrl} data-testid='create-connection'>
-            {state.t('new_connection')}
+          <LinkPrimary Icon={PlusIcon} href={createConnectionUrl} data-testid='create-connection'>
+            {translation('new_connection')}
           </LinkPrimary>
           <Show when={!setupLinkToken && !isSettingsView}>
             <LinkPrimary
               Icon={LinkIcon}
               href='/admin/sso-connection/setup-link/new'
               data-testid='create-setup-link'>
-              {state.t('new_setup_link')}
+              {translation('new_setup_link')}
             </LinkPrimary>
           </Show>
         </div>
@@ -90,7 +74,7 @@ export default function ConnectionList({
       <Show when={idpEntityID && setupLinkToken}>
         <div className='mb-5 mt-5 items-center justify-between'>
           <div className='form-control'>
-            <InputWithCopyButton text={idpEntityID} label={state.t('idp_entity_id')} />
+            <InputWithCopyButton text={idpEntityID} label={translation('idp_entity_id')} />
           </div>
         </div>
       </Show>
