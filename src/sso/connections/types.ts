@@ -23,3 +23,7 @@ export interface ApiError extends Error {
 }
 
 export type ApiResponse<T = any> = ApiSuccess<T> | { error: ApiError };
+
+type FormObjValues = string | boolean | string[];
+
+export type FormObj = Record<string, FormObjValues | Record<string, FormObjValues>>;
