@@ -8,35 +8,35 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "daily"
   - package-ecosystem: "npm"
     directory: "/react"
     schedule:
-      interval: "monthly"
+      interval: "daily"
   - package-ecosystem: "npm"
     directory: "/vue"
     schedule:
-      interval: "monthly"
+      interval: "daily"
   - package-ecosystem: "npm"
     directory: "/vue2"
     schedule:
-      interval: "monthly"
+      interval: "daily"
   - package-ecosystem: "npm"
     directory: "/vue2/docs" # vue2 docs app
     ignore:
       - dependency-name: "vue"
         update-types: ["version-update:semver-major"]
     schedule:
-      interval: "monthly"      
+      interval: "daily"      
   - package-ecosystem: "npm"
     directory: "/svelte"
     schedule:
-      interval: "monthly"
+      interval: "daily"
   - package-ecosystem: "npm"
     directory: "/angular"
     schedule:
-      interval: "monthly"
+      interval: "daily"
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: 'monthly'      
+      interval: 'daily'      
