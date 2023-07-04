@@ -2,8 +2,7 @@ import { useStore, Show } from '@builder.io/mitosis';
 import { CreateConnectionProps } from './types';
 import { ApiResponse } from './types';
 import { saveConnection } from './utils.lite';
-import { errorToast } from '@components/Toaster';
-import { ButtonPrimary } from '@components/ButtonPrimary';
+import { ButtonPrimary } from '../../shared/ButtonPrimary.lite';
 
 export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
@@ -82,7 +81,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             const response: ApiResponse = await rawResponse.json();
 
             if ('error' in response) {
-              errorToast(response.error.message);
+              props.errorToastCallback(response.error.message);
               return;
             }
 
@@ -255,9 +254,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       </Show>
       <div className='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
         <div className='flex'>
-          <ButtonPrimary loading={props.loading} data-testid='submit-form-create-sso'>
-            {props.t('save_changes')}
-          </ButtonPrimary>
+          <ButtonPrimary data-testid='submit-form-create-sso'>{props.t('save_changes')}</ButtonPrimary>
         </div>
       </div>
     </form>

@@ -2,8 +2,7 @@ import { useStore } from '@builder.io/mitosis';
 import { CreateConnectionProps } from './types';
 import { ApiResponse } from './types';
 import { saveConnection } from './utils.lite';
-import { errorToast } from '@components/Toaster';
-import { ButtonPrimary } from '@components/ButtonPrimary';
+import { ButtonPrimary } from '../../shared/ButtonPrimary.lite';
 
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
@@ -64,7 +63,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             const response: ApiResponse = await rawResponse.json();
 
             if ('error' in response) {
-              errorToast(response.error.message);
+              props.errorToastCallback(response.error.message);
               return;
             }
 
