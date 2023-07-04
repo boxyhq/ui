@@ -8,11 +8,11 @@ export interface ButtonBaseProps extends ButtonProps {
   color?: string;
 }
 
-export const ButtonBase = ({ Icon, children, color }: ButtonBaseProps) => {
+export default function ButtonBase({ Icon, children, color }: ButtonBaseProps) {
   return (
     <Button>
       {Icon && <Icon className={classNames('h-4 w-4', children ? 'mr-1' : '')} aria-hidden />}
       {children}
     </Button>
   );
-};
+}

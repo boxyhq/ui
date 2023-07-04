@@ -1,5 +1,5 @@
-import { ButtonBase, type ButtonBaseProps } from './ButtonBase';
+import { ButtonBase, type ButtonBaseProps } from './ButtonBase.lite';
 
-export const ButtonPrimary = ({ children }: ButtonBaseProps) => {
+export default function ButtonPrimary({ children }: ButtonBaseProps) {
   return <ButtonBase color='primary'>{children}</ButtonBase>;
-};
+}
