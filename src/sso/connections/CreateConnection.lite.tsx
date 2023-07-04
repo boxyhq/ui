@@ -1,5 +1,5 @@
 import { useStore, Show, Slot } from '@builder.io/mitosis';
-import { InputWithCopyButton } from '@components/ClipboardButton';
+import InputWithCopyButton from '../../shared/ClipboardButton.lite';
 import CreateOIDCConnection from './CreateOIDCConnection.lite';
 import CreateSAMLConnection from './CreateSAMLConnection.lite';
 
@@ -7,16 +7,16 @@ export default function CreateConnection({
   setupLinkToken,
   idpEntityID,
   t,
-  backUrl,
   cb,
   slotLinkBack,
+  errorToastCallback,
 }: {
   setupLinkToken?: string;
   idpEntityID?: string;
   t: any;
-  backUrl: string;
   cb: any;
   slotLinkBack: any;
+  errorToastCallback: () => void;
 }) {
   const state = useStore({
     loading: false,
@@ -79,6 +79,7 @@ export default function CreateConnection({
         </div>
         <Show when={state.connectionIsSAML}>
           <CreateSAMLConnection
+            errorToastCallback={errorToastCallback}
             loading={state.loading}
             setupLinkToken={setupLinkToken}
             t={t}
@@ -88,6 +89,7 @@ export default function CreateConnection({
         </Show>
         <Show when={state.connectionIsOIDC}>
           <CreateOIDCConnection
+            errorToastCallback={errorToastCallback}
             loading={state.loading}
             setupLinkToken={setupLinkToken}
             t={t}
