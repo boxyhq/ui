@@ -2,7 +2,7 @@ import { useStore } from '@builder.io/mitosis';
 import { CreateConnectionProps } from './types';
 import { ApiResponse } from './types';
 import { saveConnection } from './utils.lite';
-import { ButtonPrimary } from '../../shared/ButtonPrimary.lite';
+import ButtonPrimary from '../../shared/ButtonPrimary.lite';
 
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
