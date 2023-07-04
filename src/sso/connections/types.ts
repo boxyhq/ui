@@ -13,6 +13,7 @@ export interface CreateConnectionProps {
   setupLinkToken?: string;
   connectionIsSAML: boolean;
   connectionIsOIDC: boolean;
+  errorToastCallback: (errMessage: string) => void;
 }
 
 export type ApiSuccess<T> = { data: T; pageToken?: string };
@@ -106,3 +107,15 @@ export interface OIDCSSORecord extends SSOConnection {
   };
   deactivated?: boolean;
 }
+
+declare namespace classNames {
+  type Value = string | number | boolean | undefined | null;
+  type Mapping = Record<string, unknown>;
+  interface ArgumentArray extends Array<Argument> {}
+  type Argument = Value | Mapping | ArgumentArray;
+}
+
+/**
+ * A simple JavaScript utility for conditionally joining classNames together.
+ */
+export declare function classNames(...args: classNames.ArgumentArray): string;
