@@ -1,8 +1,7 @@
-import type { OIDCSSORecord, SAMLSSORecord } from '@boxyhq/saml-jackson';
 import { errorToast, successToast } from '@components/Toaster';
-import type { ApiResponse } from 'types';
+import { ApiResponse, OIDCSSORecord, SAMLSSORecord } from './types';
 import { ConnectionToggle } from '@components/ConnectionToggle';
-import { useStore, onMount, onUpdate, useState } from '@builder.io/mitosis';
+import { useStore, onMount, onUpdate } from '@builder.io/mitosis';
 
 interface Props {
   connection: SAMLSSORecord | OIDCSSORecord;
