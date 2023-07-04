@@ -1,5 +1,4 @@
-import { useStore, Show } from '@builder.io/mitosis';
-import { LinkBack } from '@components/LinkBack';
+import { useStore, Show, Slot } from '@builder.io/mitosis';
 import { InputWithCopyButton } from '@components/ClipboardButton';
 import CreateOIDCConnection from './CreateOIDCConnection.lite';
 import CreateSAMLConnection from './CreateSAMLConnection.lite';
@@ -10,12 +9,14 @@ export default function CreateConnection({
   t,
   backUrl,
   cb,
+  slotLinkBack,
 }: {
   setupLinkToken?: string;
   idpEntityID?: string;
   t: any;
   backUrl: string;
   cb: any;
+  slotLinkBack: any;
 }) {
   const state = useStore({
     loading: false,
@@ -33,7 +34,7 @@ export default function CreateConnection({
 
   return (
     <div>
-      <LinkBack href={backUrl} />
+      <Slot name={slotLinkBack}></Slot>
       <Show when={idpEntityID && setupLinkToken}>
         <div className='mb-5 mt-5 items-center justify-between'>
           <div className='form-control'>
