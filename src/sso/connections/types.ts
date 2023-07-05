@@ -4,6 +4,7 @@ export interface ConnectionListProps {
   idpEntityID?: string;
   isSettingsView?: boolean;
   translation: any;
+  slotLinkPrimary: string;
 }
 
 export interface CreateConnectionProps {
