@@ -25,7 +25,12 @@ export default function ConnectionList(props: ConnectionListProps) {
       <Show when={props.idpEntityID && props.setupLinkToken}>
         <div className='mb-5 mt-5 items-center justify-between'>
           <div className='form-control'>
-            <InputWithCopyButton text={props.idpEntityID} label={props.translation('idp_entity_id')} />
+            <InputWithCopyButton
+              text={props.idpEntityID}
+              label={props.translation('idp_entity_id')}
+              translation={props.translation}
+              toastSucessCallback={props.toastSuccessCallback}
+            />
           </div>
         </div>
       </Show>
