@@ -1,8 +1,5 @@
-import LinkIcon from '../../shared/LinkIcon.lite';
-import PlusIcon from '../../shared/PlusIcon.lite';
-import { LinkPrimary } from '@components/LinkPrimary';
-import { InputWithCopyButton } from '@components/ClipboardButton';
-import { Show } from '@builder.io/mitosis';
+import InputWithCopyButton from '../../shared/ClipboardButton.lite';
+import { Show, Slot } from '@builder.io/mitosis';
 import { ConnectionListProps } from './types';
 
 const DEFAULT_VALUES = {
@@ -19,16 +16,9 @@ export default function ConnectionList(props: ConnectionListProps) {
           )}
         </h2>
         <div className='flex gap-2'>
-          <LinkPrimary Icon={PlusIcon} href={props.createConnectionUrl} data-testid='create-connection'>
-            {props.translation('new_connection')}
-          </LinkPrimary>
+          <Slot name={props.slotLinkPrimary}></Slot>
           <Show when={!props.setupLinkToken && !(props.isSettingsView || DEFAULT_VALUES.isSettingsView)}>
-            <LinkPrimary
-              Icon={LinkIcon}
-              href='/admin/sso-connection/setup-link/new'
-              data-testid='create-setup-link'>
-              {props.translation('new_setup_link')}
-            </LinkPrimary>
+            <Slot name={props.slotLinkPrimary}></Slot>
           </Show>
         </div>
       </div>
