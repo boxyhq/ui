@@ -1,4 +1,3 @@
-import { errorToast, successToast } from '@components/Toaster';
 import { ToggleConnectionStatusProps, ApiResponse } from './types';
 import { ConnectionToggle } from '@components/ConnectionToggle';
 import { useStore, onMount, onUpdate } from '@builder.io/mitosis';
@@ -52,14 +51,14 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
         const response: ApiResponse = await res.json();
 
         if ('error' in response) {
-          errorToast(response.error.message);
+          props.errorToastCallback(response.error.message);
           return;
         }
 
         if (body.deactivated) {
-          successToast(state.t('connection_deactivated'));
+          props.successToastCallback(state.t('connection_deactivated'));
         } else {
-          successToast(state.t('connection_activated'));
+          props.successToastCallback(state.t('connection_activatedd'));
         }
       })(event);
     },
