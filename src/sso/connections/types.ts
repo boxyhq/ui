@@ -5,6 +5,7 @@ export interface ConnectionListProps {
   isSettingsView?: boolean;
   translation: any;
   slotLinkPrimary: any;
+  toastSuccessCallback: () => void;
 }
 
 export interface CreateConnectionProps {
@@ -24,7 +25,7 @@ export interface CreateConnectionParentProps {
   cb: () => void;
   slotLinkBack: any;
   errorToastCallback: () => void;
-  errorSuccessCallback: () => void;
+  successToastCallback: () => void;
 }
 
 export interface ToggleConnectionStatusProps {
