@@ -17,6 +17,22 @@ export interface CreateConnectionProps {
   errorToastCallback: (errMessage: string) => void;
 }
 
+export interface CreateConnectionParentProps {
+  setupLinkToken?: string;
+  idpEntityID?: string;
+  t: any;
+  cb: () => void;
+  slotLinkBack: any;
+  errorToastCallback: () => void;
+  errorSuccessCallback: () => void;
+}
+
+export interface ToggleConnectionStatusProps {
+  connection: SAMLSSORecord | OIDCSSORecord;
+  setupLinkToken?: string;
+  translation: any;
+}
+
 export type ApiSuccess<T> = { data: T; pageToken?: string };
 
 export interface ApiError extends Error {
