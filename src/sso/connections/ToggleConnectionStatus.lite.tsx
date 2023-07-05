@@ -1,15 +1,9 @@
 import { errorToast, successToast } from '@components/Toaster';
-import { ApiResponse, OIDCSSORecord, SAMLSSORecord } from './types';
+import { ToggleConnectionStatusProps, ApiResponse } from './types';
 import { ConnectionToggle } from '@components/ConnectionToggle';
 import { useStore, onMount, onUpdate } from '@builder.io/mitosis';
 
-interface Props {
-  connection: SAMLSSORecord | OIDCSSORecord;
-  setupLinkToken?: string;
-  translation: any;
-}
-
-export default function ToggleConnectionStatus(props: Props) {
+export default function ToggleConnectionStatus(props: ToggleConnectionStatusProps) {
   const state = useStore({
     active: !this._connection.deactivated,
     get _connection() {
