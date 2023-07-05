@@ -31,6 +31,8 @@ export interface ToggleConnectionStatusProps {
   connection: SAMLSSORecord | OIDCSSORecord;
   setupLinkToken?: string;
   translation: any;
+  errorToastCallback: (errMessage: string) => void;
+  successToastCallback: (successMessage: string) => void;
 }
 
 export type ApiSuccess<T> = { data: T; pageToken?: string };
