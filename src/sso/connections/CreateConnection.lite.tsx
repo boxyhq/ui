@@ -29,7 +29,7 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
               text={props.idpEntityID}
               label={props.t('idp_entity_id')}
               translation={props.t}
-              toastSucessCallback={props.errorSuccessCallback}
+              toastSucessCallback={props.successToastCallback}
             />
           </div>
         </div>
