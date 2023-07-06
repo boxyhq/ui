@@ -1,18 +1,17 @@
-import { classNames } from '../sso/connections/types';
-import { Button, type ButtonProps } from 'daisyui';
-
-export interface ButtonBaseProps extends ButtonProps {
+export interface ButtonBaseProps {
   Icon?: any;
   loading?: any;
   children?: any;
+  buttonName?: string;
   color?: string;
 }
 
-export default function ButtonBase({ Icon, children, color }: ButtonBaseProps) {
+export default function ButtonBase({ Icon, children, color, buttonName }: ButtonBaseProps) {
   return (
-    <Button>
-      {Icon && <Icon className={classNames('h-4 w-4', children ? 'mr-1' : '')} aria-hidden />}
+    <button className={`btn h-4 w-4 ${children ? 'mr-1' : ''} ${color}`}>
+      {Icon}
+      {buttonName}
       {children}
-    </Button>
+    </button>
   );
 }
