@@ -8,18 +8,18 @@ export interface ButtonBaseProps {
   color?: string;
 }
 
-export default function ButtonBase({ Icon, children, color, buttonName }: ButtonBaseProps) {
+export default function ButtonBase(props: ButtonBaseProps) {
   const state = useStore({
     get classNames() {
-      return `btn h-4 w-4 ${children ? 'mr-1' : ''} ${color}`;
+      return `btn h-4 w-4 ${props.children ? 'mr-1' : ''} ${props.color}`;
     },
   });
 
   return (
     <button className={state.classNames}>
-      {Icon}
-      {buttonName}
-      {children}
+      {props.Icon}
+      {props.buttonName}
+      {props.children}
     </button>
   );
 }
