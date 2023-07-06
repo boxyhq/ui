@@ -16,6 +16,8 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
     },
     handleNewConnectionTypeChange(event: any) {
       state.newConnectionType = event.target.value;
+      console.log('Connection type changed');
+      console.log(event.target.value);
     },
   });
 
@@ -49,7 +51,7 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
                   value='saml'
                   className='radio-primary radio'
                   checked={state.newConnectionType === 'saml'}
-                  onChange={state.handleNewConnectionTypeChange}
+                  onChange={(event) => state.handleNewConnectionTypeChange(event)}
                 />
                 <span className='label-text ml-1'>{props.t('saml')}</span>
               </label>
@@ -62,7 +64,7 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
                   value='oidc'
                   className='radio-primary radio'
                   checked={state.newConnectionType === 'oidc'}
-                  onChange={state.handleNewConnectionTypeChange}
+                  onChange={(event) => state.handleNewConnectionTypeChange(event)}
                 />
                 <span className='label-text ml-1'>{props.t('oidc')}</span>
               </label>
