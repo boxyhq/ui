@@ -1,3 +1,5 @@
+import { useStore } from '@builder.io/mitosis';
+
 export interface ButtonBaseProps {
   Icon?: any;
   loading?: any;
@@ -7,8 +9,14 @@ export interface ButtonBaseProps {
 }
 
 export default function ButtonBase({ Icon, children, color, buttonName }: ButtonBaseProps) {
+  const state = useStore({
+    get classNames() {
+      return `btn h-4 w-4 ${children ? 'mr-1' : ''} ${color}`;
+    },
+  });
+
   return (
-    <button className={`btn h-4 w-4 ${children ? 'mr-1' : ''} ${color}`}>
+    <button className={state.classNames}>
       {Icon}
       {buttonName}
       {children}
