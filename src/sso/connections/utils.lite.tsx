@@ -10,8 +10,8 @@ export const saveConnection = async ({
 }: {
   formObj: FormObj;
   isEditView?: boolean;
-  connectionIsSAML: boolean;
-  connectionIsOIDC: boolean;
+  connectionIsSAML?: boolean;
+  connectionIsOIDC?: boolean;
   setupLinkToken?: string;
   callback: (res: Response) => Promise<void>;
 }) => {

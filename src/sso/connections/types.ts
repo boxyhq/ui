@@ -16,6 +16,16 @@ export interface CreateConnectionProps {
   connectionIsSAML: boolean;
   connectionIsOIDC: boolean;
   errorToastCallback: (errMessage: string) => void;
+  variant: 'basic' | 'advanced';
+  /**
+   * Classnames for each inner components that make up the component.
+   */
+  classNames?: {
+    container?: string;
+    button?: string;
+    input?: string;
+    label?: string;
+  };
 }
 
 export interface CreateConnectionParentProps {
