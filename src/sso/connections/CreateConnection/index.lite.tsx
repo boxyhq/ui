@@ -1,8 +1,8 @@
 import { useStore, Show, Slot } from '@builder.io/mitosis';
-import InputWithCopyButton from '../../shared/ClipboardButton.lite';
-import CreateOIDCConnection from './CreateOIDCConnection.lite';
-import CreateSAMLConnection from './CreateSAMLConnection/index.lite';
-import { CreateConnectionParentProps } from './types';
+import InputWithCopyButton from '../../../shared/ClipboardButton.lite';
+import CreateOIDCConnection from './oidc/index.lite';
+import CreateSAMLConnection from './saml/index.lite';
+import { CreateConnectionParentProps } from '../types';
 
 export default function CreateConnection(props: CreateConnectionParentProps) {
   const state = useStore({

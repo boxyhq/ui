@@ -1,10 +1,10 @@
 import { Show, useStore } from '@builder.io/mitosis';
-import type { CreateConnectionProps } from '../types';
-import { ApiResponse } from '../types';
-import { saveConnection } from '../utils.lite';
-import ButtonPrimary from '../../../shared/ButtonPrimary.lite';
+import type { CreateConnectionProps } from '../../types';
+import { ApiResponse } from '../../types';
+import { saveConnection } from '../../utils.lite';
+import ButtonPrimary from '../../../../shared/ButtonPrimary.lite';
 import defaultClasses from './index.module.css';
-import cssClassAssembler from '../../utils/cssClassAssembler';
+import cssClassAssembler from '../../../utils/cssClassAssembler';
 
 const DEFAULT_VALUES: Partial<CreateConnectionProps> = {
   variant: 'basic',
