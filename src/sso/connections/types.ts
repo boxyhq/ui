@@ -13,8 +13,6 @@ export interface CreateConnectionProps {
   cb: any;
   t: any;
   setupLinkToken?: string;
-  connectionIsSAML: boolean;
-  connectionIsOIDC: boolean;
   errorToastCallback: (errMessage: string) => void;
   variant: 'basic' | 'advanced';
   /**
