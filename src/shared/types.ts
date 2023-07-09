@@ -1,7 +1,9 @@
 import type { JSX } from '@builder.io/mitosis/jsx-runtime';
 
+export type SVGProps = JSX.SvgSVGAttributes<SVGSVGElement>;
+
 export interface IconButtonProps {
-  Icon: (props: JSX.SvgSVGAttributes<SVGSVGElement>) => JSX.Element;
+  Icon: (props: SVGProps) => JSX.Element;
   label: string;
   onClick: (event: any) => void;
   iconClasses: string;

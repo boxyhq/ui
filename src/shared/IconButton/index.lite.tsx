@@ -1,4 +1,4 @@
-import { IconButtonProps } from './types';
+import type { IconButtonProps } from '../types';
 import commonStyles from '../common.module.css';
 import styles from './index.module.css';
 import { useStore } from '@builder.io/mitosis';

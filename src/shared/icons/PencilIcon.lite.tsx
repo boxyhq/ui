@@ -1,6 +1,6 @@
-import type { JSX } from '@builder.io/mitosis/jsx-runtime';
+import type { SVGProps } from '../types';
 
-export default function PencilIcon(props: JSX.SvgSVGAttributes<SVGSVGElement>) {
+export default function PencilIcon(props: SVGProps) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
