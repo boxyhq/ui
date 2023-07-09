@@ -1,0 +1,60 @@
+.btnReset {
+  display: inline-block;
+  border: none;
+  padding: 1rem 2rem;
+  margin: 0;
+  text-decoration: none;
+  background: #0069ed;
+  color: #ffffff;
+  font-family: sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    background 250ms ease-in-out,
+    transform 150ms ease;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.btnReset:hover,
+.btnReset:focus {
+  background: #0053ba;
+}
+
+.btnReset:focus {
+  outline: 1px solid #fff;
+  outline-offset: -4px;
+}
+
+.btnReset:active {
+  transform: scale(0.99);
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.input {
+  font-family: inherit;
+  appearance: none;
+  background-color: #fff;
+  border-radius: 0.375rem;
+  border-width: 1px;
+  border-color: #ebedf0;
+  border-style: solid;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  margin-top: 1px;
+  outline: none;
+  margin-bottom: 1rem;
+}
+
+.input:focus {
+  outline: 2px solid hsl(0 0% 20%/ 0.2);
+  outline-offset: 2px;
+}

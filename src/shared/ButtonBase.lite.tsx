@@ -1,7 +1,6 @@
 import { useStore } from '@builder.io/mitosis';
 
 export interface ButtonBaseProps {
-  Icon?: any;
   loading?: any;
   children?: any;
   buttonName?: string;
@@ -16,8 +15,7 @@ export default function ButtonBase(props: ButtonBaseProps) {
   });
 
   return (
-    <button className={state.classNames}>
-      {props.Icon}
+    <button class={state.classNames}>
       {props.buttonName}
       {props.children}
     </button>

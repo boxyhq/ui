@@ -1,4 +1,6 @@
-export default function PlusIcon() {
+import type { JSX } from '@builder.io/mitosis/jsx-runtime';
+
+export default function PlusIcon(props: JSX.SvgSVGAttributes<SVGSVGElement>) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -6,7 +8,8 @@ export default function PlusIcon() {
       viewBox='0 0 24 24'
       stroke-width='1.5'
       stroke='currentColor'
-      class='w-6 h-6'>
+      class='w-6 h-6'
+      {...props}>
       <path stroke-linecap='round' stroke-linejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
     </svg>
   );
