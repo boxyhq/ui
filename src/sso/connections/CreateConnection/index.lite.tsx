@@ -1,8 +1,8 @@
 import { useStore, Show, Slot } from '@builder.io/mitosis';
-import InputWithCopyButton from '../../../shared/ClipboardButton.lite';
 import CreateOIDCConnection from './oidc/index.lite';
 import CreateSAMLConnection from './saml/index.lite';
 import { CreateConnectionParentProps } from '../types';
+import { InputWithCopyButton } from '../../../shared/ClipboardButton/index.lite';
 
 export default function CreateConnection(props: CreateConnectionParentProps) {
   const state = useStore({
@@ -28,10 +28,10 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
         <div className='mb-5 mt-5 items-center justify-between'>
           <div className='form-control'>
             <InputWithCopyButton
-              text={props.idpEntityID}
+              text={props.idpEntityID || ''}
               label={props.t('idp_entity_id')}
               translation={props.t}
-              toastSucessCallback={props.successToastCallback}
+              toastSuccessCallback={props.successToastCallback}
             />
           </div>
         </div>
