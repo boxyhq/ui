@@ -36,6 +36,20 @@ export interface CreateConnectionParentProps {
   slotLinkBack: any;
   errorToastCallback: () => void;
   successToastCallback: () => void;
+  /**
+   * Classnames for each inner components that make up the component.
+   */
+  classNames?: {
+    container?: string;
+    containerWidth?: string;
+    formControl?: string;
+    selectSSO?: string;
+    idpId?: string;
+    radio?: string;
+    span?: string;
+    label?: string;
+    h2: string;
+  };
 }
 
 export interface ToggleConnectionStatusProps {
