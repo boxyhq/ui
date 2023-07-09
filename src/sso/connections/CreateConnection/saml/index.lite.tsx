@@ -87,6 +87,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
     },
     get classes() {
       return {
+        fieldContainer: cssClassAssembler(props.classNames?.fieldContainer, defaultClasses.fieldContainer),
+        buttonContainer: cssClassAssembler(props.classNames?.buttonContainer, defaultClasses.buttonContainer),
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
@@ -98,7 +100,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
   return (
     <form onSubmit={(event) => state.save(event)}>
       <Show when={state.variant === 'advanced'}>
-        <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
+        <div class={state.classes.fieldContainer}>
           <label for='name' class={state.classes.label}>
             Name
           </label>
@@ -113,7 +115,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             placeholder='MyApp'
           />
         </div>
-        <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
+        <div class={state.classes.fieldContainer}>
           <label for='description' class={state.classes.label}>
             Description
           </label>
@@ -129,7 +131,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             placeholder='A short description not more than 100 characters'
           />
         </div>
-        <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
+        <div class={state.classes.fieldContainer}>
           <label for='tenant' class={state.classes.label}>
             Tenant
           </label>
@@ -143,7 +145,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             placeholder='acme.com'
           />
         </div>
-        <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
+        <div class={state.classes.fieldContainer}>
           <label for='product' class={state.classes.label}>
             Product
           </label>
@@ -157,7 +159,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             placeholder='demo'
           />
         </div>
-        <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
+        <div class={state.classes.fieldContainer}>
           <label for='redirectUrl' class={state.classes.label}>
             Allowed redirect URLs (newline separated)
           </label>
@@ -169,7 +171,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             placeholder='http://localhost:3366'
           />
         </div>
-        <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
+        <div class={state.classes.fieldContainer}>
           <label for='defaultRedirectUrl' class={state.classes.label}>
             Default redirect URL
           </label>
@@ -184,7 +186,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           />
         </div>
       </Show>
-      <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
+      <div class={state.classes.fieldContainer}>
         <label for='rawMetadata' class={state.classes.label}>
           Raw IdP XML
         </label>
@@ -198,7 +200,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           placeholder='Paste the raw XML here'
         />
       </div>
-      <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
+      <div class={state.classes.fieldContainer}>
         <label for='metadataUrl' class={state.classes.label}>
           Metadata URL
         </label>
@@ -214,7 +216,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         />
       </div>
       <Show when={state.variant === 'advanced'}>
-        <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
+        <div class={state.classes.fieldContainer}>
           <label for='forceAuthn' class={state.classes.label}>
             Force Authentication
           </label>
@@ -228,8 +230,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           />
         </div>
       </Show>
-      <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800'>
-        <div className='flex'>
+      <div class={state.classes.fieldContainer}>
+        <div className={state.classes.buttonContainer}>
           <ButtonPrimary loading={props.loading} data-testid='submit-form-create-sso'>
             {props.t('save_changes')}
           </ButtonPrimary>
