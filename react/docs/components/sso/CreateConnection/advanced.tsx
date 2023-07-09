@@ -12,8 +12,6 @@ export default () => {
       loading={false}
       cb={undefined}
       t={(key) => key}
-      connectionIsSAML={false}
-      connectionIsOIDC={false}
       errorToastCallback={function (errMessage: string): void {
         throw new Error('Function not implemented.');
       }}
