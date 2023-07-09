@@ -3,6 +3,8 @@ import InputWithCopyButton from '../../../shared/ClipboardButton.lite';
 import CreateOIDCConnection from './oidc/index.lite';
 import CreateSAMLConnection from './saml/index.lite';
 import { CreateConnectionParentProps } from '../types';
+import defaultClasses from './index.module.css';
+import cssClassAssembler from '../../utils/cssClassAssembler';
 
 export default function CreateConnection(props: CreateConnectionParentProps) {
   const state = useStore({
@@ -13,6 +15,19 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
     },
     get connectionIsOIDC(): boolean {
       return state.newConnectionType === 'oidc';
+    },
+    get classes() {
+      return {
+        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
+        containerWidth: cssClassAssembler(props.classNames?.containerWidth, defaultClasses.containerWidth),
+        formControl: cssClassAssembler(props.classNames?.formControl, defaultClasses.formControl),
+        selectSSO: cssClassAssembler(props.classNames?.selectSSO, defaultClasses.selectSSO),
+        idpId: cssClassAssembler(props.classNames?.idpId, defaultClasses.idpId),
+        radio: cssClassAssembler(props.classNames?.radio, defaultClasses.radio),
+        span: cssClassAssembler(props.classNames?.span, defaultClasses.span),
+        label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
+        h2: cssClassAssembler(props.classNames?.h2, defaultClasses.h2),
+      };
     },
     handleNewConnectionTypeChange(event: any) {
       state.newConnectionType = event.target.value;
@@ -25,8 +40,8 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
     <div>
       <Slot name={props.slotLinkBack}></Slot>
       <Show when={props.idpEntityID && props.setupLinkToken}>
-        <div className='mb-5 mt-5 items-center justify-between'>
-          <div className='form-control'>
+        <div className={state.classes.idpId}>
+          <div className={state.classes.formControl}>
             <InputWithCopyButton
               text={props.idpEntityID}
               label={props.t('idp_entity_id')}
@@ -37,36 +52,34 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
         </div>
       </Show>
       <div>
-        <h2 className='mb-5 mt-5 font-bold text-gray-700 dark:text-white md:text-xl'>
-          {props.t('create_sso_connection')}
-        </h2>
-        <div className='mb-4 flex items-center'>
-          <div className='mr-2 py-3'>{props.t('select_sso_type')}:</div>
-          <div className='flex w-52'>
-            <div className='form-control'>
-              <label className='label mr-4 cursor-pointer'>
+        <h2 className={state.classes.h2}>{props.t('create_sso_connection')}</h2>
+        <div className={state.classes.container}>
+          <div className={state.classes.selectSSO}>{props.t('select_sso_type')}:</div>
+          <div className={state.classes.containerWidth}>
+            <div className={state.classes.formControl}>
+              <label className={state.classes.label}>
                 <input
                   type='radio'
                   name='connection'
                   value='saml'
-                  className='radio-primary radio'
+                  className={state.classes.radio}
                   checked={state.newConnectionType === 'saml'}
                   onChange={(event) => state.handleNewConnectionTypeChange(event)}
                 />
-                <span className='label-text ml-1'>{props.t('saml')}</span>
+                <span className={state.classes.span}>{props.t('saml')}</span>
               </label>
             </div>
-            <div className='form-control'>
-              <label className='label mr-4 cursor-pointer' data-testid='sso-type-oidc'>
+            <div className={state.classes.formControl}>
+              <label className={state.classes.label} data-testid='sso-type-oidc'>
                 <input
                   type='radio'
                   name='connection'
                   value='oidc'
-                  className='radio-primary radio'
+                  className={state.classes.radio}
                   checked={state.newConnectionType === 'oidc'}
                   onChange={(event) => state.handleNewConnectionTypeChange(event)}
                 />
-                <span className='label-text ml-1'>{props.t('oidc')}</span>
+                <span className={state.classes.span}>{props.t('oidc')}</span>
               </label>
             </div>
           </div>
