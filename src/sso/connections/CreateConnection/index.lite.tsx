@@ -73,22 +73,20 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
         </div>
         <Show when={state.connectionIsSAML}>
           <CreateSAMLConnection
+            variant='advanced'
             errorToastCallback={props.errorToastCallback}
             loading={state.loading}
             setupLinkToken={props.setupLinkToken}
             t={props.t}
-            connectionIsOIDC={state.connectionIsOIDC}
-            connectionIsSAML={state.connectionIsSAML}
             cb={props.cb}></CreateSAMLConnection>
         </Show>
         <Show when={state.connectionIsOIDC}>
           <CreateOIDCConnection
+            variant='advanced'
             errorToastCallback={props.errorToastCallback}
             loading={state.loading}
             setupLinkToken={props.setupLinkToken}
             t={props.t}
-            connectionIsOIDC={state.connectionIsOIDC}
-            connectionIsSAML={state.connectionIsSAML}
             cb={props.cb}></CreateOIDCConnection>
         </Show>
       </div>
