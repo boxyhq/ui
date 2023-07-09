@@ -50,11 +50,3 @@ export const saveConnection = async ({
   );
   callback(res);
 };
-
-export default function FieldList() {
-  return (
-    <div>
-      <h1>Hello world</h1>
-    </div>
-  );
-}
