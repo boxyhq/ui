@@ -72,8 +72,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             oidcClientId: state._oidcClientId,
             oidcClientSecret: state._oidcClientSecret,
           },
-          connectionIsSAML: props.connectionIsSAML,
-          connectionIsOIDC: props.connectionIsOIDC,
+          connectionIsOIDC: true,
           setupLinkToken: props.setupLinkToken,
           callback: async (rawResponse: any) => {
             props.loading = false;
