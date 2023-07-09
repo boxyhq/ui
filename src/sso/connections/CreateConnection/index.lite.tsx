@@ -4,7 +4,7 @@ import CreateSAMLConnection from './saml/index.lite';
 import { CreateConnectionParentProps } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
-import { InputWithCopyButton } from '../../../shared/ClipboardButton/index.lite';
+import InputWithCopyButton from '../../../shared/InputWithCopyButton/index.lite';
 
 export default function CreateConnection(props: CreateConnectionParentProps) {
   const state = useStore({

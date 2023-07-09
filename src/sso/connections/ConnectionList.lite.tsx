@@ -1,4 +1,4 @@
-import InputWithCopyButton from '../../shared/ClipboardButton.lite';
+import InputWithCopyButton from '../../shared/ClipboardButton/index.lite';
 import { Show, Slot } from '@builder.io/mitosis';
 import { ConnectionListProps } from './types';
 

@@ -1,16 +1,21 @@
+:root {
+  --tw-border-opacity: 1;
+  --tw-bg-opacity: 1;
+}
 .fieldContainer {
   min-width: 448px;
   border-radius: 4px;
   border-width: 1px;
-  --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
   padding: 24px;
-  --tw-border-opacity: 1;
-  border-color: rgb(55 65 81 / var(--tw-border-opacity));
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+}
+
+@media (prefers-color-scheme: dark) {
+  .fieldContainer {
+    border-color: rgb(55 65 81 / var(--tw-border-opacity));
+    background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+  }
 }
 
 .buttonContainer {
