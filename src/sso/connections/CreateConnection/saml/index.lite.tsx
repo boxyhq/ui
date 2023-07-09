@@ -2,7 +2,6 @@ import { Show, useStore } from '@builder.io/mitosis';
 import type { CreateConnectionProps } from '../../types';
 import { ApiResponse } from '../../types';
 import { saveConnection } from '../../utils';
-import ButtonPrimary from '../../../../shared/ButtonPrimary.lite';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
 
@@ -232,9 +231,10 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       </Show>
       <div class={state.classes.fieldContainer}>
         <div className={state.classes.buttonContainer}>
-          <ButtonPrimary loading={props.loading} data-testid='submit-form-create-sso'>
+          {/* TODO: bring loading state */}
+          <button data-testid='submit-form-create-sso' type='submit'>
             {props.t('save_changes')}
-          </ButtonPrimary>
+          </button>
         </div>
       </div>
     </form>

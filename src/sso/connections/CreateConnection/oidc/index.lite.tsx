@@ -2,7 +2,6 @@ import { useStore, Show } from '@builder.io/mitosis';
 import { CreateConnectionProps } from '../../types';
 import { ApiResponse } from '../../types';
 import { saveConnection } from '../../utils';
-import ButtonPrimary from '../../../../shared/ButtonPrimary.lite';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
 
@@ -307,7 +306,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       </Show>
       <div class={state.classes.fieldContainer}>
         <div class={state.classes.buttonContainer}>
-          <ButtonPrimary data-testid='submit-form-create-sso'>{props.t('save_changes')}</ButtonPrimary>
+          {/* TODO: bring loading state */}
+          <button data-testid='submit-form-create-sso' type='submit'>
+            {props.t('save_changes')}
+          </button>
         </div>
       </div>
     </form>
