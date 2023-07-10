@@ -25,7 +25,8 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
     toggleButton() {
       state.fieldValue = !state.fieldValue;
     },
-    handleChange(storeVariable: string, newValue: any) {
+    handleChange(storeVariable: string, event: Event) {
+      const newValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
       if (storeVariable === 'name') {
         state._name = newValue;
       } else if (storeVariable === 'description') {
@@ -116,7 +117,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <input
           name='name'
           class={state.classes.input}
-          onChange={(event) => state.handleChange('name', event.target.value)}
+          onInput={(event) => state.handleChange('name', event)}
           value={state._name}
           required={false}
           type='text'
@@ -131,7 +132,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           name='description'
           class={state.classes.input}
           value={state._description}
-          onChange={(event) => state.handleChange('description', event.target.value)}
+          onInput={(event) => state.handleChange('description', event)}
           required={false}
           maxLength={100}
           type='text'
@@ -145,7 +146,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <input
           name='tenant'
           class={state.classes.input}
-          onChange={(event) => state.handleChange('tenant', event.target.value)}
+          onInput={(event) => state.handleChange('tenant', event)}
           value={state._tenant}
           type='text'
           placeholder='acme.com'
@@ -158,7 +159,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <input
           name='product'
           class={state.classes.input}
-          onChange={(event) => state.handleChange('product', event.target.value)}
+          onInput={(event) => state.handleChange('product', event)}
           value={state._product}
           type='text'
           placeholder='demo'
@@ -171,7 +172,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <textarea
           name='redirectUrl'
           class={state.classes.input}
-          onChange={(event) => state.handleChange('redirectUrl', event.target.value)}
+          onInput={(event) => state.handleChange('redirectUrl', event)}
           value={state._redirectUrl}
           placeholder='http://localhost:3366'
         />
@@ -183,7 +184,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <input
           name='defaultRedirectUrl'
           class={state.classes.input}
-          onChange={(event) => state.handleChange('defaultRedirectUrl', event.target.value)}
+          onInput={(event) => state.handleChange('defaultRedirectUrl', event)}
           value={state._defaultRedirectUrl}
           type='url'
           placeholder='http://localhost:3366/login/saml'
@@ -196,7 +197,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <input
           name='oidcClientId'
           class={state.classes.input}
-          onChange={(event) => state.handleChange('oidcClientId', event.target.value)}
+          onInput={(event) => state.handleChange('oidcClientId', event)}
           value={state._oidcClientId}
           type='text'
           placeholder=''
@@ -209,7 +210,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <input
           name='oidcClientSecret'
           class={state.classes.input}
-          onChange={(event) => state.handleChange('defaultRedirectUrl', event.target.value)}
+          onInput={(event) => state.handleChange('defaultRedirectUrl', event)}
           value={state._oidcClientSecret}
           type='text'
           placeholder=''
@@ -226,7 +227,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           <input
             name='oidcDiscoveryUrl'
             class={state.classes.input}
-            onChange={(event) => state.handleChange('oidcDiscoveryUrl', event.target.value)}
+            onInput={(event) => state.handleChange('oidcDiscoveryUrl', event)}
             value={state._oidcDiscoveryUrl}
             type='url'
             placeholder='https://example.com/.well-known/openid-configuration'
@@ -244,7 +245,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           <input
             name='issuer'
             class={state.classes.input}
-            onChange={(event) => state.handleChange('issuer', event.target.value)}
+            onInput={(event) => state.handleChange('issuer', event)}
             value={state._issuer}
             type='url'
             placeholder=''
@@ -257,7 +258,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           <input
             name='authorization_endpoint'
             class={state.classes.input}
-            onChange={(event) => state.handleChange('authorization_endpoint', event.target.value)}
+            onInput={(event) => state.handleChange('authorization_endpoint', event)}
             value={state._authorization_endpoint}
             type='url'
             placeholder=''
@@ -270,7 +271,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           <input
             name='token_endpoint'
             class={state.classes.input}
-            onChange={(event) => state.handleChange('token_endpoint', event.target.value)}
+            onInput={(event) => state.handleChange('token_endpoint', event)}
             value={state._token_endpoint}
             type='url'
             placeholder=''
@@ -283,7 +284,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           <input
             name='jwks_uri'
             class={state.classes.input}
-            onChange={(event) => state.handleChange('jwks_uri', event.target.value)}
+            onInput={(event) => state.handleChange('jwks_uri', event)}
             value={state._jwks_uri}
             type='url'
             placeholder=''
@@ -296,7 +297,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           <input
             name='userinfo_endpoint'
             class={state.classes.input}
-            onChange={(event) => state.handleChange('userinfo_endpoint', event.target.value)}
+            onInput={(event) => state.handleChange('userinfo_endpoint', event)}
             value={state._userinfo_endpoint}
             type='url'
             placeholder=''
