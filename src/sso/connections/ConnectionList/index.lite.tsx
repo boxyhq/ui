@@ -75,13 +75,13 @@ export default function ConnectionList(props: ConnectionListProps) {
         <Slot name={props.slotErrorToast}></Slot>
       </Show>
       <Show when={state.connectionListData.length > 0}>
-        <div className='mb-5 flex items-center justify-between'>
-          <h2 className='font-bold text-gray-700 dark:text-white md:text-xl'>
+        <div class='mb-5 flex items-center justify-between'>
+          <h2 class='font-bold text-gray-700 dark:text-white md:text-xl'>
             {props.translation(
               props.isSettingsView || DEFAULT_VALUES.isSettingsView ? 'admin_portal_sso' : 'enterprise_sso'
             )}
           </h2>
-          <div className='flex gap-2'>
+          <div class='flex gap-2'>
             <Slot name={props.slotLinkPrimary}></Slot>
             <Show when={!props.setupLinkToken && !(props.isSettingsView || DEFAULT_VALUES.isSettingsView)}>
               <Slot name={props.slotLinkPrimary}></Slot>
@@ -89,8 +89,8 @@ export default function ConnectionList(props: ConnectionListProps) {
           </div>
         </div>
         <Show when={props.idpEntityID && props.setupLinkToken}>
-          <div className='mb-5 mt-5 items-center justify-between'>
-            <div className='form-control'>
+          <div class='mb-5 mt-5 items-center justify-between'>
+            <div class='form-control'>
               <InputWithCopyButton
                 text={props.idpEntityID || ''}
                 label={props.translation('idp_entity_id')}
@@ -105,30 +105,30 @@ export default function ConnectionList(props: ConnectionListProps) {
           else={
             <EmptyState title={props.translation('no_connections_found')} href={state.createConnectionUrl} />
           }>
-          <div className='rounder border'>
-            <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
-              <thead className='bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
-                <tr className='hover:bg-gray-50'>
-                  <th scope='col' className='px-6 py-3'>
+          <div class='rounder border'>
+            <table class='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
+              <thead class='bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
+                <tr class='hover:bg-gray-50'>
+                  <th scope='col' class='px-6 py-3'>
                     {props.translation('name')}
                   </th>
                   {state.displayTenantProduct && (
                     <>
-                      <th scope='col' className='px-6 py-3'>
+                      <th scope='col' class='px-6 py-3'>
                         {props.translation('tenant')}
                       </th>
-                      <th scope='col' className='px-6 py-3'>
+                      <th scope='col' class='px-6 py-3'>
                         {props.translation('product')}
                       </th>
                     </>
                   )}
-                  <th scope='col' className='px-6 py-3'>
+                  <th scope='col' class='px-6 py-3'>
                     {props.translation('idp_type')}
                   </th>
-                  <th scope='col' className='px-6 py-3'>
+                  <th scope='col' class='px-6 py-3'>
                     {props.translation('status')}
                   </th>
-                  <th scope='col' className='px-6 py-3'>
+                  <th scope='col' class='px-6 py-3'>
                     {props.translation('actions')}
                   </th>
                 </tr>
