@@ -1,6 +1,6 @@
 import type { SVGProps } from '../types';
 
-export default function CopytoClipboardIcon(props: SVGProps) {
+export default function CopytoClipboardIcon(props: { svgElmtProps: SVGProps }) {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -9,7 +9,7 @@ export default function CopytoClipboardIcon(props: SVGProps) {
       stroke-width='1.5'
       stroke='currentColor'
       class='w-6 h-6'
-      {...props}>
+      {...props.svgElmtProps}>
       <path
         stroke-linecap='round'
         stroke-linejoin='round'

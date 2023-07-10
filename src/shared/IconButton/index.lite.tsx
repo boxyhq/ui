@@ -13,7 +13,7 @@ export default function IconButton(props: IconButtonProps) {
   });
   return (
     <button type='button' onClick={props.onClick} class={commonStyles.btnReset} aria-label={props.label}>
-      <props.Icon aria-hidden class={state.classes.iconClasses} />
+      <props.Icon svgElmtProps={{ class: state.classes.iconClasses, 'aria-hidden': true }} />
     </button>
   );
 }
