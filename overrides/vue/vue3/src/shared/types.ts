@@ -8,3 +8,11 @@ export interface IconButtonProps {
   onClick: (event: any) => void;
   iconClasses: string;
 }
+
+export interface EmptyStateProps {
+  title: string;
+  href?: string;
+  className?: string;
+  description?: string;
+  slotLinkPrimary?: any;
+}
