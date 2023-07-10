@@ -1,6 +1,6 @@
-import InputWithCopyButton from '../../shared/ClipboardButton/index.lite';
 import { Show, Slot } from '@builder.io/mitosis';
 import { ConnectionListProps } from './types';
+import InputWithCopyButton from '../../shared/InputWithCopyButton/index.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -26,10 +26,10 @@ export default function ConnectionList(props: ConnectionListProps) {
         <div className='mb-5 mt-5 items-center justify-between'>
           <div className='form-control'>
             <InputWithCopyButton
-              text={props.idpEntityID}
+              text={props.idpEntityID || ''}
               label={props.translation('idp_entity_id')}
               translation={props.translation}
-              toastSucessCallback={props.toastSuccessCallback}
+              toastSuccessCallback={props.toastSuccessCallback}
             />
           </div>
         </div>
