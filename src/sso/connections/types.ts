@@ -1,10 +1,11 @@
 export interface ConnectionListProps {
-  setupLinkToken?: string;
-  createConnectionUrl: string;
+  setupLinkToken: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
   translation: any;
+  connectionsUrl: string;
   slotLinkPrimary: any;
+  slotErrorToast: any;
   toastSuccessCallback: () => void;
 }
 
