@@ -23,7 +23,6 @@ export default function EmptyState(props: EmptyStateProps) {
       </div>
       <h4 className='text-center'>{props.title}</h4>
       {props.description && <p className='text-center text-gray-500'>{props.description}</p>}
-      {props.href && <Slot name={props.slotLinkPrimary}></Slot>}
     </div>
   );
 }
