@@ -24,10 +24,10 @@ export default function ConnectionList(props: ConnectionListProps) {
     connectionListError: '',
     connectionListIsLoading: false,
     get connections() {
-      return this.connectionListData || [];
+      return this?.connectionListData || [];
     },
     get noConnections() {
-      return this.connections.length === 0;
+      return this.connections?.length === 0;
     },
     connectionDisplayName(connection: SAMLSSORecord | OIDCSSORecord) {
       if (connection.name) {
