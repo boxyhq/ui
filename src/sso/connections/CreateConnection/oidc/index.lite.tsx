@@ -168,12 +168,11 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <label for='redirectUrl' class={state.classes.label}>
           Allowed redirect URLs (newline separated)
         </label>
-        <input
+        <textarea
           name='redirectUrl'
           class={state.classes.input}
           onChange={(event) => state.handleChange('redirectUrl', event.target.value)}
           value={state._redirectUrl}
-          type='textarea'
           placeholder='http://localhost:3366'
         />
       </div>
