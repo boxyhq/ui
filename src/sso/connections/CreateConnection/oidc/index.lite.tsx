@@ -8,6 +8,7 @@ import cssClassAssembler from '../../../utils/cssClassAssembler';
 export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
     fieldValue: true,
+    loading: false,
     _name: '',
     _description: '',
     _tenant: '',
@@ -61,7 +62,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       void (async function (e) {
         e.preventDefault();
 
-        props.loading = true;
+        state.loading = true;
 
         await saveConnection({
           formObj: {
@@ -77,7 +78,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           connectionIsOIDC: true,
           setupLinkToken: props.setupLinkToken,
           callback: async (rawResponse: any) => {
-            props.loading = false;
+            state.loading = false;
 
             const response: ApiResponse = await rawResponse.json();
 
