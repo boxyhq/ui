@@ -1,6 +1,6 @@
 import { Show, Slot } from '@builder.io/mitosis';
-import { ConnectionListProps } from './types';
-import InputWithCopyButton from '../../shared/InputWithCopyButton/index.lite';
+import { ConnectionListProps } from '../types';
+import InputWithCopyButton from '../../../shared/InputWithCopyButton/index.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
