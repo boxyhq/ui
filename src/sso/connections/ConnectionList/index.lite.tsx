@@ -1,5 +1,5 @@
-import { useStore, Show, Slot, onMount } from '@builder.io/mitosis';
-import { ConnectionListProps, ApiSuccess, OIDCSSORecord, SAMLSSORecord } from '../types';
+import { useStore, Show, Slot, onMount, For } from '@builder.io/mitosis';
+import { ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import Loading from '../../../shared/Loading/index.lite';
 import InputWithCopyButton from '../../../shared/InputWithCopyButton/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';
@@ -23,12 +23,6 @@ export default function ConnectionList(props: ConnectionListProps) {
     connectionListData: [],
     connectionListError: '',
     connectionListIsLoading: false,
-    get connections() {
-      return this?.connectionListData || [];
-    },
-    get noConnections() {
-      return this.connections?.length === 0;
-    },
     connectionDisplayName(connection: SAMLSSORecord | OIDCSSORecord) {
       if (connection.name) {
         return connection.name;
@@ -101,7 +95,7 @@ export default function ConnectionList(props: ConnectionListProps) {
           </div>
         </Show>
         <Show
-          when={state.connections}
+          when={state.connectionListData}
           else={
             <EmptyState title={props.translation('no_connections_found')} href={state.createConnectionUrl} />
           }>
@@ -134,6 +128,17 @@ export default function ConnectionList(props: ConnectionListProps) {
                 </tr>
                 tab
               </thead>
+              <tbody>
+                <For each={state.connectionListData}>
+                  {(connection: any) => {
+                    const connectionIsSAML = 'idpMetadata' in connection;
+                    const connectionIsOIDC = 'oidcProvider' in connection;
+                    const isSystemSSO = connection?.isSystemSSO;
+
+                    return <tr></tr>;
+                  }}
+                </For>
+              </tbody>
             </table>
           </div>
         </Show>
