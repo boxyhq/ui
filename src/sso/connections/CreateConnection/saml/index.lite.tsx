@@ -51,17 +51,20 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
 
         await saveConnection({
           url: props.urls?.save,
-          formObj: {
-            name: state._name,
-            description: state._description,
-            tenant: state._tenant,
-            product: state._product,
-            redirectUrl: state._redirectUrl,
-            defaultRedirectUrl: state._defaultRedirectUrl,
-            rawMetadata: state._rawMetadata,
-            metadataUrl: state._metadataUrl,
-            forceAuthn: state._forceAuthn,
-          },
+          formObj:
+            props.variant === 'advanced'
+              ? {
+                  name: state._name,
+                  description: state._description,
+                  tenant: state._tenant,
+                  product: state._product,
+                  redirectUrl: state._redirectUrl,
+                  defaultRedirectUrl: state._defaultRedirectUrl,
+                  rawMetadata: state._rawMetadata,
+                  metadataUrl: state._metadataUrl,
+                  forceAuthn: state._forceAuthn,
+                }
+              : { rawMetadata: state._rawMetadata, metadataUrl: state._metadataUrl },
           connectionIsSAML: true,
           setupLinkToken: props.setupLinkToken,
           callback: async (rawResponse: any) => {
