@@ -75,10 +75,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             }
 
             if (rawResponse.ok) {
-              cb: () => {
-                // router replace and mutate url using swr
-                // happens here
-              };
+              props.cb();
             }
           },
         });
