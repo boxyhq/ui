@@ -16,3 +16,11 @@ export interface EmptyStateProps {
   description?: string;
   slotLinkPrimary?: any;
 }
+
+export interface BadgeProps {
+  children?: any;
+  className?: string;
+  color?: string;
+  size?: string;
+  ariaLabel?: string;
+}

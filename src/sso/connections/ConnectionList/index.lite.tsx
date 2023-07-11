@@ -3,6 +3,7 @@ import { ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import Loading from '../../../shared/Loading/index.lite';
 import InputWithCopyButton from '../../../shared/InputWithCopyButton/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';
+import Badge from '../../../shared/Badge/index.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -41,7 +42,7 @@ export default function ConnectionList(props: ConnectionListProps) {
   });
 
   onMount(() => {
-    function doSomethingAsync(event: any) {
+    function getFieldsData(event: any) {
       void (async function () {
         const response = await fetch(props.connectionsUrl);
         const { data, error, isLoading } = await response.json();
@@ -106,16 +107,16 @@ export default function ConnectionList(props: ConnectionListProps) {
                   <th scope='col' class='px-6 py-3'>
                     {props.translation('name')}
                   </th>
-                  {state.displayTenantProduct && (
-                    <>
+                  <Show when={state.displayTenantProduct}>
+                    <div>
                       <th scope='col' class='px-6 py-3'>
                         {props.translation('tenant')}
                       </th>
                       <th scope='col' class='px-6 py-3'>
                         {props.translation('product')}
                       </th>
-                    </>
-                  )}
+                    </div>
+                  </Show>
                   <th scope='col' class='px-6 py-3'>
                     {props.translation('idp_type')}
                   </th>
@@ -130,9 +131,30 @@ export default function ConnectionList(props: ConnectionListProps) {
               </thead>
               <tbody>
                 <For each={state.connectionListData}>
-                  {(connection, index) => (
-                    <tr>
-                      <td>{state.connectionDisplayName(connection)}</td>
+                  {(connection: any, index: number) => (
+                    <tr class='border-b bg-white last:border-b-0 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800'>
+                      <td class='whitespace-nowrap px-6 py-3 text-sm text-gray-500 dark:text-gray-400'>
+                        {state.connectionDisplayName(connection)}
+                        <Show when={connection?.isSystemSSO}>
+                          <Badge
+                            color='info'
+                            ariaLabel='is an sso connection for the admin portal'
+                            size='xs'
+                            className='ml-2 uppercase'>
+                            {props.translation('system')}
+                          </Badge>
+                        </Show>
+                      </td>
+                      <Show when={state.displayTenantProduct}>
+                        <div>
+                          <td className='whitespace-nowrap px-6 py-3 text-sm font-medium text-gray-900 dark:text-white'>
+                            {connection?.tenant}
+                          </td>
+                          <td className='whitespace-nowrap px-6 py-3 text-sm text-gray-500 dark:text-gray-400'>
+                            {connection?.product}
+                          </td>
+                        </div>
+                      </Show>
                     </tr>
                   )}
                 </For>
