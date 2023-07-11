@@ -12,8 +12,14 @@ export default function IconButton(props: IconButtonProps) {
     },
   });
   return (
-    <button type='button' onClick={props.onClick} class={commonStyles.btnReset} aria-label={props.label}>
-      <props.Icon svgElmtProps={{ class: state.classes.iconClasses, 'aria-hidden': true }} />
-    </button>
+    <div class='tooltip' data-tip={props.tooltip}>
+      <button
+        type='button'
+        onClick={(event) => props.onClick(event)}
+        class={commonStyles.btnReset}
+        aria-label={props.label}>
+        <props.Icon svgElmtProps={{ class: state.classes.iconClasses, 'aria-hidden': true }} />
+      </button>
+    </div>
   );
 }
