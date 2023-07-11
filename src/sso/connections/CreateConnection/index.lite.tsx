@@ -8,7 +8,6 @@ import InputWithCopyButton from '../../../shared/InputWithCopyButton/index.lite'
 
 export default function CreateConnection(props: CreateConnectionParentProps) {
   const state = useStore({
-    loading: false,
     newConnectionType: 'saml',
     get connectionIsSAML(): boolean {
       return state.newConnectionType === 'saml';
@@ -87,20 +86,18 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
         <Show when={state.connectionIsSAML}>
           <CreateSAMLConnection
             variant='advanced'
-            errorToastCallback={props.errorToastCallback}
-            loading={state.loading}
+            errorCallback={props.errorToastCallback}
             setupLinkToken={props.setupLinkToken}
             t={props.t}
-            cb={props.cb}></CreateSAMLConnection>
+            successCallback={props.cb}></CreateSAMLConnection>
         </Show>
         <Show when={state.connectionIsOIDC}>
           <CreateOIDCConnection
             variant='advanced'
-            errorToastCallback={props.errorToastCallback}
-            loading={state.loading}
+            errorCallback={props.errorToastCallback}
             setupLinkToken={props.setupLinkToken}
             t={props.t}
-            cb={props.cb}></CreateOIDCConnection>
+            successCallback={props.cb}></CreateOIDCConnection>
         </Show>
       </div>
     </div>
