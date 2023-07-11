@@ -84,15 +84,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             const response: ApiResponse = await rawResponse.json();
 
             if ('error' in response) {
-              props.errorToastCallback(response.error.message);
+              props.errorCallback(response.error.message);
               return;
             }
 
             if (rawResponse.ok) {
-              cb: () => {
-                // router replace and mutate url using swr
-                // happens here
-              };
+              props.successCallback();
             }
           },
         });

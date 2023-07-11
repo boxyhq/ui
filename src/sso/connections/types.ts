@@ -10,10 +10,10 @@ export interface ConnectionListProps {
 }
 
 export interface CreateConnectionProps {
-  cb: any;
   t: any;
   setupLinkToken?: string;
-  errorToastCallback: (errMessage: string) => void;
+  errorCallback: (errMessage: string) => void;
+  successCallback: () => void;
   variant: 'basic' | 'advanced';
   urls?: {
     save?: string;
