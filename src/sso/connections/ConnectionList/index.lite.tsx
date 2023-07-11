@@ -11,6 +11,7 @@ import PencilIcon from '../../../shared/icons/PencilIcon.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
+  connectionListData: [] as ((SAMLSSORecord | OIDCSSORecord) & { isSystemSSO?: boolean })[],
 };
 
 export default function ConnectionList(props: ConnectionListProps) {
@@ -25,7 +26,7 @@ export default function ConnectionList(props: ConnectionListProps) {
         ? `/admin/settings/sso-connection/new`
         : '/admin/sso-connection/new';
     },
-    connectionListData: [],
+    connectionListData: DEFAULT_VALUES.connectionListData,
     connectionListError: '',
     connectionListIsLoading: false,
     get classes() {
@@ -171,12 +172,7 @@ export default function ConnectionList(props: ConnectionListProps) {
               </thead>
               <tbody>
                 <For each={state.connectionListData}>
-                  {(connection: {
-                    isSystemSSO?: boolean;
-                    tenant?: string;
-                    product?: string;
-                    deactivated?: boolean;
-                  }) => (
+                  {(connection) => (
                     <tr class={state.classes.connectionListContainer}>
                       <td class={state.classes.connectionListTableData}>
                         {state.connectionDisplayName(connection)}
