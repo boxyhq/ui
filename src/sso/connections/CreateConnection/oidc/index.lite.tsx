@@ -65,6 +65,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         state.loading = true;
 
         await saveConnection({
+          url: props.urls?.save,
           formObj: {
             name: state._name,
             description: state._description,
@@ -110,7 +111,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   });
 
   return (
-    <form onSubmit={(event) => state.save(event)}>
+    <form onSubmit={(event) => state.save(event)} method='post'>
       <div class={state.classes.fieldContainer}>
         <label for='name' class={state.classes.label}>
           Name

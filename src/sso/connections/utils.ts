@@ -7,6 +7,7 @@ export const saveConnection = async ({
   connectionIsOIDC,
   setupLinkToken,
   callback,
+  url,
 }: {
   formObj: FormObj;
   isEditView?: boolean;
@@ -14,6 +15,7 @@ export const saveConnection = async ({
   connectionIsOIDC?: boolean;
   setupLinkToken?: string;
   callback: (res: Response) => Promise<void>;
+  url?: string;
 }) => {
   const {
     rawMetadata,
@@ -26,11 +28,11 @@ export const saveConnection = async ({
     ...rest
   } = formObj;
 
-  const encodedRawMetadata = btoa((rawMetadata as string) || '');
+  const encodedRawMetadata = window.btoa((rawMetadata as string) || '');
   const redirectUrlList = redirectUrl as string;
 
   const res = await fetch(
-    setupLinkToken ? `/api/setup/${setupLinkToken}/sso-connection` : '/api/admin/connections',
+    url ? url : setupLinkToken ? `/api/setup/${setupLinkToken}/sso-connection` : '/api/admin/connections',
     {
       method: isEditView ? 'PATCH' : 'POST',
       headers: {

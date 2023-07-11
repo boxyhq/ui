@@ -50,17 +50,21 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         state.loading = true;
 
         await saveConnection({
-          formObj: {
-            name: state._name,
-            description: state._description,
-            tenant: state._tenant,
-            product: state._product,
-            redirectUrl: state._redirectUrl,
-            defaultRedirectUrl: state._defaultRedirectUrl,
-            rawMetadata: state._rawMetadata,
-            metadataUrl: state._metadataUrl,
-            forceAuthn: state._forceAuthn,
-          },
+          url: props.urls?.save,
+          formObj:
+            props.variant === 'advanced'
+              ? {
+                  name: state._name,
+                  description: state._description,
+                  tenant: state._tenant,
+                  product: state._product,
+                  redirectUrl: state._redirectUrl,
+                  defaultRedirectUrl: state._defaultRedirectUrl,
+                  rawMetadata: state._rawMetadata,
+                  metadataUrl: state._metadataUrl,
+                  forceAuthn: state._forceAuthn,
+                }
+              : { rawMetadata: state._rawMetadata, metadataUrl: state._metadataUrl },
           connectionIsSAML: true,
           setupLinkToken: props.setupLinkToken,
           callback: async (rawResponse: any) => {
@@ -74,10 +78,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             }
 
             if (rawResponse.ok) {
-              cb: () => {
-                // router replace and mutate url using swr
-                // happens here
-              };
+              props.cb();
             }
           },
         });
@@ -99,7 +100,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
   });
 
   return (
-    <form onSubmit={(event) => state.save(event)}>
+    <form onSubmit={(event) => state.save(event)} method='post'>
       <Show when={state.variant === 'advanced'}>
         <div class={state.classes.fieldContainer}>
           <label for='name' class={state.classes.label}>
@@ -235,7 +236,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         <div class={state.classes.buttonContainer}>
           {/* TODO: bring loading state */}
           <button data-testid='submit-form-create-sso' type='submit' class={state.classes.button}>
-            {props.t('save_changes')}
+            {/* {props.t('save_changes')} */}
+            Save Changes
           </button>
         </div>
       </div>

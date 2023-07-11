@@ -33,12 +33,14 @@ export interface ConnectionListProps {
 }
 
 export interface CreateConnectionProps {
-  loading: boolean;
   cb: any;
   t: any;
   setupLinkToken?: string;
   errorToastCallback: (errMessage: string) => void;
   variant: 'basic' | 'advanced';
+  urls?: {
+    save?: string;
+  };
   /**
    * Classnames for each inner components that make up the component.
    */
