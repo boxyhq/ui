@@ -33,7 +33,6 @@ export interface ConnectionListProps {
 }
 
 export interface CreateConnectionProps {
-  t: any;
   setupLinkToken?: string;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;

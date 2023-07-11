@@ -236,7 +236,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         <div class={state.classes.buttonContainer}>
           {/* TODO: bring loading state */}
           <button data-testid='submit-form-create-sso' type='submit' class={state.classes.button}>
-            {/* {props.t('save_changes')} */}
+            {/* TODO: bring translation support */}
             Save Changes
           </button>
         </div>
