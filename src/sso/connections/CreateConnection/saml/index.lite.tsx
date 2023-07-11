@@ -100,7 +100,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
   });
 
   return (
-    <form onSubmit={(event) => state.save(event)}>
+    <form onSubmit={(event) => state.save(event)} method='post'>
       <Show when={state.variant === 'advanced'}>
         <div class={state.classes.fieldContainer}>
           <label for='name' class={state.classes.label}>

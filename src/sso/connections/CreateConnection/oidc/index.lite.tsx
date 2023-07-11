@@ -111,7 +111,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   });
 
   return (
-    <form onSubmit={(event) => state.save(event)}>
+    <form onSubmit={(event) => state.save(event)} method='post'>
       <div class={state.classes.fieldContainer}>
         <label for='name' class={state.classes.label}>
           Name
