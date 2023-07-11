@@ -4,9 +4,10 @@ export type SVGProps = SVGAttributes;
 
 export interface IconButtonProps {
   Icon: Component<{ svgElmtProps: SVGProps }>;
-  label: string;
+  label?: string;
   onClick: (event: any) => void;
   iconClasses: string;
+  tooltip?: string;
 }
 
 export interface EmptyStateProps {

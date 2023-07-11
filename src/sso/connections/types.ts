@@ -7,6 +7,29 @@ export interface ConnectionListProps {
   slotLinkPrimary: any;
   slotErrorToast: any;
   toastSuccessCallback: () => void;
+  onIconClick: () => void;
+  /**
+   * Classnames for each inner components that make up the component.
+   */
+  classNames?: {
+    container?: string;
+    linkPrimaryContainer?: string;
+    idpEntityContainer?: string;
+    formControl?: string;
+    h2?: string;
+    tableContainer?: string;
+    table?: string;
+    tableHead?: string;
+    tableRow?: string;
+    tableHeadScope?: string;
+    connectionListContainer?: string;
+    connectionListTableData?: string;
+    connectionTenantData?: string;
+    badgeClass?: string;
+    tableData?: string;
+    spanIcon?: string;
+    icon?: string;
+  };
 }
 
 export interface CreateConnectionProps {
@@ -51,7 +74,7 @@ export interface CreateConnectionParentProps {
     radio?: string;
     span?: string;
     label?: string;
-    h2: string;
+    h2?: string;
   };
 }
 
