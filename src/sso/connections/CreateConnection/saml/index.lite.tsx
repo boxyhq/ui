@@ -50,6 +50,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         state.loading = true;
 
         await saveConnection({
+          url: props.urls?.save,
           formObj: {
             name: state._name,
             description: state._description,
