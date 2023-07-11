@@ -130,13 +130,11 @@ export default function ConnectionList(props: ConnectionListProps) {
               </thead>
               <tbody>
                 <For each={state.connectionListData}>
-                  {(connection: any) => {
-                    const connectionIsSAML = 'idpMetadata' in connection;
-                    const connectionIsOIDC = 'oidcProvider' in connection;
-                    const isSystemSSO = connection?.isSystemSSO;
-
-                    return <tr></tr>;
-                  }}
+                  {(connection, index) => (
+                    <tr>
+                      <td>{state.connectionDisplayName(connection)}</td>
+                    </tr>
+                  )}
                 </For>
               </tbody>
             </table>
