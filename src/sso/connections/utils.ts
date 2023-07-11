@@ -26,7 +26,7 @@ export const saveConnection = async ({
     ...rest
   } = formObj;
 
-  const encodedRawMetadata = btoa((rawMetadata as string) || '');
+  const encodedRawMetadata = window.btoa((rawMetadata as string) || '');
   const redirectUrlList = redirectUrl as string;
 
   const res = await fetch(
