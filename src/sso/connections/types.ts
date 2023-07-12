@@ -49,7 +49,6 @@ export interface CreateConnectionProps {
     input?: string;
     label?: string;
     fieldContainer?: string;
-    buttonContainer?: string;
   };
 }
 

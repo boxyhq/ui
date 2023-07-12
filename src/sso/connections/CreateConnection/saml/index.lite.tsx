@@ -90,10 +90,13 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
     get classes() {
       return {
         fieldContainer: cssClassAssembler(props.classNames?.fieldContainer, defaultClasses.fieldContainer),
-        buttonContainer: cssClassAssembler(props.classNames?.buttonContainer, defaultClasses.buttonContainer),
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
+        textarea: cssClassAssembler(
+          props.classNames?.input,
+          defaultClasses.input + ' ' + defaultClasses.textarea
+        ),
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
@@ -194,7 +197,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         </label>
         <textarea
           id='rawMetadata'
-          class={state.classes.input}
+          class={state.classes.textarea}
           name='rawMetadata'
           value={state._rawMetadata}
           onInput={(event) => state.handleChange('rawMetadata', event)}
@@ -232,15 +235,12 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           />
         </div>
       </Show>
-      <div class={state.classes.fieldContainer}>
-        <div class={state.classes.buttonContainer}>
-          {/* TODO: bring loading state */}
-          <button data-testid='submit-form-create-sso' type='submit' class={state.classes.button}>
-            {/* TODO: bring translation support */}
-            Save Changes
-          </button>
-        </div>
-      </div>
+
+      {/* TODO: bring loading state */}
+      <button data-testid='submit-form-create-sso' type='submit' class={state.classes.button}>
+        {/* TODO: bring translation support */}
+        Save Changes
+      </button>
     </form>
   );
 }
