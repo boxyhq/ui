@@ -11,6 +11,11 @@
     "component-library",
     "enterprise-features"
   ],
+  "repository": {
+    "type": "git",
+    "directory": "react",
+    "url": "https://github.com/boxyhq/ui"
+  },
   "homepage": "https://github.com/boxyhq/ui",
   "bugs": {
     "url": "https://github.com/boxyhq/ui/issues?q=is%3Aopen+is%3Aissue+label%3Asdk"
