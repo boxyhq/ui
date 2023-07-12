@@ -131,7 +131,7 @@ export default function ConnectionList(props: ConnectionListProps) {
                 text={props.idpEntityID || ''}
                 label={props.translation('idp_entity_id')}
                 translation={props.translation}
-                toastSuccessCallback={props.toastSuccessCallback}
+                toastSuccessCallback={props.successCallback}
               />
             </div>
           </div>
