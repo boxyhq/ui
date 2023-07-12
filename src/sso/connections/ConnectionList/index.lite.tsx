@@ -188,7 +188,7 @@ export default function ConnectionList(props: ConnectionListProps) {
                       </td>
                       <Show when={state.displayTenantProduct}>
                         <div>
-                          <td className={state.classes.connectionTenantData}>{connection.tenant}</td>
+                          <td class={state.classes.connectionTenantData}>{connection.tenant}</td>
                           <td class={state.classes.connectionListTableData}>{connection.product}</td>
                         </div>
                       </Show>
@@ -196,7 +196,7 @@ export default function ConnectionList(props: ConnectionListProps) {
                         <Show when={'oidcProvider' in connection}>OIDC</Show>
                         <Show when={'idpMetadata' in connection}>SAML</Show>
                       </td>
-                      <td className={state.classes.tableData}>
+                      <td class={state.classes.tableData}>
                         <Show
                           when={connection.deactivated}
                           else={
@@ -210,7 +210,7 @@ export default function ConnectionList(props: ConnectionListProps) {
                         </Show>
                       </td>
                       <td class={state.classes.tableHeadScope}>
-                        <span className={state.classes.spanIcon}>
+                        <span class={state.classes.spanIcon}>
                           <IconButton
                             tooltip={props.translation('edit')}
                             Icon={PencilIcon}
