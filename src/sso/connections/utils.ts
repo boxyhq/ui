@@ -32,6 +32,7 @@ export const saveConnection = async ({
   const redirectUrlList = redirectUrl as string;
 
   const res = await fetch(
+    // TODO: remove default urls, always pass from outside
     url ? url : setupLinkToken ? `/api/setup/${setupLinkToken}/sso-connection` : '/api/admin/connections',
     {
       method: isEditView ? 'PATCH' : 'POST',
