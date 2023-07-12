@@ -88,7 +88,6 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
             variant='advanced'
             errorCallback={props.errorToastCallback}
             setupLinkToken={props.setupLinkToken}
-            t={props.t}
             successCallback={props.cb}></CreateSAMLConnection>
         </Show>
         <Show when={state.connectionIsOIDC}>
@@ -96,7 +95,6 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
             variant='advanced'
             errorCallback={props.errorToastCallback}
             setupLinkToken={props.setupLinkToken}
-            t={props.t}
             successCallback={props.cb}></CreateOIDCConnection>
         </Show>
       </div>
