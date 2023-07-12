@@ -10,8 +10,6 @@ on:
     # Trigger only for PRs that target main branch
     branches:
       - main
-env:
-  NPM_REGISTRY: ${{ (github.ref == 'refs/heads/release' || contains(github.ref, 'refs/tags/beta-v')) && 'https://registry.npmjs.org' || 'https://npm.pkg.github.com' }}
 
 jobs:
   mitosis-generate:
@@ -27,7 +25,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          registry-url: ${{ env.NPM_REGISTRY }}
+          registry-url: 'https://registry.npmjs.org'
           check-latest: true
       - run: npm ci
       - name: Run mitosis build
@@ -92,8 +90,6 @@ jobs:
     defaults:
       run:
         working-directory: ${{ matrix.framework }}
-    env:
-      NODE_AUTH_TOKEN: ${{ (github.ref == 'refs/heads/release' || contains(github.ref, 'refs/tags/beta-v')) && secrets.NPM_TOKEN || secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v3
@@ -105,7 +101,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-          registry-url: ${{ env.NPM_REGISTRY }}
+          registry-url: 'https://registry.npmjs.org'
           check-latest: true
       - uses: actions/download-artifact@v3
         with:
@@ -115,6 +111,7 @@ jobs:
       - name: Publish NPM
         # Publish angular package from the dist folder
         working-directory: ${{ matrix.framework == 'angular' && 'angular/dist/boxyhq/angular-ui' || matrix.framework }}
+        if: github.ref == 'refs/heads/release' || contains(github.ref, 'refs/tags/beta-v')
         run: |
           npm install -g json
           PKG_VERSION=${{ needs.mitosis-generate.outputs.NPM_VERSION }}
@@ -122,4 +119,4 @@ jobs:
 
           npm publish --tag ${{ needs.mitosis-generate.outputs.PUBLISH_TAG }} --access public
         env:
-          NODE_AUTH_TOKEN: ${{ env.NODE_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
