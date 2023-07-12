@@ -1,12 +1,12 @@
 export interface ConnectionListProps {
-  setupLinkToken: string;
+  setupLinkToken?: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
   translation: any;
   connectionsUrl: string;
   slotLinkPrimary: any;
-  slotErrorToast: any;
-  toastSuccessCallback: () => void;
+  slotErrorToast?: any;
+  successCallback: () => void;
   onIconClick: () => void;
   /**
    * Classnames for each inner components that make up the component.
