@@ -98,7 +98,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
     get classes() {
       return {
         fieldContainer: cssClassAssembler(props.classNames?.fieldContainer, defaultClasses.fieldContainer),
-        buttonContainer: cssClassAssembler(props.classNames?.buttonContainer, defaultClasses.buttonContainer),
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
@@ -303,15 +302,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           />
         </div>
       </Show>
-      <div class={state.classes.fieldContainer}>
-        <div class={state.classes.buttonContainer}>
-          {/* TODO: bring loading state */}
-          <button data-testid='submit-form-create-sso' type='submit' class={state.classes.button}>
-            {/* TODO: bring translation support */}
-            Save Changes
-          </button>
-        </div>
-      </div>
+
+      {/* TODO: bring loading state */}
+      <button data-testid='submit-form-create-sso' type='submit' class={state.classes.button}>
+        {/* TODO: bring translation support */}
+        Save Changes
+      </button>
     </form>
   );
 }
