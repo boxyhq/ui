@@ -106,7 +106,6 @@ jobs:
         with:
           node-version: 18
           registry-url: ${{ env.NPM_REGISTRY }}
-          scope: '@boxyhq'
           check-latest: true
       - uses: actions/download-artifact@v3
         with:
