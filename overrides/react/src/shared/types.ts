@@ -58,7 +58,6 @@ export interface ButtonProps {
   label?: string;
   color?: string;
   onClick: () => void;
-  dataTestId?: string;
   classNames?: string;
 }
 
