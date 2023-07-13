@@ -83,23 +83,22 @@ export default function ConnectionList(props: ConnectionListProps) {
   });
 
   onMount(() => {
-    function getFieldsData(event: any) {
-      void (async function () {
-        const response = await fetch(props.connectionsUrl);
-        const { data, error, isLoading } = await response.json();
+    async function getFieldsData() {
+      const response = await fetch(props.connectionsUrl);
+      const { data, error, isLoading } = await response.json();
 
-        state.connectionListData = data;
+      state.connectionListData = data.connections;
+      state.connectionListError = error;
+
+      if (error) {
         state.connectionListError = error;
+      }
 
-        if (error) {
-          state.connectionListError = error;
-        }
-
-        if (isLoading) {
-          state.connectionListIsLoading = true;
-        }
-      })();
+      if (isLoading) {
+        state.connectionListIsLoading = true;
+      }
     }
+    getFieldsData();
   });
 
   return (
