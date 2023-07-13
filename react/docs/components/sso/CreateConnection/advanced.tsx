@@ -9,11 +9,11 @@ import '../CustomStyling.css';
 export default () => {
   return (
     <CreateSAMLConnection
-      loading={false}
-      cb={undefined}
-      t={(key) => key}
-      errorToastCallback={function (errMessage: string): void {
-        throw new Error('Function not implemented.');
+      successCallback={() => {
+        console.log(`saml connection added successfully`);
+      }}
+      errorCallback={(errMessage) => {
+        console.error(`saml connection creation failed with error: ${errMessage}`);
       }}
       variant={'advanced'}
       classNames={{ input: 'inp' }}
