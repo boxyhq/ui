@@ -148,14 +148,12 @@ export default function ConnectionList(props: ConnectionListProps) {
                     {props.translation('name')}
                   </th>
                   <Show when={state.displayTenantProduct}>
-                    <div>
-                      <th scope='col' class={state.classes.tableHeadScope}>
-                        {props.translation('tenant')}
-                      </th>
-                      <th scope='col' class={state.classes.tableHeadScope}>
-                        {props.translation('product')}
-                      </th>
-                    </div>
+                    <th scope='col' class={state.classes.tableHeadScope}>
+                      {props.translation('tenant')}
+                    </th>
+                    <th scope='col' class={state.classes.tableHeadScope}>
+                      {props.translation('product')}
+                    </th>
                   </Show>
                   <th scope='col' class={state.classes.tableHeadScope}>
                     {props.translation('idp_type')}
@@ -167,12 +165,11 @@ export default function ConnectionList(props: ConnectionListProps) {
                     {props.translation('actions')}
                   </th>
                 </tr>
-                tab
               </thead>
               <tbody>
                 <For each={state.connectionListData}>
-                  {(connection) => (
-                    <tr class={state.classes.connectionListContainer}>
+                  {(connection, index) => (
+                    <tr key={index} class={state.classes.connectionListContainer}>
                       <td class={state.classes.connectionListTableData}>
                         {state.connectionDisplayName(connection)}
                         <Show when={connection.isSystemSSO}>
@@ -186,10 +183,8 @@ export default function ConnectionList(props: ConnectionListProps) {
                         </Show>
                       </td>
                       <Show when={state.displayTenantProduct}>
-                        <div>
-                          <td class={state.classes.connectionTenantData}>{connection.tenant}</td>
-                          <td class={state.classes.connectionListTableData}>{connection.product}</td>
-                        </div>
+                        <td class={state.classes.connectionTenantData}>{connection.tenant}</td>
+                        <td class={state.classes.connectionListTableData}>{connection.product}</td>
                       </Show>
                       <td class={state.classes.tableHeadScope}>
                         <Show when={'oidcProvider' in connection}>OIDC</Show>
