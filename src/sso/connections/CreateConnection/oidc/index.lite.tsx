@@ -101,6 +101,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
+        textarea: cssClassAssembler(
+          props.classNames?.input,
+          defaultClasses.input + ' ' + defaultClasses.textarea
+        ),
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
@@ -113,6 +117,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           Name
         </label>
         <input
+          id='name'
           name='name'
           class={state.classes.input}
           onInput={(event) => state.handleChange('name', event)}
@@ -127,6 +132,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           Description
         </label>
         <input
+          id='description'
           name='description'
           class={state.classes.input}
           value={state._description}
@@ -142,6 +148,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           Tenant
         </label>
         <input
+          id='tenant'
           name='tenant'
           class={state.classes.input}
           onInput={(event) => state.handleChange('tenant', event)}
@@ -155,6 +162,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           Product
         </label>
         <input
+          id='product'
           name='product'
           class={state.classes.input}
           onInput={(event) => state.handleChange('product', event)}
@@ -168,8 +176,9 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           Allowed redirect URLs (newline separated)
         </label>
         <textarea
+          id='redirectUrl'
           name='redirectUrl'
-          class={state.classes.input}
+          class={state.classes.textarea}
           onInput={(event) => state.handleChange('redirectUrl', event)}
           value={state._redirectUrl}
           placeholder='http://localhost:3366'
@@ -180,6 +189,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           Default redirect URL
         </label>
         <input
+          id='defaultRedirectUrl'
           name='defaultRedirectUrl'
           class={state.classes.input}
           onInput={(event) => state.handleChange('defaultRedirectUrl', event)}
@@ -193,12 +203,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           Client ID [OIDC Provider]
         </label>
         <input
+          id='oidcClientId'
           name='oidcClientId'
           class={state.classes.input}
           onInput={(event) => state.handleChange('oidcClientId', event)}
           value={state._oidcClientId}
           type='text'
-          placeholder=''
         />
       </div>
       <div class={state.classes.fieldContainer}>
@@ -206,12 +216,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           Client Secret [OIDC Provider]
         </label>
         <input
+          id='oidcClientSecret'
           name='oidcClientSecret'
           class={state.classes.input}
           onInput={(event) => state.handleChange('defaultRedirectUrl', event)}
           value={state._oidcClientSecret}
           type='text'
-          placeholder=''
         />
       </div>
       <Show when={state.fieldValue}>
@@ -223,6 +233,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             Missing the discovery URL? Click here to set the individual attributes
           </button>
           <input
+            id='oidcDiscoveryUrl'
             name='oidcDiscoveryUrl'
             class={state.classes.input}
             onInput={(event) => state.handleChange('oidcDiscoveryUrl', event)}
@@ -241,12 +252,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             Issuer
           </label>
           <input
+            id='issuer'
             name='issuer'
             class={state.classes.input}
             onInput={(event) => state.handleChange('issuer', event)}
             value={state._issuer}
             type='url'
-            placeholder=''
           />
         </div>
         <div class={state.classes.fieldContainer}>
@@ -254,12 +265,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             Authorization Endpoint
           </label>
           <input
+            id='authorization_endpoint'
             name='authorization_endpoint'
             class={state.classes.input}
             onInput={(event) => state.handleChange('authorization_endpoint', event)}
             value={state._authorization_endpoint}
             type='url'
-            placeholder=''
           />
         </div>
         <div class={state.classes.fieldContainer}>
@@ -267,12 +278,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             Token endpoint
           </label>
           <input
+            id='token_endpoint'
             name='token_endpoint'
             class={state.classes.input}
             onInput={(event) => state.handleChange('token_endpoint', event)}
             value={state._token_endpoint}
             type='url'
-            placeholder=''
           />
         </div>
         <div class={state.classes.fieldContainer}>
@@ -280,12 +291,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             JWKS URI
           </label>
           <input
+            id='jwks_uri'
             name='jwks_uri'
             class={state.classes.input}
             onInput={(event) => state.handleChange('jwks_uri', event)}
             value={state._jwks_uri}
             type='url'
-            placeholder=''
           />
         </div>
         <div class={state.classes.fieldContainer}>
@@ -293,12 +304,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             UserInfo endpoint
           </label>
           <input
+            id='userinfo_endpoint'
             name='userinfo_endpoint'
             class={state.classes.input}
             onInput={(event) => state.handleChange('userinfo_endpoint', event)}
             value={state._userinfo_endpoint}
             type='url'
-            placeholder=''
           />
         </div>
       </Show>
