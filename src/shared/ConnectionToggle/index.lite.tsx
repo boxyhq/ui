@@ -17,12 +17,12 @@ export default function ConnectionToggle(props: ConnectionToggleProps) {
       },
     }[props.connection.type][props.connection.active ? 'deactivate' : 'activate'],
     get confirmationModalTitle() {
-      return this.active
+      return props.connection.active
         ? props.translation('deactivate_connection')
         : props.translation('activate_connection');
     },
     get ConnectinStatusMessage() {
-      return this.active ? props.translation('active') : props.translation('inactive');
+      return props.connection.active ? props.translation('active') : props.translation('inactive');
     },
     askForConfirmation() {
       state.isModalVisible = true;
