@@ -55,10 +55,7 @@ export interface ButtonBaseProps {
 
 export interface ButtonProps {
   children?: string;
-  label?: string;
-  color?: string;
   onClick: () => void;
-  classNames?: string;
 }
 
 export interface ConnectionToggleProps {
