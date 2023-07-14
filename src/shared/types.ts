@@ -58,12 +58,3 @@ export interface ButtonProps {
   label?: string;
   onClick: () => void;
 }
-
-export interface ConnectionToggleProps {
-  onChange: (active: boolean) => void;
-  connection: {
-    active: boolean;
-    type: 'sso' | 'dsync';
-  };
-  translation?: any;
-}
