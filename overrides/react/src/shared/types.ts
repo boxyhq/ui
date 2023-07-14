@@ -55,6 +55,7 @@ export interface ButtonBaseProps {
 
 export interface ButtonProps {
   children?: string;
+  label?: string;
   onClick: () => void;
 }
 

@@ -3,7 +3,11 @@ import commonStyles from '../common.module.css';
 
 export default function ButtonDanger(props: ButtonProps) {
   return (
-    <button type='button' class={commonStyles.button} onClick={() => props.onClick()}>
+    <button
+      aria-label={props.label}
+      type='button'
+      class={commonStyles.button}
+      onClick={() => props.onClick()}>
       {props.children}
     </button>
   );
