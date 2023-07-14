@@ -187,3 +187,9 @@ declare namespace classNames {
  * A simple JavaScript utility for conditionally joining classNames together.
  */
 export declare function classNames(...args: classNames.ArgumentArray): string;
+
+export default interface ToggleStatusProps {
+  connection: SAMLSSORecord | OIDCSSORecord;
+  setupLinkToken?: string;
+  translation: any;
+}
