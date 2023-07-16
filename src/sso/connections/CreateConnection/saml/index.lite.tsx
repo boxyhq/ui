@@ -5,43 +5,40 @@ import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
 
-const DEFAULT_VALUES: Partial<CreateConnectionProps> = {
+const DEFAULT_VALUES = {
   variant: 'basic',
+} satisfies Partial<CreateConnectionProps>;
+
+const INITIAL_VALUES = {
+  samlConnection: {
+    name: '',
+    description: '',
+    tenant: '',
+    product: '',
+    redirectUrl: '',
+    defaultRedirectUrl: '',
+    rawMetadata: '',
+    metadataUrl: '',
+    forceAuthn: false as boolean,
+  },
 };
+
+type Keys = keyof typeof INITIAL_VALUES.samlConnection;
+type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
     loading: false,
-    _name: '',
-    _description: '',
-    _tenant: '',
-    _product: '',
-    _redirectUrl: '',
-    _defaultRedirectUrl: '',
-    _rawMetadata: '',
-    _metadataUrl: '',
-    _forceAuthn: false,
-    handleChange(storeVariable: string, event: Event) {
-      const newValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
-      if (storeVariable === 'name') {
-        state._name = newValue;
-      } else if (storeVariable === 'description') {
-        state._description = newValue;
-      } else if (storeVariable === 'tenant') {
-        state._tenant = newValue;
-      } else if (storeVariable === 'product') {
-        state._product = newValue;
-      } else if (storeVariable === 'redirectUrl') {
-        state._redirectUrl = newValue;
-      } else if (storeVariable === 'defaultRedirectUrl') {
-        state._defaultRedirectUrl = newValue;
-      } else if (storeVariable === 'rawMetadata') {
-        state._rawMetadata = newValue;
-      } else if (storeVariable === 'metadataUrl') {
-        state._metadataUrl = newValue;
-      } else if (storeVariable === 'forceAuthn') {
-        state._forceAuthn = (event.currentTarget as HTMLInputElement)?.checked;
-      }
+    samlConnection: INITIAL_VALUES.samlConnection,
+    updateConnection(key: Keys, newValue: Values) {
+      return { ...state.samlConnection, [key]: newValue };
+    },
+    handleChange(event: Event) {
+      const target = event.target as HTMLInputElement | HTMLTextAreaElement;
+      const name = target.name as Keys;
+      const targetValue = name !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked;
+
+      state.samlConnection = state.updateConnection(name, targetValue);
     },
     save(event: Event) {
       void (async function (e) {
@@ -53,22 +50,17 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           url: props.urls?.save,
           formObj:
             props.variant === 'advanced'
-              ? {
-                  name: state._name,
-                  description: state._description,
-                  tenant: state._tenant,
-                  product: state._product,
-                  redirectUrl: state._redirectUrl,
-                  defaultRedirectUrl: state._defaultRedirectUrl,
-                  rawMetadata: state._rawMetadata,
-                  metadataUrl: state._metadataUrl,
-                  forceAuthn: state._forceAuthn,
-                }
-              : { rawMetadata: state._rawMetadata, metadataUrl: state._metadataUrl },
+              ? { ...state.samlConnection }
+              : {
+                  rawMetadata: state.samlConnection.rawMetadata,
+                  metadataUrl: state.samlConnection.metadataUrl,
+                },
           connectionIsSAML: true,
           setupLinkToken: props.setupLinkToken,
           callback: async (rawResponse: any) => {
             state.loading = false;
+
+            state.samlConnection = INITIAL_VALUES.samlConnection;
 
             const response: ApiResponse = await rawResponse.json();
 
@@ -113,8 +105,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             class={state.classes.input}
             id='name'
             name='name'
-            onInput={(event) => state.handleChange('name', event)}
-            value={state._name}
+            onInput={(event) => state.handleChange(event)}
+            value={state.samlConnection.name}
             required={false}
             type='text'
             placeholder='MyApp'
@@ -128,8 +120,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             class={state.classes.input}
             id='description'
             name='description'
-            onInput={(event) => state.handleChange('description', event)}
-            value={state._description}
+            onInput={(event) => state.handleChange(event)}
+            value={state.samlConnection.description}
             required={false}
             maxLength={100}
             type='text'
@@ -144,8 +136,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             class={state.classes.input}
             id='tenant'
             name='tenant'
-            onInput={(event) => state.handleChange('tenant', event)}
-            value={state._tenant}
+            onInput={(event) => state.handleChange(event)}
+            value={state.samlConnection.tenant}
             type='text'
             placeholder='acme.com'
           />
@@ -158,8 +150,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             class={state.classes.input}
             id='product'
             name='product'
-            onInput={(event) => state.handleChange('product', event)}
-            value={state._product}
+            onInput={(event) => state.handleChange(event)}
+            value={state.samlConnection.product}
             type='text'
             placeholder='demo'
           />
@@ -171,8 +163,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           <textarea
             id='redirectUrl'
             name='redirectUrl'
-            onInput={(event) => state.handleChange('redirectUrl', event)}
-            value={state._redirectUrl}
+            onInput={(event) => state.handleChange(event)}
+            value={state.samlConnection.redirectUrl}
             placeholder='http://localhost:3366'
           />
         </div>
@@ -184,8 +176,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             class={state.classes.input}
             id='defaultRedirectUrl'
             name='defaultRedirectUrl'
-            onInput={(event) => state.handleChange('defaultRedirectUrl', event)}
-            value={state._defaultRedirectUrl}
+            onInput={(event) => state.handleChange(event)}
+            value={state.samlConnection.defaultRedirectUrl}
             type='url'
             placeholder='http://localhost:3366/login/saml'
           />
@@ -199,8 +191,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           id='rawMetadata'
           class={state.classes.textarea}
           name='rawMetadata'
-          value={state._rawMetadata}
-          onInput={(event) => state.handleChange('rawMetadata', event)}
+          value={state.samlConnection.rawMetadata}
+          onInput={(event) => state.handleChange(event)}
           required={false}
           placeholder='Paste the raw XML here'
         />
@@ -213,8 +205,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           class={state.classes.input}
           id='metadataUrl'
           name='metadataUrl'
-          value={state._metadataUrl}
-          onInput={(event) => state.handleChange('metadataUrl', event)}
+          value={state.samlConnection.metadataUrl}
+          onInput={(event) => state.handleChange(event)}
           required={false}
           type='url'
           placeholder='Paste the Metadata URL here'
@@ -228,8 +220,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           <input
             id='forceAuthn'
             name='forceAuthn'
-            onInput={(event) => state.handleChange('forceAuthn', event)}
-            checked={state._forceAuthn}
+            onInput={(event) => state.handleChange(event)}
+            checked={state.samlConnection.forceAuthn}
             required={false}
             type='checkbox'
           />
