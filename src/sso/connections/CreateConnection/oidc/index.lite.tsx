@@ -5,6 +5,10 @@ import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
 
+const DEFAULT_VALUES = {
+  variant: 'basic',
+} satisfies Partial<CreateConnectionProps>;
+
 const INITIAL_VALUES = {
   oidcConnection: {
     name: '',
@@ -87,96 +91,101 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
+    get variant() {
+      return props.variant || DEFAULT_VALUES.variant;
+    },
   });
 
   return (
     <form onSubmit={(event) => state.save(event)} method='post'>
-      <div class={state.classes.fieldContainer}>
-        <label for='name' class={state.classes.label}>
-          Name
-        </label>
-        <input
-          id='name'
-          name='name'
-          class={state.classes.input}
-          onInput={(event) => state.handleChange(event)}
-          value={state.oidcConnection.name}
-          required={false}
-          type='text'
-          placeholder='MyApp'
-        />
-      </div>
-      <div class={state.classes.fieldContainer}>
-        <label for='description' class={state.classes.label}>
-          Description
-        </label>
-        <input
-          id='description'
-          name='description'
-          class={state.classes.input}
-          value={state.oidcConnection.description}
-          onInput={(event) => state.handleChange(event)}
-          required={false}
-          maxLength={100}
-          type='text'
-          placeholder='A short description not more than 100 characters'
-        />
-      </div>
-      <div class={state.classes.fieldContainer}>
-        <label for='tenant' class={state.classes.label}>
-          Tenant
-        </label>
-        <input
-          id='tenant'
-          name='tenant'
-          class={state.classes.input}
-          onInput={(event) => state.handleChange(event)}
-          value={state.oidcConnection.tenant}
-          type='text'
-          placeholder='acme.com'
-        />
-      </div>
-      <div class={state.classes.fieldContainer}>
-        <label for='product' class={state.classes.label}>
-          Product
-        </label>
-        <input
-          id='product'
-          name='product'
-          class={state.classes.input}
-          onInput={(event) => state.handleChange(event)}
-          value={state.oidcConnection.product}
-          type='text'
-          placeholder='demo'
-        />
-      </div>
-      <div class={state.classes.fieldContainer}>
-        <label for='redirectUrl' class={state.classes.label}>
-          Allowed redirect URLs (newline separated)
-        </label>
-        <textarea
-          id='redirectUrl'
-          name='redirectUrl'
-          class={state.classes.textarea}
-          onInput={(event) => state.handleChange(event)}
-          value={state.oidcConnection.redirectUrl}
-          placeholder='http://localhost:3366'
-        />
-      </div>
-      <div class={state.classes.fieldContainer}>
-        <label for='defaultRedirectUrl' class={state.classes.label}>
-          Default redirect URL
-        </label>
-        <input
-          id='defaultRedirectUrl'
-          name='defaultRedirectUrl'
-          class={state.classes.input}
-          onInput={(event) => state.handleChange(event)}
-          value={state.oidcConnection.defaultRedirectUrl}
-          type='url'
-          placeholder='http://localhost:3366/login/saml'
-        />
-      </div>
+      <Show when={state.variant === 'advanced'}>
+        <div class={state.classes.fieldContainer}>
+          <label for='name' class={state.classes.label}>
+            Name
+          </label>
+          <input
+            id='name'
+            name='name'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection.name}
+            required={false}
+            type='text'
+            placeholder='MyApp'
+          />
+        </div>
+        <div class={state.classes.fieldContainer}>
+          <label for='description' class={state.classes.label}>
+            Description
+          </label>
+          <input
+            id='description'
+            name='description'
+            class={state.classes.input}
+            value={state.oidcConnection.description}
+            onInput={(event) => state.handleChange(event)}
+            required={false}
+            maxLength={100}
+            type='text'
+            placeholder='A short description not more than 100 characters'
+          />
+        </div>
+        <div class={state.classes.fieldContainer}>
+          <label for='tenant' class={state.classes.label}>
+            Tenant
+          </label>
+          <input
+            id='tenant'
+            name='tenant'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection.tenant}
+            type='text'
+            placeholder='acme.com'
+          />
+        </div>
+        <div class={state.classes.fieldContainer}>
+          <label for='product' class={state.classes.label}>
+            Product
+          </label>
+          <input
+            id='product'
+            name='product'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection.product}
+            type='text'
+            placeholder='demo'
+          />
+        </div>
+        <div class={state.classes.fieldContainer}>
+          <label for='redirectUrl' class={state.classes.label}>
+            Allowed redirect URLs (newline separated)
+          </label>
+          <textarea
+            id='redirectUrl'
+            name='redirectUrl'
+            class={state.classes.textarea}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection.redirectUrl}
+            placeholder='http://localhost:3366'
+          />
+        </div>
+        <div class={state.classes.fieldContainer}>
+          <label for='defaultRedirectUrl' class={state.classes.label}>
+            Default redirect URL
+          </label>
+          <input
+            id='defaultRedirectUrl'
+            name='defaultRedirectUrl'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection.defaultRedirectUrl}
+            type='url'
+            placeholder='http://localhost:3366/login/saml'
+          />
+        </div>
+      </Show>
       <div class={state.classes.fieldContainer}>
         <label for='oidcClientId' class={state.classes.label}>
           Client ID [OIDC Provider]
