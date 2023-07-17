@@ -26,10 +26,8 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
       };
     },
-    handleNewConnectionTypeChange(event: any) {
-      state.newConnectionType = event.target.value;
-      console.log('Connection type changed');
-      console.log(event.target.value);
+    handleNewConnectionTypeChange(event: Event) {
+      state.newConnectionType = (event.target as HTMLInputElement).value;
     },
   });
 
@@ -42,7 +40,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             <InputWithCopyButton
               text={props.idpEntityID || ''}
               label='IdP Entity ID'
-              toastSuccessCallback={props.successToastCallback}
+              toastSuccessCallback={() => {}}
             />
           </div>
         </div>
@@ -79,19 +77,20 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         </fieldset>
         <Show when={state.connectionIsSAML}>
           <CreateSAMLConnection
-            urls={{ save: props.urls.saml.save }}
-            classNames={{ button: props.classNames?.button }}
+            urls={props.componentProps.saml.urls}
+            excludeFields={props.componentProps.saml.excludeFields}
+            classNames={props.componentProps.saml.classNames}
             variant='advanced'
-            errorCallback={props.errorToastCallback}
-            successCallback={props.cb}></CreateSAMLConnection>
+            errorCallback={props.componentProps.saml.errorCallback}
+            successCallback={props.componentProps.saml.successCallback}></CreateSAMLConnection>
         </Show>
         <Show when={state.connectionIsOIDC}>
           <CreateOIDCConnection
-            urls={{ save: props.urls.oidc.save }}
-            classNames={{ button: props.classNames?.button }}
+            urls={props.componentProps.oidc.urls}
+            classNames={props.componentProps.oidc.classNames}
             variant='advanced'
-            errorCallback={props.errorToastCallback}
-            successCallback={props.cb}></CreateOIDCConnection>
+            errorCallback={props.componentProps.oidc.errorCallback}
+            successCallback={props.componentProps.oidc.successCallback}></CreateOIDCConnection>
         </Show>
       </div>
     </div>
