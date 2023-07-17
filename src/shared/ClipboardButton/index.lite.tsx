@@ -4,15 +4,11 @@ import CopytoClipboardIcon from '../icons/CopytoClipboardIcon.lite';
 
 interface PropsType {
   text: string;
-  translation: any;
   toastSuccessCallback: () => void;
 }
 
 export default function CopyToClipboardButton(props: PropsType) {
   const state = useStore({
-    get label() {
-      return props.translation('copy');
-    },
     copyToClipboard(text: string) {
       navigator.clipboard.writeText(text);
     },
@@ -23,7 +19,7 @@ export default function CopyToClipboardButton(props: PropsType) {
   });
   return (
     <IconButton
-      label={state.label}
+      label='Copy'
       Icon={CopytoClipboardIcon}
       iconClasses='hover:text-primary'
       onClick={state.onClick}
