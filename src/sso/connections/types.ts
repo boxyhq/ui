@@ -62,6 +62,7 @@ export interface CreateSSOConnectionProps {
    * Classnames for each inner components that make up the component.
    */
   classNames?: {
+    button?: string;
     container?: string;
     containerWidth?: string;
     formControl?: string;
