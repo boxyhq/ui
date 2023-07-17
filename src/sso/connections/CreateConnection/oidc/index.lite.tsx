@@ -55,10 +55,9 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         state.loading = true;
 
         await saveConnection({
-          url: props.urls?.save,
+          url: props.urls.save,
           formObj: { ...state.oidcConnection },
           connectionIsOIDC: true,
-          setupLinkToken: props.setupLinkToken,
           callback: async (rawResponse: any) => {
             state.loading = false;
 
