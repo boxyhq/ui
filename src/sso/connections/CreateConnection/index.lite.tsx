@@ -84,6 +84,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         <Show when={state.connectionIsSAML}>
           <CreateSAMLConnection
             urls={{ save: props.urls.saml.save }}
+            classNames={{ button: props.classNames?.button }}
             variant='advanced'
             errorCallback={props.errorToastCallback}
             successCallback={props.cb}></CreateSAMLConnection>
@@ -91,6 +92,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         <Show when={state.connectionIsOIDC}>
           <CreateOIDCConnection
             urls={{ save: props.urls.oidc.save }}
+            classNames={{ button: props.classNames?.button }}
             variant='advanced'
             errorCallback={props.errorToastCallback}
             successCallback={props.cb}></CreateOIDCConnection>
