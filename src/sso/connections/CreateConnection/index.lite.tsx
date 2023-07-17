@@ -50,37 +50,35 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         </div>
       </Show>
       <div>
-        <div className={state.classes.container}>
-          <div className={state.classes.selectSSO}>Select SSO type</div>
-          <div className={state.classes.containerWidth}>
-            <div className={state.classes.formControl}>
-              <label className={state.classes.label}>
-                <input
-                  type='radio'
-                  name='connection'
-                  value='saml'
-                  className={state.classes.radio}
-                  checked={state.newConnectionType === 'saml'}
-                  onChange={(event) => state.handleNewConnectionTypeChange(event)}
-                />
-                <span className={state.classes.span}>SAML</span>
-              </label>
-            </div>
-            <div className={state.classes.formControl}>
-              <label className={state.classes.label} data-testid='sso-type-oidc'>
-                <input
-                  type='radio'
-                  name='connection'
-                  value='oidc'
-                  className={state.classes.radio}
-                  checked={state.newConnectionType === 'oidc'}
-                  onChange={(event) => state.handleNewConnectionTypeChange(event)}
-                />
-                <span className={state.classes.span}>OIDC</span>
-              </label>
-            </div>
+        <fieldset className={state.classes.container}>
+          <legend className={state.classes.selectSSO}>Select SSO type</legend>
+          <div className={state.classes.formControl}>
+            <label className={state.classes.label}>
+              <input
+                type='radio'
+                name='connection'
+                value='saml'
+                className={state.classes.radio}
+                checked={state.newConnectionType === 'saml'}
+                onChange={(event) => state.handleNewConnectionTypeChange(event)}
+              />
+              <span className={state.classes.span}>SAML</span>
+            </label>
           </div>
-        </div>
+          <div className={state.classes.formControl}>
+            <label className={state.classes.label} data-testid='sso-type-oidc'>
+              <input
+                type='radio'
+                name='connection'
+                value='oidc'
+                className={state.classes.radio}
+                checked={state.newConnectionType === 'oidc'}
+                onChange={(event) => state.handleNewConnectionTypeChange(event)}
+              />
+              <span className={state.classes.span}>OIDC</span>
+            </label>
+          </div>
+        </fieldset>
         <Show when={state.connectionIsSAML}>
           <CreateSAMLConnection
             urls={{ save: props.urls.saml.save }}
