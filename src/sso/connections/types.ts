@@ -80,14 +80,6 @@ export interface CreateSSOConnectionProps {
   };
 }
 
-export interface ToggleConnectionStatusProps {
-  connection: SAMLSSORecord | OIDCSSORecord;
-  setupLinkToken?: string;
-  translation: any;
-  errorToastCallback: (errMessage: string) => void;
-  successToastCallback: (successMessage: string) => void;
-}
-
 export type ApiSuccess<T> = { data: T; pageToken?: string };
 
 export interface ApiError extends Error {
@@ -196,4 +188,6 @@ export default interface ToggleStatusProps {
   connection: SAMLSSORecord | OIDCSSORecord;
   setupLinkToken?: string;
   translation: any;
+  errorCallback: (errMsg: string) => void;
+  successCallback: (successMsg: string) => void;
 }
