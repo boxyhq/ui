@@ -64,14 +64,12 @@ export interface CreateSSOConnectionProps {
   classNames?: {
     button?: string;
     container?: string;
-    containerWidth?: string;
     formControl?: string;
     selectSSO?: string;
     idpId?: string;
     radio?: string;
     span?: string;
     label?: string;
-    h2?: string;
   };
 
   urls: {

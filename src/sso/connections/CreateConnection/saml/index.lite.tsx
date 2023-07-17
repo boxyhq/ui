@@ -219,7 +219,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           <input
             id='forceAuthn'
             name='forceAuthn'
-            onInput={(event) => state.handleChange(event)}
+            onChange={(event) => state.handleChange(event)}
             checked={state.samlConnection.forceAuthn}
             required={false}
             type='checkbox'
