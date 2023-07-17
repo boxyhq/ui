@@ -1,12 +1,12 @@
 import { useStore, Show, Slot } from '@builder.io/mitosis';
 import CreateOIDCConnection from './oidc/index.lite';
 import CreateSAMLConnection from './saml/index.lite';
-import { CreateConnectionParentProps } from '../types';
+import type { CreateSSOConnectionProps } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import InputWithCopyButton from '../../../shared/InputWithCopyButton/index.lite';
 
-export default function CreateConnection(props: CreateConnectionParentProps) {
+export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
   const state = useStore({
     newConnectionType: 'saml',
     get connectionIsSAML(): boolean {
@@ -83,16 +83,16 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
         </div>
         <Show when={state.connectionIsSAML}>
           <CreateSAMLConnection
+            urls={{ save: props.urls.saml.save }}
             variant='advanced'
             errorCallback={props.errorToastCallback}
-            setupLinkToken={props.setupLinkToken}
             successCallback={props.cb}></CreateSAMLConnection>
         </Show>
         <Show when={state.connectionIsOIDC}>
           <CreateOIDCConnection
+            urls={{ save: props.urls.oidc.save }}
             variant='advanced'
             errorCallback={props.errorToastCallback}
-            setupLinkToken={props.setupLinkToken}
             successCallback={props.cb}></CreateOIDCConnection>
         </Show>
       </div>
