@@ -6,7 +6,6 @@ import CopyToClipboardButton from '../ClipboardButton/index.lite';
 interface PropsType {
   text: string;
   label: string;
-  translation: any;
   toastSuccessCallback: () => void;
   classNames?: {
     label?: string;
@@ -30,11 +29,7 @@ export default function InputWithCopyButton(props: PropsType) {
         <label class={state.classes.label} for={state.id}>
           {props.label}
         </label>
-        <CopyToClipboardButton
-          toastSuccessCallback={props.toastSuccessCallback}
-          translation={props.translation}
-          text={props.text}
-        />
+        <CopyToClipboardButton toastSuccessCallback={props.toastSuccessCallback} text={props.text} />
       </div>
       <input id={state.id} type='text' value={props.text} readOnly class={state.classes.input} />
     </div>

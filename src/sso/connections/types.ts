@@ -55,7 +55,6 @@ export interface CreateConnectionProps {
 export interface CreateConnectionParentProps {
   setupLinkToken?: string;
   idpEntityID?: string;
-  t: any;
   cb: () => void;
   slotLinkBack: any;
   errorToastCallback: () => void;

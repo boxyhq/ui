@@ -43,17 +43,15 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
           <div className={state.classes.formControl}>
             <InputWithCopyButton
               text={props.idpEntityID || ''}
-              label={props.t('idp_entity_id')}
-              translation={props.t}
+              label='IdP Entity ID'
               toastSuccessCallback={props.successToastCallback}
             />
           </div>
         </div>
       </Show>
       <div>
-        <h2 className={state.classes.h2}>{props.t('create_sso_connection')}</h2>
         <div className={state.classes.container}>
-          <div className={state.classes.selectSSO}>{props.t('select_sso_type')}:</div>
+          <div className={state.classes.selectSSO}>Select SSO type</div>
           <div className={state.classes.containerWidth}>
             <div className={state.classes.formControl}>
               <label className={state.classes.label}>
@@ -65,7 +63,7 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
                   checked={state.newConnectionType === 'saml'}
                   onChange={(event) => state.handleNewConnectionTypeChange(event)}
                 />
-                <span className={state.classes.span}>{props.t('saml')}</span>
+                <span className={state.classes.span}>SAML</span>
               </label>
             </div>
             <div className={state.classes.formControl}>
@@ -78,7 +76,7 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
                   checked={state.newConnectionType === 'oidc'}
                   onChange={(event) => state.handleNewConnectionTypeChange(event)}
                 />
-                <span className={state.classes.span}>{props.t('oidc')}</span>
+                <span className={state.classes.span}>OIDC</span>
               </label>
             </div>
           </div>
