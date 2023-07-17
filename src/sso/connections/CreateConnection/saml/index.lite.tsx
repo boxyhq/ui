@@ -1,5 +1,5 @@
 import { Show, useStore } from '@builder.io/mitosis';
-import type { CreateConnectionProps } from '../../types';
+import type { CreateConnectionProps, SAMLSSOConnection } from '../../types';
 import { ApiResponse } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -91,96 +91,111 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
+    isExcluded(fieldName: keyof SAMLSSOConnection) {
+      return !!props.excludeFields?.includes(fieldName);
+    },
   });
 
   return (
     <form onSubmit={(event) => state.save(event)} method='post'>
       <Show when={state.variant === 'advanced'}>
-        <div class={state.classes.fieldContainer}>
-          <label for='name' class={state.classes.label}>
-            Name
-          </label>
-          <input
-            class={state.classes.input}
-            id='name'
-            name='name'
-            onInput={(event) => state.handleChange(event)}
-            value={state.samlConnection.name}
-            required={false}
-            type='text'
-            placeholder='MyApp'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='description' class={state.classes.label}>
-            Description
-          </label>
-          <input
-            class={state.classes.input}
-            id='description'
-            name='description'
-            onInput={(event) => state.handleChange(event)}
-            value={state.samlConnection.description}
-            required={false}
-            maxLength={100}
-            type='text'
-            placeholder='A short description not more than 100 characters'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='tenant' class={state.classes.label}>
-            Tenant
-          </label>
-          <input
-            class={state.classes.input}
-            id='tenant'
-            name='tenant'
-            onInput={(event) => state.handleChange(event)}
-            value={state.samlConnection.tenant}
-            type='text'
-            placeholder='acme.com'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='product' class={state.classes.label}>
-            Product
-          </label>
-          <input
-            class={state.classes.input}
-            id='product'
-            name='product'
-            onInput={(event) => state.handleChange(event)}
-            value={state.samlConnection.product}
-            type='text'
-            placeholder='demo'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='redirectUrl' class={state.classes.label}>
-            Allowed redirect URLs (newline separated)
-          </label>
-          <textarea
-            id='redirectUrl'
-            name='redirectUrl'
-            onInput={(event) => state.handleChange(event)}
-            value={state.samlConnection.redirectUrl}
-            placeholder='http://localhost:3366'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='defaultRedirectUrl' class={state.classes.label}>
-            Default redirect URL
-          </label>
-          <input
-            class={state.classes.input}
-            id='defaultRedirectUrl'
-            name='defaultRedirectUrl'
-            onInput={(event) => state.handleChange(event)}
-            value={state.samlConnection.defaultRedirectUrl}
-            type='url'
-            placeholder='http://localhost:3366/login/saml'
-          />
-        </div>
+        <Show when={!state.isExcluded('name')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='name' class={state.classes.label}>
+              Connection name (Optional)
+            </label>
+            <input
+              class={state.classes.input}
+              id='name'
+              name='name'
+              onInput={(event) => state.handleChange(event)}
+              value={state.samlConnection.name}
+              required={false}
+              type='text'
+              placeholder='MyApp'
+            />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('description')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='description' class={state.classes.label}>
+              Description
+            </label>
+            <input
+              class={state.classes.input}
+              id='description'
+              name='description'
+              onInput={(event) => state.handleChange(event)}
+              value={state.samlConnection.description}
+              required={false}
+              maxLength={100}
+              type='text'
+              placeholder='A short description not more than 100 characters'
+            />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('tenant')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='tenant' class={state.classes.label}>
+              Tenant
+            </label>
+            <input
+              class={state.classes.input}
+              id='tenant'
+              name='tenant'
+              onInput={(event) => state.handleChange(event)}
+              value={state.samlConnection.tenant}
+              type='text'
+              placeholder='acme.com'
+            />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('product')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='product' class={state.classes.label}>
+              Product
+            </label>
+            <input
+              class={state.classes.input}
+              id='product'
+              name='product'
+              onInput={(event) => state.handleChange(event)}
+              value={state.samlConnection.product}
+              type='text'
+              placeholder='demo'
+            />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('redirectUrl')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='redirectUrl' class={state.classes.label}>
+              Allowed redirect URLs (newline separated)
+            </label>
+            <textarea
+              id='redirectUrl'
+              name='redirectUrl'
+              onInput={(event) => state.handleChange(event)}
+              value={state.samlConnection.redirectUrl}
+              placeholder='http://localhost:3366'
+            />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('defaultRedirectUrl')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='defaultRedirectUrl' class={state.classes.label}>
+              Default redirect URL
+            </label>
+            <input
+              class={state.classes.input}
+              id='defaultRedirectUrl'
+              name='defaultRedirectUrl'
+              onInput={(event) => state.handleChange(event)}
+              value={state.samlConnection.defaultRedirectUrl}
+              type='url'
+              placeholder='http://localhost:3366/login/saml'
+            />
+          </div>
+        </Show>
       </Show>
       <div class={state.classes.fieldContainer}>
         <label for='rawMetadata' class={state.classes.label}>
@@ -212,19 +227,21 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         />
       </div>
       <Show when={state.variant === 'advanced'}>
-        <div class={state.classes.fieldContainer}>
-          <label for='forceAuthn' class={state.classes.label}>
-            Force Authentication
-          </label>
-          <input
-            id='forceAuthn'
-            name='forceAuthn'
-            onChange={(event) => state.handleChange(event)}
-            checked={state.samlConnection.forceAuthn}
-            required={false}
-            type='checkbox'
-          />
-        </div>
+        <Show when={!state.isExcluded('forceAuthn')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='forceAuthn' class={state.classes.label}>
+              Force Authentication
+            </label>
+            <input
+              id='forceAuthn'
+              name='forceAuthn'
+              onChange={(event) => state.handleChange(event)}
+              checked={state.samlConnection.forceAuthn}
+              required={false}
+              type='checkbox'
+            />
+          </div>
+        </Show>
       </Show>
 
       {/* TODO: bring loading state */}

@@ -36,6 +36,7 @@ export interface CreateConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   variant: 'basic' | 'advanced';
+  excludeFields?: Array<keyof SAMLSSOConnection>;
   urls: {
     save: string;
   };
@@ -54,15 +55,11 @@ export interface CreateConnectionProps {
 export interface CreateSSOConnectionProps {
   setupLinkToken?: string;
   idpEntityID?: string;
-  cb: () => void;
   slotLinkBack: any;
-  errorToastCallback: () => void;
-  successToastCallback: () => void;
   /**
    * Classnames for each inner components that make up the component.
    */
   classNames?: {
-    button?: string;
     container?: string;
     formControl?: string;
     selectSSO?: string;
@@ -71,10 +68,9 @@ export interface CreateSSOConnectionProps {
     span?: string;
     label?: string;
   };
-
-  urls: {
-    saml: { save: string };
-    oidc: { save: string };
+  componentProps: {
+    saml: CreateConnectionProps;
+    oidc: CreateConnectionProps;
   };
 }
 
@@ -131,7 +127,8 @@ interface SSOConnection {
 
 export interface SAMLSSOConnection extends SSOConnection {
   forceAuthn?: boolean | string;
-  identifierFormat?: string;
+  rawMetadata?: string;
+  metadataUrl?: string;
 }
 
 export interface SAMLSSORecord extends SAMLSSOConnection {
