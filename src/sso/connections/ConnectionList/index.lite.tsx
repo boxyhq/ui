@@ -193,11 +193,11 @@ export default function ConnectionList(props: ConnectionListProps) {
                         <Show
                           when={connection.deactivated}
                           else={
-                            <Badge color='success' size='md'>
+                            <Badge color='black' size='md'>
                               {props.translation('active')}
                             </Badge>
                           }>
-                          <Badge color='warning' size='md'>
+                          <Badge color='red' size='md'>
                             {props.translation('inactive')}
                           </Badge>
                         </Show>
