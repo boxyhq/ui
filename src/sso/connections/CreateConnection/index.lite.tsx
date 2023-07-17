@@ -18,14 +18,12 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
     get classes() {
       return {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
-        containerWidth: cssClassAssembler(props.classNames?.containerWidth, defaultClasses.containerWidth),
         formControl: cssClassAssembler(props.classNames?.formControl, defaultClasses.formControl),
         selectSSO: cssClassAssembler(props.classNames?.selectSSO, defaultClasses.selectSSO),
         idpId: cssClassAssembler(props.classNames?.idpId, defaultClasses.idpId),
         radio: cssClassAssembler(props.classNames?.radio, defaultClasses.radio),
         span: cssClassAssembler(props.classNames?.span, defaultClasses.span),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
-        h2: cssClassAssembler(props.classNames?.h2, defaultClasses.h2),
       };
     },
     handleNewConnectionTypeChange(event: any) {
