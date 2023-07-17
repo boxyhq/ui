@@ -186,7 +186,9 @@ export declare function classNames(...args: classNames.ArgumentArray): string;
 
 export default interface ToggleStatusProps {
   connection: SAMLSSORecord | OIDCSSORecord;
-  setupLinkToken?: string;
+  urls: {
+    save: string;
+  };
   translation: any;
   errorCallback: (errMsg: string) => void;
   successCallback: (successMsg: string) => void;
