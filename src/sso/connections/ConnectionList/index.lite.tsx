@@ -129,7 +129,6 @@ export default function ConnectionList(props: ConnectionListProps) {
               <InputWithCopyButton
                 text={props.idpEntityID || ''}
                 label={props.translation('idp_entity_id')}
-                translation={props.translation}
                 toastSuccessCallback={props.successCallback}
               />
             </div>
