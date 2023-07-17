@@ -5,7 +5,6 @@ export const saveConnection = async ({
   isEditView,
   connectionIsSAML,
   connectionIsOIDC,
-  setupLinkToken,
   callback,
   url,
 }: {
@@ -13,9 +12,8 @@ export const saveConnection = async ({
   isEditView?: boolean;
   connectionIsSAML?: boolean;
   connectionIsOIDC?: boolean;
-  setupLinkToken?: string;
   callback: (res: Response) => Promise<void>;
-  url?: string;
+  url: string;
 }) => {
   const {
     rawMetadata,
@@ -31,25 +29,21 @@ export const saveConnection = async ({
   const encodedRawMetadata = window.btoa((rawMetadata as string) || '');
   const redirectUrlList = redirectUrl as string;
 
-  const res = await fetch(
-    // TODO: remove default urls, always pass from outside
-    url ? url : setupLinkToken ? `/api/setup/${setupLinkToken}/sso-connection` : '/api/admin/connections',
-    {
-      method: isEditView ? 'PATCH' : 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        ...rest,
-        encodedRawMetadata: connectionIsSAML ? encodedRawMetadata : undefined,
-        oidcDiscoveryUrl: connectionIsOIDC ? oidcDiscoveryUrl : undefined,
-        oidcMetadata: connectionIsOIDC ? oidcMetadata : undefined,
-        oidcClientId: connectionIsOIDC ? oidcClientId : undefined,
-        oidcClientSecret: connectionIsOIDC ? oidcClientSecret : undefined,
-        redirectUrl: redirectUrl && redirectUrlList ? JSON.stringify(redirectUrlList) : undefined,
-        metadataUrl: connectionIsSAML ? metadataUrl : undefined,
-      }),
-    }
-  );
+  const res = await fetch(url, {
+    method: isEditView ? 'PATCH' : 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      ...rest,
+      encodedRawMetadata: connectionIsSAML ? encodedRawMetadata : undefined,
+      oidcDiscoveryUrl: connectionIsOIDC ? oidcDiscoveryUrl : undefined,
+      oidcMetadata: connectionIsOIDC ? oidcMetadata : undefined,
+      oidcClientId: connectionIsOIDC ? oidcClientId : undefined,
+      oidcClientSecret: connectionIsOIDC ? oidcClientSecret : undefined,
+      redirectUrl: redirectUrl && redirectUrlList ? JSON.stringify(redirectUrlList) : undefined,
+      metadataUrl: connectionIsSAML ? metadataUrl : undefined,
+    }),
+  });
   callback(res);
 };

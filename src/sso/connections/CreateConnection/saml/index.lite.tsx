@@ -47,7 +47,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         state.loading = true;
 
         await saveConnection({
-          url: props.urls?.save,
+          url: props.urls.save,
           formObj:
             props.variant === 'advanced'
               ? { ...state.samlConnection }
@@ -56,7 +56,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
                   metadataUrl: state.samlConnection.metadataUrl,
                 },
           connectionIsSAML: true,
-          setupLinkToken: props.setupLinkToken,
           callback: async (rawResponse: any) => {
             state.loading = false;
 

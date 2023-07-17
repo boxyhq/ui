@@ -33,12 +33,11 @@ export interface ConnectionListProps {
 }
 
 export interface CreateConnectionProps {
-  setupLinkToken?: string;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   variant: 'basic' | 'advanced';
-  urls?: {
-    save?: string;
+  urls: {
+    save: string;
   };
   /**
    * Classnames for each inner components that make up the component.
@@ -52,7 +51,7 @@ export interface CreateConnectionProps {
   };
 }
 
-export interface CreateConnectionParentProps {
+export interface CreateSSOConnectionProps {
   setupLinkToken?: string;
   idpEntityID?: string;
   cb: () => void;
@@ -72,6 +71,11 @@ export interface CreateConnectionParentProps {
     span?: string;
     label?: string;
     h2?: string;
+  };
+
+  urls: {
+    saml: { save: string };
+    oidc: { save: string };
   };
 }
 
