@@ -51,7 +51,6 @@ export default function CreateConnection(props: CreateConnectionParentProps) {
         </div>
       </Show>
       <div>
-        <h2 className={state.classes.h2}>{props.t('create_sso_connection')}</h2>
         <div className={state.classes.container}>
           <div className={state.classes.selectSSO}>{props.t('select_sso_type')}:</div>
           <div className={state.classes.containerWidth}>
