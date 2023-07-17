@@ -44,11 +44,15 @@
   line-height: 20px;
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
+  border-bottom-width: 1px;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 
 :is(.table .tableHead) {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
+  border-bottom-width: 1px;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 
 :is(.tableHead) {
@@ -66,6 +70,11 @@
   color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
+.tableRow {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}
+
 .tableRow:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
@@ -73,12 +82,13 @@
 
 .tableHeadScope {
   padding: 12px 24px 12px 24px;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .connectionListContainer {
   border-bottom-width: 1px;
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .connectionListContainer:last-child {
@@ -90,16 +100,6 @@
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
-:is(.connectionListContainer) {
-  --tw-border-opacity: 1;
-  border-color: rgb(55 65 81 / var(--tw-border-opacity));
-}
-
-:is(.connectionListContainer) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
-}
-
 .connectionListTableData {
   white-space: nowrap;
   padding: 12px 24px 12px 24px;
@@ -107,11 +107,13 @@
   line-height: 20px;
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity));
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
-:is(.connectionListTableData0) {
+:is(.connectionListTableData) {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .connectionTenantData {
@@ -119,12 +121,14 @@
   padding: 12px 24px 12px 24px;
   font-weight: 500;
   --tw-text-opacity: 1;
-  color: rgb(17 24 39 / var(--tw-text-opacity));
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 :is(.connectionTenantData) {
   --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
 .badgeClass {
@@ -134,6 +138,7 @@
 
 .tableData {
   padding: 0 24px 0 24px;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
 }
 
 .spanIcon {
