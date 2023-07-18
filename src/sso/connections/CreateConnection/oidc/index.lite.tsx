@@ -141,7 +141,11 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             value={state.oidcConnection.tenant}
             type='text'
             placeholder='acme.com'
+            aria-describedby='tenant-hint'
           />
+          <span id='tenant-hint' class={defaultClasses.hint}>
+            Unique identifier for the tenant in your app
+          </span>
         </div>
         <div class={state.classes.fieldContainer}>
           <label for='product' class={state.classes.label}>
@@ -168,7 +172,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             onInput={(event) => state.handleChange(event)}
             value={state.oidcConnection.redirectUrl}
             placeholder='http://localhost:3366'
+            aria-describedby='redirectUrl-hint'
           />
+          <span id='redirectUrl-hint' class={defaultClasses.hint}>
+            URL to redirect the user to after login. You can specify multiple URLs by separating them with a
+            new line.
+          </span>
         </div>
         <div class={state.classes.fieldContainer}>
           <label for='defaultRedirectUrl' class={state.classes.label}>

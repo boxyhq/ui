@@ -147,7 +147,11 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               value={state.samlConnection.tenant}
               type='text'
               placeholder='acme.com'
+              aria-describedby='tenant-hint'
             />
+            <span id='tenant-hint' class={defaultClasses.hint}>
+              Unique identifier for the tenant in your app
+            </span>
           </div>
         </Show>
         <Show when={!state.isExcluded('product')}>
@@ -177,7 +181,12 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               onInput={(event) => state.handleChange(event)}
               value={state.samlConnection.redirectUrl}
               placeholder='http://localhost:3366'
+              aria-describedby='redirectUrl-hint'
             />
+            <span id='redirectUrl-hint' class={defaultClasses.hint}>
+              URL to redirect the user to after login. You can specify multiple URLs by separating them with a
+              new line.
+            </span>
           </div>
         </Show>
         <Show when={!state.isExcluded('defaultRedirectUrl')}>
