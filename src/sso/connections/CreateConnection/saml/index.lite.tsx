@@ -178,6 +178,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             <textarea
               id='redirectUrl'
               name='redirectUrl'
+              class={state.classes.textarea}
               onInput={(event) => state.handleChange(event)}
               value={state.samlConnection.redirectUrl}
               placeholder='http://localhost:3366'
