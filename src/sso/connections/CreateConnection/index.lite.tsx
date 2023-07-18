@@ -1,4 +1,4 @@
-import { useStore, Show, Slot } from '@builder.io/mitosis';
+import { useStore, Show } from '@builder.io/mitosis';
 import CreateOIDCConnection from './oidc/index.lite';
 import CreateSAMLConnection from './saml/index.lite';
 import type { CreateSSOConnectionProps } from '../types';
