@@ -55,7 +55,6 @@ export interface CreateConnectionProps {
 export interface CreateSSOConnectionProps {
   setupLinkToken?: string;
   idpEntityID?: string;
-  slotLinkBack: any;
   /**
    * Classnames for each inner components that make up the component.
    */

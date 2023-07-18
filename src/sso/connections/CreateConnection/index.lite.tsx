@@ -36,7 +36,6 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
 
   return (
     <div>
-      <Slot name={props.slotLinkBack}></Slot>
       <Show when={props.idpEntityID && props.setupLinkToken}>
         <div className={state.classes.idpId}>
           <div className={state.classes.formControl}>
