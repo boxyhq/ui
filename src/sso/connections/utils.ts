@@ -27,7 +27,7 @@ export const saveConnection = async ({
   } = formObj;
 
   const encodedRawMetadata = window.btoa((rawMetadata as string) || '');
-  const redirectUrlList = redirectUrl as string;
+  const redirectUrlList = (redirectUrl as string)?.split(/\r\n|\r|\n/);
 
   const res = await fetch(url, {
     method: isEditView ? 'PATCH' : 'POST',
