@@ -88,6 +88,10 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           props.classNames?.input,
           defaultClasses.input + ' ' + defaultClasses.textarea
         ),
+        radioContainer: cssClassAssembler(
+          props.classNames?.radioContainer,
+          defaultClasses.radioContainer + ' ' + defaultClasses.fieldContainer
+        ),
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
@@ -238,7 +242,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       </div>
       <Show when={state.variant === 'advanced'}>
         <Show when={!state.isExcluded('forceAuthn')}>
-          <div class={state.classes.fieldContainer}>
+          <div class={state.classes.radioContainer}>
             <label for='forceAuthn' class={state.classes.label}>
               Force Authentication
             </label>

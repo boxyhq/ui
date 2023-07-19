@@ -42,6 +42,15 @@
   height: 6rem;
 }
 
+.radioContainer {
+  flex-direction: row;
+  align-items: center;
+}
+
+.radioContainer > input {
+  margin-left: 1rem;
+}
+
 .hint {
   font-size: 0.75rem;
   line-height: 1rem;

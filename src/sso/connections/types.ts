@@ -47,6 +47,7 @@ export interface CreateConnectionProps {
     container?: string;
     button?: string;
     input?: string;
+    radioContainer?: string;
     label?: string;
     fieldContainer?: string;
   };
