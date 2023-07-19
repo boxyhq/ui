@@ -33,11 +33,11 @@ type Values = (typeof INITIAL_VALUES.oidcConnection)[Keys];
 
 export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
-    fieldValue: true,
     loading: false,
     oidcConnection: INITIAL_VALUES.oidcConnection,
-    toggleButton() {
-      state.fieldValue = !state.fieldValue;
+    hasDiscoveryUrl: true,
+    toggleHasDiscoveryUrl() {
+      state.hasDiscoveryUrl = !state.hasDiscoveryUrl;
     },
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.oidcConnection, [key]: newValue };
@@ -221,12 +221,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           type='text'
         />
       </div>
-      <Show when={state.fieldValue}>
+      <Show when={state.hasDiscoveryUrl}>
         <div class={state.classes.fieldContainer}>
           <label for='oidcDiscoveryUrl' class={state.classes.label}>
             Well-known URL of OpenID Provider
           </label>
-          <button onClick={() => state.toggleButton()}>
+          <button onClick={() => state.toggleHasDiscoveryUrl()}>
             Missing the discovery URL? Click here to set the individual attributes
           </button>
           <input
@@ -240,9 +240,11 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           />
         </div>
       </Show>
-      <Show when={!state.fieldValue}>
+      <Show when={!state.hasDiscoveryUrl}>
         <div class={state.classes.fieldContainer}>
-          <button onClick={() => state.toggleButton()}>Have a discovery URL? Click here to set it</button>
+          <button onClick={() => state.toggleHasDiscoveryUrl()}>
+            Have a discovery URL? Click here to set it
+          </button>
         </div>
         <div class={state.classes.fieldContainer}>
           <label for='issuer' class={state.classes.label}>
