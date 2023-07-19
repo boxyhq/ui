@@ -46,3 +46,13 @@
 .button {
   margin-top: 1.5rem;
 }
+
+.labelWithAction {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.labelWithAction .hint {
+  text-decoration: underline;
+}

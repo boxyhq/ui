@@ -29,6 +29,10 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
     loading: false,
+    hasMetadataUrl: true,
+    toggleHasMetadataUrl() {
+      state.hasMetadataUrl = !state.hasMetadataUrl;
+    },
     samlConnection: INITIAL_VALUES.samlConnection,
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.samlConnection, [key]: newValue };
@@ -212,35 +216,49 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           </div>
         </Show>
       </Show>
-      <div class={state.classes.fieldContainer}>
-        <label for='rawMetadata' class={state.classes.label}>
-          Raw IdP XML
-        </label>
-        <textarea
-          id='rawMetadata'
-          class={state.classes.textarea}
-          name='rawMetadata'
-          value={state.samlConnection.rawMetadata}
-          onInput={(event) => state.handleChange(event)}
-          required={false}
-          placeholder='Paste the raw XML here'
-        />
-      </div>
-      <div class={state.classes.fieldContainer}>
-        <label for='metadataUrl' class={state.classes.label}>
-          Metadata URL
-        </label>
-        <input
-          class={state.classes.input}
-          id='metadataUrl'
-          name='metadataUrl'
-          value={state.samlConnection.metadataUrl}
-          onInput={(event) => state.handleChange(event)}
-          required={false}
-          type='url'
-          placeholder='Paste the Metadata URL here'
-        />
-      </div>
+      <Show when={state.hasMetadataUrl}>
+        <div class={state.classes.fieldContainer}>
+          <div class={defaultClasses.labelWithAction}>
+            <label for='metadataUrl' class={state.classes.label}>
+              Metadata URL
+            </label>
+            <button class={defaultClasses.hint} onClick={() => state.toggleHasMetadataUrl()}>
+              Use raw XML instead ? Click here to enter raw metadata XML
+            </button>
+          </div>
+          <input
+            class={state.classes.input}
+            id='metadataUrl'
+            name='metadataUrl'
+            value={state.samlConnection.metadataUrl}
+            onInput={(event) => state.handleChange(event)}
+            required={false}
+            type='url'
+            placeholder='Paste the Metadata URL here'
+          />
+        </div>
+      </Show>
+      <Show when={!state.hasMetadataUrl}>
+        <div class={state.classes.fieldContainer}>
+          <div class={defaultClasses.labelWithAction}>
+            <label for='rawMetadata' class={state.classes.label}>
+              Raw IdP XML
+            </label>
+            <button class={defaultClasses.hint} onClick={() => state.toggleHasMetadataUrl()}>
+              Use metadata URL instead ? Click here to enter the IdP metadata URL
+            </button>
+          </div>
+          <textarea
+            id='rawMetadata'
+            class={state.classes.textarea}
+            name='rawMetadata'
+            value={state.samlConnection.rawMetadata}
+            onInput={(event) => state.handleChange(event)}
+            required={false}
+            placeholder='Paste the raw XML here'
+          />
+        </div>
+      </Show>
       <Show when={state.variant === 'advanced'}>
         <Show when={!state.isExcluded('forceAuthn')}>
           <div class={state.classes.radioContainer}>

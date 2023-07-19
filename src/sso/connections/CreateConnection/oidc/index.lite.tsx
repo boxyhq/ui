@@ -252,12 +252,14 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       </div>
       <Show when={state.hasDiscoveryUrl}>
         <div class={state.classes.fieldContainer}>
-          <label for='oidcDiscoveryUrl' class={state.classes.label}>
-            Well-known URL of OpenID Provider
-          </label>
-          <button onClick={() => state.toggleHasDiscoveryUrl()}>
-            Missing the discovery URL? Click here to set the individual attributes
-          </button>
+          <div class={defaultClasses.labelWithAction}>
+            <label for='oidcDiscoveryUrl' class={state.classes.label}>
+              Well-known URL of OpenID Provider
+            </label>
+            <button class={defaultClasses.hint} onClick={() => state.toggleHasDiscoveryUrl()}>
+              Missing the discovery URL? Click here to set the individual attributes
+            </button>
+          </div>
           <input
             id='oidcDiscoveryUrl'
             name='oidcDiscoveryUrl'
@@ -271,14 +273,14 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       </Show>
       <Show when={!state.hasDiscoveryUrl}>
         <div class={state.classes.fieldContainer}>
-          <button onClick={() => state.toggleHasDiscoveryUrl()}>
-            Have a discovery URL? Click here to set it
-          </button>
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='issuer' class={state.classes.label}>
-            Issuer
-          </label>
+          <div class={defaultClasses.labelWithAction}>
+            <label for='issuer' class={state.classes.label}>
+              Issuer
+            </label>
+            <button class={defaultClasses.hint} onClick={() => state.toggleHasDiscoveryUrl()}>
+              Have a discovery URL? Click here to set it
+            </button>
+          </div>
           <input
             id='issuer'
             name='oidcMetadata.issuer'
