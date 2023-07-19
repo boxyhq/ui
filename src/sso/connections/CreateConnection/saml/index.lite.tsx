@@ -97,7 +97,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       };
     },
     isExcluded(fieldName: keyof SAMLSSOConnection) {
-      return !!props.excludeFields?.includes(fieldName);
+      return !!(props.excludeFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
     },
   });
 

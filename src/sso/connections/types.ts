@@ -36,7 +36,7 @@ export interface CreateConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   variant: 'basic' | 'advanced';
-  excludeFields?: Array<keyof SAMLSSOConnection>;
+  excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   urls: {
     save: string;
   };
@@ -130,6 +130,13 @@ export interface SAMLSSOConnection extends SSOConnection {
   forceAuthn?: boolean | string;
   rawMetadata?: string;
   metadataUrl?: string;
+}
+
+export interface OIDCSSOConnection extends SSOConnection {
+  oidcDiscoveryUrl?: string;
+  oidcMetadata?: IssuerMetadata;
+  oidcClientId?: string;
+  oidcClientSecret?: string;
 }
 
 export interface SAMLSSORecord extends SAMLSSOConnection {

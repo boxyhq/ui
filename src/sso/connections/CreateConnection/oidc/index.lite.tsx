@@ -1,5 +1,5 @@
 import { useStore, Show } from '@builder.io/mitosis';
-import { CreateConnectionProps } from '../../types';
+import { CreateConnectionProps, FormObj, OIDCSSOConnection } from '../../types';
 import { ApiResponse } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -20,11 +20,11 @@ const INITIAL_VALUES = {
     oidcClientSecret: '',
     oidcClientId: '',
     oidcDiscoveryUrl: '',
-    issuer: '',
-    authorization_endpoint: '',
-    token_endpoint: '',
-    jwks_uri: '',
-    userinfo_endpoint: '',
+    'oidcMetadata.issuer': '',
+    'oidcMetadata.authorization_endpoint': '',
+    'oidcMetadata.token_endpoint': '',
+    'oidcMetadata.jwks_uri': '',
+    'oidcMetadata.userinfo_endpoint': '',
   },
 };
 
@@ -54,9 +54,21 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
 
         state.loading = true;
 
+        const formObj: Partial<OIDCSSOConnection> = {};
+        Object.entries(state.oidcConnection).map(([key, val]) => {
+          if (key.startsWith('oidcMetadata.')) {
+            if (formObj.oidcMetadata === undefined) {
+              formObj.oidcMetadata = {} as OIDCSSOConnection['oidcMetadata'];
+            }
+            formObj.oidcMetadata![key.replace('oidcMetadata.', '')] = val;
+          } else {
+            formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val;
+          }
+        });
+
         await saveConnection({
           url: props.urls.save,
-          formObj: { ...state.oidcConnection },
+          formObj: formObj as FormObj,
           connectionIsOIDC: true,
           callback: async (rawResponse: any) => {
             state.loading = false;
@@ -94,106 +106,121 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
     get variant() {
       return props.variant || DEFAULT_VALUES.variant;
     },
+    isExcluded(fieldName: keyof OIDCSSOConnection) {
+      return !!(props.excludeFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
+    },
   });
 
   return (
     <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
       <Show when={state.variant === 'advanced'}>
-        <div class={state.classes.fieldContainer}>
-          <label for='name' class={state.classes.label}>
-            Name
-          </label>
-          <input
-            id='name'
-            name='name'
-            class={state.classes.input}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.name}
-            required={false}
-            type='text'
-            placeholder='MyApp'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='description' class={state.classes.label}>
-            Description
-          </label>
-          <input
-            id='description'
-            name='description'
-            class={state.classes.input}
-            value={state.oidcConnection.description}
-            onInput={(event) => state.handleChange(event)}
-            required={false}
-            maxLength={100}
-            type='text'
-            placeholder='A short description not more than 100 characters'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='tenant' class={state.classes.label}>
-            Tenant
-          </label>
-          <input
-            id='tenant'
-            name='tenant'
-            class={state.classes.input}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.tenant}
-            type='text'
-            placeholder='acme.com'
-            aria-describedby='tenant-hint'
-          />
-          <span id='tenant-hint' class={defaultClasses.hint}>
-            Unique identifier for the tenant in your app
-          </span>
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='product' class={state.classes.label}>
-            Product
-          </label>
-          <input
-            id='product'
-            name='product'
-            class={state.classes.input}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.product}
-            type='text'
-            placeholder='demo'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='redirectUrl' class={state.classes.label}>
-            Allowed redirect URLs (newline separated)
-          </label>
-          <textarea
-            id='redirectUrl'
-            name='redirectUrl'
-            class={state.classes.textarea}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.redirectUrl}
-            placeholder='http://localhost:3366'
-            aria-describedby='redirectUrl-hint'
-          />
-          <span id='redirectUrl-hint' class={defaultClasses.hint}>
-            URL to redirect the user to after login. You can specify multiple URLs by separating them with a
-            new line.
-          </span>
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='defaultRedirectUrl' class={state.classes.label}>
-            Default redirect URL
-          </label>
-          <input
-            id='defaultRedirectUrl'
-            name='defaultRedirectUrl'
-            class={state.classes.input}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.defaultRedirectUrl}
-            type='url'
-            placeholder='http://localhost:3366/login/saml'
-          />
-        </div>
+        <Show when={!state.isExcluded('name')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='name' class={state.classes.label}>
+              Connection name (Optional)
+            </label>
+            <input
+              id='name'
+              name='name'
+              class={state.classes.input}
+              onInput={(event) => state.handleChange(event)}
+              value={state.oidcConnection.name}
+              required={false}
+              type='text'
+              placeholder='MyApp'
+            />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('description')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='description' class={state.classes.label}>
+              Description
+            </label>
+            <input
+              id='description'
+              name='description'
+              class={state.classes.input}
+              value={state.oidcConnection.description}
+              onInput={(event) => state.handleChange(event)}
+              required={false}
+              maxLength={100}
+              type='text'
+              placeholder='A short description not more than 100 characters'
+            />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('tenant')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='tenant' class={state.classes.label}>
+              Tenant
+            </label>
+            <input
+              id='tenant'
+              name='tenant'
+              class={state.classes.input}
+              onInput={(event) => state.handleChange(event)}
+              value={state.oidcConnection.tenant}
+              type='text'
+              placeholder='acme.com'
+              aria-describedby='tenant-hint'
+            />
+            <span id='tenant-hint' class={defaultClasses.hint}>
+              Unique identifier for the tenant in your app
+            </span>
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('product')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='product' class={state.classes.label}>
+              Product
+            </label>
+            <input
+              id='product'
+              name='product'
+              class={state.classes.input}
+              onInput={(event) => state.handleChange(event)}
+              value={state.oidcConnection.product}
+              type='text'
+              placeholder='demo'
+            />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('redirectUrl')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='redirectUrl' class={state.classes.label}>
+              Allowed redirect URLs (newline separated)
+            </label>
+            <textarea
+              id='redirectUrl'
+              name='redirectUrl'
+              class={state.classes.textarea}
+              onInput={(event) => state.handleChange(event)}
+              value={state.oidcConnection.redirectUrl}
+              placeholder='http://localhost:3366'
+              aria-describedby='redirectUrl-hint'
+            />
+            <span id='redirectUrl-hint' class={defaultClasses.hint}>
+              URL to redirect the user to after login. You can specify multiple URLs by separating them with a
+              new line.
+            </span>
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('defaultRedirectUrl')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='defaultRedirectUrl' class={state.classes.label}>
+              Default redirect URL
+            </label>
+            <input
+              id='defaultRedirectUrl'
+              name='defaultRedirectUrl'
+              class={state.classes.input}
+              onInput={(event) => state.handleChange(event)}
+              value={state.oidcConnection.defaultRedirectUrl}
+              type='url'
+              placeholder='http://localhost:3366/login/saml'
+            />
+          </div>
+        </Show>
       </Show>
       <div class={state.classes.fieldContainer}>
         <label for='oidcClientId' class={state.classes.label}>
@@ -206,6 +233,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           onInput={(event) => state.handleChange(event)}
           value={state.oidcConnection.oidcClientId}
           type='text'
+          required
         />
       </div>
       <div class={state.classes.fieldContainer}>
@@ -219,6 +247,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           onInput={(event) => state.handleChange(event)}
           value={state.oidcConnection.oidcClientSecret}
           type='text'
+          required
         />
       </div>
       <Show when={state.hasDiscoveryUrl}>
@@ -252,10 +281,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           </label>
           <input
             id='issuer'
-            name='issuer'
+            name='oidcMetadata.issuer'
             class={state.classes.input}
             onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.issuer}
+            value={state.oidcConnection['oidcMetadata.issuer']}
             type='url'
           />
         </div>
@@ -265,10 +294,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           </label>
           <input
             id='authorization_endpoint'
-            name='authorization_endpoint'
+            name='oidcMetadata.authorization_endpoint'
             class={state.classes.input}
             onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.authorization_endpoint}
+            value={state.oidcConnection['oidcMetadata.authorization_endpoint']}
             type='url'
           />
         </div>
@@ -278,10 +307,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           </label>
           <input
             id='token_endpoint'
-            name='token_endpoint'
+            name='oidcMetadata.token_endpoint'
             class={state.classes.input}
             onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.token_endpoint}
+            value={state.oidcConnection['oidcMetadata.token_endpoint']}
             type='url'
           />
         </div>
@@ -291,10 +320,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           </label>
           <input
             id='jwks_uri'
-            name='jwks_uri'
+            name='oidcMetadata.jwks_uri'
             class={state.classes.input}
             onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.jwks_uri}
+            value={state.oidcConnection['oidcMetadata.jwks_uri']}
             type='url'
           />
         </div>
@@ -304,10 +333,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           </label>
           <input
             id='userinfo_endpoint'
-            name='userinfo_endpoint'
+            name='oidcMetadata.userinfo_endpoint'
             class={state.classes.input}
             onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.userinfo_endpoint}
+            value={state.oidcConnection['oidcMetadata.userinfo_endpoint']}
             type='url'
           />
         </div>
