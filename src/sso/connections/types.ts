@@ -44,6 +44,7 @@ export interface CreateConnectionProps {
    * Classnames for each inner components that make up the component.
    */
   classNames?: {
+    form?: string;
     container?: string;
     button?: string;
     input?: string;

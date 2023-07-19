@@ -79,6 +79,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
     },
     get classes() {
       return {
+        form: cssClassAssembler(props.classNames?.form, defaultClasses.form),
         fieldContainer: cssClassAssembler(props.classNames?.fieldContainer, defaultClasses.fieldContainer),
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
@@ -96,7 +97,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   });
 
   return (
-    <form onSubmit={(event) => state.save(event)} method='post'>
+    <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
       <Show when={state.variant === 'advanced'}>
         <div class={state.classes.fieldContainer}>
           <label for='name' class={state.classes.label}>

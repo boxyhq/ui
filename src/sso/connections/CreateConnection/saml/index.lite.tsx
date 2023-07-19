@@ -80,6 +80,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
     },
     get classes() {
       return {
+        form: cssClassAssembler(props.classNames?.form, defaultClasses.form),
         fieldContainer: cssClassAssembler(props.classNames?.fieldContainer, defaultClasses.fieldContainer),
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
@@ -101,7 +102,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
   });
 
   return (
-    <form onSubmit={(event) => state.save(event)} method='post'>
+    <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
       <Show when={state.variant === 'advanced'}>
         <Show when={!state.isExcluded('name')}>
           <div class={state.classes.fieldContainer}>
