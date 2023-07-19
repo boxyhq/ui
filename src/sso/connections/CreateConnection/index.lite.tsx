@@ -89,6 +89,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         <Show when={state.connectionIsOIDC}>
           <CreateOIDCConnection
             urls={props.componentProps.oidc.urls}
+            excludeFields={props.componentProps.oidc.excludeFields}
             classNames={props.componentProps.oidc.classNames}
             variant='advanced'
             errorCallback={props.componentProps.oidc.errorCallback}
