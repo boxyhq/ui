@@ -3,11 +3,10 @@ import type { SVGAttributes, Component } from 'vue';
 export type SVGProps = SVGAttributes;
 
 export interface IconButtonProps {
-  Icon: Component<{ svgElmtProps: SVGProps }>;
+  Icon: Component<{ svgElmtProps: SVGProps; className: string }>;
   label?: string;
   onClick: (event: any) => void;
   iconClasses: string;
-  tooltip?: string;
 }
 
 export interface EmptyStateProps {

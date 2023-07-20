@@ -18,7 +18,7 @@ export default function IconButton(props: IconButtonProps) {
       onClick={(event) => props.onClick(event)}
       class={commonStyles.btnReset}
       aria-label={props.label}>
-      <props.Icon svgElmtProps={{ className: state.classes.iconClasses, 'aria-hidden': true }} />
+      <props.Icon svgElmtProps={{ 'aria-hidden': true }} className={state.classes.iconClasses} />
     </button>
   );
 }
