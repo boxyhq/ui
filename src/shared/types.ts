@@ -7,7 +7,6 @@ export interface IconButtonProps {
   label?: string;
   onClick: (event: any) => void;
   iconClasses: string;
-  tooltip?: string;
 }
 
 export interface EmptyStateProps {

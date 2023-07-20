@@ -11,15 +11,14 @@ export default function IconButton(props: IconButtonProps) {
       };
     },
   });
+  // TODO: bring tooltip
   return (
-    <div class='tooltip' data-tip={props.tooltip}>
-      <button
-        type='button'
-        onClick={(event) => props.onClick(event)}
-        class={commonStyles.btnReset}
-        aria-label={props.label}>
-        <props.Icon svgElmtProps={{ class: state.classes.iconClasses, 'aria-hidden': true }} />
-      </button>
-    </div>
+    <button
+      type='button'
+      onClick={(event) => props.onClick(event)}
+      class={commonStyles.btnReset}
+      aria-label={props.label}>
+      <props.Icon svgElmtProps={{ className: state.classes.iconClasses, 'aria-hidden': true }} />
+    </button>
   );
 }
