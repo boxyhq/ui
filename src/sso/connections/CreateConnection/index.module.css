@@ -44,7 +44,9 @@
   flex-shrink: 0;
   cursor: pointer;
   appearance: none;
+  /* For iOS < 15 to remove gradient background */
   background-color: #fff;
+  /* Not removed via appearance */
   margin: 0;
   font: inherit;
   color: currentColor;
@@ -64,14 +66,15 @@
   border-radius: 50%;
   transform: scale(0);
   transition: 120ms transform ease-in-out;
-  box-shadow: inset 1rem 1rem #000;
+  box-shadow: inset 1rem 1rem currentColor;
 }
 
 .radio:checked::before {
   transform: scale(1);
 }
 
-.radio:focus {
+.radio:focus,
+.radio:checked {
   outline: max(2px, 0.15rem) solid currentColor;
   outline-offset: max(2px, 0.15rem);
 }

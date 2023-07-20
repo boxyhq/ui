@@ -64,7 +64,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             </label>
           </div>
           <div className={state.classes.formControl}>
-            <label className={state.classes.label} data-testid='sso-type-oidc'>
+            <label className={state.classes.label}>
               <input
                 type='radio'
                 name='connection'
