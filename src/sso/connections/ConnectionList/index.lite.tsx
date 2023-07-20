@@ -19,13 +19,6 @@ export default function ConnectionList(props: ConnectionListProps) {
     get displayTenantProduct() {
       return props.setupLinkToken ? false : true;
     },
-    get createConnectionUrl() {
-      return props.setupLinkToken
-        ? `/setup/${props.setupLinkToken}/sso-connection/new`
-        : props.isSettingsView
-        ? `/admin/settings/sso-connection/new`
-        : '/admin/sso-connection/new';
-    },
     connectionListData: DEFAULT_VALUES.connectionListData,
     connectionListError: '',
     connectionListIsLoading: false,
@@ -84,19 +77,16 @@ export default function ConnectionList(props: ConnectionListProps) {
 
   onMount(() => {
     async function getFieldsData() {
-      const response = await fetch(props.connectionsUrl);
-      const { data, error, isLoading } = await response.json();
-
-      state.connectionListData = data.connections;
-      state.connectionListError = error;
+      state.connectionListIsLoading = true;
+      const response = await fetch(props.getConnectionsUrl);
+      const { data, error } = await response.json();
+      state.connectionListData = data;
 
       if (error) {
         state.connectionListError = error;
       }
 
-      if (isLoading) {
-        state.connectionListIsLoading = true;
-      }
+      state.connectionListIsLoading = false;
     }
     getFieldsData();
   });
@@ -109,7 +99,7 @@ export default function ConnectionList(props: ConnectionListProps) {
       <Show when={state.connectionListError}>
         <Slot name={props.slotErrorToast}></Slot>
       </Show>
-      <Show when={state.connectionListData.length > 0}>
+      <Show when={state.connectionListData?.length > 0}>
         <div class={state.classes.container}>
           <h2 class={state.classes.h2}>
             {props.translation(
@@ -137,7 +127,7 @@ export default function ConnectionList(props: ConnectionListProps) {
         <Show
           when={state.connectionListData}
           else={
-            <EmptyState title={props.translation('no_connections_found')} href={state.createConnectionUrl} />
+            <EmptyState title={props.translation('no_connections_found')} href={props.createConnectionsUrl} />
           }>
           <div class={state.classes.tableContainer}>
             <table class={state.classes.table}>

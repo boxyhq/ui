@@ -3,7 +3,8 @@ export interface ConnectionListProps {
   idpEntityID?: string;
   isSettingsView?: boolean;
   translation: any;
-  connectionsUrl: string;
+  getConnectionsUrl: string;
+  createConnectionsUrl: string;
   slotLinkPrimary: any;
   slotErrorToast?: any;
   successCallback: () => void;
