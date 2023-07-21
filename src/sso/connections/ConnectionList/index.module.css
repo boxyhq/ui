@@ -5,31 +5,9 @@
   margin-bottom: 20px;
 }
 
-.linkPrimaryContainer {
-  display: flex;
-  gap: 8px;
-}
-
-.idpEntityContainer {
-  align-items: center;
-  justify-content: space-between;
-  margin: 20px 0 20px 0;
-}
-
 .formControl {
   display: flex;
   flex-direction: column;
-}
-
-.h2 {
-  font-weight: 700;
-  --tw-text-opacity: 1;
-  color: rgb(55 65 81 / var(--tw-text-opacity));
-}
-
-:is(.h2) {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .tableContainer {
@@ -38,6 +16,7 @@
 }
 
 .table {
+  border-collapse: collapse;
   width: 100%;
   text-align: left;
   font-size: 14px;
@@ -48,19 +27,12 @@
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 
-:is(.table .tableHead) {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity));
-  border-bottom-width: 1px;
-  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+.th,
+.td {
+  padding: 0.75rem 1.5rem;
 }
 
-:is(.tableHead) {
-  --tw-bg-opacity: 1;
-  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
-}
-
-.tableHead {
+.thead {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
   font-size: 12px;
@@ -70,25 +42,10 @@
   color: rgb(55 65 81 / var(--tw-text-opacity));
 }
 
-.tableRow {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
-.tableRow:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
-.tableHeadScope {
-  padding: 12px 24px 12px 24px;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
 .connectionListContainer {
   border-bottom-width: 1px;
   --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
 .connectionListContainer:last-child {
@@ -97,37 +54,6 @@
 
 .connectionListContainer:hover {
   --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
-.connectionListTableData {
-  white-space: nowrap;
-  padding: 12px 24px 12px 24px;
-  font-size: 14px;
-  line-height: 20px;
-  --tw-text-opacity: 1;
-  color: rgb(107 114 128 / var(--tw-text-opacity));
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
-:is(.connectionListTableData) {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity));
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
-.connectionTenantData {
-  white-space: nowrap;
-  padding: 12px 24px 12px 24px;
-  font-weight: 500;
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity));
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
-}
-
-:is(.connectionTenantData) {
-  --tw-text-opacity: 1;
-  color: rgb(156 163 175 / var(--tw-text-opacity));
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
 }
 
@@ -149,11 +75,4 @@
 .icon:hover {
   --tw-text-opacity: 1;
   color: rgb(74 222 128 / var(--tw-text-opacity));
-}
-
-@media (min-width: 768px) {
-  .h2 {
-    font-size: 20px;
-    line-height: 28px;
-  }
 }

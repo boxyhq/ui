@@ -2,11 +2,8 @@ export interface ConnectionListProps {
   setupLinkToken?: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
-  translation: any;
   getConnectionsUrl: string;
   createConnectionsUrl: string;
-  slotLinkPrimary: any;
-  slotErrorToast?: any;
   successCallback: () => void;
   onIconClick: () => void;
   /**
@@ -14,18 +11,14 @@ export interface ConnectionListProps {
    */
   classNames?: {
     container?: string;
-    linkPrimaryContainer?: string;
-    idpEntityContainer?: string;
     formControl?: string;
-    h2?: string;
     tableContainer?: string;
     table?: string;
-    tableHead?: string;
-    tableRow?: string;
-    tableHeadScope?: string;
+    thead?: string;
+    tr?: string;
+    th?: string;
     connectionListContainer?: string;
-    connectionListTableData?: string;
-    connectionTenantData?: string;
+    td?: string;
     badgeClass?: string;
     tableData?: string;
     spanIcon?: string;
