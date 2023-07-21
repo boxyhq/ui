@@ -195,7 +195,6 @@ export default function ConnectionList(props: ConnectionListProps) {
                       <td class={state.classes.tableHeadScope}>
                         <span class={state.classes.spanIcon}>
                           <IconButton
-                            tooltip={props.translation('edit')}
                             Icon={PencilIcon}
                             iconClasses={state.classes.icon}
                             data-testid='edit'
