@@ -21,7 +21,7 @@ export default createTheme({
     },
     {
       label: 'Components',
-      path: '/components/demos/sso',
+      path: '/components/demos/sso/CreateConnection',
       activeIfMatch: '/components',
     },
   ],

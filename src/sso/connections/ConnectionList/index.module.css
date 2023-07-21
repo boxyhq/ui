@@ -1,0 +1,78 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.formControl {
+  display: flex;
+  flex-direction: column;
+}
+
+.tableContainer {
+  border-width: 1px;
+  border-radius: 4px;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  line-height: 20px;
+  --tw-text-opacity: 1;
+  color: rgb(107 114 128 / var(--tw-text-opacity));
+  border-bottom-width: 1px;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity));
+}
+
+.th,
+.td {
+  padding: 0.75rem 1.5rem;
+}
+
+.thead {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: uppercase;
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity));
+}
+
+.connectionListContainer {
+  border-bottom-width: 1px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.connectionListContainer:last-child {
+  border-bottom-width: 0px;
+}
+
+.connectionListContainer:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}
+
+.badgeClass {
+  margin-left: 8px;
+  text-transform: uppercase;
+}
+
+.tableData {
+  padding: 0 24px 0 24px;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+}
+
+.spanIcon {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.icon:hover {
+  --tw-text-opacity: 1;
+  color: rgb(74 222 128 / var(--tw-text-opacity));
+}

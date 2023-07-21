@@ -1,0 +1,80 @@
+.formControl {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  margin-bottom: 1rem /* 16px */;
+  display: flex;
+  align-items: center;
+}
+
+.selectSSO {
+  float: left;
+  margin-right: 0.5rem /* 8px */;
+  padding-top: 0.75rem /* 12px */;
+  padding-bottom: 0.75rem /* 12px */;
+}
+
+.idpId {
+  margin: 20px 0 20px 0;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.label {
+  display: flex;
+  user-select: none;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 16px 0 0;
+  cursor: pointer;
+  padding: 8px 4px 8px 4px;
+}
+
+.span {
+  margin-left: 4px;
+  font-size: 14px;
+  line-height: 20px;
+  --tw-text-opacity: 1;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
+}
+
+.radio {
+  flex-shrink: 0;
+  cursor: pointer;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  height: 1.5rem /* 24px */;
+  width: 1.5rem /* 24px */;
+  border: 0.15rem solid currentColor;
+  border-radius: 50%;
+  transform: translateY(-0.075rem);
+  display: grid;
+  place-content: center;
+}
+
+.radio::before {
+  content: '';
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1rem 1rem currentColor;
+}
+
+.radio:checked::before {
+  transform: scale(1);
+}
+
+.radio:focus,
+.radio:checked {
+  outline: max(2px, 0.15rem) solid currentColor;
+  outline-offset: max(2px, 0.15rem);
+}

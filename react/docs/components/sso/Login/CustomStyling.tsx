@@ -5,7 +5,7 @@
  */
 
 import { Login } from '@boxyhq/react-ui/sso';
-import './CustomStyling.css';
+import '../CustomStyling.css';
 
 const CustomStyling = () => {
   return (

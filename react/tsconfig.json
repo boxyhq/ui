@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "jsx": "react-jsx",
     "moduleResolution": "Node",
-    "lib": ["ES2015", "DOM", "DOM.Iterable"],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "types": ["vite/client"],
     "esModuleInterop": true
   }
