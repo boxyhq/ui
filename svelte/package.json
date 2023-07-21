@@ -51,7 +51,7 @@
 		"eslint": "8.45.0",
 		"eslint-config-prettier": "8.8.0",
 		"eslint-plugin-svelte": "2.32.3",
-		"prettier": "2.8.8",
+		"prettier": "3.0.0",
 		"prettier-plugin-svelte": "2.10.1",
 		"prismjs": "1.29.0",
 		"publint": "0.1.16",
