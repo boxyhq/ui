@@ -3,7 +3,7 @@ import type { SVGAttributes, Component } from 'vue';
 export type SVGProps = SVGAttributes;
 
 export interface IconButtonProps {
-  Icon: Component<{ svgElmtProps: SVGProps; className: string }>;
+  Icon: Component<{ svgElmtProps: SVGProps; classNames: string }>;
   label?: string;
   onClick: (event: any) => void;
   iconClasses: string;

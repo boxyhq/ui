@@ -1,9 +1,9 @@
-import type { SvelteComponent } from 'svelte';
+import type { ComponentType, SvelteComponent } from 'svelte';
 
 export type SVGProps = SVGSVGElement;
 
 export interface IconButtonProps {
-  Icon: SvelteComponent<{ svgElmtProps: SVGProps; className: string }>;
+  Icon: ComponentType<SvelteComponent<{ svgElmtProps: SVGProps; classNames: string }>>;
   label?: string;
   onClick: (event: any) => void;
   iconClasses: string;
