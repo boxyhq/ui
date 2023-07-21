@@ -1,11 +1,12 @@
 .btnReset {
   display: inline-block;
-  border: none;
-  padding: 1rem 2rem;
+  border: 2px solid #25c2a0;
+  padding: 0.5rem 1rem;
   margin: 0;
+  border-radius: 0.5rem;
   text-decoration: none;
-  background: #0069ed;
-  color: #ffffff;
+  background: #fff;
+  color: #25c2a0;
   font-family: sans-serif;
   font-size: 1rem;
   cursor: pointer;
@@ -19,7 +20,8 @@
 
 .btnReset:hover,
 .btnReset:focus {
-  background: #0053ba;
+  background: #2aa298;
+  color: #fff;
 }
 
 .btnReset:focus {
