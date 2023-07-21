@@ -1,4 +1,4 @@
-import { FormObj } from './types';
+import type { FormObj } from './types';
 
 export const saveConnection = async ({
   formObj,

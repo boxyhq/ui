@@ -1,6 +1,5 @@
 import { Show, useStore } from '@builder.io/mitosis';
-import type { CreateConnectionProps, SAMLSSOConnection } from '../../types';
-import { ApiResponse } from '../../types';
+import type { CreateConnectionProps, SAMLSSOConnection, ApiResponse } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';

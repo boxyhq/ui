@@ -1,5 +1,4 @@
-import { EmptyStateProps } from '../types';
-import { Slot } from '@builder.io/mitosis';
+import type { EmptyStateProps } from '../types';
 
 export default function EmptyState(props: EmptyStateProps) {
   return (

@@ -1,5 +1,5 @@
 import { useStore, Show, Slot, onMount, For } from '@builder.io/mitosis';
-import { ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
+import type { ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import Loading from '../../../shared/Loading/index.lite';
 import InputWithCopyButton from '../../../shared/InputWithCopyButton/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';

@@ -188,7 +188,7 @@ declare namespace classNames {
  */
 export declare function classNames(...args: classNames.ArgumentArray): string;
 
-export default interface ToggleStatusProps {
+export interface ToggleConnectionStatusProps {
   connection: SAMLSSORecord | OIDCSSORecord;
   urls: {
     save: string;

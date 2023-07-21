@@ -1,4 +1,4 @@
-import { BadgeProps } from '../types';
+import type { BadgeProps } from '../types';
 
 export default function Badge(props: BadgeProps) {
   return (

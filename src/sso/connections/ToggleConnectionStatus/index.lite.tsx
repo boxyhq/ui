@@ -1,7 +1,7 @@
 import { useStore, onMount, onUpdate } from '@builder.io/mitosis';
-import ToggleStatusProps from '../types';
+import type { ToggleConnectionStatusProps } from '../types';
 
-export default function ToggleConnectionStatus(props: ToggleStatusProps) {
+export default function ToggleConnectionStatus(props: ToggleConnectionStatusProps) {
   const state = useStore({
     active: !props.connection.deactivated,
     isModalVisible: false,
