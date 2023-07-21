@@ -14,7 +14,13 @@
     "build": "npm run mitosis:build && npm run copycss",
     "postbuild": "run-p angular:multi-entry svelte:lib-placement",
     "angular:multi-entry": "node scripts/angular-multi-entry.mjs",
-    "svelte:lib-placement": "node scripts/svelte-lib-placement.mjs"
+    "svelte:lib-placement": "node scripts/svelte-lib-placement.mjs",
+    "cleanup:mitosis-out": "run-p '_cleanup:*'",
+    "_cleanup:react": "rimraf react/src/* -g !.gitignore",
+    "_cleanup:vue": "rimraf vue/src/* -g !.gitignore",
+    "_cleanup:vue2": "rimraf vue2/src/* -g !.gitignore",
+    "_cleanup:svelte": "rimraf svelte/src/lib/* -g !.gitignore -g !.npmignore",
+    "_cleanup:angular": "rimraf angular/projects/boxyhq/angular-ui/sso/src/* -g !.gitignore"
   },
   "repository": {
     "type": "git",
