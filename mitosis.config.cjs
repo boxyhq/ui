@@ -1,3 +1,5 @@
+const traverse = require('traverse');
+
 const getTargetPath = ({ target }) => {
   switch (target) {
     case 'vue3':
@@ -26,6 +28,7 @@ const components = [
   'ConnectionList',
 ];
 
+const isMitosisNode = (x) => x && x['@type'] === '@builder.io/mitosis/node';
 
 /** @type {import('@builder.io/mitosis').MitosisConfig} */
 module.exports = {
@@ -48,10 +51,23 @@ module.exports = {
                 // Map over the splitted array and replace the second argument passed to cssClassAssembler
                 const newClasses = splitStateClasses.map((el) => {
                   // replacedValue = el.replace(/(\w+)\(([^,]+),([^)]+)\)/, '$1($2)');
-                  return el.replace(/defaultClasses\.(\w+)/, "'$1'");
+                  return el.replaceAll(/defaultClasses\.(\w+)/g, "'$1'");
                 });
                 const newClassesCode = newClasses.join('\n');
                 json.state.classes.code = newClassesCode;
+
+                traverse(json).forEach(function (item) {
+                  if (!isMitosisNode(item)) return;
+                  Object.entries(item.bindings).find(([key, value]) => {
+                    if (key === 'class' && value.code.includes('defaultClasses')) {
+                      const classBinding = item.bindings.class;
+                      console.log(classBinding);
+                      const cssClass = classBinding.code.replaceAll(/defaultClasses\.(\w+)/g, '$1');
+                      item.properties.class = cssClass;
+                      delete item.bindings.class;
+                    }
+                  });
+                });
 
                 // Remove extra import defaultClasses
                 // filter imports and return only those paths that dont have the path
