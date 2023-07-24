@@ -18,6 +18,15 @@ const VUE_OPTIONS = {
   api: 'composition',
 };
 
+const components = [
+  'Login',
+  'CreateOIDCConnection',
+  'CreateSAMLConnection',
+  'CreateSSOConnection',
+  'ConnectionList',
+];
+
+
 /** @type {import('@builder.io/mitosis').MitosisConfig} */
 module.exports = {
   files: 'src/**',
@@ -32,7 +41,7 @@ module.exports = {
         () => ({
           json: {
             pre: (json) => {
-              if (json.name === 'Login') {
+              if (components.includes(json.name)) {
                 // Replace second argument passed to cssClassAssembler function with literal class name
                 // split code that is present in classes with a new line
                 const splitStateClasses = json.state.classes.code.split('\n');
