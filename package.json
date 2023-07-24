@@ -20,7 +20,7 @@
     "_cleanup:vue": "rimraf vue/src/* -g !.gitignore",
     "_cleanup:vue2": "rimraf vue2/src/* -g !.gitignore",
     "_cleanup:svelte": "rimraf svelte/src/lib/* -g !.gitignore -g !.npmignore",
-    "_cleanup:angular": "rimraf angular/projects/boxyhq/angular-ui/sso/src/* -g !.gitignore"
+    "_cleanup:angular": "rimraf angular/projects/boxyhq/angular-ui/sso/src/* angular/projects/boxyhq/angular-ui/shared/src/* -g !.gitignore"
   },
   "repository": {
     "type": "git",
