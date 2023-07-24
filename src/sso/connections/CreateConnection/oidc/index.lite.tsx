@@ -48,45 +48,43 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       state.oidcConnection = state.updateConnection(name, targetValue);
     },
     save(event: Event) {
-      void (async function (e) {
-        e.preventDefault();
+      event.preventDefault();
 
-        state.loading = true;
+      state.loading = true;
 
-        const formObj: Partial<OIDCSSOConnection> = {};
-        Object.entries(state.oidcConnection).map(([key, val]) => {
-          if (key.startsWith('oidcMetadata.')) {
-            if (formObj.oidcMetadata === undefined) {
-              formObj.oidcMetadata = {} as OIDCSSOConnection['oidcMetadata'];
-            }
-            formObj.oidcMetadata![key.replace('oidcMetadata.', '')] = val;
-          } else {
-            formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val;
+      const formObj: Partial<OIDCSSOConnection> = {};
+      Object.entries(state.oidcConnection).map(([key, val]) => {
+        if (key.startsWith('oidcMetadata.')) {
+          if (formObj.oidcMetadata === undefined) {
+            formObj.oidcMetadata = {} as OIDCSSOConnection['oidcMetadata'];
           }
-        });
+          formObj.oidcMetadata![key.replace('oidcMetadata.', '')] = val;
+        } else {
+          formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val;
+        }
+      });
 
-        await saveConnection({
-          url: props.urls.save,
-          formObj: formObj as FormObj,
-          connectionIsOIDC: true,
-          callback: async (rawResponse: any) => {
-            state.loading = false;
+      saveConnection({
+        url: props.urls.save,
+        formObj: formObj as FormObj,
+        connectionIsOIDC: true,
+        callback: async (rawResponse: any) => {
+          state.loading = false;
 
-            state.oidcConnection = INITIAL_VALUES.oidcConnection;
+          state.oidcConnection = INITIAL_VALUES.oidcConnection;
 
-            const response: ApiResponse = await rawResponse.json();
+          const response: ApiResponse = await rawResponse.json();
 
-            if ('error' in response) {
-              props.errorCallback(response.error.message);
-              return;
-            }
+          if ('error' in response) {
+            props.errorCallback(response.error.message);
+            return;
+          }
 
-            if (rawResponse.ok) {
-              props.successCallback();
-            }
-          },
-        });
-      })(event);
+          if (rawResponse.ok) {
+            props.successCallback();
+          }
+        },
+      });
     },
     get classes() {
       return {
@@ -102,7 +100,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
-    get variant() {
+    get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
     },
     isExcluded(fieldName: keyof OIDCSSOConnection) {
@@ -112,7 +110,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
 
   return (
     <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
-      <Show when={state.variant === 'advanced'}>
+      <Show when={state.formVariant === 'advanced'}>
         <Show when={!state.isExcluded('name')}>
           <div class={state.classes.fieldContainer}>
             <label for='name' class={state.classes.label}>

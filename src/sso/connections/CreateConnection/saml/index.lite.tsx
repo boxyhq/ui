@@ -44,41 +44,39 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       state.samlConnection = state.updateConnection(name, targetValue);
     },
     save(event: Event) {
-      void (async function (e) {
-        e.preventDefault();
+      event.preventDefault();
 
-        state.loading = true;
+      state.loading = true;
 
-        await saveConnection({
-          url: props.urls.save,
-          formObj:
-            props.variant === 'advanced'
-              ? { ...state.samlConnection }
-              : {
-                  rawMetadata: state.samlConnection.rawMetadata,
-                  metadataUrl: state.samlConnection.metadataUrl,
-                },
-          connectionIsSAML: true,
-          callback: async (rawResponse: any) => {
-            state.loading = false;
+      saveConnection({
+        url: props.urls.save,
+        formObj:
+          props.variant === 'advanced'
+            ? { ...state.samlConnection }
+            : {
+                rawMetadata: state.samlConnection.rawMetadata,
+                metadataUrl: state.samlConnection.metadataUrl,
+              },
+        connectionIsSAML: true,
+        callback: async (rawResponse: any) => {
+          state.loading = false;
 
-            state.samlConnection = INITIAL_VALUES.samlConnection;
+          state.samlConnection = INITIAL_VALUES.samlConnection;
 
-            const response: ApiResponse = await rawResponse.json();
+          const response: ApiResponse = await rawResponse.json();
 
-            if ('error' in response) {
-              props.errorCallback(response.error.message);
-              return;
-            }
+          if ('error' in response) {
+            props.errorCallback(response.error.message);
+            return;
+          }
 
-            if (rawResponse.ok) {
-              props.successCallback();
-            }
-          },
-        });
-      })(event);
+          if (rawResponse.ok) {
+            props.successCallback();
+          }
+        },
+      });
     },
-    get variant() {
+    get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
     },
     get classes() {
@@ -106,7 +104,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
 
   return (
     <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
-      <Show when={state.variant === 'advanced'}>
+      <Show when={state.formVariant === 'advanced'}>
         <Show when={!state.isExcluded('name')}>
           <div class={state.classes.fieldContainer}>
             <label for='name' class={state.classes.label}>
@@ -258,7 +256,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           />
         </div>
       </Show>
-      <Show when={state.variant === 'advanced'}>
+      <Show when={state.formVariant === 'advanced'}>
         <Show when={!state.isExcluded('forceAuthn')}>
           <div class={state.classes.radioContainer}>
             <label for='forceAuthn' class={state.classes.label}>
