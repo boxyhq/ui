@@ -74,13 +74,20 @@ module.exports = {
                 );
               }
               // Add types for the emitted event object
-              if (tweakedCode.includes('EventEmitter()')) {
+              // for login
+              if (tweakedCode.includes('onSubmit = new EventEmitter')) {
                 tweakedCode = tweakedCode.replace(
                   'EventEmitter()',
                   `EventEmitter<{
                   ssoIdentifier: string;
                   cb: (err: { error: { message: string } } | null) => void;
                 }>()`
+                );
+              }
+              if (tweakedCode.includes('errorCallback = new EventEmitter()')) {
+                tweakedCode = tweakedCode.replace(
+                  'errorCallback = new EventEmitter()',
+                  `errorCallback = new EventEmitter<string>()`
                 );
               }
               // Ideally the generated code should use [disabled] instead of [attr.disabled], hence the below transformation is needed.
