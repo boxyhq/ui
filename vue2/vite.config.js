@@ -14,6 +14,7 @@ export default defineConfig({
     lib: {
       entry: {
         sso: resolve(__dirname, 'src/sso/index.js'),
+        shared: resolve(__dirname, 'src/shared/index.js'),
       },
       name: 'BoxyHQUI',
     },
