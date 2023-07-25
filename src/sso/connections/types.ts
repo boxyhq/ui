@@ -200,3 +200,25 @@ export interface ToggleConnectionStatusProps {
     cancelBtn?: string;
   };
 }
+
+export interface EditConnectionProps {
+  connection: SAMLSSORecord | OIDCSSORecord;
+  editConnectionUrls: {
+    save: string;
+    delete: string;
+  };
+  toggleConnectionUrls: {
+    save: string;
+  };
+  translation?: any;
+  errorCallback: (errMsg: string) => void;
+  successCallback: (successMsg: string) => void;
+}
+
+export interface EditOIDCConnectionProps {
+  connection: SAMLSSORecord | OIDCSSORecord;
+}
+
+export interface EditSAMLConnectionProps {
+  connection: SAMLSSORecord | OIDCSSORecord;
+}
