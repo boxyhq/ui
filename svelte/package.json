@@ -27,6 +27,10 @@
 		"format": "prettier --plugin-search-dir . --write ."
 	},
 	"exports": {
+		"./shared": {
+			"types": "./dist/shared/index.d.ts",
+			"svelte": "./dist/shared/index.js"
+		  },
 		"./sso": {
 			"types": "./dist/sso/index.d.ts",
 			"svelte": "./dist/sso/index.js"
@@ -36,6 +40,7 @@
 		"dist",
 		"index.d.ts",
 		"sso.d.ts",
+        "shared.d.ts",
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*"
 	],

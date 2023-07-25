@@ -17,13 +17,18 @@
   "files": [
     "dist",
     "index.d.ts",
-    "sso.d.ts"
+    "sso.d.ts",
+    "shared.d.ts"
   ],
   "types": "./index.d.ts",
   "exports": {
+    "./shared": {
+      "import": "./dist/shared.js",
+      "require": "./dist/shared.cjs"
+    },
     "./sso": {
       "import": "./dist/sso.js",
-      "require": "./dist/sso.umd.cjs"
+      "require": "./dist/sso.cjs"
     }
   },
   "devDependencies": {
