@@ -184,7 +184,7 @@ export interface ToggleConnectionStatusProps {
   urls: {
     save: string;
   };
-  translation: any;
+  translation?: any;
   errorCallback: (errMsg: string) => void;
   successCallback: (successMsg: string) => void;
   classNames?: {
