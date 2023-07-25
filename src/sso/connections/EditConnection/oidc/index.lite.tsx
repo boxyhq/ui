@@ -7,10 +7,131 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 lg:border-none lg:p-0'>
         <div class='flex flex-col gap-0 lg:flex-row lg:gap-4'>
           <div class='w-full rounded border-gray-200 dark:border-gray-700 lg:w-3/5 lg:border lg:p-3'>
-            <h1>Editable fields</h1>
+            <div class='mb-6'>
+              <div class='flex items-center justify-between'>
+                <label for='name' class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                  Name
+                </label>
+              </div>
+              <input
+                class='input-bordered input w-full'
+                name='name'
+                id='name'
+                type='text'
+                placeholder='MyApp'
+                value={props.connection.name}
+              />
+            </div>
+            <div class='mb-6'>
+              <div class='flex items-center justify-between'>
+                <label
+                  for='description'
+                  class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                  Description
+                </label>
+              </div>
+              <input
+                class='input-bordered input w-full'
+                name='description'
+                id='description'
+                type='text'
+                placeholder='A short description not more than 100 characters'
+                maxLength={100}
+                value={props.connection.description}
+              />
+            </div>
+            <div class='mb-6'>
+              <div class='flex items-center justify-between'>
+                <label
+                  for='redirectUrl'
+                  class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                  Allowed redirect URLs (newline separated)
+                </label>
+              </div>
+              <textarea
+                class='textarea-bordered textarea h-24 w-full whitespace-pre'
+                id='redirectUrl'
+                name='redirectUrl'
+                required={true}
+                rows={3}
+                placeholder='http://localhost:3366'
+                value={props.connection.redirectUrl}
+              />
+            </div>
+            <div class='mb-6'>
+              <div class='flex items-center justify-between'>
+                <label
+                  for='defaultRedirectUrl'
+                  class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                  Default redirect URL
+                </label>
+              </div>
+              <input
+                class='input-bordered input w-full'
+                name='defaultRedirectUrl'
+                id='defaultRedirectUrl'
+                required={true}
+                type='url'
+                placeholder='http://localhost:3366/login/saml'
+                value={props.connection.defaultRedirectUrl}
+              />
+            </div>
+            <div class='mb-6'>
+              <div class='flex items-center justify-between'>
+                <label
+                  for='oidcClientId'
+                  class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                  Client ID [OIDC Provider]
+                </label>
+              </div>
+              <input
+                class='input-bordered input w-full'
+                name='oidcClientId'
+                id='oidcClientId'
+                required={true}
+                type='text'
+                placeholder=''
+                value={props.connection.oidcProvider.clientId}
+              />
+            </div>
+            <div class='mb-6'>
+              <div class='flex items-center justify-between'>
+                <label
+                  for='oidcClientSecret'
+                  class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                  Client Secret [OIDC Provider]
+                </label>
+              </div>
+              <input
+                class='input-bordered input w-full'
+                name='oidcClientSecret'
+                id='oidcClientSecret'
+                required={true}
+                type='text'
+                placeholder=''
+                value={props.connection.oidcProvider.clientSecret}
+              />
+            </div>
+            <div class='mb-6'>
+              <div class='flex items-center justify-between'>
+                <label
+                  for='oidcDiscoveryUrl'
+                  class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                  Well-known URL of OpenID Provider
+                </label>
+              </div>
+              <input
+                class='input-bordered input w-full'
+                name='oidcDiscoveryUrl'
+                id='oidcDiscoveryUrl'
+                required={true}
+                type='url'
+                placeholder='https://example.com/.well-known/openid-configuration'
+                value={props.connection.oidcProvider.discoveryUrl}
+              />
+            </div>
           </div>
           <div class='w-full rounded border-gray-200 dark:border-gray-700 lg:w-3/5 lg:border lg:p-3'>
-            <h1>Read only fields</h1>
             <div class='mb-6'>
               <div class='flex items-center justify-between'>
                 <label for='tenant' class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
