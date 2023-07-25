@@ -5,14 +5,14 @@ import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 
 export default function ToggleConnectionStatus(props: ToggleConnectionStatusProps) {
-  const state = useStore({
+  const state: any = useStore({
     active: false,
     displayConnectionMessage: true,
     get ConnectionStatusMessage() {
-      return this.active ? 'Active' : 'Inactive';
+      return state.active ? 'Active' : 'Inactive';
     },
     get connectActivate() {
-      return this.active ? 'deactivate' : 'activate';
+      return state.active ? 'deactivate' : 'activate';
     },
     askForConfirmation() {
       state.displayConnectionMessage = false;
@@ -50,6 +50,8 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
           tenant: props.connection?.tenant,
           product: props.connection?.product,
           deactivated: !state.active,
+          isSAML: false,
+          isOIDC: false,
         };
 
         if ('idpMetadata' in props.connection) {
