@@ -32,7 +32,14 @@ export default defineConfig({
     },
   },
   plugins: [
-    cssInjectedByJsPlugin(),
+    cssInjectedByJsPlugin({
+      jsAssetsFilterFunction: function customJsAssetsfilterFunction(outputChunk) {
+        // console.log(outputChunk.fileName, outputChunk.name);
+        const entryPoints = ['sso', 'shared', 'index'];
+        // TODO: at the moment this plugin injects all styles into every file instead of splitting by entry point, also look into styles not being injected into sso.cjs
+        return entryPoints.includes(outputChunk.name);
+      },
+    }),
     // use @rollup/plugin-typescript to generate .d.ts files
     typescript({
       declaration: true,
