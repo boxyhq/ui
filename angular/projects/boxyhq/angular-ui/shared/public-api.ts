@@ -3,7 +3,6 @@ export * from './src/ButtonBase/';
 export * from './src/ButtonDanger/';
 export * from './src/ButtonOutline/';
 export * from './src/ClipboardButton/';
-export * from './src/ConfirmationModal';
 export * from './src/EmptyState';
 export * from './src/IconButton';
 export * from './src/icons/CopytoClipboardIcon';
