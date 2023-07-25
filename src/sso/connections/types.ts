@@ -214,9 +214,9 @@ export interface EditConnectionProps {
 }
 
 export interface EditOIDCConnectionProps {
-  connection: SAMLSSORecord | OIDCSSORecord;
+  connection: OIDCSSORecord;
 }
 
 export interface EditSAMLConnectionProps {
-  connection: SAMLSSORecord | OIDCSSORecord;
+  connection: SAMLSSORecord;
 }
