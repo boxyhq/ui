@@ -61,7 +61,6 @@ module.exports = {
                   Object.entries(item.bindings).find(([key, value]) => {
                     if (key === 'class' && value.code.includes('defaultClasses')) {
                       const classBinding = item.bindings.class;
-                      console.log(classBinding);
                       const cssClass = classBinding.code.replaceAll(/defaultClasses\.(\w+)/g, '$1');
                       item.properties.class = cssClass;
                       delete item.bindings.class;
