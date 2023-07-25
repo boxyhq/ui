@@ -189,4 +189,14 @@ export interface ToggleConnectionStatusProps {
   translation: any;
   errorCallback: (errMsg: string) => void;
   successCallback: (successMsg: string) => void;
+  classNames?: {
+    container?: string;
+    heading?: string;
+    alohaa?: string;
+    toggle?: string;
+    toggleTransition?: string;
+    displayMessage?: string;
+    confirmBtn?: string;
+    cancelBtn?: string;
+  };
 }
