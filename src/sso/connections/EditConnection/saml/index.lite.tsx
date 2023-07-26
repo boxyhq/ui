@@ -20,6 +20,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 id='name'
                 placeholder='MyApp'
                 value={props.connection.name}
+                required={false}
               />
             </div>
             <div class='mb-6'>
@@ -38,6 +39,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 placeholder='A short description not more than 100 characters'
                 maxLength={100}
                 value={props.connection.description}
+                required={false}
               />
             </div>
             <div class='mb-6'>
@@ -91,6 +93,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 placeholder='Paste the raw XML here'
                 rows={5}
                 value={props.connection.rawMetadata}
+                required={false}
               />
             </div>
             <div class='mb-6'>
@@ -108,6 +111,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 type='url'
                 placeholder='Paste the Metadata URL here'
                 value={props.connection.metadataUrl}
+                required={false}
               />
             </div>
             <div class='mb-6'>
@@ -123,6 +127,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 name='forceAuthn'
                 id='forceAuthn'
                 type='checkbox'
+                required={false}
               />
             </div>
           </div>
