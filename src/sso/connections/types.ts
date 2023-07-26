@@ -1,4 +1,5 @@
 export interface ConnectionListProps {
+  tableCaption?: string;
   hideCols?: ('provider' | 'tenant' | 'product' | 'idp_type' | 'status' | 'actions')[];
   idpEntityID?: string;
   isSettingsView?: boolean;
@@ -12,6 +13,7 @@ export interface ConnectionListProps {
     formControl?: string;
     tableContainer?: string;
     table?: string;
+    tableCaption?: string;
     thead?: string;
     tr?: string;
     th?: string;
