@@ -220,3 +220,27 @@ export interface EditOIDCConnectionProps {
 export interface EditSAMLConnectionProps {
   connection: SAMLSSORecord;
 }
+
+export interface oidcConnectionInitialValues {
+  oidcConnection: {
+    name?: string;
+    description?: string;
+    redirectUrl: string[] | string;
+    defaultRedirectUrl: string;
+    oidcClientId?: string;
+    oidcClientSecret?: string;
+    oidcDiscoveryUrl?: string;
+  };
+}
+
+export interface samlConnectionInitialValues {
+  samlConnection: {
+    name?: string;
+    description?: string;
+    redirectUrl: string[] | string;
+    defaultRedirectUrl: string;
+    rawMetadata?: string;
+    metadataUrl?: string;
+    forceAuthn?: boolean | string;
+  };
+}
