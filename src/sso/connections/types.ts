@@ -1,9 +1,10 @@
 export interface ConnectionListProps {
-  setupLinkToken?: string;
+  tableCaption?: string;
+  hideCols?: ('provider' | 'tenant' | 'product' | 'idp_type' | 'status' | 'actions')[];
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;
-  onIconClick: () => void;
+  onActionClick: () => void;
   /**
    * Classnames for each inner components that make up the component.
    */
@@ -12,6 +13,7 @@ export interface ConnectionListProps {
     formControl?: string;
     tableContainer?: string;
     table?: string;
+    tableCaption?: string;
     thead?: string;
     tr?: string;
     th?: string;
