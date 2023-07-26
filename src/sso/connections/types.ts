@@ -1,5 +1,5 @@
 export interface ConnectionListProps {
-  setupLinkToken?: string;
+  hideCols?: ('provider' | 'tenant' | 'product' | 'idp_type' | 'status' | 'actions')[];
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;
