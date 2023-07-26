@@ -4,7 +4,7 @@ export interface ConnectionListProps {
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;
-  onIconClick: () => void;
+  onActionClick: () => void;
   /**
    * Classnames for each inner components that make up the component.
    */
