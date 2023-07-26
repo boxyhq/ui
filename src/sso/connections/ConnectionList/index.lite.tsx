@@ -24,6 +24,7 @@ export default function ConnectionList(props: ConnectionListProps) {
         formControl: cssClassAssembler(props.classNames?.formControl, defaultClasses.formControl),
         tableContainer: cssClassAssembler(props.classNames?.tableContainer, defaultClasses.tableContainer),
         table: cssClassAssembler(props.classNames?.table, defaultClasses.table),
+        tableCaption: cssClassAssembler(props.classNames?.tableCaption, defaultClasses.tableCaption),
         thead: cssClassAssembler(props.classNames?.thead, defaultClasses.thead),
         tr: cssClassAssembler(props.classNames?.tr, defaultClasses.tr),
         th: cssClassAssembler(props.classNames?.th, defaultClasses.th),
@@ -77,6 +78,9 @@ export default function ConnectionList(props: ConnectionListProps) {
             else={<EmptyState title='No connections found.' />}>
             <div class={state.classes.tableContainer}>
               <table class={state.classes.table}>
+                <Show when={props.tableCaption}>
+                  <caption class={state.classes.tableCaption}>{props.tableCaption}</caption>
+                </Show>
                 <thead class={state.classes.thead}>
                   <tr class={state.classes.tr}>
                     <Show when={!props.hideCols?.includes('provider')}>
