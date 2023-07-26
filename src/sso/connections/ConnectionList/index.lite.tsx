@@ -168,7 +168,7 @@ export default function ConnectionList(props: ConnectionListProps) {
                                 iconClasses={state.classes.icon}
                                 data-testid='edit'
                                 onClick={() => {
-                                  props.onIconClick();
+                                  props.onActionClick();
                                 }}
                               />
                             </span>
