@@ -38,6 +38,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 placeholder='A short description not more than 100 characters'
                 maxLength={100}
                 value={props.connection.description}
+                required={false}
               />
             </div>
             <div class='mb-6'>
@@ -106,7 +107,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 class='input-bordered input w-full'
                 name='oidcClientSecret'
                 id='oidcClientSecret'
-                required={true}
+                required={false}
                 type='text'
                 placeholder=''
                 value={props.connection.oidcProvider.clientSecret}
@@ -202,8 +203,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             </div>
           </div>
           <div className='flex w-full lg:mt-6'>
-            {/* ButtonPrimary goes here */}
-            <button type='submit'>Save Changes</button>
+            <button type='submit' class='btn btn-primary'>
+              Save Changes
+            </button>
           </div>
         </div>
       </div>
@@ -213,8 +215,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             <h6 class='mb-1 font-medium'>Delete this connection</h6>
             <p class='font-light'>All your apps using this connection will stop working.</p>
           </div>
-          {/* Danger button goes here */}
-          <button type='button'>Delete</button>
+          <button type='button' class='btn btn-error'>
+            Delete
+          </button>
         </section>
       </Show>
     </form>
