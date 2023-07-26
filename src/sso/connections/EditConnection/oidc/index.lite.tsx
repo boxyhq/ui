@@ -1,7 +1,52 @@
-import { Show } from '@builder.io/mitosis';
-import type { EditOIDCConnectionProps } from '../../types';
+import { Show, useStore, onMount } from '@builder.io/mitosis';
+import type { EditOIDCConnectionProps, oidcConnectionInitialValues } from '../../types';
+import { saveConnection } from '../../utils';
+
+const INITIAL_VALUES: oidcConnectionInitialValues = {
+  oidcConnection: {
+    name: '',
+    description: '',
+    redirectUrl: '',
+    defaultRedirectUrl: '',
+    oidcClientId: '',
+    oidcClientSecret: '',
+    oidcDiscoveryUrl: '',
+  },
+};
+
+type Keys = keyof typeof INITIAL_VALUES.oidcConnection;
+type Values = (typeof INITIAL_VALUES.oidcConnection)[Keys];
 
 export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
+  const state = useStore({
+    oidcConnection: INITIAL_VALUES.oidcConnection,
+    updateConnection(key: Keys, newValue: Values) {
+      return { ...state.oidcConnection, [key]: newValue };
+    },
+    handleChange(event: Event) {
+      const target = event.target as HTMLInputElement | HTMLTextAreaElement;
+      const name = target.name as Keys;
+      const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
+
+      state.oidcConnection = state.updateConnection(name, targetValue);
+    },
+    save(event: Event) {
+      event.preventDefault();
+    },
+  });
+
+  onMount(() => {
+    state.oidcConnection = {
+      name: props.connection.name,
+      description: props.connection.description,
+      redirectUrl: props.connection.redirectUrl,
+      defaultRedirectUrl: props.connection.defaultRedirectUrl,
+      oidcClientId: props.connection.oidcProvider.clientId,
+      oidcClientSecret: props.connection.oidcProvider.clientSecret,
+      oidcDiscoveryUrl: props.connection.oidcProvider.discoveryUrl,
+    };
+  });
+
   return (
     <form>
       <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 lg:border-none lg:p-0'>
@@ -19,7 +64,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 id='name'
                 type='text'
                 placeholder='MyApp'
-                value={props.connection.name}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.name}
               />
             </div>
             <div class='mb-6'>
@@ -37,8 +83,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 type='text'
                 placeholder='A short description not more than 100 characters'
                 maxLength={100}
-                value={props.connection.description}
                 required={false}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.description}
               />
             </div>
             <div class='mb-6'>
@@ -56,7 +103,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 required={true}
                 rows={3}
                 placeholder='http://localhost:3366'
-                value={props.connection.redirectUrl}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.redirectUrl}
               />
             </div>
             <div class='mb-6'>
@@ -74,7 +122,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 required={true}
                 type='url'
                 placeholder='http://localhost:3366/login/saml'
-                value={props.connection.defaultRedirectUrl}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.defaultRedirectUrl}
               />
             </div>
             <div class='mb-6'>
@@ -92,7 +141,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 required={true}
                 type='text'
                 placeholder=''
-                value={props.connection.oidcProvider.clientId}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.oidcClientId}
               />
             </div>
             <div class='mb-6'>
@@ -110,7 +160,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 required={true}
                 type='text'
                 placeholder=''
-                value={props.connection.oidcProvider.clientSecret}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.oidcClientSecret}
               />
             </div>
             <div class='mb-6'>
@@ -128,7 +179,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 required={true}
                 type='url'
                 placeholder='https://example.com/.well-known/openid-configuration'
-                value={props.connection.oidcProvider.discoveryUrl}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.oidcDiscoveryUrl}
               />
             </div>
           </div>

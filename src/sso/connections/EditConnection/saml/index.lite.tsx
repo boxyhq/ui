@@ -1,7 +1,51 @@
-import { Show } from '@builder.io/mitosis';
-import type { EditSAMLConnectionProps } from '../../types';
+import { Show, onMount, useStore } from '@builder.io/mitosis';
+import type { EditSAMLConnectionProps, samlConnectionInitialValues } from '../../types';
+
+const INITIAL_VALUES: samlConnectionInitialValues = {
+  samlConnection: {
+    name: '',
+    description: '',
+    redirectUrl: '',
+    defaultRedirectUrl: '',
+    rawMetadata: '',
+    metadataUrl: '',
+    forceAuthn: false as boolean,
+  },
+};
+
+type Keys = keyof typeof INITIAL_VALUES.samlConnection;
+type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 
 export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
+  const state = useStore({
+    samlConnection: INITIAL_VALUES.samlConnection,
+    updateConnection(key: Keys, newValue: Values) {
+      return { ...state.samlConnection, [key]: newValue };
+    },
+    handleChange(event: Event) {
+      const target = event.target as HTMLInputElement | HTMLTextAreaElement;
+      const name = target.name as Keys;
+      const targetValue = name !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked;
+
+      state.samlConnection = state.updateConnection(name, targetValue);
+    },
+    save(event: Event) {
+      event.preventDefault();
+    },
+  });
+
+  onMount(() => {
+    state.samlConnection = {
+      name: props.connection.name,
+      description: props.connection.description,
+      redirectUrl: props.connection.redirectUrl,
+      defaultRedirectUrl: props.connection.defaultRedirectUrl,
+      rawMetadata: props.connection.rawMetadata,
+      metadataUrl: props.connection.metadataUrl,
+      forceAuthn: props.connection.forceAuthn,
+    };
+  });
+
   return (
     <form>
       <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 lg:border-none lg:p-0'>
@@ -19,8 +63,9 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 name='name'
                 id='name'
                 placeholder='MyApp'
-                value={props.connection.name}
                 required={false}
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.name}
               />
             </div>
             <div class='mb-6'>
@@ -38,8 +83,9 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 id='description'
                 placeholder='A short description not more than 100 characters'
                 maxLength={100}
-                value={props.connection.description}
                 required={false}
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.description}
               />
             </div>
             <div class='mb-6'>
@@ -57,7 +103,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 required={true}
                 rows={3}
                 placeholder='http://localhost:3366'
-                value={props.connection.redirectUrl}
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.redirectUrl}
               />
             </div>
             <div class='mb-6'>
@@ -75,7 +122,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 required={true}
                 type='url'
                 placeholder='http://localhost:3366/login/saml'
-                value={props.connection.defaultRedirectUrl}
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.defaultRedirectUrl}
               />
             </div>
             <div class='mb-6'>
@@ -92,8 +140,9 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 id='rawMetadata'
                 placeholder='Paste the raw XML here'
                 rows={5}
-                value={props.connection.rawMetadata}
                 required={false}
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.rawMetadata}
               />
             </div>
             <div class='mb-6'>
@@ -110,8 +159,9 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 id='metadataUrl'
                 type='url'
                 placeholder='Paste the Metadata URL here'
-                value={props.connection.metadataUrl}
                 required={false}
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.metadataUrl}
               />
             </div>
             <div class='mb-6'>
@@ -127,6 +177,10 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 name='forceAuthn'
                 id='forceAuthn'
                 type='checkbox'
+                onChange={(event) => state.handleChange(event)}
+                checked={
+                  state.samlConnection.forceAuthn === true || state.samlConnection.forceAuthn === 'true'
+                }
                 required={false}
               />
             </div>
