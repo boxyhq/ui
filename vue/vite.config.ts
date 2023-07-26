@@ -14,6 +14,7 @@ export default defineConfig({
     lib: {
       entry: {
         sso: resolve(__dirname, 'src/sso/index.ts'),
+        shared: resolve(__dirname, 'src/shared/index.ts'),
       },
       name: 'BoxyHQUI',
     },
@@ -30,7 +31,17 @@ export default defineConfig({
       },
     },
   },
-  plugins: [vue(), cssInjectedByJsPlugin()],
+  plugins: [
+    vue(),
+    cssInjectedByJsPlugin({
+      jsAssetsFilterFunction: function customJsAssetsfilterFunction(outputChunk) {
+        // console.log(outputChunk.fileName, outputChunk.name);
+        const entryPoints = ['sso', 'shared', 'index'];
+        // TODO: at the moment this plugin injects all styles into every file instead of splitting by entry point, also look into styles not being injected into sso.cjs
+        return entryPoints.includes(outputChunk.name);
+      },
+    }),
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

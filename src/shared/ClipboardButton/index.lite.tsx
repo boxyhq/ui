@@ -22,7 +22,7 @@ export default function CopyToClipboardButton(props: PropsType) {
       label='Copy'
       Icon={CopytoClipboardIcon}
       iconClasses='hover:text-primary'
-      onClick={state.onClick}
+      onClick={() => state.onClick()}
     />
   );
 }
