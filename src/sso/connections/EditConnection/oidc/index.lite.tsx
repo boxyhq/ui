@@ -107,7 +107,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 class='input-bordered input w-full'
                 name='oidcClientSecret'
                 id='oidcClientSecret'
-                required={false}
+                required={true}
                 type='text'
                 placeholder=''
                 value={props.connection.oidcProvider.clientSecret}
