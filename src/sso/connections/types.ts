@@ -137,6 +137,7 @@ export interface SAMLSSORecord extends SAMLSSOConnection {
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
   metadataUrl?: string;
+  redirectUrl: string[];
   idpMetadata: {
     entityID: string;
     loginType?: string;
@@ -159,6 +160,7 @@ export interface SAMLSSORecord extends SAMLSSOConnection {
 export interface OIDCSSORecord extends SSOConnection {
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
+  redirectUrl: string[];
   oidcProvider: {
     provider?: string;
     discoveryUrl?: string;
@@ -217,32 +219,22 @@ export interface EditConnectionProps {
 
 export interface EditOIDCConnectionProps {
   connection: OIDCSSORecord;
+  variant: 'basic' | 'advanced';
+  errorCallback: (errMessage: string) => void;
+  successCallback: () => void;
+  urls: {
+    patch: string;
+    delete: string;
+  };
 }
 
 export interface EditSAMLConnectionProps {
   connection: SAMLSSORecord;
-}
-
-export interface oidcConnectionInitialValues {
-  oidcConnection: {
-    name?: string;
-    description?: string;
-    redirectUrl: string[] | string;
-    defaultRedirectUrl: string;
-    oidcClientId?: string;
-    oidcClientSecret?: string;
-    oidcDiscoveryUrl?: string;
-  };
-}
-
-export interface samlConnectionInitialValues {
-  samlConnection: {
-    name?: string;
-    description?: string;
-    redirectUrl: string[] | string;
-    defaultRedirectUrl: string;
-    rawMetadata?: string;
-    metadataUrl?: string;
-    forceAuthn?: boolean | string;
+  variant: 'basic' | 'advanced';
+  errorCallback: (errMessage: string) => void;
+  successCallback: () => void;
+  urls: {
+    patch: string;
+    delete: string;
   };
 }
