@@ -223,7 +223,7 @@ export interface EditOIDCConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   urls: {
-    patch: string;
+    save: string;
     delete: string;
   };
 }
@@ -234,7 +234,7 @@ export interface EditSAMLConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   urls: {
-    patch: string;
+    save: string;
     delete: string;
   };
 }
