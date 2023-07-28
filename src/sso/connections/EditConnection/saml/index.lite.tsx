@@ -53,8 +53,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       event.preventDefault();
 
       saveConnection({
-        url: props.urls.patch,
-        isEditView: true,
+        url: props.urls.save,
         formObj:
           props.variant === 'advanced'
             ? { ...state.samlConnection }
@@ -114,7 +113,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   });
 
   return (
-    <form onSubmit={state.saveSSOConnection}>
+    <form onSubmit={(event) => state.saveSSOConnection(event)} method='post'>
       <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 lg:border-none lg:p-0'>
         <div class='flex flex-col gap-0 lg:flex-row lg:gap-4'>
           <div class='w-full rounded border-gray-200 dark:border-gray-700 lg:w-3/5 lg:border lg:p-3'>
