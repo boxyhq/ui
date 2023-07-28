@@ -238,3 +238,15 @@ export interface EditSAMLConnectionProps {
     delete: string;
   };
 }
+
+export interface oidcConnectionInitialValues {
+  oidcConnection: {
+    name?: string;
+    description?: string;
+    redirectUrl: string[] | string;
+    defaultRedirectUrl: string;
+    oidcClientId?: string;
+    oidcClientSecret?: string;
+    oidcDiscoveryUrl?: string;
+  };
+}
