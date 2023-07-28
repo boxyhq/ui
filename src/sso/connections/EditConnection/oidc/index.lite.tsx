@@ -21,8 +21,7 @@ const INITIAL_VALUES = {
     defaultRedirectUrl: '',
     oidcClientSecret: '',
     oidcClientId: '',
-    oidcDiscoveryUrl: '', // well know urls
-    // or else the below ones
+    oidcDiscoveryUrl: '',
     'oidcMetadata.issuer': '',
     'oidcMetadata.authorization_endpoint': '',
     'oidcMetadata.token_endpoint': '',
