@@ -47,3 +47,24 @@ export const saveConnection = async ({
   });
   callback(res);
 };
+
+export const deleteConnection = async ({
+  url,
+  clientId,
+  clientSecret,
+  callback,
+}: {
+  url: string;
+  clientId: string;
+  clientSecret: string;
+  callback: (res: Response) => Promise<void>;
+}) => {
+  const res = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      body: JSON.stringify({ clientID: clientId, clientSecret: clientSecret }),
+    },
+  });
+  callback(res);
+};
