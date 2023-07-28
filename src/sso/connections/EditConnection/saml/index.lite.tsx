@@ -49,7 +49,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     askForConfirmation() {
       state.displayDeletionConfirmation = true;
     },
-    save(event: Event) {
+    saveSSOConnection(event: Event) {
       event.preventDefault();
 
       saveConnection({
@@ -77,7 +77,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
         },
       });
     },
-    delete(event: Event) {
+    deleteSSOConnection(event: Event) {
       event.preventDefault();
       state.displayDeletionConfirmation = false;
 
@@ -114,7 +114,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   });
 
   return (
-    <form onSubmit={state.save}>
+    <form onSubmit={state.saveSSOConnection}>
       <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 lg:border-none lg:p-0'>
         <div class='flex flex-col gap-0 lg:flex-row lg:gap-4'>
           <div class='w-full rounded border-gray-200 dark:border-gray-700 lg:w-3/5 lg:border lg:p-3'>
@@ -393,7 +393,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 Are you sure you want to delete the Connection? This action cannot be undone and will
                 permanently delete the Connection.
               </h1>
-              <button class='btn btn-danger' onClick={(event) => state.delete(event)}>
+              <button class='btn btn-danger' onClick={(event) => state.deleteSSOConnection(event)}>
                 Confirm
               </button>
               <button class='btn btn-outline' onClick={(event) => state.onCancel()}>
