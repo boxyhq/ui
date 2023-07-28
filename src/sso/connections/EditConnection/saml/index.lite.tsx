@@ -105,7 +105,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     state.samlConnection = {
       name: props.connection.name || '',
       description: props.connection.description || '',
-      redirectUrl: props.connection.redirectUrl.join('\r\n'),
+      redirectUrl: props.connection.redirectUrl.join(`\r\n`),
       defaultRedirectUrl: props.connection.defaultRedirectUrl,
       rawMetadata: props.connection.rawMetadata || '',
       metadataUrl: props.connection.metadataUrl || '',
