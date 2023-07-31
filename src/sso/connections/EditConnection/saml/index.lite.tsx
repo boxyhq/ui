@@ -110,6 +110,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       metadataUrl: props.connection.metadataUrl || '',
       forceAuthn: props.connection.forceAuthn === true || props.connection.forceAuthn === 'true',
     };
+
+    state.hasMetadataUrl = props.connection.metadataUrl ? true : false;
   });
 
   return (
