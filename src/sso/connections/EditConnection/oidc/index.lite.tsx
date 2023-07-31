@@ -133,6 +133,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       'oidcMetadata.jwks_uri': props.connection.oidcProvider.metadata?.jwks_uri || '',
       'oidcMetadata.userinfo_endpoint': props.connection.oidcProvider.metadata?.userinfo_endpoint || '',
     };
+
+    state.hasDiscoveryUrl = props.connection.oidcProvider.discoveryUrl ? true : false;
   });
 
   return (
