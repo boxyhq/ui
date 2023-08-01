@@ -139,9 +139,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
 
   return (
     <form onSubmit={(event) => state.saveSSOConnection(event)} method='post'>
-      <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 lg:border-none lg:p-0'>
+      <div class='min-w-[28rem] bg-white dark:border-gray-700 dark:bg-gray-800 lg:border-none lg:p-0'>
         <div class='flex flex-col gap-0 lg:flex-row lg:gap-4'>
-          <div class='w-full rounded border-gray-200 dark:border-gray-700 lg:w-3/5 lg:border lg:p-3'>
+          <div class='flex flex-row gap-4 w-full lg:w-3/5'>
+          <div class='w-full py-6 px-4 rounded border-2 border-gray-200 lg:w-3/5 lg:p-3'>
             <Show when={state.formVariant === 'advanced'}>
               <div class='mb-6'>
                 <div class='flex items-center justify-between'>
@@ -369,7 +370,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               </div>
             </Show>
           </div>
-          <div class='w-full rounded border-gray-200 dark:border-gray-700 lg:w-3/5 lg:border lg:p-3'>
+          <div class='w-full py-6 px-4 rounded border-2 border-gray-200 lg:w-3/5 lg:p-3'>
             <Show when={state.formVariant === 'advanced'}>
               <div class='mb-6'>
                 <div class='flex items-center justify-between'>
@@ -447,8 +448,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               />
             </div>
           </div>
-          <div className='flex w-full lg:mt-6'>
-            <button type='submit' class='btn btn-primary'>
+          </div>
+          <div className='flex py-6 w-full'>
+            <button type='submit' class='btn btn-success text-white'>
               Save Changes
             </button>
           </div>
@@ -461,7 +463,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             <p class='font-light'>All your apps using this connection will stop working.</p>
           </div>
           <Show when={!state.displayDeletionConfirmation}>
-            <button type='button' onClick={(event) => state.askForConfirmation()} class='btn btn-error'>
+            <button type='button' onClick={(event) => state.askForConfirmation()} class='btn btn-error text-white'>
               Delete
             </button>
           </Show>
