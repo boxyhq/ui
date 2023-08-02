@@ -58,6 +58,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
         outlineBtn: cssClassAssembler(props.classNames?.outlineBtn, defaultClasses.outlineBtn),
       };
     },
+    isExcluded(fieldName: keyof OIDCSSOConnection) {
+      return !!(props.excludeFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
+    },
     toggleHasDiscoveryUrl() {
       state.hasDiscoveryUrl = !state.hasDiscoveryUrl;
     },
@@ -161,74 +164,82 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           <div class={state.classes.fieldsContainer}>
             <div class={state.classes.fieldsDiv}>
               <Show when={state.formVariant === 'advanced'}>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='name' class={state.classes.label}>
-                      Name
-                    </label>
+                <Show when={!state.isExcluded('name')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='name' class={state.classes.label}>
+                        Name
+                      </label>
+                    </div>
+                    <input
+                      class={state.classes.input}
+                      name='name'
+                      id='name'
+                      type='text'
+                      placeholder='MyApp'
+                      onInput={(event) => state.handleChange(event)}
+                      value={state.oidcConnection.name}
+                    />
                   </div>
-                  <input
-                    class={state.classes.input}
-                    name='name'
-                    id='name'
-                    type='text'
-                    placeholder='MyApp'
-                    onInput={(event) => state.handleChange(event)}
-                    value={state.oidcConnection.name}
-                  />
-                </div>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='description' class={state.classes.label}>
-                      Description
-                    </label>
+                </Show>
+                <Show when={!state.isExcluded('description')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='description' class={state.classes.label}>
+                        Description
+                      </label>
+                    </div>
+                    <input
+                      class={state.classes.input}
+                      name='description'
+                      id='description'
+                      type='text'
+                      placeholder='A short description not more than 100 characters'
+                      maxLength={100}
+                      required={false}
+                      onInput={(event) => state.handleChange(event)}
+                      value={state.oidcConnection.description}
+                    />
                   </div>
-                  <input
-                    class={state.classes.input}
-                    name='description'
-                    id='description'
-                    type='text'
-                    placeholder='A short description not more than 100 characters'
-                    maxLength={100}
-                    required={false}
-                    onInput={(event) => state.handleChange(event)}
-                    value={state.oidcConnection.description}
-                  />
-                </div>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='redirectUrl' class={state.classes.label}>
-                      Allowed redirect URLs (newline separated)
-                    </label>
+                </Show>
+                <Show when={!state.isExcluded('redirectUrl')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='redirectUrl' class={state.classes.label}>
+                        Allowed redirect URLs (newline separated)
+                      </label>
+                    </div>
+                    <textarea
+                      class={state.classes.textarea}
+                      id='redirectUrl'
+                      name='redirectUrl'
+                      required={true}
+                      rows={3}
+                      placeholder='http://localhost:3366'
+                      onInput={(event) => state.handleChange(event)}
+                      value={state.oidcConnection.redirectUrl}
+                    />
                   </div>
-                  <textarea
-                    class={state.classes.textarea}
-                    id='redirectUrl'
-                    name='redirectUrl'
-                    required={true}
-                    rows={3}
-                    placeholder='http://localhost:3366'
-                    onInput={(event) => state.handleChange(event)}
-                    value={state.oidcConnection.redirectUrl}
-                  />
-                </div>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='defaultRedirectUrl' class={state.classes.label}>
-                      Default redirect URL
-                    </label>
+                </Show>
+                <Show when={!state.isExcluded('defaultRedirectUrl')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='defaultRedirectUrl' class={state.classes.label}>
+                        Default redirect URL
+                      </label>
+                    </div>
+                    <input
+                      class={state.classes.input}
+                      name='defaultRedirectUrl'
+                      id='defaultRedirectUrl'
+                      required={true}
+                      type='url'
+                      placeholder='http://localhost:3366/login/saml'
+                      onInput={(event) => state.handleChange(event)}
+                      value={state.oidcConnection.defaultRedirectUrl}
+                    />
                   </div>
-                  <input
-                    class={state.classes.input}
-                    name='defaultRedirectUrl'
-                    id='defaultRedirectUrl'
-                    required={true}
-                    type='url'
-                    placeholder='http://localhost:3366/login/saml'
-                    onInput={(event) => state.handleChange(event)}
-                    value={state.oidcConnection.defaultRedirectUrl}
-                  />
-                </div>
+                </Show>
               </Show>
               <div class={defaultClasses.field}>
                 <div class={defaultClasses.labelDiv}>
@@ -258,7 +269,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   name='oidcClientSecret'
                   id='oidcClientSecret'
                   required={true}
-                  type='text'
+                  type='password'
                   placeholder=''
                   onInput={(event) => state.handleChange(event)}
                   value={state.oidcConnection.oidcClientSecret}
@@ -369,40 +380,44 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             </div>
             <div class={state.classes.fieldsDiv}>
               <Show when={state.formVariant === 'advanced'}>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='tenant' class={state.classes.label}>
-                      Tenant
-                    </label>
+                <Show when={!state.isExcluded('tenant')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='tenant' class={state.classes.label}>
+                        Tenant
+                      </label>
+                    </div>
+                    <input
+                      class={state.classes.input}
+                      name='tenant'
+                      id='tenant'
+                      placeholder='acme.com'
+                      type='text'
+                      required={true}
+                      disabled={true}
+                      value={props.connection.tenant}
+                    />
                   </div>
-                  <input
-                    class={state.classes.input}
-                    name='tenant'
-                    id='tenant'
-                    placeholder='acme.com'
-                    type='text'
-                    required={true}
-                    disabled={true}
-                    value={props.connection.tenant}
-                  />
-                </div>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='product' class={state.classes.label}>
-                      Product
-                    </label>
+                </Show>
+                <Show when={!state.isExcluded('product')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='product' class={state.classes.label}>
+                        Product
+                      </label>
+                    </div>
+                    <input
+                      class={state.classes.input}
+                      name='product'
+                      id='product'
+                      type='text'
+                      required={true}
+                      disabled={true}
+                      placeholder='demo'
+                      value={props.connection.product}
+                    />
                   </div>
-                  <input
-                    class={state.classes.input}
-                    name='product'
-                    id='product'
-                    type='text'
-                    required={true}
-                    disabled={true}
-                    placeholder='demo'
-                    value={props.connection.product}
-                  />
-                </div>
+                </Show>
               </Show>
               <div class={defaultClasses.field}>
                 <div class={defaultClasses.labelDiv}>
