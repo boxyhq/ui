@@ -198,4 +198,7 @@ export interface ConnectionsWrapperProp {
   urls: {
     get: string;
   };
+  componentProps?: {
+    connectionList?: Partial<ConnectionListProps>;
+  };
 }
