@@ -8,6 +8,8 @@ import type {
   CreateConnectionProps,
 } from '../../types';
 import { saveConnection, deleteConnection } from '../../utils';
+import defaultClasses from './index.module.css';
+import cssClassAssembler from '../../../utils/cssClassAssembler';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -40,6 +42,21 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     displayDeletionConfirmation: false,
     get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
+    },
+    get classes() {
+      return {
+        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
+        formDiv: cssClassAssembler(props.classNames?.formDiv, defaultClasses.formDiv),
+        fieldsContainer: cssClassAssembler(props.classNames?.fieldsContainer, defaultClasses.fieldsContainer),
+        fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
+        label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
+        input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
+        textarea: cssClassAssembler(props.classNames?.textarea, defaultClasses.textarea),
+        section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
+        saveBtn: cssClassAssembler(props.classNames?.saveBtn, defaultClasses.saveBtn),
+        deleteBtn: cssClassAssembler(props.classNames?.deleteBtn, defaultClasses.deleteBtn),
+        outlineBtn: cssClassAssembler(props.classNames?.outlineBtn, defaultClasses.outlineBtn),
+      };
     },
     toggleHasDiscoveryUrl() {
       state.hasDiscoveryUrl = !state.hasDiscoveryUrl;
@@ -139,19 +156,19 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
 
   return (
     <form onSubmit={(event) => state.saveSSOConnection(event)} method='post'>
-      <div class='min-w-[28rem] bg-white dark:border-gray-700 dark:bg-gray-800 lg:border-none lg:p-0'>
-        <div class='flex flex-col gap-0 lg:flex-row lg:gap-4'>
-          <div class='flex flex-row gap-4 w-full lg:w-3/5'>
-            <div class='w-full py-6 px-4 rounded border-2 border-gray-200 lg:w-3/5 lg:p-3'>
+      <div class={state.classes.container}>
+        <div class={state.classes.formDiv}>
+          <div class={state.classes.fieldsContainer}>
+            <div class={state.classes.fieldsDiv}>
               <Show when={state.formVariant === 'advanced'}>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label for='name' class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='name' class={state.classes.label}>
                       Name
                     </label>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     name='name'
                     id='name'
                     type='text'
@@ -160,16 +177,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     value={state.oidcConnection.name}
                   />
                 </div>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='description'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='description' class={state.classes.label}>
                       Description
                     </label>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     name='description'
                     id='description'
                     type='text'
@@ -180,16 +195,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     value={state.oidcConnection.description}
                   />
                 </div>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='redirectUrl'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='redirectUrl' class={state.classes.label}>
                       Allowed redirect URLs (newline separated)
                     </label>
                   </div>
                   <textarea
-                    class='textarea-bordered textarea h-24 w-full whitespace-pre'
+                    class={state.classes.textarea}
                     id='redirectUrl'
                     name='redirectUrl'
                     required={true}
@@ -199,16 +212,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     value={state.oidcConnection.redirectUrl}
                   />
                 </div>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='defaultRedirectUrl'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='defaultRedirectUrl' class={state.classes.label}>
                       Default redirect URL
                     </label>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     name='defaultRedirectUrl'
                     id='defaultRedirectUrl'
                     required={true}
@@ -219,16 +230,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   />
                 </div>
               </Show>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='oidcClientId'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+              <div class={defaultClasses.field}>
+                <div class={defaultClasses.labelDiv}>
+                  <label for='oidcClientId' class={state.classes.label}>
                     Client ID [OIDC Provider]
                   </label>
                 </div>
                 <input
-                  class='input-bordered input w-full'
+                  class={state.classes.input}
                   name='oidcClientId'
                   id='oidcClientId'
                   required={true}
@@ -238,16 +247,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   value={state.oidcConnection.oidcClientId}
                 />
               </div>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='oidcClientSecret'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+              <div class={defaultClasses.field}>
+                <div class={defaultClasses.labelDiv}>
+                  <label for='oidcClientSecret' class={state.classes.label}>
                     Client Secret [OIDC Provider]
                   </label>
                 </div>
                 <input
-                  class='input-bordered input w-full'
+                  class={state.classes.input}
                   name='oidcClientSecret'
                   id='oidcClientSecret'
                   required={true}
@@ -258,11 +265,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 />
               </div>
               <Show when={state.hasDiscoveryUrl}>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='oidcDiscoveryUrl'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='oidcDiscoveryUrl' class={state.classes.label}>
                       Well-known URL of OpenID Provider
                     </label>
                     <button onClick={() => state.toggleHasDiscoveryUrl()}>
@@ -270,7 +275,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     </button>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     name='oidcDiscoveryUrl'
                     id='oidcDiscoveryUrl'
                     required={true}
@@ -282,11 +287,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 </div>
               </Show>
               <Show when={!state.hasDiscoveryUrl}>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='issuer'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='issuer' class={state.classes.label}>
                       Issuer
                     </label>
                     <button onClick={() => state.toggleHasDiscoveryUrl()}>
@@ -294,7 +297,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     </button>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     name='oidcMetadata.issuer'
                     id='issuer'
                     type='url'
@@ -302,16 +305,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     value={state.oidcConnection['oidcMetadata.issuer']}
                   />
                 </div>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='authorization_endpoint'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='authorization_endpoint' class={state.classes.label}>
                       Authorization Endpoint
                     </label>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     id='authorization_endpoint'
                     name='oidcMetadata.authorization_endpoint'
                     type='url'
@@ -319,16 +320,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     value={state.oidcConnection['oidcMetadata.authorization_endpoint']}
                   />
                 </div>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='token_endpoint'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='token_endpoint' class={state.classes.label}>
                       Token endpoint
                     </label>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     id='token_endpoint'
                     name='oidcMetadata.token_endpoint'
                     type='url'
@@ -336,16 +335,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     value={state.oidcConnection['oidcMetadata.token_endpoint']}
                   />
                 </div>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='jwks_uri'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='jwks_uri' class={state.classes.label}>
                       JWKS URI
                     </label>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     id='jwks_uri'
                     name='oidcMetadata.jwks_uri'
                     type='url'
@@ -353,16 +350,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     value={state.oidcConnection['oidcMetadata.jwks_uri']}
                   />
                 </div>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='userinfo_endpoint'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='userinfo_endpoint' class={state.classes.label}>
                       UserInfo endpoint
                     </label>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     id='userinfo_endpoint'
                     name='oidcMetadata.userinfo_endpoint'
                     type='url'
@@ -372,18 +367,16 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 </div>
               </Show>
             </div>
-            <div class='w-full py-6 px-4 rounded border-2 border-gray-200 lg:w-3/5 lg:p-3'>
+            <div class={state.classes.fieldsDiv}>
               <Show when={state.formVariant === 'advanced'}>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='tenant'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='tenant' class={state.classes.label}>
                       Tenant
                     </label>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     name='tenant'
                     id='tenant'
                     placeholder='acme.com'
@@ -393,16 +386,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     value={props.connection.tenant}
                   />
                 </div>
-                <div class='mb-6'>
-                  <div class='flex items-center justify-between'>
-                    <label
-                      for='product'
-                      class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='product' class={state.classes.label}>
                       Product
                     </label>
                   </div>
                   <input
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     name='product'
                     id='product'
                     type='text'
@@ -413,16 +404,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   />
                 </div>
               </Show>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='clientID'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+              <div class={defaultClasses.field}>
+                <div class={defaultClasses.labelDiv}>
+                  <label for='clientID' class={state.classes.label}>
                     Client ID
                   </label>
                 </div>
                 <input
-                  class='input-bordered input w-full'
+                  class={state.classes.input}
                   name='clientID'
                   id='clientID'
                   type='text'
@@ -431,11 +420,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   value={props.connection.clientID}
                 />
               </div>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='clientSecret'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+              <div class={defaultClasses.field}>
+                <div class={defaultClasses.labelDiv}>
+                  <label for='clientSecret' class={state.classes.label}>
                     Client Secret
                   </label>
                   <CopyToClipboardButton
@@ -444,7 +431,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   />
                 </div>
                 <input
-                  class='input-bordered input w-full'
+                  class={state.classes.input}
                   name='clientSecret'
                   id='clientSecret'
                   type='password'
@@ -455,37 +442,37 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               </div>
             </div>
           </div>
-          <div className='flex py-6 w-full'>
-            <button type='submit' class='btn btn-success text-white'>
+          <div className={defaultClasses.saveDiv}>
+            <button type='submit' class={state.classes.saveBtn}>
               Save Changes
             </button>
           </div>
         </div>
       </div>
       <Show when={props.connection?.clientID && props.connection.clientSecret}>
-        <section class='mt-10 flex items-center rounded bg-red-100 p-6 text-red-900'>
-          <div class='flex-1'>
-            <h6 class='mb-1 font-medium'>Delete this connection</h6>
-            <p class='font-light'>All your apps using this connection will stop working.</p>
+        <section class={state.classes.section}>
+          <div class={defaultClasses.sectionDiv}>
+            <h6 class={defaultClasses.sectionHeading}>Delete this connection</h6>
+            <p class={defaultClasses.sectionPara}>All your apps using this connection will stop working.</p>
           </div>
           <Show when={!state.displayDeletionConfirmation}>
             <button
               type='button'
               onClick={(event) => state.askForConfirmation()}
-              class='btn btn-error text-white'>
+              class={state.classes.deleteBtn}>
               Delete
             </button>
           </Show>
           <Show when={state.displayDeletionConfirmation}>
-            <div>
+            <div class={defaultClasses.confirmationDiv}>
               <h1>
                 Are you sure you want to delete the Connection? This action cannot be undone and will
                 permanently delete the Connection.
               </h1>
-              <button class='btn btn-danger' onClick={(event) => state.deleteSSOConnection(event)}>
+              <button class={state.classes.deleteBtn} onClick={(event) => state.deleteSSOConnection(event)}>
                 Confirm
               </button>
-              <button class='btn btn-outline' onClick={(event) => state.onCancel()}>
+              <button class={state.classes.outlineBtn} onClick={(event) => state.onCancel()}>
                 Cancel
               </button>
             </div>
