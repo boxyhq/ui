@@ -220,6 +220,7 @@ export interface EditConnectionProps {
 export interface EditOIDCConnectionProps {
   connection: OIDCSSORecord;
   variant: 'basic' | 'advanced';
+  excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   urls: {
