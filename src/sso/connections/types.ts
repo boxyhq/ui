@@ -226,6 +226,19 @@ export interface EditOIDCConnectionProps {
     save: string;
     delete: string;
   };
+  classNames?: {
+    container?: string;
+    formDiv?: string;
+    fieldsContainer?: string;
+    fieldsDiv?: string;
+    label?: string;
+    input?: string;
+    textarea?: string;
+    section?: string;
+    saveBtn?: string;
+    deleteBtn?: string;
+    outlineBtn?: string;
+  };
 }
 
 export interface EditSAMLConnectionProps {
