@@ -49,11 +49,11 @@ export interface ButtonProps {
 export interface SecretInputFormControlProps {
   label: string;
   value: string;
-  isHiddenClassName: boolean;
+  isHiddenClassName?: string;
   id: string;
-  placeholder: string;
+  placeholder?: string;
   required: boolean;
-  maxLength: string;
+  maxLength?: string;
   readOnly: boolean;
   successCallback: () => void;
 }
