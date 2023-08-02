@@ -1,4 +1,4 @@
-import CopyToClipboardButton from '../../../../shared/ClipboardButton/index.lite';
+import SecretInputFormControl from '../../../../shared/SecretInputFormControl/index.lite';
 import { Show, useStore, onMount } from '@builder.io/mitosis';
 import type {
   EditOIDCConnectionProps,
@@ -258,23 +258,15 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   value={state.oidcConnection.oidcClientId}
                 />
               </div>
-              <div class={defaultClasses.field}>
-                <div class={defaultClasses.labelDiv}>
-                  <label for='oidcClientSecret' class={state.classes.label}>
-                    Client Secret [OIDC Provider]
-                  </label>
-                </div>
-                <input
-                  class={state.classes.input}
-                  name='oidcClientSecret'
-                  id='oidcClientSecret'
-                  required={true}
-                  type='password'
-                  placeholder=''
-                  onInput={(event) => state.handleChange(event)}
-                  value={state.oidcConnection.oidcClientSecret}
-                />
-              </div>
+              <SecretInputFormControl
+                label='Client Secret [OIDC Provider]'
+                value={state.oidcConnection.oidcClientSecret}
+                id='oidcClientSecret'
+                placeholder=''
+                required={true}
+                readOnly={false}
+                successCallback={props.successCallback}
+              />
               <Show when={state.hasDiscoveryUrl}>
                 <div class={defaultClasses.field}>
                   <div class={defaultClasses.labelDiv}>
@@ -435,26 +427,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   value={props.connection.clientID}
                 />
               </div>
-              <div class={defaultClasses.field}>
-                <div class={defaultClasses.labelDiv}>
-                  <label for='clientSecret' class={state.classes.label}>
-                    Client Secret
-                  </label>
-                  <CopyToClipboardButton
-                    text={props.connection.clientSecret}
-                    toastSuccessCallback={props.successCallback}
-                  />
-                </div>
-                <input
-                  class={state.classes.input}
-                  name='clientSecret'
-                  id='clientSecret'
-                  type='password'
-                  required={true}
-                  readOnly={true}
-                  value={props.connection.clientSecret}
-                />
-              </div>
+              <SecretInputFormControl
+                label='Client Secret'
+                value={props.connection.clientSecret}
+                id='clientSecret'
+                required={true}
+                readOnly={true}
+                successCallback={props.successCallback}
+              />
             </div>
           </div>
           <div className={defaultClasses.saveDiv}>
