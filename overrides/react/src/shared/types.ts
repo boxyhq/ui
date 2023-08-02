@@ -32,18 +32,6 @@ export interface ModalProps {
   children?: any;
 }
 
-export interface ConfirmationModalProps {
-  visible: boolean;
-  title: string;
-  description: string;
-  onConfirm: () => void | Promise<void>;
-  onCancel: () => void;
-  actionButtonText?: string;
-  overrideDeleteButton?: boolean;
-  dataTestId?: string;
-  translation?: any;
-}
-
 export interface ButtonBaseProps {
   children?: any;
   color?: string;
