@@ -4,6 +4,7 @@ export interface ConnectionListProps {
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;
+  onListFetchComplete?: (connections: ConnectionListData) => void;
   onActionClick: () => void;
   /**
    * Classnames for each inner components that make up the component.
@@ -168,6 +169,8 @@ export interface OIDCSSORecord extends SSOConnection {
   };
   deactivated?: boolean;
 }
+
+export type ConnectionListData = ((SAMLSSORecord | OIDCSSORecord) & { isSystemSSO?: boolean })[];
 
 declare namespace classNames {
   type Value = string | number | boolean | undefined | null;

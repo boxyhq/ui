@@ -1,5 +1,5 @@
-import { useStore, Show, Slot, onMount, For } from '@builder.io/mitosis';
-import type { ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
+import { useStore, Show, For, onUpdate } from '@builder.io/mitosis';
+import type { ConnectionListData, ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import Loading from '../../../shared/Loading/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';
 import Badge from '../../../shared/Badge/index.lite';
@@ -10,7 +10,7 @@ import PencilIcon from '../../../shared/icons/PencilIcon.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
-  connectionListData: [] as ((SAMLSSORecord | OIDCSSORecord) & { isSystemSSO?: boolean })[],
+  connectionListData: [] as ConnectionListData,
 };
 
 export default function ConnectionList(props: ConnectionListProps) {
@@ -55,18 +55,21 @@ export default function ConnectionList(props: ConnectionListProps) {
     },
   });
 
-  onMount(() => {
-    async function getFieldsData() {
-      const response = await fetch(props.getConnectionsUrl);
-      const { data, error } = await response.json();
+  async function getFieldsData(url: string) {
+    const response = await fetch(url);
+    const { data, error } = await response.json();
+    state.connectionListIsLoading = false;
+    if (error) {
+      state.connectionListError = error;
+    } else {
       state.connectionListData = data;
-      if (error) {
-        state.connectionListError = error;
-      }
-      state.connectionListIsLoading = false;
+      typeof props.onListFetchComplete === 'function' && props.onListFetchComplete(data);
     }
-    getFieldsData();
-  });
+  }
+
+  onUpdate(() => {
+    getFieldsData(props.getConnectionsUrl);
+  }, [props.getConnectionsUrl]);
 
   return (
     <Show
