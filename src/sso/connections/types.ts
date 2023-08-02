@@ -190,3 +190,9 @@ export interface ToggleConnectionStatusProps {
   errorCallback: (errMsg: string) => void;
   successCallback: (successMsg: string) => void;
 }
+
+export interface ConnectionsWrapperProp {
+  urls: {
+    get: string;
+  };
+}
