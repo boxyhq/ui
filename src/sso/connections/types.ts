@@ -218,7 +218,7 @@ export interface EditConnectionProps {
 }
 
 export interface EditOIDCConnectionProps {
-  connection: SAMLSSORecord | OIDCSSORecord;
+  connection: OIDCSSORecord;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   errorCallback: (errMessage: string) => void;
@@ -243,7 +243,7 @@ export interface EditOIDCConnectionProps {
 }
 
 export interface EditSAMLConnectionProps {
-  connection: SAMLSSORecord | OIDCSSORecord;
+  connection: SAMLSSORecord;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   errorCallback: (errMessage: string) => void;
