@@ -33,7 +33,7 @@
   background-color: transparent;
   text-align: center;
   gap: 0.5rem;
-  padding: 0.2rem 0.5rem;
+  padding: 5px 15px;
   color: black;
   border: 1px solid black;
   margin: 2px 5px;
@@ -49,7 +49,7 @@
   color: white;
   text-align: center;
   gap: 0.5rem;
-  padding: 0.2rem 0.5rem;
+  padding: 5px 15px;
   margin: 2px 5px;
   border-radius: 5px;
   font-weight: 600;
