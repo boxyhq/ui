@@ -1,7 +1,15 @@
 import CopyToClipboardButton from '../../../../shared/ClipboardButton/index.lite';
 import { Show, onMount, useStore } from '@builder.io/mitosis';
-import type { EditSAMLConnectionProps, ApiResponse, CreateConnectionProps } from '../../types';
+import type {
+  EditSAMLConnectionProps,
+  ApiResponse,
+  CreateConnectionProps,
+  SAMLSSOConnection,
+} from '../../types';
 import { saveConnection, deleteConnection } from '../../utils';
+import defaultClasses from './index.module.css';
+import cssClassAssembler from '../../../utils/cssClassAssembler';
+import SecretInputFormControl from '../../../../shared/SecretInputFormControl/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -29,6 +37,24 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     displayDeletionConfirmation: false,
     get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
+    },
+    get classes() {
+      return {
+        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
+        formDiv: cssClassAssembler(props.classNames?.formDiv, defaultClasses.formDiv),
+        fieldsContainer: cssClassAssembler(props.classNames?.fieldsContainer, defaultClasses.fieldsContainer),
+        fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
+        label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
+        input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
+        textarea: cssClassAssembler(props.classNames?.textarea, defaultClasses.textarea),
+        section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
+        saveBtn: cssClassAssembler(props.classNames?.saveBtn, defaultClasses.saveBtn),
+        deleteBtn: cssClassAssembler(props.classNames?.deleteBtn, defaultClasses.deleteBtn),
+        outlineBtn: cssClassAssembler(props.classNames?.outlineBtn, defaultClasses.outlineBtn),
+      };
+    },
+    isExcluded(fieldName: keyof SAMLSSOConnection) {
+      return !!(props.excludeFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
     },
     toggleHasMetadataUrl() {
       state.hasMetadataUrl = !state.hasMetadataUrl;
@@ -116,288 +142,271 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
 
   return (
     <form onSubmit={(event) => state.saveSSOConnection(event)} method='post'>
-      <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 lg:border-none lg:p-0'>
-        <div class='flex flex-col gap-0 lg:flex-row lg:gap-4'>
-          <div class='w-full rounded border-gray-200 dark:border-gray-700 lg:w-3/5 lg:border lg:p-3'>
-            <Show when={state.formVariant === 'advanced'}>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label for='name' class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                    Name
+      <div class={state.classes.container}>
+        <div class={state.classes.formDiv}>
+          <div class={state.classes.fieldsContainer}>
+            <div class={state.classes.fieldsDiv}>
+              <Show when={state.formVariant === 'advanced'}>
+                <Show when={!state.isExcluded('name')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='name' class={state.classes.label}>
+                        Name
+                      </label>
+                    </div>
+                    <input
+                      class={state.classes.input}
+                      type='text'
+                      name='name'
+                      id='name'
+                      placeholder='MyApp'
+                      required={false}
+                      onInput={(event) => state.handleChange(event)}
+                      value={state.samlConnection.name}
+                    />
+                  </div>
+                </Show>
+                <Show when={!state.isExcluded('description')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='description' class={state.classes.label}>
+                        Description
+                      </label>
+                    </div>
+                    <input
+                      class={state.classes.input}
+                      type='text'
+                      name='description'
+                      id='description'
+                      placeholder='A short description not more than 100 characters'
+                      maxLength={100}
+                      required={false}
+                      onInput={(event) => state.handleChange(event)}
+                      value={state.samlConnection.description}
+                    />
+                  </div>
+                </Show>
+                <Show when={!state.isExcluded('redirectUrl')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='redirectUrl' class={state.classes.label}>
+                        Allowed redirect URLs (newline separated)
+                      </label>
+                    </div>
+                    <textarea
+                      class={state.classes.textarea}
+                      id='redirectUrl'
+                      name='redirectUrl'
+                      required={true}
+                      rows={3}
+                      placeholder='http://localhost:3366'
+                      onInput={(event) => state.handleChange(event)}
+                      value={state.samlConnection.redirectUrl}
+                    />
+                  </div>
+                </Show>
+                <Show when={!state.isExcluded('defaultRedirectUrl')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='defaultRedirectUrl' class={state.classes.label}>
+                        Default redirect URL
+                      </label>
+                    </div>
+                    <input
+                      class={state.classes.input}
+                      name='defaultRedirectUrl'
+                      id='defaultRedirectUrl'
+                      required={true}
+                      type='url'
+                      placeholder='http://localhost:3366/login/saml'
+                      onInput={(event) => state.handleChange(event)}
+                      value={state.samlConnection.defaultRedirectUrl}
+                    />
+                  </div>
+                </Show>
+              </Show>
+              <Show when={state.hasMetadataUrl}>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='metadataUrl' class={state.classes.label}>
+                      Metadata URL (fully replaces the current one)
+                    </label>
+                    <button onClick={() => state.toggleHasMetadataUrl()}>
+                      Use raw XML instead ? Click here to enter raw metadata XML
+                    </button>
+                  </div>
+                  <input
+                    class={state.classes.input}
+                    name='metadataUrl'
+                    id='metadataUrl'
+                    type='url'
+                    placeholder='Paste the Metadata URL here'
+                    required={false}
+                    onInput={(event) => state.handleChange(event)}
+                    value={state.samlConnection.metadataUrl}
+                  />
+                </div>
+              </Show>
+              <Show when={!state.hasMetadataUrl}>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='rawMetadata' class={state.classes.label}>
+                      Raw IdP XML (fully replaces the current one)
+                    </label>
+                    <button onClick={() => state.toggleHasMetadataUrl()}>
+                      Use metadata URL instead ? Click here to enter the IdP metadata URL
+                    </button>
+                  </div>
+                  <textarea
+                    class={state.classes.textarea}
+                    name='rawMetadata'
+                    id='rawMetadata'
+                    placeholder='Paste the raw XML here'
+                    rows={5}
+                    required={false}
+                    onInput={(event) => state.handleChange(event)}
+                    value={state.samlConnection.rawMetadata}
+                  />
+                </div>
+              </Show>
+              <Show when={state.formVariant === 'advanced'}>
+                <Show when={!state.isExcluded('forceAuthn')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='forceAuthn' class={state.classes.label}>
+                        Force Authentication
+                      </label>
+                    </div>
+                    <input
+                      class={defaultClasses.checkbox}
+                      name='forceAuthn'
+                      id='forceAuthn'
+                      type='checkbox'
+                      onChange={(event) => state.handleChange(event)}
+                      checked={state.samlConnection.forceAuthn === true}
+                      required={false}
+                    />
+                  </div>
+                </Show>
+              </Show>
+            </div>
+            <div class={defaultClasses.readOnlyFieldsDiv}>
+              <Show when={state.formVariant === 'advanced'}>
+                <Show when={!state.isExcluded('tenant')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='tenant' class={state.classes.label}>
+                        Tenant
+                      </label>
+                    </div>
+                    <input
+                      class={state.classes.input}
+                      name='tenant'
+                      id='tenant'
+                      placeholder='acme.com'
+                      required={true}
+                      disabled={true}
+                      value={props.connection.tenant}
+                    />
+                  </div>
+                </Show>
+                <Show when={!state.isExcluded('product')}>
+                  <div class={defaultClasses.field}>
+                    <div class={defaultClasses.labelDiv}>
+                      <label for='product' class={state.classes.label}>
+                        Product
+                      </label>
+                    </div>
+                    <input
+                      class={state.classes.input}
+                      name='product'
+                      id='product'
+                      type='text'
+                      required={true}
+                      disabled={true}
+                      placeholder='demo'
+                      value={props.connection.product}
+                    />
+                  </div>
+                </Show>
+              </Show>
+              <div class={defaultClasses.field}>
+                <div class={defaultClasses.labelDiv}>
+                  <label for='idpMetadata' class={state.classes.label}>
+                    IdP Metadata
+                  </label>
+                </div>
+                <pre class={defaultClasses.preForIdpCertExpiry} aria-readonly={true}>
+                  {JSON.stringify(props.connection.idpMetadata)}
+                </pre>
+              </div>
+              <div class={defaultClasses.field}>
+                <div class={defaultClasses.labelDiv}>
+                  <label for='idpCertExpiry' class={state.classes.label}>
+                    IdP Certificate Validity
+                  </label>
+                </div>
+                <pre class={defaultClasses.pre} aria-readonly={true}>
+                  {props.connection.idpMetadata.validTo}
+                </pre>
+              </div>
+              <div class={defaultClasses.field}>
+                <div class={defaultClasses.labelDiv}>
+                  <label for='clientID' class={state.classes.label}>
+                    Client ID
                   </label>
                 </div>
                 <input
-                  class='input-bordered input w-full'
+                  class={state.classes.input}
+                  name='clientID'
+                  id='clientID'
                   type='text'
-                  name='name'
-                  id='name'
-                  placeholder='MyApp'
-                  required={false}
-                  onInput={(event) => state.handleChange(event)}
-                  value={state.samlConnection.name}
-                />
-              </div>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='description'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                    Description
-                  </label>
-                </div>
-                <input
-                  class='input-bordered input w-full'
-                  type='text'
-                  name='description'
-                  id='description'
-                  placeholder='A short description not more than 100 characters'
-                  maxLength={100}
-                  required={false}
-                  onInput={(event) => state.handleChange(event)}
-                  value={state.samlConnection.description}
-                />
-              </div>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='redirectUrl'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                    Allowed redirect URLs (newline separated)
-                  </label>
-                </div>
-                <textarea
-                  class='textarea-bordered textarea h-24 w-full whitespace-pre'
-                  id='redirectUrl'
-                  name='redirectUrl'
-                  required={true}
-                  rows={3}
-                  placeholder='http://localhost:3366'
-                  onInput={(event) => state.handleChange(event)}
-                  value={state.samlConnection.redirectUrl}
-                />
-              </div>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='defaultRedirectUrl'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                    Default redirect URL
-                  </label>
-                </div>
-                <input
-                  class='input-bordered input w-full'
-                  name='defaultRedirectUrl'
-                  id='defaultRedirectUrl'
-                  required={true}
-                  type='url'
-                  placeholder='http://localhost:3366/login/saml'
-                  onInput={(event) => state.handleChange(event)}
-                  value={state.samlConnection.defaultRedirectUrl}
-                />
-              </div>
-            </Show>
-            <Show when={state.hasMetadataUrl}>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='metadataUrl'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                    Metadata URL (fully replaces the current one)
-                  </label>
-                  <button onClick={() => state.toggleHasMetadataUrl()}>
-                    Use raw XML instead ? Click here to enter raw metadata XML
-                  </button>
-                </div>
-                <input
-                  class='input-bordered input w-full'
-                  name='metadataUrl'
-                  id='metadataUrl'
-                  type='url'
-                  placeholder='Paste the Metadata URL here'
-                  required={false}
-                  onInput={(event) => state.handleChange(event)}
-                  value={state.samlConnection.metadataUrl}
-                />
-              </div>
-            </Show>
-            <Show when={!state.hasMetadataUrl}>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='rawMetadata'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                    Raw IdP XML (fully replaces the current one)
-                  </label>
-                  <button onClick={() => state.toggleHasMetadataUrl()}>
-                    Use metadata URL instead ? Click here to enter the IdP metadata URL
-                  </button>
-                </div>
-                <textarea
-                  class='textarea-bordered textarea h-24 w-full'
-                  name='rawMetadata'
-                  id='rawMetadata'
-                  placeholder='Paste the raw XML here'
-                  rows={5}
-                  required={false}
-                  onInput={(event) => state.handleChange(event)}
-                  value={state.samlConnection.rawMetadata}
-                />
-              </div>
-            </Show>
-            <Show when={state.formVariant === 'advanced'}>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='forceAuthn'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                    Force Authentication
-                  </label>
-                </div>
-                <input
-                  class='checkbox-primary checkbox ml-5 align-middle'
-                  name='forceAuthn'
-                  id='forceAuthn'
-                  type='checkbox'
-                  onChange={(event) => state.handleChange(event)}
-                  checked={state.samlConnection.forceAuthn === true}
-                  required={false}
-                />
-              </div>
-            </Show>
-          </div>
-          <div class='w-full rounded border-gray-200 dark:border-gray-700 lg:w-3/5 lg:border lg:p-3'>
-            <Show when={state.formVariant === 'advanced'}>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label for='tenant' class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                    Tenant
-                  </label>
-                </div>
-                <input
-                  class='input-bordered input w-full'
-                  name='tenant'
-                  id='tenant'
-                  placeholder='acme.com'
                   required={true}
                   disabled={true}
-                  value={props.connection.tenant}
+                  value={props.connection.clientID}
                 />
               </div>
-              <div class='mb-6'>
-                <div class='flex items-center justify-between'>
-                  <label
-                    for='product'
-                    class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                    Product
-                  </label>
-                </div>
-                <input
-                  class='input-bordered input w-full'
-                  name='product'
-                  id='product'
-                  type='text'
-                  required={true}
-                  disabled={true}
-                  placeholder='demo'
-                  value={props.connection.product}
-                />
-              </div>
-            </Show>
-            <div class='mb-6'>
-              <div class='flex items-center justify-between'>
-                <label
-                  for='idpMetadata'
-                  class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                  IdP Metadata
-                </label>
-              </div>
-              <pre
-                class='block w-full cursor-not-allowed overflow-auto rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
-                aria-readonly={true}>
-                {JSON.stringify(props.connection.idpMetadata)}
-              </pre>
-            </div>
-            <div class='mb-6'>
-              <div class='flex items-center justify-between'>
-                <label
-                  for='idpCertExpiry'
-                  class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                  IdP Certificate Validity
-                </label>
-              </div>
-              <pre
-                class='block w-full cursor-not-allowed overflow-auto rounded-lg border border-gray-300 bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
-                aria-readonly={true}>
-                {props.connection.idpMetadata.validTo}
-              </pre>
-            </div>
-            <div class='mb-6'>
-              <div class='flex items-center justify-between'>
-                <label for='clientID' class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                  Client ID
-                </label>
-              </div>
-              <input
-                class='input-bordered input w-full'
-                name='clientID'
-                id='clientID'
-                type='text'
-                required={true}
-                disabled={true}
-                value={props.connection.clientID}
-              />
-            </div>
-            <div class='mb-6'>
-              <div class='flex items-center justify-between'>
-                <label
-                  for='clientSecret'
-                  class='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-                  Client Secret
-                </label>
-                <CopyToClipboardButton
-                  text={props.connection.clientSecret}
-                  toastSuccessCallback={props.successCallback}
-                />
-              </div>
-              <input
-                class='input-bordered input w-full'
-                name='clientSecret'
+              <SecretInputFormControl
+                label='Client Secret'
                 id='clientSecret'
-                type='password'
+                value={props.connection.clientSecret}
                 required={true}
                 readOnly={true}
-                value={props.connection.clientSecret}
+                successCallback={props.successCallback}
               />
             </div>
           </div>
-          <div className='flex w-full lg:mt-6'>
-            <button type='submit' class='btn btn-primary'>
+          <div class={defaultClasses.saveDiv}>
+            <button type='submit' class={state.classes.saveBtn}>
               Save Changes
             </button>
           </div>
         </div>
       </div>
       <Show when={props.connection?.clientID && props.connection.clientSecret}>
-        <section class='mt-10 flex items-center rounded bg-red-100 p-6 text-red-900'>
-          <div class='flex-1'>
-            <h6 class='mb-1 font-medium'>Delete this connection</h6>
-            <p class='font-light'>All your apps using this connection will stop working.</p>
+        <section class={state.classes.section}>
+          <div class={defaultClasses.sectionDiv}>
+            <h6 class={defaultClasses.sectionHeading}>Delete this connection</h6>
+            <p class={defaultClasses.sectionPara}>All your apps using this connection will stop working.</p>
           </div>
           <Show when={!state.displayDeletionConfirmation}>
-            <button type='button' onClick={(event) => state.askForConfirmation()} class='btn btn-error'>
+            <button
+              type='button'
+              onClick={(event) => state.askForConfirmation()}
+              class={state.classes.deleteBtn}>
               Delete
             </button>
           </Show>
           <Show when={state.displayDeletionConfirmation}>
-            <div>
+            <div class={defaultClasses.confirmationDiv}>
               <h1>
                 Are you sure you want to delete the Connection? This action cannot be undone and will
                 permanently delete the Connection.
               </h1>
-              <button class='btn btn-danger' onClick={(event) => state.deleteSSOConnection(event)}>
+              <button class={state.classes.deleteBtn} onClick={(event) => state.deleteSSOConnection(event)}>
                 Confirm
               </button>
-              <button class='btn btn-outline' onClick={(event) => state.onCancel()}>
+              <button class={state.classes.outlineBtn} onClick={(event) => state.onCancel()}>
                 Cancel
               </button>
             </div>
