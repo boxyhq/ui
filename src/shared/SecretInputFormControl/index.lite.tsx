@@ -22,9 +22,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
           <IconButton
             Icon={state.isSecretShown ? EyeSlashIcon : EyeIcon}
             iconClasses='hover:text-primary mr-2'
-            onClick={() => {
-              state.isSecretShown = !state.isSecretShown;
-            }}
+            onClick={() => (state.isSecretShown = !state.isSecretShown)}
           />
           <CopyToClipboardButton text={props.value} toastSuccessCallback={props.successCallback} />
         </div>
