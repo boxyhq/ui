@@ -218,11 +218,11 @@ export interface EditConnectionProps {
 }
 
 export interface EditOIDCConnectionProps {
-  connection: OIDCSSORecord;
+  connection: SAMLSSORecord | OIDCSSORecord;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   errorCallback: (errMessage: string) => void;
-  successCallback: () => void;
+  successCallback: (successMsg: string) => void;
   urls: {
     save: string;
     delete: string;
@@ -243,11 +243,11 @@ export interface EditOIDCConnectionProps {
 }
 
 export interface EditSAMLConnectionProps {
-  connection: SAMLSSORecord;
+  connection: SAMLSSORecord | OIDCSSORecord;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   errorCallback: (errMessage: string) => void;
-  successCallback: () => void;
+  successCallback: (successMsg: string) => void;
   urls: {
     save: string;
     delete: string;
