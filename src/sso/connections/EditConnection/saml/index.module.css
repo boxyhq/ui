@@ -9,6 +9,13 @@
   gap: 0;
 }
 
+.heading {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: rgb(55 65 81);
+}
+
 .fieldsContainer {
   display: flex;
   flex-direction: row;
