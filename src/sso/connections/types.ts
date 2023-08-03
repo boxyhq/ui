@@ -227,6 +227,9 @@ export interface EditOIDCConnectionProps {
     save: string;
     delete: string;
   };
+  toggleUrls: {
+    save: string;
+  };
   classNames?: {
     container?: string;
     formDiv?: string;
@@ -251,6 +254,9 @@ export interface EditSAMLConnectionProps {
   urls: {
     save: string;
     delete: string;
+  };
+  toggleUrls: {
+    save: string;
   };
   classNames?: {
     container?: string;
