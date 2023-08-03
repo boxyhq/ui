@@ -5,7 +5,7 @@ export interface ConnectionListProps {
   isSettingsView?: boolean;
   getConnectionsUrl: string;
   onListFetchComplete?: (connections: ConnectionListData) => void;
-  onActionClick: () => void;
+  onActionClick: (e: Event) => void;
   /**
    * Classnames for each inner components that make up the component.
    */
@@ -195,10 +195,9 @@ export interface ToggleConnectionStatusProps {
 }
 
 export interface ConnectionsWrapperProp {
-  urls: {
-    get: string;
-  };
-  componentProps?: {
-    connectionList?: Partial<ConnectionListProps>;
+  classNames?: { button?: string };
+  componentProps: {
+    connectionList: ConnectionListProps;
+    createSSOConnection: CreateSSOConnectionProps;
   };
 }

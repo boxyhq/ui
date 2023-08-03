@@ -2,6 +2,8 @@ import { Show, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
 import CreateSSOConnection from '../CreateConnection/index.lite';
 import type { ConnectionListData, ConnectionsWrapperProp } from '../types';
+import cssClassAssembler from '../../utils/cssClassAssembler';
+import defaultClasses from './index.module.css';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionListData,
@@ -12,8 +14,11 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
   const state = useStore({
     connections: DEFAULT_VALUES.connectionListData,
     view: DEFAULT_VALUES.view,
-    get connectionsAdded() {
+    get connectionsAdded(): boolean {
       return state.connections.length > 0;
+    },
+    classes: {
+      button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
     },
   });
 
@@ -22,48 +27,34 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <div className='flex flex-col'>
         <Show when={state.view === 'LIST'}>
           <Show when={state.connectionsAdded}>
-            <button type='button' onClick={(event) => (state.view = 'CREATE')}>
+            <button type='button' class={state.classes.button} onClick={(event) => (state.view = 'CREATE')}>
+              {/* TODO: bring translation support */}
               Add Connection
             </button>
           </Show>
           <ConnectionList
-            hideCols={props.componentProps?.connectionList?.hideCols}
-            getConnectionsUrl={props.urls.get}
-            onActionClick={() => console.log(`switch view to edit`)}
+            {...props.componentProps.connectionList}
+            onActionClick={(event) => console.log(`switch view to edit`)}
             onListFetchComplete={(connectionsList) => (state.connections = connectionsList)}
           />
         </Show>
-        <Show when={state.view === 'CREATE'}>
-          <CreateSSOConnection
-            componentProps={{
-              saml: {
-                errorCallback: function (errMessage: string): void {
-                  throw new Error('Function not implemented.');
-                },
-                successCallback: function (): void {
-                  state.view = 'LIST';
-                },
-                variant: 'advanced',
-                urls: {
-                  save: '',
-                },
-              },
-              oidc: {
-                errorCallback: function (errMessage: string): void {
-                  throw new Error('Function not implemented.');
-                },
-                successCallback: function (): void {
-                  state.view = 'LIST';
-                },
-                variant: 'advanced',
-                urls: {
-                  save: '',
-                },
-              },
-            }}
-          />
-        </Show>
       </div>
+      <Show when={state.view === 'CREATE'}>
+        <button type='button' onClick={(event) => (state.view = 'LIST')}>
+          Back
+        </button>
+        <CreateSSOConnection
+          {...props.componentProps.createSSOConnection}
+          componentProps={{
+            saml: {
+              ...props.componentProps.createSSOConnection.componentProps.saml,
+            },
+            oidc: {
+              ...props.componentProps.createSSOConnection.componentProps.oidc,
+            },
+          }}
+        />
+      </Show>
     </div>
   );
 }
