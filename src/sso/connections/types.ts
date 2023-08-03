@@ -245,10 +245,24 @@ export interface EditOIDCConnectionProps {
 export interface EditSAMLConnectionProps {
   connection: SAMLSSORecord;
   variant: 'basic' | 'advanced';
+  excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   urls: {
     save: string;
     delete: string;
+  };
+  classNames?: {
+    container?: string;
+    formDiv?: string;
+    fieldsContainer?: string;
+    fieldsDiv?: string;
+    label?: string;
+    input?: string;
+    textarea?: string;
+    section?: string;
+    saveBtn?: string;
+    deleteBtn?: string;
+    outlineBtn?: string;
   };
 }
