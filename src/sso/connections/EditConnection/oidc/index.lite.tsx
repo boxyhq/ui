@@ -437,7 +437,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               />
             </div>
           </div>
-          <div className={defaultClasses.saveDiv}>
+          <div class={defaultClasses.saveDiv}>
             <button type='submit' class={state.classes.saveBtn}>
               Save Changes
             </button>
