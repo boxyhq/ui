@@ -48,9 +48,11 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           componentProps={{
             saml: {
               ...props.componentProps.createSSOConnection.componentProps.saml,
+              successCallback: () => (state.view = 'LIST'),
             },
             oidc: {
               ...props.componentProps.createSSOConnection.componentProps.oidc,
+              successCallback: () => (state.view = 'LIST'),
             },
           }}
         />
