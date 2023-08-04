@@ -61,7 +61,7 @@
     "rimraf": "5.0.1",
     "serve": "14.2.0",
     "vite": "4.4.8",
-    "vite-pages-theme-doc": "4.1.5",
+    "vite-pages-theme-doc": "4.1.6",
     "vite-plugin-css-injected-by-js": "3.2.1",
     "vite-plugin-react-pages": "4.1.4"
   },
