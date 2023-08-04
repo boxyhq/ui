@@ -82,7 +82,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             urls={props.componentProps.saml.urls}
             excludeFields={props.componentProps.saml.excludeFields}
             classNames={props.componentProps.saml.classNames}
-            variant='advanced'
+            variant={props.componentProps.saml.variant}
             errorCallback={props.componentProps.saml.errorCallback}
             successCallback={props.componentProps.saml.successCallback}></CreateSAMLConnection>
         </Show>
@@ -91,7 +91,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             urls={props.componentProps.oidc.urls}
             excludeFields={props.componentProps.oidc.excludeFields}
             classNames={props.componentProps.oidc.classNames}
-            variant='advanced'
+            variant={props.componentProps.oidc.variant}
             errorCallback={props.componentProps.oidc.errorCallback}
             successCallback={props.componentProps.oidc.successCallback}></CreateOIDCConnection>
         </Show>
