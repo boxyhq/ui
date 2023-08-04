@@ -4,6 +4,7 @@ import CreateSSOConnection from '../CreateConnection/index.lite';
 import type { ConnectionListData, ConnectionsWrapperProp } from '../types';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
+import Card from '../../../shared/Card/index.lite';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionListData,
@@ -64,21 +65,20 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           }}
         />
       </Show>
-      <Show when={!state.connectionsAdded}>
-        <div class='mb-3 flex items-center justify-between'>
-          <p>Allow team members to login using an Identity Provider.</p>
-          <button onClick={(event) => (state.view = 'CREATE')}>Configure</button>
-        </div>
-      </Show>
-      <Show when={state.connectionsAdded}>
-        <div className='flex flex-col justify-between space-y-2 mt-4'>
-          <p>
-            Please find the SP metadata for Identity Provider configuration at
-            {/* TODO: Slot for link to well known path */}
-            link.
-          </p>
-        </div>
-      </Show>
+      <Card title='Single Sign-On'>
+        <Show when={!state.connectionsAdded}>
+          <div class={defaultClasses.status}>
+            <p>Allow team members to login using an Identity Provider.</p>
+            <button onClick={(event) => (state.view = 'CREATE')}>Configure</button>
+          </div>
+        </Show>
+        <Show when={state.connectionsAdded}>
+          <p class={defaultClasses.ssoAdded}>Single Sign-On connection is enabled for your team.</p>
+          Please find the SP metadata for Identity Provider configuration at
+          {/* TODO: Slot for link to well known path */}
+          link.
+        </Show>
+      </Card>
     </div>
   );
 }
