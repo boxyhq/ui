@@ -8,6 +8,9 @@ import EyeSlashIcon from '../icons/EyeSlashIcon.lite';
 export default function SecretInputFormControl(props: SecretInputFormControlProps) {
   const state = useStore({
     isSecretShown: false,
+    handleChange(event: Event) {
+      props.cb(event);
+    },
   });
 
   return (
@@ -32,9 +35,11 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
         placeholder={props.placeholder}
         value={props.value || ''}
         id={props.id}
+        name={props.id}
         required={props.required}
         maxLength={props.maxLength}
         readOnly={props.readOnly}
+        onInput={(event) => state.handleChange(event)}
         class={`input-bordered input w-full ${props.isHiddenClassName} ${
           props.readOnly ? ' bg-gray-50' : ''
         }`}
