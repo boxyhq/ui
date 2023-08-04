@@ -279,6 +279,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                       required={true}
                       readOnly={false}
                       successCallback={props.successCallback}
+                      cb={state.handleChange}
                     />
                     <Show when={state.hasDiscoveryUrl}>
                       <div class={defaultClasses.field}>
@@ -447,6 +448,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                       required={true}
                       readOnly={true}
                       successCallback={props.successCallback}
+                      cb={state.handleChange}
                     />
                   </div>
                 </div>

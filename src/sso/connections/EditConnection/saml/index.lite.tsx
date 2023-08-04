@@ -385,6 +385,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                       required={true}
                       readOnly={true}
                       successCallback={props.successCallback}
+                      cb={state.handleChange}
                     />
                   </div>
                 </div>
