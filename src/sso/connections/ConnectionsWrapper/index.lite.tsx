@@ -33,9 +33,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             </button>
           </Show>
           <ConnectionList
-            {...props.componentProps.connectionList}
             onActionClick={(event) => console.log(`switch view to edit`)}
             onListFetchComplete={(connectionsList) => (state.connections = connectionsList)}
+            {...props.componentProps.connectionList}
           />
         </Show>
       </div>
@@ -47,12 +47,19 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           {...props.componentProps.createSSOConnection}
           componentProps={{
             saml: {
-              ...props.componentProps.createSSOConnection.componentProps.saml,
               successCallback: () => (state.view = 'LIST'),
+              //TODO: Bring inline error message display for SAML/OIDC forms */
+              errorCallback: () => {},
+              variant: 'basic',
+              urls: { save: '' },
+              ...props.componentProps.createSSOConnection?.componentProps?.saml,
             },
             oidc: {
-              ...props.componentProps.createSSOConnection.componentProps.oidc,
               successCallback: () => (state.view = 'LIST'),
+              errorCallback: () => {},
+              variant: 'basic',
+              urls: { save: '' },
+              ...props.componentProps.createSSOConnection?.componentProps?.oidc,
             },
           }}
         />

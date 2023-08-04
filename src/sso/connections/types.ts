@@ -197,7 +197,7 @@ export interface ToggleConnectionStatusProps {
 export interface ConnectionsWrapperProp {
   classNames?: { button?: string };
   componentProps: {
-    connectionList: ConnectionListProps;
-    createSSOConnection: CreateSSOConnectionProps;
+    connectionList: Omit<ConnectionListProps, 'onActionClick'>;
+    createSSOConnection: Partial<CreateSSOConnectionProps>;
   };
 }

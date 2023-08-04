@@ -166,11 +166,12 @@ export default function ConnectionList(props: ConnectionListProps) {
                         <Show when={!props.hideCols?.includes('actions')}>
                           <td class={state.classes.td}>
                             <span class={state.classes.spanIcon}>
+                              {/* TODO: Accept dynamic action here */}
                               <IconButton
                                 Icon={PencilIcon}
                                 iconClasses={state.classes.icon}
                                 data-testid='edit'
-                                onClick={() => props.onActionClick()}
+                                onClick={(event) => props.onActionClick(event)}
                               />
                             </span>
                           </td>
