@@ -56,4 +56,5 @@ export interface SecretInputFormControlProps {
   maxLength?: string;
   readOnly: boolean;
   successCallback: () => void;
+  cb: (event: Event) => void;
 }
