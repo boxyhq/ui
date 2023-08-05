@@ -15,7 +15,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
   });
 
   return (
-    <>
+    <div>
       <div class={defaultStyles.toolbar}>
         <label htmlFor={props.id} class={defaultStyles.label}>
           {props.label}
@@ -41,6 +41,6 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
         onInput={(event) => state.handleChange(event)}
         class={defaultStyles.input}
       />
-    </>
+    </div>
   );
 }
