@@ -11,10 +11,6 @@
   margin: 7px;
 }
 
-.alohaa {
-  background-color: blue;
-}
-
 .displayMessage {
   display: flex;
   align-items: center;
