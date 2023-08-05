@@ -58,3 +58,9 @@ export interface SecretInputFormControlProps {
   successCallback: () => void;
   cb: (event: Event) => void;
 }
+
+export interface ToggleSwitchProps {
+  label: string;
+  checked: boolean;
+  onChange: (event: Event) => void;
+}
