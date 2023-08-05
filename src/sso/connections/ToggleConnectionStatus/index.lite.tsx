@@ -39,8 +39,6 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
     },
     updateConnectionStatus(isConnectionActive: boolean) {
       async function sendHTTPrequest() {
-        state.active = isConnectionActive;
-
         const body = {
           clientID: props.connection?.clientID,
           clientSecret: props.connection?.clientSecret,
@@ -101,7 +99,7 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
             label={state.connectionStatus}
             onChange={(event) => state.askForConfirmation()}
             checked={!props.connection.deactivated}
-            disabled={state.displayPrompt === true}
+            disabled={state.displayPrompt}
           />
         </Show>
       </div>
