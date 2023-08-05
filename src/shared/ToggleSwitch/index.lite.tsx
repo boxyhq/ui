@@ -11,6 +11,7 @@ export default function ToggleSwitch(props: ToggleSwitchProps) {
         class={`${defaultStyles.input} ${commonStyles['sr-only']}`}
         onChange={(event) => props.onChange(event)}
         checked={props.checked}
+        disabled={props.disabled}
       />
       <span class={defaultStyles.display}></span>
     </label>
