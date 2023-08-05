@@ -3,12 +3,13 @@ import type { ToggleConnectionStatusProps } from '../types';
 import { ApiResponse } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
+import ToggleSwitch from '../../../shared/ToggleSwitch/index.lite';
 
 export default function ToggleConnectionStatus(props: ToggleConnectionStatusProps) {
   const state: any = useStore({
     active: false,
     displayConnectionMessage: true,
-    get ConnectionStatusMessage() {
+    get connectionStatus() {
       return state.active ? 'Active' : 'Inactive';
     },
     get connectActivate() {
@@ -29,7 +30,6 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
       return {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         heading: cssClassAssembler(props.classNames?.heading, defaultClasses.heading),
-        alohaa: cssClassAssembler(props.classNames?.alohaa, defaultClasses.alohaa),
         confirmBtn: cssClassAssembler(props.classNames?.confirmBtn, defaultClasses.confirmBtn),
         cancelBtn: cssClassAssembler(props.classNames?.cancelBtn, defaultClasses.cancelBtn),
         toggle: cssClassAssembler(props.classNames?.toggle, defaultClasses.toggle),
@@ -107,13 +107,8 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
         </div>
       </Show>
       <Show when={state.displayConnectionMessage}>
-        <label class='label'>
-          <span class='label-text mr-2'>{state.ConnectionStatusMessage}</span>
-        </label>
-        <input
-          type='checkbox'
-          id='toggle-status'
-          class={`toggle-success toggle`}
+        <ToggleSwitch
+          label={state.connectionStatus}
           onChange={(event) => state.askForConfirmation()}
           checked={state.active}
         />

@@ -194,7 +194,6 @@ export interface ToggleConnectionStatusProps {
   classNames?: {
     container?: string;
     heading?: string;
-    alohaa?: string;
     toggle?: string;
     toggleTransition?: string;
     displayMessage?: string;

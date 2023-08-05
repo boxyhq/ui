@@ -15,12 +15,6 @@
   background-color: blue;
 }
 
-.toggle {
-  display: flex;
-  justify-content: flex-end;
-  cursor: pointer;
-}
-
 .displayMessage {
   display: flex;
   align-items: center;
