@@ -4,6 +4,7 @@ import CopyToClipboardButton from '../ClipboardButton/index.lite';
 import IconButton from '../IconButton/index.lite';
 import EyeIcon from '../icons/EyeIcon.lite';
 import EyeSlashIcon from '../icons/EyeSlashIcon.lite';
+import defaultStyles from './index.module.css';
 
 export default function SecretInputFormControl(props: SecretInputFormControlProps) {
   const state = useStore({
@@ -14,17 +15,15 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
   });
 
   return (
-    <div class='mb-6'>
-      <div class='flex items-center justify-between'>
-        <label
-          htmlFor={props.id}
-          class={`mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300 ${props.isHiddenClassName}`}>
+    <>
+      <div class={defaultStyles.toolbar}>
+        <label htmlFor={props.id} class={defaultStyles.label}>
           {props.label}
         </label>
-        <div class='flex'>
+        <div>
           <IconButton
             Icon={state.isSecretShown ? EyeSlashIcon : EyeIcon}
-            iconClasses='hover:text-primary mr-2'
+            iconClasses={defaultStyles.icon}
             onClick={() => (state.isSecretShown = !state.isSecretShown)}
           />
           <CopyToClipboardButton text={props.value} toastSuccessCallback={props.successCallback} />
@@ -40,10 +39,8 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
         maxLength={props.maxLength}
         readOnly={props.readOnly}
         onInput={(event) => state.handleChange(event)}
-        class={`input-bordered input w-full ${props.isHiddenClassName} ${
-          props.readOnly ? ' bg-gray-50' : ''
-        }`}
+        class={defaultStyles.input}
       />
-    </div>
+    </>
   );
 }

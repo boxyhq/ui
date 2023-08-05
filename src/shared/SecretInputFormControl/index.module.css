@@ -1,0 +1,40 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toolbar > div {
+  display: flex;
+}
+
+.label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: rgb(17 24 39);
+  margin-bottom: 0.5rem;
+}
+
+.icon {
+  margin-right: 0.5rem;
+}
+.icon:hover {
+  color: #25c2a0;
+}
+
+.input {
+  height: 3rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  line-height: 2;
+  line-height: 1.5rem;
+  border-width: 1px;
+  border-color: rgb(24, 26, 42);
+  background-color: #fff;
+  border-radius: 0.25rem;
+}
+
+.input:read-only {
+  background-color: rgb(249 250 251);
+}
