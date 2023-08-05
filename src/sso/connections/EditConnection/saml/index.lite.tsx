@@ -147,7 +147,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
           <ToggleConnectionStatus
             connection={props.connection}
-            urls={{ save: props.toggleUrls.save }}
+            urls={{ patch: props.urls.patch }}
             errorCallback={props.errorCallback}
             successCallback={props.successCallback}
           />
