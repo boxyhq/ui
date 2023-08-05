@@ -186,7 +186,7 @@ export declare function classNames(...args: classNames.ArgumentArray): string;
 export interface ToggleConnectionStatusProps {
   connection: SAMLSSORecord | OIDCSSORecord;
   urls: {
-    save: string;
+    patch: string;
   };
   translation?: any;
   errorCallback: (errMsg: string) => void;
@@ -225,9 +225,7 @@ export interface EditOIDCConnectionProps {
   urls: {
     save: string;
     delete: string;
-  };
-  toggleUrls: {
-    save: string;
+    patch: string;
   };
   classNames?: {
     container?: string;
@@ -253,9 +251,7 @@ export interface EditSAMLConnectionProps {
   urls: {
     save: string;
     delete: string;
-  };
-  toggleUrls: {
-    save: string;
+    patch: string;
   };
   classNames?: {
     container?: string;

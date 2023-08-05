@@ -1,4 +1,4 @@
-import { useStore, onMount, onUpdate, Show } from '@builder.io/mitosis';
+import { useStore, Show } from '@builder.io/mitosis';
 import type { ToggleConnectionStatusProps } from '../types';
 import { ApiResponse } from '../types';
 import defaultClasses from './index.module.css';
@@ -7,24 +7,21 @@ import ToggleSwitch from '../../../shared/ToggleSwitch/index.lite';
 
 export default function ToggleConnectionStatus(props: ToggleConnectionStatusProps) {
   const state: any = useStore({
-    active: false,
-    displayConnectionMessage: true,
+    displayPrompt: false,
     get connectionStatus() {
-      return state.active ? 'Active' : 'Inactive';
+      return props.connection.deactivated ? 'Inactive' : 'Active';
     },
-    get connectActivate() {
-      return state.active ? 'deactivate' : 'activate';
+    get connectionAction() {
+      return props.connection.deactivated ? 'activate' : 'deactivate';
     },
     askForConfirmation() {
-      state.displayConnectionMessage = false;
+      state.displayPrompt = true;
     },
     onCancel() {
-      state.displayConnectionMessage = true;
+      state.displayPrompt = false;
     },
     onConfirm() {
-      state.active = !state.active;
-      state.updateConnectionStatus(!state.active);
-      state.displayConnectionMessage = true;
+      state.updateConnectionStatus(!props.connection.deactivated);
     },
     get classes() {
       return {
@@ -41,7 +38,7 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
       };
     },
     updateConnectionStatus(isConnectionActive: boolean) {
-      void (async function () {
+      async function sendHTTPrequest() {
         state.active = isConnectionActive;
 
         const body = {
@@ -60,7 +57,7 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
           body['isOIDC'] = true;
         }
 
-        const res = await fetch(props.urls.save, {
+        const res = await fetch(props.urls.patch, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -68,6 +65,7 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
           body: JSON.stringify(body),
         });
         const response: ApiResponse = await res.json();
+        state.displayPrompt = false;
 
         if ('error' in response) {
           props.errorCallback(response.error.message);
@@ -79,40 +77,34 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
         } else {
           props.successCallback('Connection Activated');
         }
-      })();
+      }
+      sendHTTPrequest();
     },
   });
 
-  onMount(() => {
-    state.active = !props.connection.deactivated;
-  });
-
-  onUpdate(() => {
-    state.active = !props.connection.deactivated;
-  }, [props.connection]);
-
   return (
-    <div class={state.classes.container}>
-      <Show when={!state.displayConnectionMessage}>
-        <div class={state.classes.displayMessage}>
-          <h1>
-            Do you want to<span>{` ${state.connectActivate} `}</span>connection status?
-          </h1>
-          <button class={state.classes.confirmBtn} onClick={(event) => state.onConfirm()}>
-            Confirm
-          </button>
-          <button class={state.classes.cancelBtn} onClick={(event) => state.onCancel()}>
-            Cancel
-          </button>
-        </div>
-      </Show>
-      <Show when={state.displayConnectionMessage}>
-        <ToggleSwitch
-          label={state.connectionStatus}
-          onChange={(event) => state.askForConfirmation()}
-          checked={state.active}
-        />
-      </Show>
-    </div>
+    <Show when={props.connection !== undefined || props.connection !== null}>
+      <div class={state.classes.container}>
+        <Show when={state.displayPrompt}>
+          <div class={state.classes.displayMessage}>
+            <span>Do you want to {` ${state.connectionAction} `} connection?</span>
+            <button class={state.classes.confirmBtn} onClick={(event) => state.onConfirm()}>
+              Confirm
+            </button>
+            <button class={state.classes.cancelBtn} onClick={(event) => state.onCancel()}>
+              Cancel
+            </button>
+          </div>
+        </Show>
+        <Show when={!state.displayPrompt}>
+          <ToggleSwitch
+            label={state.connectionStatus}
+            onChange={(event) => state.askForConfirmation()}
+            checked={!props.connection.deactivated}
+            disabled={state.displayPrompt === true}
+          />
+        </Show>
+      </div>
+    </Show>
   );
 }
