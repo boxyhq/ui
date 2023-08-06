@@ -243,7 +243,10 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                           <label for='metadataUrl' class={state.classes.label}>
                             Metadata URL (fully replaces the current one)
                           </label>
-                          <button onClick={() => state.toggleHasMetadataUrl()}>
+                          <button
+                            type='button'
+                            class={defaultClasses.hint}
+                            onClick={() => state.toggleHasMetadataUrl()}>
                             Use raw XML instead ? Click here to enter raw metadata XML
                           </button>
                         </div>
@@ -265,7 +268,10 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                           <label for='rawMetadata' class={state.classes.label}>
                             Raw IdP XML (fully replaces the current one)
                           </label>
-                          <button onClick={() => state.toggleHasMetadataUrl()}>
+                          <button
+                            type='button'
+                            class={defaultClasses.hint}
+                            onClick={() => state.toggleHasMetadataUrl()}>
                             Use metadata URL instead ? Click here to enter the IdP metadata URL
                           </button>
                         </div>

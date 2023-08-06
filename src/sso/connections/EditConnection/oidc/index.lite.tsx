@@ -287,7 +287,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                           <label for='oidcDiscoveryUrl' class={state.classes.label}>
                             Well-known URL of OpenID Provider
                           </label>
-                          <button onClick={() => state.toggleHasDiscoveryUrl()}>
+                          <button
+                            type='button'
+                            class={defaultClasses.hint}
+                            onClick={() => state.toggleHasDiscoveryUrl()}>
                             Missing the discovery URL? Click here to set the individual attributes
                           </button>
                         </div>
@@ -309,7 +312,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                           <label for='issuer' class={state.classes.label}>
                             Issuer
                           </label>
-                          <button onClick={() => state.toggleHasDiscoveryUrl()}>
+                          <button
+                            type='button'
+                            class={defaultClasses.hint}
+                            onClick={() => state.toggleHasDiscoveryUrl()}>
                             Have a discovery URL? Click here to set it
                           </button>
                         </div>

@@ -52,8 +52,8 @@
   margin-bottom: 8px;
   font-weight: 500;
   color: rgb(17 24 39);
-  font-size: 14px;
-  line-height: 20px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 .input {
@@ -200,4 +200,9 @@
 
 .checkbox > input {
   margin-left: 1rem;
+}
+
+.hint {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
