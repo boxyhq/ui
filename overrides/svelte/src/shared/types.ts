@@ -24,3 +24,27 @@ export interface BadgeProps {
   size?: string;
   ariaLabel?: string;
 }
+
+export interface SecretInputFormControlProps {
+  label: string;
+  value: string;
+  id: string;
+  placeholder?: string;
+  required: boolean;
+  maxLength?: string;
+  readOnly: boolean;
+  successCallback: () => void;
+  cb: (event: Event) => void;
+}
+
+export interface ToggleSwitchProps {
+  label: string;
+  checked: boolean;
+  disabled: boolean;
+  onChange: (event: Event) => void;
+}
+
+export interface CardProps {
+  children?: any;
+  title: string;
+}

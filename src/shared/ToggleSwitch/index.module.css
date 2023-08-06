@@ -1,0 +1,81 @@
+/** https://kittygiraudel.com/2021/04/05/an-accessible-toggle */
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  gap: 1ch;
+}
+
+.display {
+  --offset: 0.12rem;
+  --diameter: 1.4rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-around;
+
+  width: calc(var(--diameter) * 2 + var(--offset) * 2);
+  height: calc(var(--diameter) + var(--offset) * 2);
+  box-sizing: content-box;
+
+  border: 1px solid rgb(0 0 0 / 0.2);
+
+  position: relative;
+  border-radius: 100vw;
+  background-color: #fff;
+
+  transition: 250ms;
+  cursor: pointer;
+}
+
+/* handle */
+.display::before {
+  content: '';
+
+  width: var(--diameter);
+  height: var(--diameter);
+  border-radius: 50%;
+
+  box-sizing: border-box;
+
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: var(--offset);
+  transform: translate(0, -50%);
+
+  background-color: rgb(0 0 0 / 0.2);
+  transition: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .display {
+    transition-duration: 0ms;
+  }
+}
+
+.input:focus + .display {
+  outline: 1px dotted #98f7dc;
+  outline: 1px auto -webkit-focus-ring-color;
+}
+
+.input:focus:not(:focus-visible) + .display {
+  outline: 0;
+}
+
+.input:checked + .display {
+  border-color: #5cecc8;
+}
+
+.input:checked + .display::before {
+  background-color: #5cecc8;
+  transform: translate(100%, -50%);
+}
+
+/* Disabled state for input */
+.input:disabled + .display {
+  opacity: 0.6;
+  filter: grayscale(40%);
+  cursor: not-allowed;
+}
