@@ -137,6 +137,7 @@ export interface SAMLSSORecord extends SAMLSSOConnection {
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
   metadataUrl?: string;
+  redirectUrl: string[];
   idpMetadata: {
     entityID: string;
     loginType?: string;
@@ -159,6 +160,7 @@ export interface SAMLSSORecord extends SAMLSSOConnection {
 export interface OIDCSSORecord extends SSOConnection {
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
+  redirectUrl: string[];
   oidcProvider: {
     provider?: string;
     discoveryUrl?: string;
@@ -184,9 +186,84 @@ export declare function classNames(...args: classNames.ArgumentArray): string;
 export interface ToggleConnectionStatusProps {
   connection: SAMLSSORecord | OIDCSSORecord;
   urls: {
-    save: string;
+    patch: string;
   };
-  translation: any;
+  translation?: any;
   errorCallback: (errMsg: string) => void;
   successCallback: (successMsg: string) => void;
+  classNames?: {
+    container?: string;
+    heading?: string;
+    toggle?: string;
+    toggleTransition?: string;
+    displayMessage?: string;
+    confirmBtn?: string;
+    cancelBtn?: string;
+  };
+}
+
+export interface EditConnectionProps {
+  connection: SAMLSSORecord | OIDCSSORecord;
+  editConnectionUrls: {
+    save: string;
+    delete: string;
+  };
+  toggleConnectionUrls: {
+    save: string;
+  };
+  translation?: any;
+  errorCallback: (errMsg: string) => void;
+  successCallback: (successMsg: string) => void;
+}
+
+export interface EditOIDCConnectionProps {
+  connection: OIDCSSORecord;
+  variant: 'basic' | 'advanced';
+  excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
+  errorCallback: (errMessage: string) => void;
+  successCallback: () => void;
+  urls: {
+    save: string;
+    delete: string;
+    patch: string;
+  };
+  classNames?: {
+    container?: string;
+    formDiv?: string;
+    fieldsContainer?: string;
+    fieldsDiv?: string;
+    label?: string;
+    input?: string;
+    textarea?: string;
+    section?: string;
+    saveBtn?: string;
+    deleteBtn?: string;
+    outlineBtn?: string;
+  };
+}
+
+export interface EditSAMLConnectionProps {
+  connection: SAMLSSORecord;
+  variant: 'basic' | 'advanced';
+  excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
+  errorCallback: (errMessage: string) => void;
+  successCallback: () => void;
+  urls: {
+    save: string;
+    delete: string;
+    patch: string;
+  };
+  classNames?: {
+    container?: string;
+    formDiv?: string;
+    fieldsContainer?: string;
+    fieldsDiv?: string;
+    label?: string;
+    input?: string;
+    textarea?: string;
+    section?: string;
+    saveBtn?: string;
+    deleteBtn?: string;
+    outlineBtn?: string;
+  };
 }
