@@ -37,14 +37,14 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
         ),
       };
     },
-    updateConnectionStatus(isConnectionActive: boolean) {
+    updateConnectionStatus(status: boolean) {
       async function sendHTTPrequest() {
         const body = {
           clientID: props.connection?.clientID,
           clientSecret: props.connection?.clientSecret,
           tenant: props.connection?.tenant,
           product: props.connection?.product,
-          deactivated: !state.active,
+          deactivated: status,
           isSAML: false,
           isOIDC: false,
         };
