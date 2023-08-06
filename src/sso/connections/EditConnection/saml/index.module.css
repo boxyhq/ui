@@ -43,13 +43,14 @@
 
 .labelDiv {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .label {
   display: block;
-  margin-bottom: 8px;
   font-weight: 500;
   color: rgb(17 24 39);
   font-size: 0.875rem;
@@ -204,5 +205,5 @@
 
 .hint {
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: 2rem;
 }
