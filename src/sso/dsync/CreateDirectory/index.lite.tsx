@@ -1,6 +1,5 @@
 import { For, Show, onMount, useStore } from '@builder.io/mitosis';
 import { CreateDirectoryProps, ApiResponse, Directory } from '../types';
-// import { getDirectoryProviders } from '../utils';
 
 const DEFAULT_DIRECTORY_VALUES = {
   name: '',
