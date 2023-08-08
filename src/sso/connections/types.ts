@@ -4,8 +4,8 @@ export interface ConnectionListProps {
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;
-  onListFetchComplete?: (connections: ConnectionListData) => void;
-  onActionClick: (e: Event) => void;
+  onListFetchComplete?: (connections: ConnectionData<any>[]) => void;
+  onActionClick: (e: ConnectionData<any>) => void;
   /**
    * Classnames for each inner components that make up the component.
    */
@@ -172,7 +172,7 @@ export interface OIDCSSORecord extends SSOConnection {
   deactivated?: boolean;
 }
 
-export type ConnectionListData = ((SAMLSSORecord | OIDCSSORecord) & { isSystemSSO?: boolean })[];
+export type ConnectionData<T extends SAMLSSORecord | OIDCSSORecord> = T & { isSystemSSO?: boolean };
 
 declare namespace classNames {
   type Value = string | number | boolean | undefined | null;
@@ -226,7 +226,6 @@ export interface EditOIDCConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   urls: {
-    save: string;
     delete: string;
     patch: string;
   };
@@ -252,7 +251,6 @@ export interface EditSAMLConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   urls: {
-    save: string;
     delete: string;
     patch: string;
   };
