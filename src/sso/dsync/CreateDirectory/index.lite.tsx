@@ -79,7 +79,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
           <div class='flex flex-col space-y-3'>
             <div class='form-control w-full'>
               <label for='name' class='label'>
-                <span className='label-text'>Directory name</span>
+                <span class='label-text'>Directory name</span>
               </label>
               <input
                 type='text'
@@ -128,7 +128,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
               <>
                 <div class='form-control w-full'>
                   <label for='tenant' class='label'>
-                    <span className='label-text'>Tenant</span>
+                    <span class='label-text'>Tenant</span>
                   </label>
                   <input
                     type='text'
@@ -142,7 +142,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
                 </div>
                 <div class='form-control w-full'>
                   <label for='product' class='label'>
-                    <span className='label-text'>Product</span>
+                    <span class='label-text'>Product</span>
                   </label>
                   <input
                     type='text'
