@@ -79,8 +79,14 @@ module.exports = {
             },
           },
           code: {
-            pre: (code) => {
+            post: (code) => {
               let tweakedCode = code;
+              // Replace relative imports from shared folder with @boxyhq/angular-ui
+              tweakedCode = tweakedCode.replaceAll(
+                /^import\s+(\w+)\s+from\s+(.*\/shared.*)$/gm,
+                'import { $1 } from "@boxyhq/angular-ui/shared"'
+              );
+
               // Add a styleUrls that includes all default styles for the component
               if (tweakedCode.includes('standalone: true')) {
                 tweakedCode = tweakedCode.replace(
