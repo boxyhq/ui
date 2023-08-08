@@ -1,12 +1,12 @@
-import { useStore, Show, Slot, onMount, For } from '@builder.io/mitosis';
+import { useStore, Show, onMount, For } from '@builder.io/mitosis';
 import type { ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
-import Loading from '../../../shared/Loading/index.lite';
-import EmptyState from '../../../shared/EmptyState/index.lite';
-import Badge from '../../../shared/Badge/index.lite';
-import IconButton from '../../../shared/IconButton/index.lite';
+import Loading from '@/shared/Loading/index.lite';
+import EmptyState from '@/shared/EmptyState/index.lite';
+import Badge from '@/shared/Badge/index.lite';
+import IconButton from '@/shared/IconButton/index.lite';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
-import PencilIcon from '../../../shared/icons/PencilIcon.lite';
+import PencilIcon from '@/shared/icons/PencilIcon.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,

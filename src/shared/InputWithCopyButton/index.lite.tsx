@@ -1,7 +1,7 @@
 import { useStore } from '@builder.io/mitosis';
 import baseStyles from '../common.module.css';
 import styles from './index.module.css';
-import CopyToClipboardButton from '../ClipboardButton/index.lite';
+import CopyToClipboardButton from '@/shared/CopyToClipboardButton/index.lite';
 
 interface PropsType {
   text: string;
