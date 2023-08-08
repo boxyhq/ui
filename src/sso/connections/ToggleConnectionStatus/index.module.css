@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.heading {
+  color: white;
+  background-color: red;
+  padding: 10px 5px;
+  margin: 7px;
+}
+
+.displayMessage {
+  display: flex;
+  align-items: center;
+}
+
+.cancelBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 5px 15px;
+  color: black;
+  border: 1px solid black;
+  margin: 2px 5px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.confirmBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(241, 97, 97);
+  color: white;
+  text-align: center;
+  gap: 0.5rem;
+  padding: 5px 15px;
+  margin: 2px 5px;
+  border-radius: 5px;
+  font-weight: 600;
+}

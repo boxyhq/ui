@@ -1,6 +1,7 @@
 import { useStore } from '@builder.io/mitosis';
 import IconButton from '../IconButton/index.lite';
 import CopytoClipboardIcon from '../icons/CopytoClipboardIcon.lite';
+import defaultStyles from './index.module.css';
 
 interface PropsType {
   text: string;
@@ -21,7 +22,7 @@ export default function CopyToClipboardButton(props: PropsType) {
     <IconButton
       label='Copy'
       Icon={CopytoClipboardIcon}
-      iconClasses='hover:text-primary'
+      iconClasses={defaultStyles.icon}
       onClick={() => state.onClick()}
     />
   );
