@@ -1,0 +1,66 @@
+.heading {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  color: rgb(55 65 81);
+}
+
+.container {
+  min-width: 448px;
+  border-radius: 4px;
+  background-color: white;
+  padding: 8px 24px 28px 24px;
+  border: 1px solid rgb(229, 231, 235);
+  border-radius: 4px;
+}
+
+.divContainer {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  color: rgb(24, 26, 42);
+  line-height: 24px;
+  margin-top: 12px;
+}
+
+.fieldContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  color: rgb(24, 26, 42);
+  line-height: 24px;
+}
+
+.label {
+  padding: 8px 4px;
+}
+
+.labelText {
+  font-size: 14px;
+  color: rgb(24, 26, 42);
+}
+
+.input {
+  padding: 8px 16px;
+  background-color: white;
+  border: 1px solid rgba(24, 26, 42, 0.2);
+  font-size: 16px;
+  font-weight: 400;
+  text-align: start;
+  line-height: 24px;
+}
+
+.button {
+  padding: 0px 16px;
+  background-color: rgb(75, 107, 251);
+  border: 1px solid rgb(75, 107, 251);
+  color: rgb(218, 225, 255);
+  cursor: pointer;
+  border-radius: 4px;
+  text-align: center;
+  min-height: 48px;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 16px;
+}
