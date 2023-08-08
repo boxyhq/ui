@@ -1,5 +1,7 @@
 import { For, Show, onMount, useStore } from '@builder.io/mitosis';
 import { CreateDirectoryProps, ApiResponse, Directory } from '../types';
+import defaultClasses from './index.module.css';
+import cssClassAssembler from '../../utils/cssClassAssembler';
 
 const DEFAULT_DIRECTORY_VALUES = {
   name: '',
@@ -16,6 +18,15 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     directory: DEFAULT_DIRECTORY_VALUES,
     showDomain: false,
     providers: {},
+    get classes() {
+      return {
+        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
+        fieldContainer: cssClassAssembler(props.classNames?.fieldContainer, defaultClasses.fieldContainer),
+        label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
+        input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
+        button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
+      };
+    },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
 
@@ -73,27 +84,27 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
 
   return (
     <div>
-      <h2 class='mb-5 mt-5 font-bold text-gray-700 md:text-xl'>New Directory</h2>
-      <div class='min-w-[28rem] rounded border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800 md:w-3/4 md:max-w-lg'>
+      <h2 class={defaultClasses.heading}>New Directory</h2>
+      <div class={state.classes.container}>
         <form onSubmit={(event) => state.onSubmit(event)}>
-          <div class='flex flex-col space-y-3'>
-            <div class='form-control w-full'>
-              <label for='name' class='label'>
-                <span class='label-text'>Directory name</span>
+          <div class={defaultClasses.divContainer}>
+            <div class={state.classes.fieldContainer}>
+              <label for='name' class={state.classes.label}>
+                <span class={defaultClasses.labelText}>Directory name</span>
               </label>
               <input
                 type='text'
                 id='name'
                 name='name'
-                class='input-bordered input w-full'
+                class={state.classes.input}
                 required={true}
                 onChange={(event) => state.handleChange(event)}
                 value={state.directory.name}
               />
             </div>
-            <div class='form-control w-full'>
-              <label class='label'>
-                <span class='label-text'>Directory provider</span>
+            <div class={state.classes.fieldContainer}>
+              <label class={state.classes.label}>
+                <span class={defaultClasses.labelText}>Directory provider</span>
               </label>
               <select>
                 <Show when={state.providers}>
@@ -108,15 +119,15 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
               </select>
             </div>
             <Show when={state.showDomain}>
-              <div class='form-control w-full'>
-                <label for='google_domain' class='label'>
-                  <span class='label-text'>Directory domain</span>
+              <div class={state.classes.fieldContainer}>
+                <label for='google_domain' class={state.classes.label}>
+                  <span class={defaultClasses.labelText}>Directory domain</span>
                 </label>
                 <input
                   type='text'
                   id='google_domain'
                   name='google_domain'
-                  class='input-bordered input w-full'
+                  class={state.classes.input}
                   onChange={(event) => state.handleChange(event)}
                   value={state.directory.google_domain}
                   pattern={`^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$`}
@@ -126,29 +137,29 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
             </Show>
             <Show when={!props.setupLinkToken}>
               <>
-                <div class='form-control w-full'>
-                  <label for='tenant' class='label'>
-                    <span class='label-text'>Tenant</span>
+                <div class={state.classes.fieldContainer}>
+                  <label for='tenant' class={state.classes.label}>
+                    <span class={defaultClasses.labelText}>Tenant</span>
                   </label>
                   <input
                     type='text'
                     id='tenant'
                     name='tenant'
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     required={true}
                     onChange={(event) => state.handleChange(event)}
                     value={state.directory.tenant}
                   />
                 </div>
-                <div class='form-control w-full'>
-                  <label for='product' class='label'>
-                    <span class='label-text'>Product</span>
+                <div class={state.classes.fieldContainer}>
+                  <label for='product' class={state.classes.label}>
+                    <span class={defaultClasses.labelText}>Product</span>
                   </label>
                   <input
                     type='text'
                     id='product'
                     name='product'
-                    class='input-bordered input w-full'
+                    class={state.classes.input}
                     required={true}
                     onChange={(event) => state.handleChange(event)}
                     value={state.directory.product}
@@ -156,34 +167,34 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
                 </div>
               </>
             </Show>
-            <div class='form-control w-full'>
-              <label for='webhook_url' class='label'>
-                <span class='label-text'>Webhook URL</span>
+            <div class={state.classes.fieldContainer}>
+              <label for='webhook_url' class={state.classes.label}>
+                <span class={defaultClasses.labelText}>Webhook URL</span>
               </label>
               <input
                 type='text'
                 id='webhook_url'
                 name='webhook_url'
-                class='input-bordered input w-full'
+                class={state.classes.input}
                 onChange={(event) => state.handleChange(event)}
                 value={state.directory.webhook_url}
               />
             </div>
-            <div class='form-control w-full'>
-              <label for='webhook_secret' class='label'>
-                <span class='label-text'>Webhook secret</span>
+            <div class={state.classes.fieldContainer}>
+              <label for='webhook_secret' class={state.classes.label}>
+                <span class={defaultClasses.labelText}>Webhook secret</span>
               </label>
               <input
                 type='text'
                 id='webhook_secret'
                 name='webhook_secret'
-                class='input-bordered input w-full'
+                class={state.classes.input}
                 onChange={(event) => state.handleChange(event)}
                 value={state.directory.webhook_secret}
               />
             </div>
             <div>
-              <button class='btn btn-primary' type='submit'>
+              <button class={state.classes.button} type='submit'>
                 Create Directory
               </button>
             </div>
