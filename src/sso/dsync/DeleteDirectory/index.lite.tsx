@@ -69,10 +69,10 @@ export default function DeleteDirectory(props: DeleteDirectoryProps) {
               directory connection, users, and groups.
             </h6>
             <div class={defaultClasses.buttonsDiv}>
-              <button class={state.classes.deleteBtn} onClick={() => state.onConfirm()}>
+              <button type='button' class={state.classes.deleteBtn} onClick={() => state.onConfirm()}>
                 Confirm
               </button>
-              <button class={state.classes.outlineBtn} onClick={() => state.onCancel()}>
+              <button type='button' class={state.classes.outlineBtn} onClick={() => state.onCancel()}>
                 Cancel
               </button>
             </div>
