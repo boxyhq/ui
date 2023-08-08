@@ -63,12 +63,12 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
 
     async function getDirectoryProviders(url: string) {
       const response = await fetch(url);
-      const data = await response.json();
+      const { data, error } = await response.json();
 
-      return data.data?.data;
+      state.providers = data;
     }
 
-    state.providers = getDirectoryProviders(props.urls.useDirectoryProviderUrl);
+    getDirectoryProviders(props.urls.useDirectoryProviderUrl);
   });
 
   return (
