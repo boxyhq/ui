@@ -1,6 +1,6 @@
 import { useStore } from '@builder.io/mitosis';
-import IconButton from '../IconButton/index.lite';
-import CopytoClipboardIcon from '../icons/CopytoClipboardIcon.lite';
+import IconButton from '@/shared/IconButton/index.lite';
+import CopytoClipboardIcon from '@/shared/icons/CopytoClipboardIcon.lite';
 import defaultStyles from './index.module.css';
 
 interface PropsType {
@@ -21,9 +21,9 @@ export default function CopyToClipboardButton(props: PropsType) {
   return (
     <IconButton
       label='Copy'
-      Icon={CopytoClipboardIcon}
-      iconClasses={defaultStyles.icon}
-      onClick={() => state.onClick()}
-    />
+      slotIcon={
+        <CopytoClipboardIcon svgElmtProps={{ 'aria-hidden': true }} classNames={defaultStyles.icon} />
+      }
+      onClick={() => state.onClick()}></IconButton>
   );
 }
