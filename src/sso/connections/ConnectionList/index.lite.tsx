@@ -171,7 +171,7 @@ export default function ConnectionList(props: ConnectionListProps) {
                                 Icon={PencilIcon}
                                 iconClasses={state.classes.icon}
                                 data-testid='edit'
-                                onClick={(event) => props.onActionClick(event)}
+                                onClick={(event) => props.onActionClick(connection)}
                               />
                             </span>
                           </td>
