@@ -1,0 +1,71 @@
+.section {
+  display: flex;
+  align-items: start;
+  border-radius: 4px;
+  padding: 24px;
+  color: rgb(127 29 29);
+  border: 1px solid rgb(254 226 226);
+  background-color: rgb(254 226 226);
+  margin-top: 40px;
+}
+
+.sectionHeading {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.sectionDiv {
+  flex: 1 1 0%;
+}
+
+.sectionPara {
+  font-weight: 300;
+}
+
+.confirmationDiv {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.buttonsDiv {
+  display: flex;
+  margin-top: 16px;
+}
+
+.deleteBtn {
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: none;
+  text-align: center;
+  background-color: rgb(248, 114, 114);
+  border: 1px solid rgb(248, 114, 114);
+  border-radius: 4px;
+  padding: 0px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  height: 48px;
+  line-height: 14px;
+}
+
+.outlineBtn {
+  color: black;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: none;
+  text-align: center;
+  padding: 0px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  height: 48px;
+  line-height: 14px;
+  margin-left: 30px;
+}
