@@ -8,6 +8,13 @@ export interface CreateDirectoryProps {
   cb: () => void;
   successCallback: (successMsg: string) => void;
   errorCallback: (errMsg: string) => void;
+  classNames?: {
+    container?: string;
+    fieldContainer?: string;
+    input?: string;
+    label?: string;
+    button?: string;
+  };
 }
 
 export type ApiSuccess<T> = { data: T; pageToken?: string };
