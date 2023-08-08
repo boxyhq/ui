@@ -1,10 +1,12 @@
 import { Show, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
 import CreateSSOConnection from '../CreateConnection/index.lite';
-import type { ConnectionListData, ConnectionsWrapperProp } from '../types';
+import type { ConnectionData, ConnectionsWrapperProp, OIDCSSORecord, SAMLSSORecord } from '../types';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
 import Card from '../../../shared/Card/index.lite';
+import EditOIDCConnection from '../EditConnection/oidc/index.lite';
+import EditSAMLConnection from '../EditConnection/saml/index.lite';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionListData,
@@ -15,6 +17,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
   const state = useStore({
     connections: DEFAULT_VALUES.connectionListData,
     view: DEFAULT_VALUES.view,
+    connectionToEdit: {} as ConnectionData<any>,
     get connectionsAdded(): boolean {
       return state.connections.length > 0;
     },
@@ -34,12 +37,35 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             </button>
           </Show>
           <ConnectionList
-            onActionClick={(event) => console.log(`switch view to edit`)}
+            onActionClick={(connection) => {
+              state.view = 'EDIT';
+              state.connectionToEdit = connection;
+            }}
             onListFetchComplete={(connectionsList) => (state.connections = connectionsList)}
             {...props.componentProps.connectionList}
           />
         </Show>
       </div>
+      <Show when={state.view === 'EDIT'}>
+        <Show when={state.connectionToEdit && 'oidcProvider' in state.connectionToEdit}>
+          <EditOIDCConnection
+            connection={state.connectionToEdit as ConnectionData<OIDCSSORecord>}
+            variant='basic'
+            errorCallback={}
+            successCallback={}
+            urls={}
+          />
+        </Show>
+        <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
+          <EditSAMLConnection
+            connection={state.connectionToEdit as ConnectionData<SAMLSSORecord>}
+            variant='basic'
+            errorCallback={() => void 0}
+            successCallback={() => void 0}
+            urls={{ delete: '', patch: '' }}
+          />
+        </Show>
+      </Show>
       <Show when={state.view === 'CREATE'}>
         <button type='button' onClick={(event) => (state.view = 'LIST')}>
           Back
