@@ -17,6 +17,20 @@ export interface CreateDirectoryProps {
   };
 }
 
+export interface DeleteDirectoryProps {
+  urls: {
+    delete: string;
+  };
+  cb: () => void;
+  successCallback: (successMsg: string) => void;
+  errorCallback: (errMsg: string) => void;
+  classNames?: {
+    section?: string;
+    deleteBtn?: string;
+    outlineBtn?: string;
+  };
+}
+
 export type ApiSuccess<T> = { data: T; pageToken?: string };
 
 export interface ApiError extends Error {
