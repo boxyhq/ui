@@ -97,7 +97,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       });
 
       saveConnection({
-        url: props.urls.save,
+        url: props.urls.patch,
         formObj: formObj as FormObj,
         connectionIsOIDC: true,
         callback: async (rawResponse: any) => {

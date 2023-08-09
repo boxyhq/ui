@@ -1,5 +1,5 @@
 import { useStore, Show, For, onUpdate } from '@builder.io/mitosis';
-import type { ConnectionListData, ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
+import type { ConnectionData, ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import Loading from '../../../shared/Loading/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';
 import Badge from '../../../shared/Badge/index.lite';
@@ -10,7 +10,7 @@ import PencilIcon from '../../../shared/icons/PencilIcon.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
-  connectionListData: [] as ConnectionListData,
+  connectionListData: [] as ConnectionData<any>[],
 };
 
 export default function ConnectionList(props: ConnectionListProps) {

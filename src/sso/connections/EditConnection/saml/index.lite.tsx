@@ -79,7 +79,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       event.preventDefault();
 
       saveConnection({
-        url: props.urls.save,
+        url: props.urls.patch,
         formObj:
           props.variant === 'advanced'
             ? { ...state.samlConnection }
