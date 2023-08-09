@@ -24,6 +24,16 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     classes: {
       button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
     },
+    switchToEditView(connection: ConnectionData<any>) {
+      state.view = 'EDIT';
+      state.connectionToEdit = connection;
+    },
+    switchToListView() {
+      state.view = 'LIST';
+    },
+    logError(err: string) {
+      console.error(err);
+    },
   });
 
   return (
@@ -37,10 +47,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             </button>
           </Show>
           <ConnectionList
-            onActionClick={(connection) => {
-              state.view = 'EDIT';
-              state.connectionToEdit = connection;
-            }}
+            onActionClick={(connection) => state.switchToEditView(connection)}
             onListFetchComplete={(connectionsList) => (state.connections = connectionsList)}
             {...props.componentProps.connectionList}
           />
@@ -51,18 +58,24 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           <EditOIDCConnection
             connection={state.connectionToEdit as ConnectionData<OIDCSSORecord>}
             variant='basic'
-            errorCallback={}
-            successCallback={}
-            urls={}
+            errorCallback={state.logError}
+            successCallback={state.switchToListView}
+            urls={{
+              delete: props.componentProps.editOIDCConnection.urls.delete,
+              patch: props.componentProps.editOIDCConnection.urls.patch,
+            }}
           />
         </Show>
         <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
           <EditSAMLConnection
             connection={state.connectionToEdit as ConnectionData<SAMLSSORecord>}
             variant='basic'
-            errorCallback={() => void 0}
-            successCallback={() => void 0}
-            urls={{ delete: '', patch: '' }}
+            errorCallback={state.logError}
+            successCallback={state.switchToListView}
+            urls={{
+              delete: props.componentProps.editSAMLConnection.urls.delete,
+              patch: props.componentProps.editSAMLConnection.urls.patch,
+            }}
           />
         </Show>
       </Show>
@@ -74,16 +87,16 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           {...props.componentProps.createSSOConnection}
           componentProps={{
             saml: {
-              successCallback: () => (state.view = 'LIST'),
+              successCallback: state.switchToListView,
               //TODO: Bring inline error message display for SAML/OIDC forms */
-              errorCallback: () => {},
+              errorCallback: state.logError,
               variant: 'basic',
               urls: { save: '' },
               ...props.componentProps.createSSOConnection?.componentProps?.saml,
             },
             oidc: {
-              successCallback: () => (state.view = 'LIST'),
-              errorCallback: () => {},
+              successCallback: state.switchToListView,
+              errorCallback: state.logError,
               variant: 'basic',
               urls: { save: '' },
               ...props.componentProps.createSSOConnection?.componentProps?.oidc,
