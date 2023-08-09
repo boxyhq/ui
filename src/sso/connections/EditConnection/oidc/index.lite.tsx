@@ -98,6 +98,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
 
       saveConnection({
         url: props.urls.patch,
+        isEditView: true,
         formObj: formObj as FormObj,
         connectionIsOIDC: true,
         callback: async (rawResponse: any) => {

@@ -80,6 +80,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
 
       saveConnection({
         url: props.urls.patch,
+        isEditView: true,
         formObj:
           props.variant === 'advanced'
             ? { ...state.samlConnection }
