@@ -18,6 +18,8 @@ const DEFAULT_VALUES = {
 const INITIAL_VALUES = {
   samlConnection: {
     name: '',
+    clientID: '',
+    clientSecret: '',
     description: '',
     redirectUrl: '',
     defaultRedirectUrl: '',
@@ -85,6 +87,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           props.variant === 'advanced'
             ? { ...state.samlConnection }
             : {
+                clientID: state.samlConnection.clientID,
+                clientSecret: state.samlConnection.clientSecret,
                 rawMetadata: state.samlConnection.rawMetadata,
                 metadataUrl: state.samlConnection.metadataUrl,
               },
@@ -130,6 +134,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   onMount(() => {
     state.samlConnection = {
       name: props.connection.name || '',
+      clientID: props.connection.clientID,
+      clientSecret: props.connection.clientSecret,
       description: props.connection.description || '',
       redirectUrl: props.connection.redirectUrl.join(`\r\n`),
       defaultRedirectUrl: props.connection.defaultRedirectUrl,
