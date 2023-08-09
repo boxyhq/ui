@@ -61,8 +61,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             errorCallback={state.logError}
             successCallback={state.switchToListView}
             urls={{
-              delete: props.componentProps.editOIDCConnection.urls.delete,
-              patch: props.componentProps.editOIDCConnection.urls.patch,
+              delete: props.componentProps.editOIDCConnection.urls?.delete || '',
+              patch: props.componentProps.editOIDCConnection.urls?.patch || '',
             }}
           />
         </Show>
@@ -73,8 +73,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             errorCallback={state.logError}
             successCallback={state.switchToListView}
             urls={{
-              delete: props.componentProps.editSAMLConnection.urls.delete,
-              patch: props.componentProps.editSAMLConnection.urls.patch,
+              delete: props.componentProps.editSAMLConnection.urls?.delete || '',
+              patch: props.componentProps.editSAMLConnection.urls?.patch || '',
             }}
           />
         </Show>
