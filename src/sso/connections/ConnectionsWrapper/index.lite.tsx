@@ -9,7 +9,7 @@ import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
 
 const DEFAULT_VALUES = {
-  connectionListData: [] as ConnectionListData,
+  connectionListData: [] as ConnectionData<any>[],
   view: 'LIST' as 'LIST' | 'EDIT' | 'CREATE',
 };
 
