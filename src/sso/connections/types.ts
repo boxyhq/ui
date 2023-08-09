@@ -274,5 +274,7 @@ export interface ConnectionsWrapperProp {
   componentProps: {
     connectionList: Omit<ConnectionListProps, 'onActionClick'>;
     createSSOConnection: Partial<CreateSSOConnectionProps>;
+    editOIDCConnection: EditOIDCConnectionProps;
+    editSAMLConnection: EditSAMLConnectionProps;
   };
 }
