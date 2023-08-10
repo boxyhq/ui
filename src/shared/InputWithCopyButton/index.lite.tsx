@@ -1,5 +1,4 @@
 import { useStore } from '@builder.io/mitosis';
-import baseStyles from '../common.module.css';
 import styles from './index.module.css';
 import CopyToClipboardButton from '../ClipboardButton/index.lite';
 
@@ -19,13 +18,13 @@ export default function InputWithCopyButton(props: PropsType) {
     get classes() {
       return {
         label: styles.label + (props.classNames?.label ? ` ${props.classNames.label}` : ''),
-        input: baseStyles.input + (props.classNames?.input ? ` ${props.classNames.input}` : ''),
+        input: styles.input + (props.classNames?.input ? ` ${props.classNames.input}` : ''),
       };
     },
   });
   return (
     <div>
-      <div class={`${baseStyles.flex} ${baseStyles['justify-between']}`}>
+      <div class={`${styles.flex} ${styles['justify-between']}`}>
         <label class={state.classes.label} for={state.id}>
           {props.label}
         </label>
