@@ -1,36 +1,17 @@
-.btnReset {
-  display: inline-block;
-  border: 2px solid #25c2a0;
-  padding: 0.5rem 1rem;
-  margin: 0;
-  border-radius: 0.5rem;
-  text-decoration: none;
-  background: #fff;
-  color: #25c2a0;
-  font-family: sans-serif;
-  font-size: 1rem;
-  cursor: pointer;
-  text-align: center;
-  transition:
-    background 250ms ease-in-out,
-    transform 150ms ease;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-.btnReset:hover,
-.btnReset:focus {
-  background: #2aa298;
-  color: #fff;
-}
-
-.btnReset:focus {
-  outline: 1px solid #fff;
-  outline-offset: -4px;
-}
-
-.btnReset:active {
-  transform: scale(0.99);
+:root {
+  --primary-color: #25c2a0;
+  --primary-hover: #0b967d;
+  --primary-active: #0d7865;
+  --primary-disabled: #98f7dc;
+  --secondary-color: #f4f4f5;
+  /* --secondary-color: #27272a;  dark mode */
+  --secondary-foreground-color: #18181b;
+  /* --secondary-foreground-color: #fafafa; dark mode */
+  --ring-offset-width: 2px;
+  --ring-offset-color: hsl(0 0% 100%);
+  /* --ring-offset-color: hsl(240 10 3.9);  dark mode*/
+  --ring-color: hsl(240 5% 64.9%);
+  /* --ring-color: hsl(240 4.9% 83.9%);  dark mode */
 }
 
 .flex {
