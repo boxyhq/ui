@@ -1,7 +1,3 @@
-:root {
-  --tw-border-opacity: 1;
-  --tw-bg-opacity: 1;
-}
 .fieldContainer {
   display: flex;
   flex-direction: column;
