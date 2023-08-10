@@ -1,12 +1,12 @@
 import { Show, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
-import CreateSSOConnection from '../CreateConnection/index.lite';
 import type { ConnectionData, ConnectionsWrapperProp, OIDCSSORecord, SAMLSSORecord } from '../types';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
 import Card from '../../../shared/Card/index.lite';
 import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
+import CreateSAMLConnection from '../CreateConnection/saml/index.lite';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionData<any>[],
@@ -83,12 +83,19 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         <button type='button' onClick={(event) => (state.view = 'LIST')}>
           Back
         </button>
-        <CreateSSOConnection
+        <CreateSAMLConnection
+          variant='basic'
+          successCallback={state.switchToListView}
+          //TODO: Bring inline error message display for SAML/OIDC forms */
+          errorCallback={state.logError}
+          urls={{ save: '' }}
+          {...props.componentProps.createSSOConnection.componentProps?.saml}
+        />
+        {/* <CreateSSOConnection
           {...props.componentProps.createSSOConnection}
           componentProps={{
             saml: {
               successCallback: state.switchToListView,
-              //TODO: Bring inline error message display for SAML/OIDC forms */
               errorCallback: state.logError,
               variant: 'basic',
               urls: { save: '' },
@@ -102,7 +109,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
               ...props.componentProps.createSSOConnection?.componentProps?.oidc,
             },
           }}
-        />
+        /> */}
       </Show>
       <Card title='Single Sign-On'>
         <Show when={!state.connectionsAdded}>
