@@ -4,7 +4,7 @@ import styles from './index.module.css';
 
 export default function Button(props: ButtonProps) {
   const state = useStore({
-    variantCss: props.variant && props.variant !== 'primary' ? ' ' + styles[props.variant] : '',
+    variantCss: props.variant ? ' ' + styles[props.variant] : '',
   });
   return (
     <button

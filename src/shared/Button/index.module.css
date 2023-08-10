@@ -18,8 +18,8 @@
   appearance: none;
 }
 
-.btn:hover,
-.btn:focus-visible {
+.btn.primary:hover,
+.btn.primary:focus-visible {
   background: var(--primary-hover);
 }
 
@@ -46,6 +46,7 @@
 .outline {
   background: transparent;
   color: inherit;
+  border: 1px solid var(--secondary-color);
 }
 .destructive {
   background: #ef4444;
