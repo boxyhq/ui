@@ -3,6 +3,7 @@ import type { CreateConnectionProps, SAMLSSOConnection, ApiResponse } from '../.
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
+import Button from '../../../../shared/Button/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -275,10 +276,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       </Show>
 
       {/* TODO: bring loading state */}
-      <button data-testid='submit-form-create-sso' type='submit' class={state.classes.button}>
-        {/* TODO: bring translation support */}
-        Save Changes
-      </button>
+      {/* TODO: bring translation support */}
+      <Button type='submit' name='Save' />
     </form>
   );
 }

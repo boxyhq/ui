@@ -38,7 +38,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
   });
 
   return (
-    <div>
+    <Card title='Single Sign-On'>
       <div className='flex flex-col'>
         <Show when={state.view === 'LIST'}>
           <Show when={state.connectionsAdded}>
@@ -80,9 +80,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         </Show>
       </Show>
       <Show when={state.view === 'CREATE'}>
-        <button type='button' onClick={(event) => (state.view = 'LIST')}>
-          Back
-        </button>
+        <Button onClick={(event) => (state.view = 'LIST')} name='back' variant='outline' />
         <CreateSAMLConnection
           variant='basic'
           successCallback={state.switchToListView}
@@ -111,20 +109,18 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           }}
         /> */}
       </Show>
-      <Card title='Single Sign-On'>
-        <Show when={!state.connectionsAdded}>
-          <div class={defaultClasses.status}>
-            <p>Allow team members to login using an Identity Provider.</p>
-            <button onClick={(event) => (state.view = 'CREATE')}>Configure</button>
-          </div>
-        </Show>
-        <Show when={state.connectionsAdded}>
-          <p class={defaultClasses.ssoAdded}>Single Sign-On connection is enabled for your team.</p>
-          Please find the SP metadata for Identity Provider configuration at
-          {/* TODO: Slot for link to well known path */}
-          link.
-        </Show>
-      </Card>
-    </div>
+      <Show when={!state.connectionsAdded}>
+        <div class={defaultClasses.status}>
+          <p>Allow team members to login using an Identity Provider.</p>
+          <button onClick={(event) => (state.view = 'CREATE')}>Configure</button>
+        </div>
+      </Show>
+      <Show when={state.connectionsAdded}>
+        <p class={defaultClasses.ssoAdded}>Single Sign-On connection is enabled for your team.</p>
+        Please find the SP metadata for Identity Provider configuration at
+        {/* TODO: Slot for link to well known path */}
+        link.
+      </Show>
+    </Card>
   );
 }
