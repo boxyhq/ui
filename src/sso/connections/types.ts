@@ -65,8 +65,8 @@ export interface CreateSSOConnectionProps {
     label?: string;
   };
   componentProps: {
-    saml: CreateConnectionProps;
-    oidc: CreateConnectionProps;
+    saml: Partial<CreateConnectionProps>;
+    oidc: Partial<CreateConnectionProps>;
   };
 }
 
