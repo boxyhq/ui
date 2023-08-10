@@ -7,6 +7,7 @@ import Card from '../../../shared/Card/index.lite';
 import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
 import CreateSAMLConnection from '../CreateConnection/saml/index.lite';
+import Button from '../../../shared/Button/index.lite';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionData<any>[],
@@ -41,10 +42,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <div className='flex flex-col'>
         <Show when={state.view === 'LIST'}>
           <Show when={state.connectionsAdded}>
-            <button type='button' class={state.classes.button} onClick={(event) => (state.view = 'CREATE')}>
-              {/* TODO: bring translation support */}
-              Add Connection
-            </button>
+            <div class={defaultClasses.ctoa}>
+              <Button name='Add Connection' onClick={(event) => (state.view = 'CREATE')} />
+            </div>
           </Show>
           <ConnectionList
             onActionClick={(connection) => state.switchToEditView(connection)}

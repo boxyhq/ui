@@ -1,3 +1,6 @@
+.ctoa {
+  align-self: flex-end;
+}
 .status {
   /* mb-3 flex items-center justify-between */
   margin-bottom: 3px;

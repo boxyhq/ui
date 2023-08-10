@@ -25,6 +25,13 @@ export interface BadgeProps {
   ariaLabel?: string;
 }
 
+export interface ButtonProps {
+  name: string;
+  onClick: (event: any) => void;
+  type?: 'submit' | 'reset' | 'button';
+  variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
+}
+
 export interface SecretInputFormControlProps {
   label: string;
   value: string;

@@ -32,18 +32,11 @@ export interface ModalProps {
   children?: any;
 }
 
-export interface ButtonBaseProps {
-  children?: any;
-  color?: string;
-  iconClasses?: string;
-  label?: string;
-  onClick: (event: any) => void;
-}
-
 export interface ButtonProps {
-  children?: string;
-  label?: string;
-  onClick: () => void;
+  name: string;
+  onClick: (event: any) => void;
+  type?: 'submit' | 'reset' | 'button';
+  variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
 }
 
 export interface SecretInputFormControlProps {
