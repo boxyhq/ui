@@ -41,19 +41,19 @@ const SPACING = {
 type Space = keyof typeof SPACING;
 
 interface SpacerProps {
-  x: Space;
-  y: Space;
+  x?: Space;
+  y?: Space;
 }
 
 export default function Spacer(props: SpacerProps) {
   const state = useStore({
     get marginLeft() {
-      return SPACING[props.x] ?? props.x;
+      return props.x !== undefined && SPACING[props.x] ? SPACING[props.x] : SPACING[0];
     },
     get marginTop() {
-      return SPACING[props.y] ?? props.y;
+      return props.y !== undefined && SPACING[props.y] ? SPACING[props.y] : SPACING[0];
     },
   });
 
-  return <div style={{ marginLeft: state.marginLeft, marginTop: state.marginTop }}></div>;
+  return <div style={{ marginLeft: state.marginLeft, marginTop: state.marginTop }} aria-hidden></div>;
 }
