@@ -56,6 +56,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         </Show>
       </div>
       <Show when={state.view === 'EDIT'}>
+        <Button onClick={(event) => (state.view = 'LIST')} name='BACK' variant='outline' />
         <Show when={state.connectionToEdit && 'oidcProvider' in state.connectionToEdit}>
           <EditOIDCConnection
             connection={state.connectionToEdit as ConnectionData<OIDCSSORecord>}
@@ -82,7 +83,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         </Show>
       </Show>
       <Show when={state.view === 'CREATE'}>
-        <Button onClick={(event) => (state.view = 'LIST')} name='back' variant='outline' />
+        <Button onClick={(event) => (state.view = 'LIST')} name='CANCEL' variant='outline' />
+        <Spacer y={5} />
         <CreateSAMLConnection
           variant='basic'
           successCallback={state.switchToListView}
@@ -118,7 +120,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           <Button onClick={(event) => (state.view = 'CREATE')} name='Configure' />
         </div>
       </Show>
-      <Show when={state.connectionsAdded}>
+      <Show when={state.connectionsAdded && state.view === 'LIST'}>
         <p class={defaultClasses.ssoAdded}>Single Sign-On connection is enabled for your team.</p>
         Please find the SP metadata for Identity Provider configuration at
         {/* TODO: Slot for link to well known path */}

@@ -4,6 +4,7 @@ import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
 import Button from '../../../../shared/Button/index.lite';
+import Spacer from '../../../../shared/Spacer/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -274,7 +275,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           </div>
         </Show>
       </Show>
-
+      <Spacer y={4} />
       {/* TODO: bring loading state */}
       {/* TODO: bring translation support */}
       <Button type='submit' name='Save' />
