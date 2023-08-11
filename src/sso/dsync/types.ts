@@ -31,6 +31,17 @@ export interface DeleteDirectoryProps {
   };
 }
 
+export interface DirectoryListProps {
+  tableCaption?: string;
+  setupLinkToken?: string;
+  urls: {
+    getDirectoriesUrl: string;
+    useDirectoryProviderUrl: string;
+  };
+  onActionClick: () => void;
+  onViewClick: () => void;
+}
+
 export type ApiSuccess<T> = { data: T; pageToken?: string };
 
 export interface ApiError extends Error {
