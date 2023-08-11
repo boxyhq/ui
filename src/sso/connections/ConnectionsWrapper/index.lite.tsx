@@ -51,8 +51,12 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           <ConnectionList
             onActionClick={(connection) => state.switchToEditView(connection)}
             onListFetchComplete={(connectionsList) => (state.connections = connectionsList)}
-            {...props.componentProps.connectionList}
-          />
+            {...props.componentProps.connectionList}>
+            <div class={defaultClasses.status}>
+              <p>Allow team members to login using an Identity Provider.</p>
+              <Button onClick={(event) => (state.view = 'CREATE')} name='Add SSO' />
+            </div>
+          </ConnectionList>
         </Show>
       </div>
       <Show when={state.view === 'EDIT'}>
@@ -114,12 +118,12 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         /> */}
       </Show>
       <Spacer y={5} />
-      <Show when={!state.connectionsAdded && state.view === 'LIST'}>
+      {/* <Show when={!state.connectionsAdded && state.view === 'LIST'}>
         <div class={defaultClasses.status}>
           <p>Allow team members to login using an Identity Provider.</p>
           <Button onClick={(event) => (state.view = 'CREATE')} name='Configure' />
         </div>
-      </Show>
+      </Show> */}
       <Show when={state.connectionsAdded && state.view === 'LIST'}>
         <p class={defaultClasses.ssoAdded}>Single Sign-On connection is enabled for your team.</p>
         Please find the SP metadata for Identity Provider configuration at

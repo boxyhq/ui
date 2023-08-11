@@ -78,7 +78,11 @@ export default function ConnectionList(props: ConnectionListProps) {
         <div>
           <Show
             when={state.connectionListData?.length > 0}
-            else={<EmptyState title='No connections found.' />}>
+            else={
+              <Show when={props.children} else={<EmptyState title='No connections found.' />}>
+                {props.children}
+              </Show>
+            }>
             <div class={state.classes.tableContainer}>
               <table class={state.classes.table}>
                 <Show when={props.tableCaption}>

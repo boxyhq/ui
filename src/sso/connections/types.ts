@@ -1,4 +1,5 @@
 export interface ConnectionListProps {
+  children: any;
   tableCaption?: string;
   hideCols?: ('provider' | 'tenant' | 'product' | 'idp_type' | 'status' | 'actions')[];
   idpEntityID?: string;
