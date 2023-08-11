@@ -3,11 +3,11 @@ import ConnectionList from '../ConnectionList/index.lite';
 import type { ConnectionData, ConnectionsWrapperProp, OIDCSSORecord, SAMLSSORecord } from '../types';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
-import Card from '../../../shared/Card/index.lite';
 import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
 import CreateSAMLConnection from '../CreateConnection/saml/index.lite';
 import Button from '../../../shared/Button/index.lite';
+import Spacer from '../../../shared/Spacer/index.lite';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionData<any>[],
@@ -38,14 +38,16 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
   });
 
   return (
-    <Card title='Single Sign-On'>
+    <div>
       <div className='flex flex-col'>
         <Show when={state.view === 'LIST'}>
           <Show when={state.connectionsAdded}>
+            <Spacer y={4} />
             <div class={defaultClasses.ctoa}>
               <Button name='Add Connection' onClick={(event) => (state.view = 'CREATE')} />
             </div>
           </Show>
+          <Spacer y={4} />
           <ConnectionList
             onActionClick={(connection) => state.switchToEditView(connection)}
             onListFetchComplete={(connectionsList) => (state.connections = connectionsList)}
@@ -109,10 +111,11 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           }}
         /> */}
       </Show>
-      <Show when={!state.connectionsAdded}>
+      <Spacer y={5} />
+      <Show when={!state.connectionsAdded && state.view === 'LIST'}>
         <div class={defaultClasses.status}>
           <p>Allow team members to login using an Identity Provider.</p>
-          <button onClick={(event) => (state.view = 'CREATE')}>Configure</button>
+          <Button onClick={(event) => (state.view = 'CREATE')} name='Configure' />
         </div>
       </Show>
       <Show when={state.connectionsAdded}>
@@ -121,6 +124,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         {/* TODO: Slot for link to well known path */}
         link.
       </Show>
-    </Card>
+    </div>
   );
 }
