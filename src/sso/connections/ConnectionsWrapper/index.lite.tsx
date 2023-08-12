@@ -8,6 +8,8 @@ import EditSAMLConnection from '../EditConnection/saml/index.lite';
 import CreateSAMLConnection from '../CreateConnection/saml/index.lite';
 import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
+import Card from '../../../shared/Card/index.lite';
+import Anchor from '../../../shared/Anchor/index.lite';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionData<any>[],
@@ -52,10 +54,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             onActionClick={(connection) => state.switchToEditView(connection)}
             onListFetchComplete={(connectionsList) => (state.connections = connectionsList)}
             {...props.componentProps.connectionList}>
-            <div class={defaultClasses.status}>
-              <p>Allow team members to login using an Identity Provider.</p>
-              <Button onClick={(event) => (state.view = 'CREATE')} name='Add SSO' />
-            </div>
+            <Card variant='info' title='SSO not enabled for team'>
+              <Button onClick={(event) => (state.view = 'CREATE')} name='Add an SSO Connection' />
+            </Card>
           </ConnectionList>
         </Show>
       </div>
@@ -125,10 +126,11 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         </div>
       </Show> */}
       <Show when={state.connectionsAdded && state.view === 'LIST'}>
-        <p class={defaultClasses.ssoAdded}>Single Sign-On connection is enabled for your team.</p>
-        Please find the SP metadata for Identity Provider configuration at
-        {/* TODO: Slot for link to well known path */}
-        link.
+        <Card title='SSO Enabled for team' variant='success'>
+          <Show when={props.urls?.spMetadata}>
+            <Anchor href={props.urls!.spMetadata!} linkText='Access SP Metadata' variant='button'></Anchor>
+          </Show>
+        </Card>
       </Show>
     </div>
   );
