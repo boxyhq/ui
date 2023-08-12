@@ -67,4 +67,11 @@ export interface ToggleSwitchProps {
 export interface CardProps {
   children?: any;
   title: string;
+  variant: 'info' | 'success';
+}
+
+export interface LinkProps {
+  href: string;
+  linkText: string;
+  variant?: 'primary' | 'button';
 }

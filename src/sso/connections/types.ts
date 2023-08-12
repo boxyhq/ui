@@ -1,5 +1,5 @@
 export interface ConnectionListProps {
-  children: any;
+  children?: any;
   tableCaption?: string;
   hideCols?: ('provider' | 'tenant' | 'product' | 'idp_type' | 'status' | 'actions')[];
   idpEntityID?: string;
@@ -277,5 +277,8 @@ export interface ConnectionsWrapperProp {
     createSSOConnection: Partial<CreateSSOConnectionProps>;
     editOIDCConnection: Partial<EditOIDCConnectionProps>;
     editSAMLConnection: Partial<EditSAMLConnectionProps>;
+  };
+  urls?: {
+    spMetadata?: string;
   };
 }
