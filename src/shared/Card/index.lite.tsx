@@ -1,11 +1,26 @@
+import { Show, useStore } from '@builder.io/mitosis';
 import { CardProps } from '../types';
-import defaultStyles from './index.module.css';
+import styles from './index.module.css';
+import CheckMarkIcon from '../icons/CheckMarkIcon.lite';
+import InfoIcon from '../icons/InfoIcon.lite';
 
 export default function Card(props: CardProps) {
+  const state = useStore({
+    variantCss: props.variant ? ' ' + styles[props.variant] : '',
+  });
+
   return (
-    <article class={defaultStyles.container}>
-      <h3 class={defaultStyles.title}>{props.title}</h3>
-      <p class={defaultStyles.body}>{props.children}</p>
+    <article class={`${styles.container}${state.variantCss}`}>
+      <h3 class={styles.title}>
+        <Show when={props.variant === 'success'}>
+          <CheckMarkIcon />
+        </Show>
+        <Show when={props.variant === 'info'}>
+          <InfoIcon />
+        </Show>
+        {props.title}
+      </h3>
+      <p class={styles.body}>{props.children}</p>
     </article>
   );
 }
