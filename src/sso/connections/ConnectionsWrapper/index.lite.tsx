@@ -68,6 +68,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             variant='basic'
             errorCallback={state.logError}
             successCallback={state.switchToListView}
+            // TODO: replace with SDK level toast
+            onCopyCallback={() => {}}
             urls={{
               delete: props.componentProps.editOIDCConnection.urls?.delete || '',
               patch: props.componentProps.editOIDCConnection.urls?.patch || '',
@@ -80,6 +82,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             variant='basic'
             errorCallback={state.logError}
             successCallback={state.switchToListView}
+            // TODO: replace with SDK level toast
+            onCopyCallback={() => {}}
             urls={{
               delete: props.componentProps.editSAMLConnection.urls?.delete || '',
               patch: props.componentProps.editSAMLConnection.urls?.patch || '',

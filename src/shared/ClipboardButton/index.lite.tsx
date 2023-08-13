@@ -5,7 +5,7 @@ import defaultStyles from './index.module.css';
 
 interface PropsType {
   text: string;
-  toastSuccessCallback: () => void;
+  onCopyCallback: () => void;
 }
 
 export default function CopyToClipboardButton(props: PropsType) {
@@ -15,7 +15,7 @@ export default function CopyToClipboardButton(props: PropsType) {
     },
     onClick: () => {
       state.copyToClipboard(props.text);
-      props.toastSuccessCallback();
+      props.onCopyCallback();
     },
   });
   return (

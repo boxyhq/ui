@@ -40,8 +40,8 @@ export interface SecretInputFormControlProps {
   required: boolean;
   maxLength?: string;
   readOnly: boolean;
-  successCallback: () => void;
-  cb: (event: Event) => void;
+  onCopyCallback: () => void;
+  handleChange: (event: Event) => void;
 }
 
 export interface ToggleSwitchProps {

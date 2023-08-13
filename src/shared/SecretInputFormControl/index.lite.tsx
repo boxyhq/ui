@@ -10,7 +10,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
   const state = useStore({
     isSecretShown: false,
     handleChange(event: Event) {
-      props.cb(event);
+      props.handleChange(event);
     },
   });
 
@@ -26,7 +26,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
             iconClasses={defaultStyles.icon}
             onClick={() => (state.isSecretShown = !state.isSecretShown)}
           />
-          <CopyToClipboardButton text={props.value} toastSuccessCallback={props.successCallback} />
+          <CopyToClipboardButton text={props.value} onCopyCallback={props.onCopyCallback} />
         </div>
       </div>
       <input
