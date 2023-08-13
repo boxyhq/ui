@@ -67,14 +67,6 @@ module.exports = {
                     }
                   });
                 });
-
-                // Remove extra import defaultClasses
-                // filter imports and return only those paths that dont have the path
-                // containing './index.module.css'
-                const filteredImports = json.imports.filter((imp) => {
-                  return imp.path !== './index.module.css';
-                });
-                json.imports = filteredImports;
               }
             },
           },
@@ -88,10 +80,23 @@ module.exports = {
               );
 
               // Add a styleUrls that includes all default styles for the component
-              if (tweakedCode.includes('standalone: true')) {
+              if (tweakedCode.includes('.module.css')) {
+                let result = Array.from(
+                  tweakedCode.matchAll(/^import\s+\w+\s+from\s+(.*module\.css['"]);$/gm)
+                );
+                let styleUrls = [];
+                result.forEach((match) => {
+                  // Remove import of styles
+                  tweakedCode = tweakedCode.replace(match[0], '');
+                  const captureGrouping = match[1];
+                  //Collect all style sheet imports
+                  styleUrls.push(captureGrouping);
+                });
                 tweakedCode = tweakedCode.replace(
                   'standalone: true',
-                  `standalone: true,\n  styleUrls: ['./index.css']`
+                  `standalone: true,\n  styleUrls: [${styleUrls
+                    .map((url) => url.replace('module.', ''))
+                    .join(',')}]`
                 );
               }
               // Add types for the emitted event object
