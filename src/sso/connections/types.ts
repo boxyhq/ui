@@ -31,6 +31,7 @@ export interface ConnectionListProps {
 export interface CreateConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
+  onCancel?: (e: Event) => void;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   urls: {
@@ -226,6 +227,8 @@ export interface EditOIDCConnectionProps {
   excludeFields?: Array<keyof OIDCSSOConnection>;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
+  onCancel?: (e: Event) => void;
+  onCopyCallback: () => void;
   urls: {
     delete: string;
     patch: string;
@@ -237,11 +240,7 @@ export interface EditOIDCConnectionProps {
     fieldsDiv?: string;
     label?: string;
     input?: string;
-    textarea?: string;
     section?: string;
-    saveBtn?: string;
-    deleteBtn?: string;
-    outlineBtn?: string;
   };
 }
 
@@ -251,6 +250,8 @@ export interface EditSAMLConnectionProps {
   excludeFields?: Array<keyof SAMLSSOConnection>;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
+  onCancel?: (e: Event) => void;
+  onCopyCallback: () => void;
   urls: {
     delete: string;
     patch: string;
@@ -262,11 +263,7 @@ export interface EditSAMLConnectionProps {
     fieldsDiv?: string;
     label?: string;
     input?: string;
-    textarea?: string;
     section?: string;
-    saveBtn?: string;
-    deleteBtn?: string;
-    outlineBtn?: string;
   };
 }
 

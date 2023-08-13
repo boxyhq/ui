@@ -54,7 +54,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
         fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
-        textarea: cssClassAssembler(props.classNames?.textarea, defaultClasses.textarea),
+        textarea: cssClassAssembler(
+          props.classNames?.input,
+          defaultClasses.input + ' ' + defaultClasses.textarea
+        ),
         section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
       };
     },
@@ -489,10 +492,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 </Show>
                 <Show when={state.displayDeletionConfirmation}>
                   <div class={defaultClasses.confirmationDiv}>
-                    <h1>
+                    <p>
                       Are you sure you want to delete the Connection? This action cannot be undone and will
                       permanently delete the Connection.
-                    </h1>
+                    </p>
                     <div class={defaultClasses.promptAction}>
                       <Button
                         variant='destructive'
