@@ -20,7 +20,7 @@ export default function Card(props: CardProps) {
         </Show>
         {props.title}
       </h3>
-      <p class={styles.body}>{props.children}</p>
+      <div class={styles.body}>{props.children}</div>
     </article>
   );
 }
