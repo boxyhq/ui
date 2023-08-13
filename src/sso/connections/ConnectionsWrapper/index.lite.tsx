@@ -61,9 +61,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         </Show>
       </div>
       <Show when={state.view === 'EDIT'}>
-        <Button onClick={(event) => (state.view = 'LIST')} name='BACK' variant='outline' />
         <Show when={state.connectionToEdit && 'oidcProvider' in state.connectionToEdit}>
           <EditOIDCConnection
+            onCancel={(event) => (state.view = 'LIST')}
             connection={state.connectionToEdit as ConnectionData<OIDCSSORecord>}
             variant='basic'
             errorCallback={state.logError}
@@ -78,6 +78,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         </Show>
         <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
           <EditSAMLConnection
+            onCancel={(event) => (state.view = 'LIST')}
             connection={state.connectionToEdit as ConnectionData<SAMLSSORecord>}
             variant='basic'
             errorCallback={state.logError}
@@ -92,9 +93,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         </Show>
       </Show>
       <Show when={state.view === 'CREATE'}>
-        <Button onClick={(event) => (state.view = 'LIST')} name='CANCEL' variant='outline' />
         <Spacer y={5} />
         <CreateSAMLConnection
+          onCancel={(event) => (state.view = 'LIST')}
           variant='basic'
           successCallback={state.switchToListView}
           //TODO: Bring inline error message display for SAML/OIDC forms */

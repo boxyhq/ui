@@ -278,7 +278,17 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       <Spacer y={4} />
       {/* TODO: bring loading state */}
       {/* TODO: bring translation support */}
+      <div class={defaultClasses.formAction}>
+        <Show when={typeof props.onCancel === 'function'}>
+          <Button
+            type='button'
+            name='Cancel'
+            onClick={(event) => props.onCancel?.(event)}
+            variant='outline'
+          />
+        </Show>
       <Button type='submit' name='Save' />
+      </div>
     </form>
   );
 }
