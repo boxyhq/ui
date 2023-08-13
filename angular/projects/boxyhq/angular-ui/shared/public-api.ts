@@ -11,3 +11,4 @@ export * from './src/icons/PlusIcon';
 export * from './src/InputWithCopyButton';
 export * from './src/Loading';
 export * from './src/Modal';
+export * from './src/CopyToClipboardButton';
