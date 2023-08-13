@@ -164,12 +164,8 @@ export default function ConnectionList(props: ConnectionListProps) {
                           <td class={state.classes.td}>
                             <span class={state.classes.spanIcon}>
                               <IconButton
-                                slotIcon={
-                                  <PencilIcon
-                                    svgElmtProps={{ 'aria-hidden': true }}
-                                    classNames={defaultClasses.icon}
-                                  />
-                                }
+                                Icon={PencilIcon}
+                                iconClasses={state.classes.icon}
                                 data-testid='edit'
                                 onClick={() => props.onActionClick()}
                               />

@@ -22,13 +22,8 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
         </label>
         <div>
           <IconButton
-            slotIcon={
-              state.isSecretShown ? (
-                <EyeSlashIcon svgElmtProps={{ 'aria-hidden': true }} classNames={defaultStyles.icon} />
-              ) : (
-                <EyeIcon svgElmtProps={{ 'aria-hidden': true }} classNames={defaultStyles.icon} />
-              )
-            }
+            Icon={state.isSecretShown ? EyeSlashIcon : EyeIcon}
+            iconClasses={defaultStyles.icon}
             onClick={() => (state.isSecretShown = !state.isSecretShown)}
           />
           <CopyToClipboardButton text={props.value} toastSuccessCallback={props.successCallback} />

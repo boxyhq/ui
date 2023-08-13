@@ -21,9 +21,9 @@ export default function CopyToClipboardButton(props: PropsType) {
   return (
     <IconButton
       label='Copy'
-      slotIcon={
-        <CopytoClipboardIcon svgElmtProps={{ 'aria-hidden': true }} classNames={defaultStyles.icon} />
-      }
-      onClick={() => state.onClick()}></IconButton>
+      Icon={CopytoClipboardIcon}
+      iconClasses={defaultStyles.icon}
+      onClick={() => state.onClick()}
+    />
   );
 }
