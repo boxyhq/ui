@@ -6,6 +6,9 @@
     "moduleResolution": "Node",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "types": ["vite/client"],
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "paths": {
+      "@/shared/*": ["./src/shared/*"]
+    }
   }
 }
