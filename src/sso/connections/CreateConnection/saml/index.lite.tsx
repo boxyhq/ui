@@ -5,6 +5,7 @@ import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
+import ToggleSwitch from '../../../../shared/ToggleSwitch/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -30,9 +31,9 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
     loading: false,
-    hasMetadataUrl: true,
-    toggleHasMetadataUrl() {
-      state.hasMetadataUrl = !state.hasMetadataUrl;
+    isMetadataUrlDisabled: true,
+    toggleIsMetadataUrlDisabled() {
+      state.isMetadataUrlDisabled = !state.isMetadataUrlDisabled;
     },
     samlConnection: INITIAL_VALUES.samlConnection,
     updateConnection(key: Keys, newValue: Values) {
@@ -215,49 +216,61 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           </div>
         </Show>
       </Show>
-      <Show when={state.hasMetadataUrl}>
-        <div class={state.classes.fieldContainer}>
-          <div class={defaultClasses.labelWithAction}>
-            <label for='metadataUrl' class={state.classes.label}>
-              Metadata URL
-            </label>
-            <button class={defaultClasses.hint} onClick={() => state.toggleHasMetadataUrl()}>
-              Use raw XML instead ? Click here to enter raw metadata XML
-            </button>
-          </div>
-          <input
-            class={state.classes.input}
-            id='metadataUrl'
-            name='metadataUrl'
-            value={state.samlConnection.metadataUrl}
-            onInput={(event) => state.handleChange(event)}
-            required={false}
-            type='url'
-            placeholder='Paste the Metadata URL here'
-          />
+      <div class={state.classes.fieldContainer}>
+        <div class={defaultClasses.labelWithAction}>
+          <label
+            for='rawMetadata'
+            class={state.classes.label + (!state.isMetadataUrlDisabled ? ' ' + defaultClasses.disabled : '')}>
+            Raw IdP XML
+          </label>
+          <Show when={!state.isMetadataUrlDisabled}>
+            <ToggleSwitch
+              label=''
+              onChange={(event) => state.toggleIsMetadataUrlDisabled()}
+              checked={state.isMetadataUrlDisabled}
+              disabled={false}
+            />
+          </Show>
         </div>
-      </Show>
-      <Show when={!state.hasMetadataUrl}>
-        <div class={state.classes.fieldContainer}>
-          <div class={defaultClasses.labelWithAction}>
-            <label for='rawMetadata' class={state.classes.label}>
-              Raw IdP XML
-            </label>
-            <button class={defaultClasses.hint} onClick={() => state.toggleHasMetadataUrl()}>
-              Use metadata URL instead ? Click here to enter the IdP metadata URL
-            </button>
-          </div>
-          <textarea
-            id='rawMetadata'
-            class={state.classes.textarea}
-            name='rawMetadata'
-            value={state.samlConnection.rawMetadata}
-            onInput={(event) => state.handleChange(event)}
-            required={false}
-            placeholder='Paste the raw XML here'
-          />
+        <textarea
+          id='rawMetadata'
+          class={state.classes.textarea}
+          name='rawMetadata'
+          disabled={!state.isMetadataUrlDisabled}
+          value={state.samlConnection.rawMetadata}
+          onInput={(event) => state.handleChange(event)}
+          required={false}
+          placeholder='Paste the raw XML here'
+        />
+      </div>
+      <div class={state.classes.fieldContainer}>
+        <div class={defaultClasses.labelWithAction}>
+          <label
+            for='metadataUrl'
+            class={state.classes.label + (state.isMetadataUrlDisabled ? ' ' + defaultClasses.disabled : '')}>
+            Metadata URL
+          </label>
+          <Show when={state.isMetadataUrlDisabled}>
+            <ToggleSwitch
+              label=''
+              onChange={(event) => state.toggleIsMetadataUrlDisabled()}
+              checked={!state.isMetadataUrlDisabled}
+              disabled={false}
+            />
+          </Show>
         </div>
-      </Show>
+        <input
+          class={state.classes.input}
+          id='metadataUrl'
+          name='metadataUrl'
+          disabled={state.isMetadataUrlDisabled}
+          value={state.samlConnection.metadataUrl}
+          onInput={(event) => state.handleChange(event)}
+          required={false}
+          type='url'
+          placeholder='Paste the Metadata URL here'
+        />
+      </div>
       <Show when={state.formVariant === 'advanced'}>
         <Show when={!state.isExcluded('forceAuthn')}>
           <div class={state.classes.radioContainer}>
@@ -287,7 +300,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             variant='outline'
           />
         </Show>
-      <Button type='submit' name='Save' />
+        <Button type='submit' name='Save' />
       </div>
     </form>
   );
