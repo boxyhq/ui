@@ -120,11 +120,6 @@ export default function DirectoryList(props: DirectoryListProps) {
                           <td class='px-6'>
                             <span class='inline-flex items-baseline'>
                               <IconButton
-                                Icon={EyeIcon}
-                                iconClasses=''
-                                data-testid='view'
-                                onClick={() => props.onViewClick()}></IconButton>
-                              <IconButton
                                 Icon={PencilIcon}
                                 iconClasses=''
                                 data-testid='edit'
