@@ -40,7 +40,6 @@
   border: 1px solid var(--secondary-foreground-color);
   border-radius: var(--border-radius);
   padding: 1rem;
-  background: var(--primary-color-50);
 }
 
 .field {
@@ -103,6 +102,12 @@
 .textarea {
   width: 100%;
   height: 6rem;
+}
+
+.info input,
+.info pre {
+  background: var(--primary-color-50);
+  color: var(--primary-color-800);
 }
 
 .section {

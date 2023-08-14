@@ -9,7 +9,7 @@ import defaultStyles from './index.module.css';
 export default function SecretInputFormControl(props: SecretInputFormControlProps) {
   const state = useStore({
     isSecretShown: false,
-    handleChange(event: Event) {
+    handleChange: (event: Event) => {
       props.handleChange(event);
     },
   });

@@ -13,6 +13,7 @@ import SecretInputFormControl from '../../../../shared/SecretInputFormControl/in
 import Card from '../../../../shared/Card/index.lite';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
+import CopyToClipboardButton from '../../../../shared/ClipboardButton/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -292,89 +293,92 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               </Show>
             </Show>
             <Card title='Connection info' variant='info' arrangement='vertical'>
-              <Show when={state.formVariant === 'advanced'}>
-                <Show when={!state.isExcluded('tenant')}>
-                  <div class={defaultClasses.field}>
-                    <div class={defaultClasses.labelDiv}>
-                      <label for='tenant' class={state.classes.label}>
-                        Tenant
-                      </label>
+              <div class={defaultClasses.info}>
+                <Show when={state.formVariant === 'advanced'}>
+                  <Show when={!state.isExcluded('tenant')}>
+                    <div class={defaultClasses.field}>
+                      <div class={defaultClasses.labelDiv}>
+                        <label for='tenant' class={state.classes.label}>
+                          Tenant
+                        </label>
+                      </div>
+                      <input
+                        class={state.classes.input}
+                        name='tenant'
+                        id='tenant'
+                        placeholder='acme.com'
+                        required={true}
+                        readOnly={true}
+                        value={props.connection.tenant}
+                      />
                     </div>
-                    <input
-                      class={state.classes.input}
-                      name='tenant'
-                      id='tenant'
-                      placeholder='acme.com'
-                      required={true}
-                      readOnly={true}
-                      value={props.connection.tenant}
-                    />
-                  </div>
-                </Show>
-                <Show when={!state.isExcluded('product')}>
-                  <div class={defaultClasses.field}>
-                    <div class={defaultClasses.labelDiv}>
-                      <label for='product' class={state.classes.label}>
-                        Product
-                      </label>
+                  </Show>
+                  <Show when={!state.isExcluded('product')}>
+                    <div class={defaultClasses.field}>
+                      <div class={defaultClasses.labelDiv}>
+                        <label for='product' class={state.classes.label}>
+                          Product
+                        </label>
+                      </div>
+                      <input
+                        class={state.classes.input}
+                        name='product'
+                        id='product'
+                        type='text'
+                        required={true}
+                        readOnly={true}
+                        placeholder='demo'
+                        value={props.connection.product}
+                      />
                     </div>
-                    <input
-                      class={state.classes.input}
-                      name='product'
-                      id='product'
-                      type='text'
-                      required={true}
-                      readOnly={true}
-                      placeholder='demo'
-                      value={props.connection.product}
-                    />
-                  </div>
+                  </Show>
                 </Show>
-              </Show>
-              <div class={defaultClasses.field}>
-                <div class={defaultClasses.labelDiv}>
-                  <label for='idpMetadata' class={state.classes.label}>
-                    IdP Metadata
-                  </label>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='idpMetadata' class={state.classes.label}>
+                      IdP Metadata
+                    </label>
+                  </div>
+                  <pre aria-readonly={true} class={defaultClasses.pre}>
+                    {JSON.stringify(props.connection.idpMetadata, null, 2)}
+                  </pre>
                 </div>
-                <pre aria-readonly={true} class={defaultClasses.pre}>
-                  {JSON.stringify(props.connection.idpMetadata, null, 2)}
-                </pre>
-              </div>
-              <div class={defaultClasses.field}>
-                <div class={defaultClasses.labelDiv}>
-                  <label for='idpCertExpiry' class={state.classes.label}>
-                    IdP Certificate Validity
-                  </label>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='idpCertExpiry' class={state.classes.label}>
+                      IdP Certificate Validity
+                    </label>
+                  </div>
+                  <pre aria-readonly={true} class={defaultClasses.pre}>
+                    {props.connection.idpMetadata.validTo}
+                  </pre>
                 </div>
-                <pre aria-readonly={true} class={defaultClasses.pre}>
-                  {props.connection.idpMetadata.validTo}
-                </pre>
-              </div>
-              <div class={defaultClasses.field}>
-                <div class={defaultClasses.labelDiv}>
-                  <label for='clientID' class={state.classes.label}>
-                    Client ID
-                  </label>
+                <div class={defaultClasses.field}>
+                  <div class={defaultClasses.labelDiv}>
+                    <label for='clientID' class={state.classes.label}>
+                      Client ID
+                    </label>
+                    <CopyToClipboardButton text={props.connection.clientID} onCopyCallback={() => {}} />
+                  </div>
+                  <input
+                    class={state.classes.input}
+                    name='clientID'
+                    id='clientID'
+                    type='text'
+                    readOnly={true}
+                    value={props.connection.clientID}
+                  />
                 </div>
-                <input
-                  class={state.classes.input}
-                  name='clientID'
-                  id='clientID'
-                  type='text'
+                <SecretInputFormControl
+                  label='Client Secret'
+                  id='clientSecret'
+                  value={props.connection.clientSecret}
                   readOnly={true}
-                  value={props.connection.clientID}
+                  required={true}
+                  onCopyCallback={() => props.onCopyCallback()}
+                  handleChange={state.handleChange}
                 />
               </div>
-              <SecretInputFormControl
-                label='Client Secret'
-                id='clientSecret'
-                value={props.connection.clientSecret}
-                readOnly={true}
-                required={true}
-                onCopyCallback={() => props.onCopyCallback()}
-                handleChange={state.handleChange}
-              />
             </Card>
             <Spacer y={4} />
             <div class={defaultClasses.formAction}>
