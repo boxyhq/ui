@@ -1,3 +1,4 @@
+@import url('../../shared/common.module.css');
 .container {
   display: flex;
   flex-direction: column;
@@ -12,7 +13,7 @@
   font-family: inherit;
   appearance: none;
   background-color: #fff;
-  border-radius: 0.375rem;
+  border-radius: var(--border-radius);
   border-width: 1px;
   border-color: #ebedf0;
   border-style: solid;

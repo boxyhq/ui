@@ -34,7 +34,7 @@
   border-width: 1px;
   border-color: var(--secondary-foreground-color);
   background-color: #fff;
-  border-radius: 0.375rem;
+  border-radius: var(--border-radius);
 }
 
 .input:focus {
