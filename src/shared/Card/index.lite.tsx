@@ -6,11 +6,16 @@ import InfoIcon from '../icons/InfoIcon.lite';
 
 export default function Card(props: CardProps) {
   const state = useStore({
-    variantCss: props.variant ? ' ' + styles[props.variant] : '',
+    get variantCss() {
+      return props.variant ? ' ' + styles[props.variant] : '';
+    },
+    get flexCss() {
+      return props.arrangement === 'vertical' ? ' ' + styles['vertical'] : '';
+    },
   });
 
   return (
-    <article class={`${styles.container}${state.variantCss}`}>
+    <article class={`${styles.container}${state.variantCss}${state.flexCss}`}>
       <h3 class={styles.title}>
         <Show when={props.variant === 'success'}>
           <CheckMarkIcon />

@@ -3,12 +3,15 @@
 .container {
   margin-top: 1.25rem;
   display: flex;
-  flex-direction: column;
   border: 1px solid var(--primary-color);
   border-radius: 0.5rem;
   padding: 1rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+
+.vertical {
+  flex-direction: column;
 }
 
 .title {
@@ -22,10 +25,11 @@
 
 .body {
   padding: 0.75rem;
+  flex: 1;
 }
 
 .info {
-  background: var(--secondary-color);
+  background: #fff;
 }
 
 .success {
