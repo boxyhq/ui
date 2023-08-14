@@ -1,5 +1,6 @@
 .ctoa {
-  align-self: flex-end;
+  display: flex;
+  justify-content: space-between;
 }
 .status {
   /* mb-3 flex items-center justify-between */

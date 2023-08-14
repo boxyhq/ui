@@ -4,6 +4,8 @@ import { ApiResponse } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import ToggleSwitch from '../../../shared/ToggleSwitch/index.lite';
+import Button from '../../../shared/Button/index.lite';
+import Spacer from '../../../shared/Spacer/index.lite';
 
 export default function ToggleConnectionStatus(props: ToggleConnectionStatusProps) {
   const state: any = useStore({
@@ -85,13 +87,15 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
       <div class={state.classes.container}>
         <Show when={state.displayPrompt}>
           <div class={state.classes.displayMessage}>
-            <span>Do you want to {` ${state.connectionAction} `} connection?</span>
-            <button class={state.classes.confirmBtn} onClick={(event) => state.onConfirm()}>
-              Confirm
-            </button>
-            <button class={state.classes.cancelBtn} onClick={(event) => state.onCancel()}>
-              Cancel
-            </button>
+            <span>Do you want to {` ${state.connectionAction} `} the connection?</span>
+            <div>
+              <Button
+                variant={props.connection.deactivated ? 'primary' : 'destructive'}
+                name='Confirm'
+                onClick={(event) => state.onConfirm()}></Button>
+              <Spacer x={1.5} />
+              <Button name='Cancel' variant='outline' onClick={(event) => state.onCancel()}></Button>
+            </div>
           </div>
         </Show>
         <Show when={!state.displayPrompt}>

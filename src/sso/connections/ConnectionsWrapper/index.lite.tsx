@@ -19,13 +19,23 @@ const DEFAULT_VALUES = {
 export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
   const state = useStore({
     connections: DEFAULT_VALUES.connectionListData,
+    onListFetchComplete: (connectionsList: ConnectionData<any>[]) => {
+      state.connections = connectionsList;
+    },
     view: DEFAULT_VALUES.view,
     connectionToEdit: {} as ConnectionData<any>,
     get connectionsAdded(): boolean {
       return state.connections.length > 0;
     },
-    classes: {
-      button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
+    get ssoEnabled(): boolean {
+      return (
+        state.connectionsAdded && state.connections.some((connection) => connection.deactivated === false)
+      );
+    },
+    get classes() {
+      return {
+        button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
+      };
     },
     switchToEditView(connection: ConnectionData<any>) {
       state.view = 'EDIT';
@@ -44,18 +54,36 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <div className='flex flex-col'>
         <Show when={state.view === 'LIST'}>
           <Show when={state.connectionsAdded}>
+            <Card
+              title={state.ssoEnabled ? 'SSO Enabled' : 'SSO Disabled'}
+              variant={state.ssoEnabled ? 'success' : 'info'}>
+              <div class={defaultClasses.ctoa}>
+                <Show when={props.urls?.spMetadata}>
+                  <Anchor
+                    href={props.urls!.spMetadata!}
+                    linkText='Access SP Metadata'
+                    variant='button'></Anchor>
+                </Show>
+                <Button name='Add Connection' onClick={(event) => (state.view = 'CREATE')} />
+              </div>
+            </Card>
             <Spacer y={4} />
-            <div class={defaultClasses.ctoa}>
-              <Button name='Add Connection' onClick={(event) => (state.view = 'CREATE')} />
-            </div>
           </Show>
           <Spacer y={4} />
           <ConnectionList
             onActionClick={(connection) => state.switchToEditView(connection)}
-            onListFetchComplete={(connectionsList) => (state.connections = connectionsList)}
+            onListFetchComplete={(connectionList) => state.onListFetchComplete(connectionList)}
             {...props.componentProps.connectionList}>
-            <Card variant='info' title='SSO not enabled for team'>
-              <Button onClick={(event) => (state.view = 'CREATE')} name='Add an SSO Connection' />
+            <Card variant='info' title='SSO not enabled'>
+              <div class={defaultClasses.ctoa}>
+                <Show when={props.urls?.spMetadata}>
+                  <Anchor
+                    href={props.urls!.spMetadata!}
+                    linkText='Access SP Metadata'
+                    variant='button'></Anchor>
+                </Show>
+                <Button name='Add Connection' onClick={(event) => (state.view = 'CREATE')} />
+              </div>
             </Card>
           </ConnectionList>
         </Show>
@@ -130,13 +158,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           <Button onClick={(event) => (state.view = 'CREATE')} name='Configure' />
         </div>
       </Show> */}
-      <Show when={state.connectionsAdded && state.view === 'LIST'}>
-        <Card title='SSO Enabled for team' variant='success'>
-          <Show when={props.urls?.spMetadata}>
-            <Anchor href={props.urls!.spMetadata!} linkText='Access SP Metadata' variant='button'></Anchor>
-          </Show>
-        </Card>
-      </Show>
     </div>
   );
 }
