@@ -106,202 +106,205 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
   });
 
   return (
-    <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
-      <Show when={state.formVariant === 'advanced'}>
-        <Show when={!state.isExcluded('name')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='name' class={state.classes.label}>
-              Connection name (Optional)
-            </label>
-            <input
-              class={state.classes.input}
-              id='name'
-              name='name'
-              onInput={(event) => state.handleChange(event)}
-              value={state.samlConnection.name}
-              required={false}
-              type='text'
-              placeholder='MyApp'
-            />
-          </div>
+    <div>
+      <h2 class={defaultClasses.heading}>Create SAML Connection</h2>
+      <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
+        <Show when={state.formVariant === 'advanced'}>
+          <Show when={!state.isExcluded('name')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='name' class={state.classes.label}>
+                Connection name (Optional)
+              </label>
+              <input
+                class={state.classes.input}
+                id='name'
+                name='name'
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.name}
+                required={false}
+                type='text'
+                placeholder='MyApp'
+              />
+            </div>
+          </Show>
+          <Show when={!state.isExcluded('description')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='description' class={state.classes.label}>
+                Description
+              </label>
+              <input
+                class={state.classes.input}
+                id='description'
+                name='description'
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.description}
+                required={false}
+                maxLength={100}
+                type='text'
+                placeholder='A short description not more than 100 characters'
+              />
+            </div>
+          </Show>
+          <Show when={!state.isExcluded('tenant')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='tenant' class={state.classes.label}>
+                Tenant
+              </label>
+              <input
+                class={state.classes.input}
+                id='tenant'
+                name='tenant'
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.tenant}
+                type='text'
+                placeholder='acme.com'
+                aria-describedby='tenant-hint'
+              />
+              <span id='tenant-hint' class={defaultClasses.hint}>
+                Unique identifier for the tenant in your app
+              </span>
+            </div>
+          </Show>
+          <Show when={!state.isExcluded('product')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='product' class={state.classes.label}>
+                Product
+              </label>
+              <input
+                class={state.classes.input}
+                id='product'
+                name='product'
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.product}
+                type='text'
+                placeholder='demo'
+              />
+            </div>
+          </Show>
+          <Show when={!state.isExcluded('redirectUrl')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='redirectUrl' class={state.classes.label}>
+                Allowed redirect URLs (newline separated)
+              </label>
+              <textarea
+                id='redirectUrl'
+                name='redirectUrl'
+                class={state.classes.textarea}
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.redirectUrl}
+                placeholder='http://localhost:3366'
+                aria-describedby='redirectUrl-hint'
+              />
+              <span id='redirectUrl-hint' class={defaultClasses.hint}>
+                URL to redirect the user to after login. You can specify multiple URLs by separating them with
+                a new line.
+              </span>
+            </div>
+          </Show>
+          <Show when={!state.isExcluded('defaultRedirectUrl')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='defaultRedirectUrl' class={state.classes.label}>
+                Default redirect URL
+              </label>
+              <input
+                class={state.classes.input}
+                id='defaultRedirectUrl'
+                name='defaultRedirectUrl'
+                onInput={(event) => state.handleChange(event)}
+                value={state.samlConnection.defaultRedirectUrl}
+                type='url'
+                placeholder='http://localhost:3366/login/saml'
+              />
+            </div>
+          </Show>
         </Show>
-        <Show when={!state.isExcluded('description')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='description' class={state.classes.label}>
-              Description
+        <div class={state.classes.fieldContainer}>
+          <div class={defaultClasses.labelWithAction}>
+            <label
+              for='rawMetadata'
+              class={
+                state.classes.label + (!state.isMetadataUrlDisabled ? ' ' + defaultClasses.disabled : '')
+              }>
+              Raw IdP XML
             </label>
-            <input
-              class={state.classes.input}
-              id='description'
-              name='description'
-              onInput={(event) => state.handleChange(event)}
-              value={state.samlConnection.description}
-              required={false}
-              maxLength={100}
-              type='text'
-              placeholder='A short description not more than 100 characters'
-            />
-          </div>
-        </Show>
-        <Show when={!state.isExcluded('tenant')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='tenant' class={state.classes.label}>
-              Tenant
-            </label>
-            <input
-              class={state.classes.input}
-              id='tenant'
-              name='tenant'
-              onInput={(event) => state.handleChange(event)}
-              value={state.samlConnection.tenant}
-              type='text'
-              placeholder='acme.com'
-              aria-describedby='tenant-hint'
-            />
-            <span id='tenant-hint' class={defaultClasses.hint}>
-              Unique identifier for the tenant in your app
-            </span>
-          </div>
-        </Show>
-        <Show when={!state.isExcluded('product')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='product' class={state.classes.label}>
-              Product
-            </label>
-            <input
-              class={state.classes.input}
-              id='product'
-              name='product'
-              onInput={(event) => state.handleChange(event)}
-              value={state.samlConnection.product}
-              type='text'
-              placeholder='demo'
-            />
-          </div>
-        </Show>
-        <Show when={!state.isExcluded('redirectUrl')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='redirectUrl' class={state.classes.label}>
-              Allowed redirect URLs (newline separated)
-            </label>
-            <textarea
-              id='redirectUrl'
-              name='redirectUrl'
-              class={state.classes.textarea}
-              onInput={(event) => state.handleChange(event)}
-              value={state.samlConnection.redirectUrl}
-              placeholder='http://localhost:3366'
-              aria-describedby='redirectUrl-hint'
-            />
-            <span id='redirectUrl-hint' class={defaultClasses.hint}>
-              URL to redirect the user to after login. You can specify multiple URLs by separating them with a
-              new line.
-            </span>
-          </div>
-        </Show>
-        <Show when={!state.isExcluded('defaultRedirectUrl')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='defaultRedirectUrl' class={state.classes.label}>
-              Default redirect URL
-            </label>
-            <input
-              class={state.classes.input}
-              id='defaultRedirectUrl'
-              name='defaultRedirectUrl'
-              onInput={(event) => state.handleChange(event)}
-              value={state.samlConnection.defaultRedirectUrl}
-              type='url'
-              placeholder='http://localhost:3366/login/saml'
-            />
-          </div>
-        </Show>
-      </Show>
-      <div class={state.classes.fieldContainer}>
-        <div class={defaultClasses.labelWithAction}>
-          <label
-            for='rawMetadata'
-            class={state.classes.label + (!state.isMetadataUrlDisabled ? ' ' + defaultClasses.disabled : '')}>
-            Raw IdP XML
-          </label>
-          <Show when={!state.isMetadataUrlDisabled}>
             <ToggleSwitch
               label=''
               onChange={(event) => state.toggleIsMetadataUrlDisabled()}
               checked={state.isMetadataUrlDisabled}
               disabled={false}
             />
-          </Show>
+          </div>
+          <textarea
+            id='rawMetadata'
+            class={state.classes.textarea}
+            name='rawMetadata'
+            disabled={!state.isMetadataUrlDisabled}
+            value={state.samlConnection.rawMetadata}
+            onInput={(event) => state.handleChange(event)}
+            required={false}
+            placeholder='Paste the raw XML here'
+          />
         </div>
-        <textarea
-          id='rawMetadata'
-          class={state.classes.textarea}
-          name='rawMetadata'
-          disabled={!state.isMetadataUrlDisabled}
-          value={state.samlConnection.rawMetadata}
-          onInput={(event) => state.handleChange(event)}
-          required={false}
-          placeholder='Paste the raw XML here'
-        />
-      </div>
-      <div class={state.classes.fieldContainer}>
-        <div class={defaultClasses.labelWithAction}>
-          <label
-            for='metadataUrl'
-            class={state.classes.label + (state.isMetadataUrlDisabled ? ' ' + defaultClasses.disabled : '')}>
-            Metadata URL
-          </label>
-          <Show when={state.isMetadataUrlDisabled}>
+        <div class={state.classes.fieldContainer}>
+          <div class={defaultClasses.labelWithAction}>
+            <label
+              for='metadataUrl'
+              class={
+                state.classes.label + (state.isMetadataUrlDisabled ? ' ' + defaultClasses.disabled : '')
+              }>
+              Metadata URL
+            </label>
             <ToggleSwitch
               label=''
               onChange={(event) => state.toggleIsMetadataUrlDisabled()}
               checked={!state.isMetadataUrlDisabled}
               disabled={false}
             />
-          </Show>
-        </div>
-        <input
-          class={state.classes.input}
-          id='metadataUrl'
-          name='metadataUrl'
-          disabled={state.isMetadataUrlDisabled}
-          value={state.samlConnection.metadataUrl}
-          onInput={(event) => state.handleChange(event)}
-          required={false}
-          type='url'
-          placeholder='Paste the Metadata URL here'
-        />
-      </div>
-      <Show when={state.formVariant === 'advanced'}>
-        <Show when={!state.isExcluded('forceAuthn')}>
-          <div class={state.classes.radioContainer}>
-            <label for='forceAuthn' class={state.classes.label}>
-              Force Authentication
-            </label>
-            <input
-              id='forceAuthn'
-              name='forceAuthn'
-              onChange={(event) => state.handleChange(event)}
-              checked={state.samlConnection.forceAuthn}
-              required={false}
-              type='checkbox'
-            />
           </div>
-        </Show>
-      </Show>
-      <Spacer y={4} />
-      {/* TODO: bring loading state */}
-      {/* TODO: bring translation support */}
-      <div class={defaultClasses.formAction}>
-        <Show when={typeof props.onCancel === 'function'}>
-          <Button
-            type='button'
-            name='Cancel'
-            onClick={(event) => props.onCancel?.(event)}
-            variant='outline'
+          <input
+            class={state.classes.input}
+            id='metadataUrl'
+            name='metadataUrl'
+            disabled={state.isMetadataUrlDisabled}
+            value={state.samlConnection.metadataUrl}
+            onInput={(event) => state.handleChange(event)}
+            required={false}
+            type='url'
+            placeholder='Paste the Metadata URL here'
           />
+        </div>
+        <Show when={state.formVariant === 'advanced'}>
+          <Show when={!state.isExcluded('forceAuthn')}>
+            <div class={state.classes.radioContainer}>
+              <label for='forceAuthn' class={state.classes.label}>
+                Force Authentication
+              </label>
+              <input
+                id='forceAuthn'
+                name='forceAuthn'
+                onChange={(event) => state.handleChange(event)}
+                checked={state.samlConnection.forceAuthn}
+                required={false}
+                type='checkbox'
+              />
+            </div>
+          </Show>
         </Show>
-        <Button type='submit' name='Save' />
-      </div>
-    </form>
+        <Spacer y={4} />
+        {/* TODO: bring loading state */}
+        {/* TODO: bring translation support */}
+        <div class={defaultClasses.formAction}>
+          <Show when={typeof props.onCancel === 'function'}>
+            <Button
+              type='button'
+              name='Cancel'
+              onClick={(event) => props.onCancel?.(event)}
+              variant='outline'
+            />
+          </Show>
+          <Button type='submit' name='Save' />
+        </div>
+      </form>
+    </div>
   );
 }
