@@ -10,7 +10,7 @@ import EyeIcon from '../../../shared/icons/EyeIcon.lite';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
-  providers: {} as DirectorySyncProviders,
+  providers: null,
 };
 
 export default function DirectoryList(props: DirectoryListProps) {
@@ -88,7 +88,7 @@ export default function DirectoryList(props: DirectoryListProps) {
                 <tbody>
                   <Show when={state.directoryListData}>
                     <For each={state.directoryListData}>
-                      {(directory: any) => (
+                      {(directory) => (
                         <tr
                           key={directory.id}
                           class='border-b bg-white last:border-b-0 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800'>
@@ -102,7 +102,7 @@ export default function DirectoryList(props: DirectoryListProps) {
                             </>
                           </Show>
                           <Show when={state.providers}>
-                            <td class='px-6'>{state.providers[directory.type]}</td>
+                            <td class='px-6'>{state.providers?.[directory.type]}</td>
                           </Show>
                           <td class='px-6'>
                             <Show
