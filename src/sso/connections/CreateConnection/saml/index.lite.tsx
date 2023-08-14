@@ -1,4 +1,4 @@
-import { Show, useStore } from '@builder.io/mitosis';
+import { Show, onUpdate, useStore } from '@builder.io/mitosis';
 import type { CreateConnectionProps, SAMLSSOConnection, ApiResponse } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -104,6 +104,14 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       return !!(props.excludeFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
     },
   });
+
+  onUpdate(() => {
+    if (state.isMetadataUrlDisabled) {
+      state.samlConnection = state.updateConnection('metadataUrl', '');
+    } else {
+      state.samlConnection = state.updateConnection('rawMetadata', '');
+    }
+  }, [state.isMetadataUrlDisabled]);
 
   return (
     <div>
