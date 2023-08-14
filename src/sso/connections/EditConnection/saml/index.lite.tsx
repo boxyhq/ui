@@ -1,5 +1,5 @@
 import ToggleConnectionStatus from '../../ToggleConnectionStatus/index.lite';
-import { Show, onMount, useStore } from '@builder.io/mitosis';
+import { Show, onUpdate, useStore } from '@builder.io/mitosis';
 import type {
   EditSAMLConnectionProps,
   ApiResponse,
@@ -38,7 +38,6 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   const state = useStore({
     samlConnection: INITIAL_VALUES.samlConnection,
-    hasMetadataUrl: true,
     displayDeletionConfirmation: false,
     get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
@@ -60,9 +59,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     },
     isExcluded(fieldName: keyof SAMLSSOConnection) {
       return !!(props.excludeFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
-    },
-    toggleHasMetadataUrl() {
-      state.hasMetadataUrl = !state.hasMetadataUrl;
     },
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.samlConnection, [key]: newValue };
@@ -134,7 +130,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     },
   });
 
-  onMount(() => {
+  onUpdate(() => {
     state.samlConnection = {
       name: props.connection.name || '',
       clientID: props.connection.clientID,
@@ -146,9 +142,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       metadataUrl: props.connection.metadataUrl || '',
       forceAuthn: props.connection.forceAuthn === true || props.connection.forceAuthn === 'true',
     };
-
-    state.hasMetadataUrl = props.connection.metadataUrl ? true : false;
-  });
+  }, [props.connection]);
 
   return (
     <div>
@@ -244,7 +238,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               </Show>
             </Show>
             <div class={defaultClasses.field}>
-              <div class={defaultClasses.labelDiv}>
+              <div class={defaultClasses.labelWithAction}>
                 <label for='rawMetadata' class={state.classes.label}>
                   Raw IdP XML
                 </label>
@@ -255,13 +249,13 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 id='rawMetadata'
                 placeholder='Paste the raw XML here'
                 rows={5}
-                required={false}
-                onInput={(event) => state.handleChange(event)}
+                required={state.samlConnection.metadataUrl === ''}
+                onChange={(event) => state.handleChange(event)}
                 value={state.samlConnection.rawMetadata}
               />
             </div>
             <div class={defaultClasses.field}>
-              <div class={defaultClasses.labelDiv}>
+              <div class={defaultClasses.labelWithAction}>
                 <label for='metadataUrl' class={state.classes.label}>
                   Metadata URL
                 </label>
@@ -272,8 +266,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 id='metadataUrl'
                 type='url'
                 placeholder='Paste the Metadata URL here'
-                required={false}
-                onInput={(event) => state.handleChange(event)}
+                required={state.samlConnection.rawMetadata === ''}
+                onChange={(event) => state.handleChange(event)}
                 value={state.samlConnection.metadataUrl}
               />
             </div>
@@ -297,7 +291,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 </div>
               </Show>
             </Show>
-            <Card title='Connection info' variant='info'>
+            <Card title='Connection info' variant='info' arrangement='vertical'>
               <Show when={state.formVariant === 'advanced'}>
                 <Show when={!state.isExcluded('tenant')}>
                   <div class={defaultClasses.field}>
@@ -312,7 +306,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                       id='tenant'
                       placeholder='acme.com'
                       required={true}
-                      disabled={true}
+                      readOnly={true}
                       value={props.connection.tenant}
                     />
                   </div>
@@ -330,7 +324,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                       id='product'
                       type='text'
                       required={true}
-                      disabled={true}
+                      readOnly={true}
                       placeholder='demo'
                       value={props.connection.product}
                     />
@@ -344,7 +338,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   </label>
                 </div>
                 <pre aria-readonly={true} class={defaultClasses.pre}>
-                  {JSON.stringify(props.connection.idpMetadata)}
+                  {JSON.stringify(props.connection.idpMetadata, null, 2)}
                 </pre>
               </div>
               <div class={defaultClasses.field}>
@@ -368,8 +362,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   name='clientID'
                   id='clientID'
                   type='text'
-                  required={true}
-                  disabled={true}
+                  readOnly={true}
                   value={props.connection.clientID}
                 />
               </div>
@@ -377,9 +370,9 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 label='Client Secret'
                 id='clientSecret'
                 value={props.connection.clientSecret}
-                required={true}
                 readOnly={true}
-                onCopyCallback={props.onCopyCallback}
+                required={true}
+                onCopyCallback={() => props.onCopyCallback()}
                 handleChange={state.handleChange}
               />
             </Card>

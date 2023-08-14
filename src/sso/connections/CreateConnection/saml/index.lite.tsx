@@ -1,11 +1,10 @@
-import { Show, onUpdate, useStore } from '@builder.io/mitosis';
+import { Show, useStore } from '@builder.io/mitosis';
 import type { CreateConnectionProps, SAMLSSOConnection, ApiResponse } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
-import ToggleSwitch from '../../../../shared/ToggleSwitch/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -31,10 +30,6 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
     loading: false,
-    isMetadataUrlDisabled: true,
-    toggleIsMetadataUrlDisabled() {
-      state.isMetadataUrlDisabled = !state.isMetadataUrlDisabled;
-    },
     samlConnection: INITIAL_VALUES.samlConnection,
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.samlConnection, [key]: newValue };
@@ -104,14 +99,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       return !!(props.excludeFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
     },
   });
-
-  onUpdate(() => {
-    if (state.isMetadataUrlDisabled) {
-      state.samlConnection = state.updateConnection('metadataUrl', '');
-    } else {
-      state.samlConnection = state.updateConnection('rawMetadata', '');
-    }
-  }, [state.isMetadataUrlDisabled]);
 
   return (
     <div>
@@ -228,55 +215,33 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         </Show>
         <div class={state.classes.fieldContainer}>
           <div class={defaultClasses.labelWithAction}>
-            <label
-              for='rawMetadata'
-              class={
-                state.classes.label + (!state.isMetadataUrlDisabled ? ' ' + defaultClasses.disabled : '')
-              }>
+            <label for='rawMetadata' class={state.classes.label}>
               Raw IdP XML
             </label>
-            <ToggleSwitch
-              label=''
-              onChange={(event) => state.toggleIsMetadataUrlDisabled()}
-              checked={state.isMetadataUrlDisabled}
-              disabled={false}
-            />
           </div>
           <textarea
             id='rawMetadata'
             class={state.classes.textarea}
             name='rawMetadata'
-            disabled={!state.isMetadataUrlDisabled}
             value={state.samlConnection.rawMetadata}
             onInput={(event) => state.handleChange(event)}
-            required={false}
+            required={state.samlConnection.metadataUrl === ''}
             placeholder='Paste the raw XML here'
           />
         </div>
         <div class={state.classes.fieldContainer}>
           <div class={defaultClasses.labelWithAction}>
-            <label
-              for='metadataUrl'
-              class={
-                state.classes.label + (state.isMetadataUrlDisabled ? ' ' + defaultClasses.disabled : '')
-              }>
+            <label for='metadataUrl' class={state.classes.label}>
               Metadata URL
             </label>
-            <ToggleSwitch
-              label=''
-              onChange={(event) => state.toggleIsMetadataUrlDisabled()}
-              checked={!state.isMetadataUrlDisabled}
-              disabled={false}
-            />
           </div>
           <input
             class={state.classes.input}
             id='metadataUrl'
             name='metadataUrl'
-            disabled={state.isMetadataUrlDisabled}
             value={state.samlConnection.metadataUrl}
             onInput={(event) => state.handleChange(event)}
-            required={false}
+            required={state.samlConnection.rawMetadata === ''}
             type='url'
             placeholder='Paste the Metadata URL here'
           />
