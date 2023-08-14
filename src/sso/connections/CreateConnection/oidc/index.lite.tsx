@@ -109,243 +109,246 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   });
 
   return (
-    <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
-      <Show when={state.formVariant === 'advanced'}>
-        <Show when={!state.isExcluded('name')}>
+    <div>
+      <h2 class={defaultClasses.heading}>Create OIDC Connection</h2>
+      <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
+        <Show when={state.formVariant === 'advanced'}>
+          <Show when={!state.isExcluded('name')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='name' class={state.classes.label}>
+                Connection name (Optional)
+              </label>
+              <input
+                id='name'
+                name='name'
+                class={state.classes.input}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.name}
+                required={false}
+                type='text'
+                placeholder='MyApp'
+              />
+            </div>
+          </Show>
+          <Show when={!state.isExcluded('description')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='description' class={state.classes.label}>
+                Description
+              </label>
+              <input
+                id='description'
+                name='description'
+                class={state.classes.input}
+                value={state.oidcConnection.description}
+                onInput={(event) => state.handleChange(event)}
+                required={false}
+                maxLength={100}
+                type='text'
+                placeholder='A short description not more than 100 characters'
+              />
+            </div>
+          </Show>
+          <Show when={!state.isExcluded('tenant')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='tenant' class={state.classes.label}>
+                Tenant
+              </label>
+              <input
+                id='tenant'
+                name='tenant'
+                class={state.classes.input}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.tenant}
+                type='text'
+                placeholder='acme.com'
+                aria-describedby='tenant-hint'
+              />
+              <span id='tenant-hint' class={defaultClasses.hint}>
+                Unique identifier for the tenant in your app
+              </span>
+            </div>
+          </Show>
+          <Show when={!state.isExcluded('product')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='product' class={state.classes.label}>
+                Product
+              </label>
+              <input
+                id='product'
+                name='product'
+                class={state.classes.input}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.product}
+                type='text'
+                placeholder='demo'
+              />
+            </div>
+          </Show>
+          <Show when={!state.isExcluded('redirectUrl')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='redirectUrl' class={state.classes.label}>
+                Allowed redirect URLs (newline separated)
+              </label>
+              <textarea
+                id='redirectUrl'
+                name='redirectUrl'
+                class={state.classes.textarea}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.redirectUrl}
+                placeholder='http://localhost:3366'
+                aria-describedby='redirectUrl-hint'
+              />
+              <span id='redirectUrl-hint' class={defaultClasses.hint}>
+                URL to redirect the user to after login. You can specify multiple URLs by separating them with
+                a new line.
+              </span>
+            </div>
+          </Show>
+          <Show when={!state.isExcluded('defaultRedirectUrl')}>
+            <div class={state.classes.fieldContainer}>
+              <label for='defaultRedirectUrl' class={state.classes.label}>
+                Default redirect URL
+              </label>
+              <input
+                id='defaultRedirectUrl'
+                name='defaultRedirectUrl'
+                class={state.classes.input}
+                onInput={(event) => state.handleChange(event)}
+                value={state.oidcConnection.defaultRedirectUrl}
+                type='url'
+                placeholder='http://localhost:3366/login/saml'
+              />
+            </div>
+          </Show>
+        </Show>
+        <div class={state.classes.fieldContainer}>
+          <label for='oidcClientId' class={state.classes.label}>
+            Client ID [OIDC Provider]
+          </label>
+          <input
+            id='oidcClientId'
+            name='oidcClientId'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection.oidcClientId}
+            type='text'
+            required
+          />
+        </div>
+        <div class={state.classes.fieldContainer}>
+          <label for='oidcClientSecret' class={state.classes.label}>
+            Client Secret [OIDC Provider]
+          </label>
+          <input
+            id='oidcClientSecret'
+            name='oidcClientSecret'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection.oidcClientSecret}
+            type='text'
+            required
+          />
+        </div>
+        <Show when={state.hasDiscoveryUrl}>
           <div class={state.classes.fieldContainer}>
-            <label for='name' class={state.classes.label}>
-              Connection name (Optional)
-            </label>
+            <div class={defaultClasses.labelWithAction}>
+              <label for='oidcDiscoveryUrl' class={state.classes.label}>
+                Well-known URL of OpenID Provider
+              </label>
+              <button class={defaultClasses.hint} onClick={() => state.toggleHasDiscoveryUrl()}>
+                Missing the discovery URL? Click here to set the individual attributes
+              </button>
+            </div>
             <input
-              id='name'
-              name='name'
+              id='oidcDiscoveryUrl'
+              name='oidcDiscoveryUrl'
               class={state.classes.input}
               onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection.name}
-              required={false}
-              type='text'
-              placeholder='MyApp'
-            />
-          </div>
-        </Show>
-        <Show when={!state.isExcluded('description')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='description' class={state.classes.label}>
-              Description
-            </label>
-            <input
-              id='description'
-              name='description'
-              class={state.classes.input}
-              value={state.oidcConnection.description}
-              onInput={(event) => state.handleChange(event)}
-              required={false}
-              maxLength={100}
-              type='text'
-              placeholder='A short description not more than 100 characters'
-            />
-          </div>
-        </Show>
-        <Show when={!state.isExcluded('tenant')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='tenant' class={state.classes.label}>
-              Tenant
-            </label>
-            <input
-              id='tenant'
-              name='tenant'
-              class={state.classes.input}
-              onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection.tenant}
-              type='text'
-              placeholder='acme.com'
-              aria-describedby='tenant-hint'
-            />
-            <span id='tenant-hint' class={defaultClasses.hint}>
-              Unique identifier for the tenant in your app
-            </span>
-          </div>
-        </Show>
-        <Show when={!state.isExcluded('product')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='product' class={state.classes.label}>
-              Product
-            </label>
-            <input
-              id='product'
-              name='product'
-              class={state.classes.input}
-              onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection.product}
-              type='text'
-              placeholder='demo'
-            />
-          </div>
-        </Show>
-        <Show when={!state.isExcluded('redirectUrl')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='redirectUrl' class={state.classes.label}>
-              Allowed redirect URLs (newline separated)
-            </label>
-            <textarea
-              id='redirectUrl'
-              name='redirectUrl'
-              class={state.classes.textarea}
-              onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection.redirectUrl}
-              placeholder='http://localhost:3366'
-              aria-describedby='redirectUrl-hint'
-            />
-            <span id='redirectUrl-hint' class={defaultClasses.hint}>
-              URL to redirect the user to after login. You can specify multiple URLs by separating them with a
-              new line.
-            </span>
-          </div>
-        </Show>
-        <Show when={!state.isExcluded('defaultRedirectUrl')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='defaultRedirectUrl' class={state.classes.label}>
-              Default redirect URL
-            </label>
-            <input
-              id='defaultRedirectUrl'
-              name='defaultRedirectUrl'
-              class={state.classes.input}
-              onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection.defaultRedirectUrl}
+              value={state.oidcConnection.oidcDiscoveryUrl}
               type='url'
-              placeholder='http://localhost:3366/login/saml'
+              placeholder='https://example.com/.well-known/openid-configuration'
             />
           </div>
         </Show>
-      </Show>
-      <div class={state.classes.fieldContainer}>
-        <label for='oidcClientId' class={state.classes.label}>
-          Client ID [OIDC Provider]
-        </label>
-        <input
-          id='oidcClientId'
-          name='oidcClientId'
-          class={state.classes.input}
-          onInput={(event) => state.handleChange(event)}
-          value={state.oidcConnection.oidcClientId}
-          type='text'
-          required
-        />
-      </div>
-      <div class={state.classes.fieldContainer}>
-        <label for='oidcClientSecret' class={state.classes.label}>
-          Client Secret [OIDC Provider]
-        </label>
-        <input
-          id='oidcClientSecret'
-          name='oidcClientSecret'
-          class={state.classes.input}
-          onInput={(event) => state.handleChange(event)}
-          value={state.oidcConnection.oidcClientSecret}
-          type='text'
-          required
-        />
-      </div>
-      <Show when={state.hasDiscoveryUrl}>
-        <div class={state.classes.fieldContainer}>
-          <div class={defaultClasses.labelWithAction}>
-            <label for='oidcDiscoveryUrl' class={state.classes.label}>
-              Well-known URL of OpenID Provider
-            </label>
-            <button class={defaultClasses.hint} onClick={() => state.toggleHasDiscoveryUrl()}>
-              Missing the discovery URL? Click here to set the individual attributes
-            </button>
+        <Show when={!state.hasDiscoveryUrl}>
+          <div class={state.classes.fieldContainer}>
+            <div class={defaultClasses.labelWithAction}>
+              <label for='issuer' class={state.classes.label}>
+                Issuer
+              </label>
+              <button class={defaultClasses.hint} onClick={() => state.toggleHasDiscoveryUrl()}>
+                Have a discovery URL? Click here to set it
+              </button>
+            </div>
+            <input
+              id='issuer'
+              name='oidcMetadata.issuer'
+              class={state.classes.input}
+              onInput={(event) => state.handleChange(event)}
+              value={state.oidcConnection['oidcMetadata.issuer']}
+              type='url'
+            />
           </div>
-          <input
-            id='oidcDiscoveryUrl'
-            name='oidcDiscoveryUrl'
-            class={state.classes.input}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection.oidcDiscoveryUrl}
-            type='url'
-            placeholder='https://example.com/.well-known/openid-configuration'
-          />
-        </div>
-      </Show>
-      <Show when={!state.hasDiscoveryUrl}>
-        <div class={state.classes.fieldContainer}>
-          <div class={defaultClasses.labelWithAction}>
-            <label for='issuer' class={state.classes.label}>
-              Issuer
+          <div class={state.classes.fieldContainer}>
+            <label for='authorization_endpoint' class={state.classes.label}>
+              Authorization Endpoint
             </label>
-            <button class={defaultClasses.hint} onClick={() => state.toggleHasDiscoveryUrl()}>
-              Have a discovery URL? Click here to set it
-            </button>
+            <input
+              id='authorization_endpoint'
+              name='oidcMetadata.authorization_endpoint'
+              class={state.classes.input}
+              onInput={(event) => state.handleChange(event)}
+              value={state.oidcConnection['oidcMetadata.authorization_endpoint']}
+              type='url'
+            />
           </div>
-          <input
-            id='issuer'
-            name='oidcMetadata.issuer'
-            class={state.classes.input}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection['oidcMetadata.issuer']}
-            type='url'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='authorization_endpoint' class={state.classes.label}>
-            Authorization Endpoint
-          </label>
-          <input
-            id='authorization_endpoint'
-            name='oidcMetadata.authorization_endpoint'
-            class={state.classes.input}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection['oidcMetadata.authorization_endpoint']}
-            type='url'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='token_endpoint' class={state.classes.label}>
-            Token endpoint
-          </label>
-          <input
-            id='token_endpoint'
-            name='oidcMetadata.token_endpoint'
-            class={state.classes.input}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection['oidcMetadata.token_endpoint']}
-            type='url'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='jwks_uri' class={state.classes.label}>
-            JWKS URI
-          </label>
-          <input
-            id='jwks_uri'
-            name='oidcMetadata.jwks_uri'
-            class={state.classes.input}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection['oidcMetadata.jwks_uri']}
-            type='url'
-          />
-        </div>
-        <div class={state.classes.fieldContainer}>
-          <label for='userinfo_endpoint' class={state.classes.label}>
-            UserInfo endpoint
-          </label>
-          <input
-            id='userinfo_endpoint'
-            name='oidcMetadata.userinfo_endpoint'
-            class={state.classes.input}
-            onInput={(event) => state.handleChange(event)}
-            value={state.oidcConnection['oidcMetadata.userinfo_endpoint']}
-            type='url'
-          />
-        </div>
-      </Show>
+          <div class={state.classes.fieldContainer}>
+            <label for='token_endpoint' class={state.classes.label}>
+              Token endpoint
+            </label>
+            <input
+              id='token_endpoint'
+              name='oidcMetadata.token_endpoint'
+              class={state.classes.input}
+              onInput={(event) => state.handleChange(event)}
+              value={state.oidcConnection['oidcMetadata.token_endpoint']}
+              type='url'
+            />
+          </div>
+          <div class={state.classes.fieldContainer}>
+            <label for='jwks_uri' class={state.classes.label}>
+              JWKS URI
+            </label>
+            <input
+              id='jwks_uri'
+              name='oidcMetadata.jwks_uri'
+              class={state.classes.input}
+              onInput={(event) => state.handleChange(event)}
+              value={state.oidcConnection['oidcMetadata.jwks_uri']}
+              type='url'
+            />
+          </div>
+          <div class={state.classes.fieldContainer}>
+            <label for='userinfo_endpoint' class={state.classes.label}>
+              UserInfo endpoint
+            </label>
+            <input
+              id='userinfo_endpoint'
+              name='oidcMetadata.userinfo_endpoint'
+              class={state.classes.input}
+              onInput={(event) => state.handleChange(event)}
+              value={state.oidcConnection['oidcMetadata.userinfo_endpoint']}
+              type='url'
+            />
+          </div>
+        </Show>
 
-      {/* TODO: bring loading state */}
-      <button data-testid='submit-form-create-sso' type='submit' class={state.classes.button}>
-        {/* TODO: bring translation support */}
-        Save Changes
-      </button>
-    </form>
+        {/* TODO: bring loading state */}
+        <button data-testid='submit-form-create-sso' type='submit' class={state.classes.button}>
+          {/* TODO: bring translation support */}
+          Save Changes
+        </button>
+      </form>
+    </div>
   );
 }

@@ -1,5 +1,12 @@
 @import url(../../../../shared/common.module.css);
 
+.heading {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: var(--secondary-foreground-color);
+}
+
 .fieldContainer {
   display: flex;
   flex-direction: column;
