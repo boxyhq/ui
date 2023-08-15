@@ -40,7 +40,7 @@ export interface SecretInputFormControlProps {
   required: boolean;
   maxLength?: string;
   readOnly: boolean;
-  onCopyCallback: () => void;
+  copyDoneCallback: () => void;
   handleChange: (event: Event) => void;
 }
 
