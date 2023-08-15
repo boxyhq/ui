@@ -382,11 +382,11 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             </Card>
             <Spacer y={4} />
             <div class={defaultClasses.formAction}>
-              <Show when={typeof props.onCancel === 'function'}>
+              <Show when={typeof props.cancelCallback === 'function'}>
                 <Button
                   type='button'
                   name='Cancel'
-                  onClick={(event) => props.onCancel?.(event)}
+                  onClick={(event) => props.cancelCallback?.()}
                   variant='outline'
                 />
               </Show>

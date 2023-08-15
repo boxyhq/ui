@@ -31,7 +31,7 @@ export interface ConnectionListProps {
 export interface CreateConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
-  onCancel?: (e: Event) => void;
+  cancelCallback?: () => void;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   urls: {
@@ -227,7 +227,7 @@ export interface EditOIDCConnectionProps {
   excludeFields?: Array<keyof OIDCSSOConnection>;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
-  onCancel?: (e: Event) => void;
+  cancelCallback?: () => void;
   onCopyCallback: () => void;
   urls: {
     delete: string;
@@ -250,7 +250,7 @@ export interface EditSAMLConnectionProps {
   excludeFields?: Array<keyof SAMLSSOConnection>;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
-  onCancel?: (e: Event) => void;
+  cancelCallback?: () => void;
   onCopyCallback: () => void;
   urls: {
     delete: string;
