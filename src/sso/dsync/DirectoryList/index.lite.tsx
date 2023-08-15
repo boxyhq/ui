@@ -1,12 +1,13 @@
 import { useStore, Show, onMount, For } from '@builder.io/mitosis';
-import type { Directory, DirectorySyncProviders } from '../types';
+import type { Directory } from '../types';
 import Loading from '../../../shared/Loading/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';
 import type { DirectoryListProps } from '../types';
 import Badge from '../../../shared/Badge/index.lite';
 import IconButton from '../../../shared/IconButton/index.lite';
 import PencilIcon from '../../../shared/icons/PencilIcon.lite';
-import EyeIcon from '../../../shared/icons/EyeIcon.lite';
+import defaultClasses from './index.module.css';
+import cssClassAssembler from '../../utils/cssClassAssembler';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
@@ -21,6 +22,14 @@ export default function DirectoryList(props: DirectoryListProps) {
     directoryListIsLoading: true,
     get displayTenantProduct() {
       return props.setupLinkToken ? false : true;
+    },
+    get classes() {
+      return {
+        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
+        table: cssClassAssembler(props.classNames?.table, defaultClasses.table),
+        tableHead: cssClassAssembler(props.classNames?.tableHead, defaultClasses.tableHead),
+        tableData: cssClassAssembler(props.classNames?.tableData, defaultClasses.tableData),
+      };
     },
   });
 
@@ -54,78 +63,98 @@ export default function DirectoryList(props: DirectoryListProps) {
           <Show
             when={state.directoryListData?.length > 0}
             else={<EmptyState title='No directories found.' />}>
-            <div class='rounded border'>
-              <table class='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
+            <div class={state.classes.container}>
+              <table class={state.classes.table}>
                 <Show when={props.tableCaption}>
-                  <caption class='bg-white'>{props.tableCaption}</caption>
+                  <caption class={defaultClasses.caption}>{props.tableCaption}</caption>
                 </Show>
-                <thead class='bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400'>
-                  <tr class='hover:bg-gray-50'>
-                    <th scope='col' class='px-6 py-3'>
-                      NAME
-                    </th>
+                <thead class={defaultClasses.tableHeadContainer}>
+                  <tr>
+                    <Show when={!props.hideCols?.includes('name')}>
+                      <th scope='col' class={state.classes.tableHead}>
+                        name
+                      </th>
+                    </Show>
                     <Show when={state.displayTenantProduct}>
                       <>
-                        <th scope='col' class='px-6 py-3'>
-                          TENANT
-                        </th>
-                        <th scope='col' class='px-6 py-3'>
-                          PRODUCT
-                        </th>
+                        <Show when={!props.hideCols?.includes('tenant')}>
+                          <th scope='col' class={state.classes.tableHead}>
+                            tenant
+                          </th>
+                        </Show>
+                        <Show when={!props.hideCols?.includes('product')}>
+                          <th scope='col' class={state.classes.tableHead}>
+                            product
+                          </th>
+                        </Show>
                       </>
                     </Show>
-                    <th scope='col' class='px-6 py-3'>
-                      TYPE
-                    </th>
-                    <th scope='col' class='px-6 py-3'>
-                      STATUS
-                    </th>
-                    <th scope='col' class='px-6 py-3'>
-                      ACTIONS
-                    </th>
+                    <Show when={!props.hideCols?.includes('type')}>
+                      <th scope='col' class={state.classes.tableHead}>
+                        type
+                      </th>
+                    </Show>
+                    <Show when={!props.hideCols?.includes('status')}>
+                      <th scope='col' class={state.classes.tableHead}>
+                        status
+                      </th>
+                    </Show>
+                    <Show when={!props.hideCols?.includes('actions')}>
+                      <th scope='col' class={state.classes.tableHead}>
+                        actions
+                      </th>
+                    </Show>
                   </tr>
                 </thead>
                 <tbody>
                   <Show when={state.directoryListData}>
                     <For each={state.directoryListData}>
                       {(directory) => (
-                        <tr
-                          key={directory.id}
-                          class='border-b bg-white last:border-b-0 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800'>
-                          <td class='whitespace-nowrap px-6 py-3 text-sm text-gray-500 dark:text-gray-400'>
-                            {directory.name}
-                          </td>
+                        <tr key={directory.id} class={defaultClasses.tableRow}>
+                          <Show when={!props.hideCols?.includes('name')}>
+                            <td class={defaultClasses.tableDataItem}>{directory.name}</td>
+                          </Show>
                           <Show when={state.displayTenantProduct}>
                             <>
-                              <td class='px-6'>{directory.tenant}</td>
-                              <td class='px-6'>{directory.product}</td>
+                              <Show when={!props.hideCols?.includes('tenant')}>
+                                <td class={state.classes.tableData}>{directory.tenant}</td>
+                              </Show>
+                              <Show when={!props.hideCols?.includes('product')}>
+                                <td class={state.classes.tableData}>{directory.product}</td>
+                              </Show>
                             </>
                           </Show>
                           <Show when={state.providers}>
-                            <td class='px-6'>{state.providers?.[directory.type]}</td>
-                          </Show>
-                          <td class='px-6'>
-                            <Show
-                              when={directory.deactivated}
-                              else={
-                                <Badge color='black' size='sm'>
-                                  Active
-                                </Badge>
-                              }>
-                              <Badge color='red' size='sm'>
-                                Inactive
-                              </Badge>
+                            <Show when={!props.hideCols?.includes('type')}>
+                              <td class={state.classes.tableData}>{state.providers?.[directory.type]}</td>
                             </Show>
-                          </td>
-                          <td class='px-6'>
-                            <span class='inline-flex items-baseline'>
-                              <IconButton
-                                Icon={PencilIcon}
-                                iconClasses=''
-                                data-testid='edit'
-                                onClick={() => props.onActionClick()}></IconButton>
-                            </span>
-                          </td>
+                          </Show>
+                          <Show when={!props.hideCols?.includes('status')}>
+                            <td class={state.classes.tableData}>
+                              <Show
+                                when={directory.deactivated}
+                                else={
+                                  <Badge color='black' size='sm'>
+                                    Active
+                                  </Badge>
+                                }>
+                                <Badge color='red' size='sm'>
+                                  Inactive
+                                </Badge>
+                              </Show>
+                            </td>
+                          </Show>
+                          <Show when={!props.hideCols?.includes('actions')}>
+                            <td class={state.classes.tableData}>
+                              <span class={defaultClasses.span}>
+                                <IconButton
+                                  Icon={PencilIcon}
+                                  iconClasses=''
+                                  data-testid='edit'
+                                  onClick={() => props.onActionClick()}></IconButton>
+                              </span>
+                            </td>
+                          </Show>
                         </tr>
                       )}
                     </For>
