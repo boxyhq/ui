@@ -69,3 +69,8 @@ export interface LinkProps {
   linkText: string;
   variant?: 'primary' | 'button';
 }
+
+export interface LoadingContainerProps {
+  children?: any;
+  isBusy: boolean;
+}
