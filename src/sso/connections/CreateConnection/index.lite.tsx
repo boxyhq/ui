@@ -29,7 +29,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
     handleNewConnectionTypeChange(event: Event) {
       state.newConnectionType = (event.target as HTMLInputElement).value;
     },
-    onCopyCallback() {
+    copyDoneCallback() {
       console.log(`copied to clipboard`);
     },
   });
@@ -42,7 +42,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             <InputWithCopyButton
               text={props.idpEntityID || ''}
               label='IdP Entity ID'
-              onCopyCallback={() => state.onCopyCallback()}
+              copyDoneCallback={state.copyDoneCallback}
             />
           </div>
         </div>
@@ -79,21 +79,21 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         </fieldset>
         <Show when={state.connectionIsSAML}>
           <CreateSAMLConnection
-            urls={props.componentProps.saml.urls}
+            urls={props.componentProps.saml.urls!}
             excludeFields={props.componentProps.saml.excludeFields}
             classNames={props.componentProps.saml.classNames}
             variant={props.componentProps.saml.variant}
-            errorCallback={props.componentProps.saml.errorCallback}
-            successCallback={props.componentProps.saml.successCallback}></CreateSAMLConnection>
+            errorCallback={props.componentProps.saml.errorCallback!}
+            successCallback={props.componentProps.saml.successCallback!}></CreateSAMLConnection>
         </Show>
         <Show when={state.connectionIsOIDC}>
           <CreateOIDCConnection
-            urls={props.componentProps.oidc.urls}
+            urls={props.componentProps.oidc.urls!}
             excludeFields={props.componentProps.oidc.excludeFields}
             classNames={props.componentProps.oidc.classNames}
             variant={props.componentProps.oidc.variant}
-            errorCallback={props.componentProps.oidc.errorCallback}
-            successCallback={props.componentProps.oidc.successCallback}></CreateOIDCConnection>
+            errorCallback={props.componentProps.oidc.errorCallback!}
+            successCallback={props.componentProps.oidc.successCallback!}></CreateOIDCConnection>
         </Show>
       </div>
     </div>

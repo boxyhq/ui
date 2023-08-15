@@ -32,7 +32,7 @@ export interface CreateConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   cancelCallback?: () => void;
-  variant: 'basic' | 'advanced';
+  variant?: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   urls: {
     save: string;

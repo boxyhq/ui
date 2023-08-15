@@ -28,7 +28,7 @@ export default function InputWithCopyButton(props: PropsType) {
         <label class={state.classes.label} for={state.id}>
           {props.label}
         </label>
-        <CopyToClipboardButton copyDoneCallback={() => props.copyDoneCallback()} text={props.text} />
+        <CopyToClipboardButton copyDoneCallback={props.copyDoneCallback} text={props.text} />
       </div>
       <input id={state.id} type='text' value={props.text} readOnly class={state.classes.input} />
     </div>
