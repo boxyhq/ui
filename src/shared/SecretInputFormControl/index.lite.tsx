@@ -9,7 +9,7 @@ import defaultStyles from './index.module.css';
 export default function SecretInputFormControl(props: SecretInputFormControlProps) {
   const state = useStore({
     isSecretShown: false,
-    handleChange: (event: Event) => {
+    onChange: (event: Event) => {
       props.handleChange(event);
     },
   });
@@ -38,7 +38,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
         required={props.required}
         maxLength={props.maxLength}
         readOnly={props.readOnly}
-        onChange={(event) => state.handleChange(event)}
+        onChange={(event) => state.onChange(event)}
         class={defaultStyles.input}
       />
     </div>
