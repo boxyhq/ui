@@ -33,13 +33,19 @@ export interface DeleteDirectoryProps {
 
 export interface DirectoryListProps {
   tableCaption?: string;
+  hideCols?: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   setupLinkToken?: string;
   urls: {
     getDirectoriesUrl: string;
     useDirectoryProviderUrl: string;
   };
   onActionClick: () => void;
-  onViewClick: () => void;
+  classNames?: {
+    container?: string;
+    table?: string;
+    tableHead?: string;
+    tableData?: string;
+  };
 }
 
 export type ApiSuccess<T> = { data: T; pageToken?: string };
