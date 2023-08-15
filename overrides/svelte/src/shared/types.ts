@@ -52,6 +52,7 @@ export interface ToggleSwitchProps {
 }
 
 export interface CardProps {
+  arrangement?: 'horizontal' | 'vertical';
   children?: any;
   title: string;
   variant: 'info' | 'success';
