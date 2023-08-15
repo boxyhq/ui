@@ -26,7 +26,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
             iconClasses={defaultStyles.icon}
             onClick={() => (state.isSecretShown = !state.isSecretShown)}
           />
-          <CopyToClipboardButton text={props.value} onCopyCallback={props.onCopyCallback} />
+          <CopyToClipboardButton text={props.value} onCopyCallback={() => props.onCopyCallback()} />
         </div>
       </div>
       <input
@@ -38,7 +38,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
         required={props.required}
         maxLength={props.maxLength}
         readOnly={props.readOnly}
-        onInput={(event) => state.handleChange(event)}
+        onChange={(event) => state.handleChange(event)}
         class={defaultStyles.input}
       />
     </div>

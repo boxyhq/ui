@@ -29,7 +29,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
     handleNewConnectionTypeChange(event: Event) {
       state.newConnectionType = (event.target as HTMLInputElement).value;
     },
-    toastSuccessCallback() {
+    onCopyCallback() {
       console.log(`copied to clipboard`);
     },
   });
@@ -42,7 +42,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             <InputWithCopyButton
               text={props.idpEntityID || ''}
               label='IdP Entity ID'
-              toastSuccessCallback={state.toastSuccessCallback}
+              onCopyCallback={() => state.onCopyCallback()}
             />
           </div>
         </div>

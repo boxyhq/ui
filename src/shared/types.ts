@@ -39,12 +39,6 @@ export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
 }
 
-// export interface ButtonProps {
-//   children?: string;
-//   label?: string;
-//   onClick: () => void;
-// }
-
 export interface SecretInputFormControlProps {
   label: string;
   value: string;
