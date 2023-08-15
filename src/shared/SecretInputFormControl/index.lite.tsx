@@ -26,7 +26,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
             iconClasses={defaultStyles.icon}
             onClick={() => (state.isSecretShown = !state.isSecretShown)}
           />
-          <CopyToClipboardButton text={props.value} onCopyCallback={() => props.onCopyCallback()} />
+          <CopyToClipboardButton text={props.value} copyDoneCallback={props.copyDoneCallback} />
         </div>
       </div>
       <input

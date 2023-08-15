@@ -228,7 +228,7 @@ export interface EditOIDCConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   cancelCallback?: () => void;
-  onCopyCallback: () => void;
+  copyDoneCallback: () => void;
   urls: {
     delete: string;
     patch: string;
@@ -251,7 +251,7 @@ export interface EditSAMLConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   cancelCallback?: () => void;
-  onCopyCallback: () => void;
+  copyDoneCallback: () => void;
   urls: {
     delete: string;
     patch: string;
@@ -269,6 +269,7 @@ export interface EditSAMLConnectionProps {
 
 export interface ConnectionsWrapperProp {
   classNames?: { button?: string };
+  copyDoneCallback: () => void;
   componentProps: {
     connectionList: Omit<ConnectionListProps, 'onActionClick'>;
     createSSOConnection: Partial<CreateSSOConnectionProps>;

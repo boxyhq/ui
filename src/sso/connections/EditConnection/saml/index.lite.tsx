@@ -358,7 +358,10 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                     <label for='clientID' class={state.classes.label}>
                       Client ID
                     </label>
-                    <CopyToClipboardButton text={props.connection.clientID} onCopyCallback={() => {}} />
+                    <CopyToClipboardButton
+                      text={props.connection.clientID}
+                      copyDoneCallback={props.copyDoneCallback}
+                    />
                   </div>
                   <input
                     class={state.classes.input}
@@ -375,7 +378,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   value={props.connection.clientSecret}
                   readOnly={true}
                   required={true}
-                  onCopyCallback={() => props.onCopyCallback()}
+                  copyDoneCallback={props.copyDoneCallback}
                   handleChange={state.handleChange}
                 />
               </div>
