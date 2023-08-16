@@ -48,6 +48,44 @@ export interface DirectoryListProps {
   };
 }
 
+export interface EditDirectoryProps {
+  urls: {
+    put: string;
+    get: string;
+    patch: string;
+    delete: string;
+  };
+  errorCallback: (errMsg: string) => void;
+  successCallback: (successMsg: string) => void;
+  deleteCallback: () => void;
+  cb: () => void;
+  classNames?: {
+    label?: string;
+    input?: string;
+    container?: string;
+    formDiv?: string;
+    fieldsDiv?: string;
+    btn?: string;
+  };
+}
+
+export interface ToggleDirectoryStatusProps {
+  connection: Directory | null;
+  urls: {
+    patch: string;
+  };
+  errorCallback: (errMsg: string) => void;
+  successCallback: (successMsg: string) => void;
+  classNames?: {
+    container?: string;
+    heading?: string;
+    toggle?: string;
+    displayMessage?: string;
+    confirmBtn?: string;
+    cancelBtn?: string;
+  };
+}
+
 export type ApiSuccess<T> = { data: T; pageToken?: string };
 
 export interface ApiError extends Error {
