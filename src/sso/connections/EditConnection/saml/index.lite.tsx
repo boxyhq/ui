@@ -14,6 +14,7 @@ import Card from '../../../../shared/Card/index.lite';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
 import CopyToClipboardButton from '../../../../shared/ClipboardButton/index.lite';
+import Separator from '../../../../shared/Separator/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -255,6 +256,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 value={state.samlConnection.rawMetadata}
               />
             </div>
+            <Separator text='OR' />
+            <Spacer y={6} />
             <div class={defaultClasses.field}>
               <div class={defaultClasses.labelWithAction}>
                 <label for='metadataUrl' class={state.classes.label}>

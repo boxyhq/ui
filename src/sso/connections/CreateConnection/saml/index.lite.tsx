@@ -5,6 +5,7 @@ import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
+import Separator from '../../../../shared/Separator/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -229,6 +230,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             placeholder='Paste the raw XML here'
           />
         </div>
+        <Separator text='OR' />
+        <Spacer y={6} />
         <div class={state.classes.fieldContainer}>
           <div class={defaultClasses.labelWithAction}>
             <label for='metadataUrl' class={state.classes.label}>

@@ -10,10 +10,7 @@
 .fieldContainer {
   display: flex;
   flex-direction: column;
-}
-
-.fieldContainer + .fieldContainer {
-  margin-top: 1rem;
+  margin-bottom: 24px;
 }
 
 .label {
