@@ -1,2 +1,1 @@
-export { CopyToClipboardButton } from './CopyToClipboardButton/index';
-export { InputWithCopyButton } from './InputWithCopyButton/index';
+export const BOXYHQ_UI_SDK_SHARED = '@boxyhq/angular-ui/shared';
