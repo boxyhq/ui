@@ -87,6 +87,7 @@ jobs:
     strategy:
       matrix:
         framework: [react, angular, vue, vue2, svelte]
+      fail-fast: false
     defaults:
       run:
         working-directory: ${{ matrix.framework }}
