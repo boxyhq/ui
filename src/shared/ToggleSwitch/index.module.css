@@ -1,3 +1,5 @@
+@import url('../common.module.css');
+
 /** https://kittygiraudel.com/2021/04/05/an-accessible-toggle */
 .toggle {
   display: inline-flex;

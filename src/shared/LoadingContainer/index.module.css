@@ -1,0 +1,41 @@
+@import url('../common.module.css');
+
+.container [aria-busy='true'],
+.spinner[aria-hidden='true'] {
+  display: none;
+}
+
+.spinner {
+  cursor: progress;
+}
+
+.spinner::after {
+  /* 2. Grid Positioning */
+  grid-area: content;
+  align-self: center;
+  justify-self: center;
+
+  /* 3. Indicator Styles */
+  content: '';
+  margin: 3rem auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: block;
+  border: 0.3rem solid var(--primary-color);
+  border-left-color: transparent;
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.1s;
+  pointer-events: none;
+  animation: loading-circle 1s ease-in-out infinite;
+}
+
+@keyframes loading-circle {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner[aria-hidden='false']::after {
+  opacity: 1;
+}

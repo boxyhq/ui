@@ -1,3 +1,9 @@
+@import url('../common.module.css');
+
+.btn {
+  /* TODO */
+}
+
 .icon {
   --s: 218 19% 23%;
   height: 1.25rem;

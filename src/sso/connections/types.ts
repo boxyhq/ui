@@ -1,10 +1,12 @@
 export interface ConnectionListProps {
+  children?: any;
   tableCaption?: string;
   hideCols?: ('provider' | 'tenant' | 'product' | 'idp_type' | 'status' | 'actions')[];
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;
-  onActionClick: () => void;
+  onListFetchComplete?: (connections: ConnectionData<any>[]) => void;
+  onActionClick: (e: ConnectionData<any>) => void;
   /**
    * Classnames for each inner components that make up the component.
    */
@@ -29,7 +31,8 @@ export interface ConnectionListProps {
 export interface CreateConnectionProps {
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
-  variant: 'basic' | 'advanced';
+  cancelCallback?: () => void;
+  variant?: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   urls: {
     save: string;
@@ -64,8 +67,8 @@ export interface CreateSSOConnectionProps {
     label?: string;
   };
   componentProps: {
-    saml: CreateConnectionProps;
-    oidc: CreateConnectionProps;
+    saml: Partial<CreateConnectionProps>;
+    oidc: Partial<CreateConnectionProps>;
   };
 }
 
@@ -171,6 +174,8 @@ export interface OIDCSSORecord extends SSOConnection {
   deactivated?: boolean;
 }
 
+export type ConnectionData<T extends SAMLSSORecord | OIDCSSORecord> = T & { isSystemSSO?: boolean };
+
 declare namespace classNames {
   type Value = string | number | boolean | undefined | null;
   type Mapping = Record<string, unknown>;
@@ -219,11 +224,12 @@ export interface EditConnectionProps {
 export interface EditOIDCConnectionProps {
   connection: OIDCSSORecord;
   variant: 'basic' | 'advanced';
-  excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
+  excludeFields?: Array<keyof OIDCSSOConnection>;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
+  cancelCallback?: () => void;
+  copyDoneCallback: () => void;
   urls: {
-    save: string;
     delete: string;
     patch: string;
   };
@@ -234,22 +240,19 @@ export interface EditOIDCConnectionProps {
     fieldsDiv?: string;
     label?: string;
     input?: string;
-    textarea?: string;
     section?: string;
-    saveBtn?: string;
-    deleteBtn?: string;
-    outlineBtn?: string;
   };
 }
 
 export interface EditSAMLConnectionProps {
   connection: SAMLSSORecord;
   variant: 'basic' | 'advanced';
-  excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
+  excludeFields?: Array<keyof SAMLSSOConnection>;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
+  cancelCallback?: () => void;
+  copyDoneCallback: () => void;
   urls: {
-    save: string;
     delete: string;
     patch: string;
   };
@@ -260,10 +263,20 @@ export interface EditSAMLConnectionProps {
     fieldsDiv?: string;
     label?: string;
     input?: string;
-    textarea?: string;
     section?: string;
-    saveBtn?: string;
-    deleteBtn?: string;
-    outlineBtn?: string;
+  };
+}
+
+export interface ConnectionsWrapperProp {
+  classNames?: { button?: string };
+  copyDoneCallback: () => void;
+  componentProps: {
+    connectionList: Omit<ConnectionListProps, 'onActionClick'>;
+    createSSOConnection: Partial<CreateSSOConnectionProps>;
+    editOIDCConnection: Partial<EditOIDCConnectionProps>;
+    editSAMLConnection: Partial<EditSAMLConnectionProps>;
+  };
+  urls?: {
+    spMetadata?: string;
   };
 }

@@ -5,3 +5,4 @@ export { default as CreateOIDCConnection } from './connections/CreateConnection/
 export { default as ConnectionList } from './connections/ConnectionList/index.lite';
 export { default as EditOIDCConnection } from './connections/EditConnection/oidc/index.lite';
 export { default as EditSAMLConnection } from './connections/EditConnection/saml/index.lite';
+export { default as ConnectionsWrapper } from './connections/ConnectionsWrapper/index.lite';

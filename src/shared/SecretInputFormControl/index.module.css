@@ -35,7 +35,3 @@
   background-color: #fff;
   border-radius: 0.25rem;
 }
-
-.input:read-only {
-  background-color: rgb(249 250 251);
-}
