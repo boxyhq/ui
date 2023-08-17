@@ -25,6 +25,13 @@ export interface BadgeProps {
   ariaLabel?: string;
 }
 
+export interface ButtonProps {
+  name: string;
+  onClick?: (event: any) => void;
+  type?: 'submit' | 'reset' | 'button';
+  variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
+}
+
 export interface SecretInputFormControlProps {
   label: string;
   value: string;
@@ -33,8 +40,8 @@ export interface SecretInputFormControlProps {
   required: boolean;
   maxLength?: string;
   readOnly: boolean;
-  successCallback: () => void;
-  cb: (event: Event) => void;
+  copyDoneCallback: () => void;
+  handleChange: (event: Event) => void;
 }
 
 export interface ToggleSwitchProps {
@@ -42,4 +49,22 @@ export interface ToggleSwitchProps {
   checked: boolean;
   disabled: boolean;
   onChange: (event: Event) => void;
+}
+
+export interface CardProps {
+  arrangement?: 'horizontal' | 'vertical';
+  children?: any;
+  title: string;
+  variant: 'info' | 'success';
+}
+
+export interface LinkProps {
+  href: string;
+  linkText: string;
+  variant?: 'primary' | 'button';
+}
+
+export interface LoadingContainerProps {
+  children?: any;
+  isBusy: boolean;
 }

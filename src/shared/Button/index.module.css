@@ -1,0 +1,53 @@
+@import url('../common.module.css');
+
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  background: var(--primary-color);
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    background 250ms ease-in-out,
+    transform 150ms ease;
+  appearance: none;
+}
+
+.btn.primary:hover,
+.btn.primary:focus-visible {
+  background: var(--primary-hover);
+}
+
+.btn:focus-visible {
+  --ring-offset-shadow: 0 0 0 var(--ring-offset-width) var(--ring-offset-color);
+  --ring-shadow: 0 0 0 calc(2px + var(--ring-offset-width)) var(--ring-color);
+  box-shadow:
+    var(--ring-offset-shadow),
+    var(--ring-shadow),
+    0 0 0 #0000;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.btn:active {
+  background: var(--primary-active);
+  transform: scale(0.99);
+}
+
+.secondary {
+  background: var(--secondary-color);
+  color: var(--secondary-foreground-color);
+}
+.outline {
+  background: transparent;
+  color: inherit;
+  border: 1px solid var(--secondary-color);
+}
+.destructive {
+  background: #ef4444;
+}

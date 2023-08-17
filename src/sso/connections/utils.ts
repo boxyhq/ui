@@ -59,12 +59,12 @@ export const deleteConnection = async ({
   clientSecret: string;
   callback: (res: Response) => Promise<void>;
 }) => {
-  const res = await fetch(url, {
+  const queryParams = new URLSearchParams({
+    clientID: clientId,
+    clientSecret,
+  });
+  const res = await fetch(`${url}?${queryParams}`, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      body: JSON.stringify({ clientID: clientId, clientSecret: clientSecret }),
-    },
   });
   callback(res);
 };

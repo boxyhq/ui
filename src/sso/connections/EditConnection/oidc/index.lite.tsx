@@ -11,6 +11,8 @@ import type {
 import { saveConnection, deleteConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
+import Button from '../../../../shared/Button/index.lite';
+import Spacer from '../../../../shared/Spacer/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -52,11 +54,11 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
         fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
-        textarea: cssClassAssembler(props.classNames?.textarea, defaultClasses.textarea),
+        textarea: cssClassAssembler(
+          props.classNames?.input,
+          defaultClasses.input + ' ' + defaultClasses.textarea
+        ),
         section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
-        saveBtn: cssClassAssembler(props.classNames?.saveBtn, defaultClasses.saveBtn),
-        deleteBtn: cssClassAssembler(props.classNames?.deleteBtn, defaultClasses.deleteBtn),
-        outlineBtn: cssClassAssembler(props.classNames?.outlineBtn, defaultClasses.outlineBtn),
       };
     },
     isExcluded(fieldName: keyof OIDCSSOConnection) {
@@ -97,7 +99,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       });
 
       saveConnection({
-        url: props.urls.save,
+        url: props.urls.patch,
+        isEditView: true,
         formObj: formObj as FormObj,
         connectionIsOIDC: true,
         callback: async (rawResponse: any) => {
@@ -278,8 +281,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                       placeholder=''
                       required={true}
                       readOnly={false}
-                      successCallback={props.successCallback}
-                      cb={state.handleChange}
+                      copyDoneCallback={props.copyDoneCallback}
+                      handleChange={state.handleChange}
                     />
                     <Show when={state.hasDiscoveryUrl}>
                       <div class={defaultClasses.field}>
@@ -453,15 +456,22 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                       id='clientSecret'
                       required={true}
                       readOnly={true}
-                      successCallback={props.successCallback}
-                      cb={state.handleChange}
+                      copyDoneCallback={props.copyDoneCallback}
+                      handleChange={state.handleChange}
                     />
                   </div>
                 </div>
-                <div class={defaultClasses.saveDiv}>
-                  <button type='submit' class={state.classes.saveBtn}>
-                    Save Changes
-                  </button>
+                <Spacer y={4} />
+                <div class={defaultClasses.formAction}>
+                  <Show when={typeof props.cancelCallback === 'function'}>
+                    <Button
+                      type='button'
+                      name='Cancel'
+                      onClick={(event) => props.cancelCallback?.()}
+                      variant='outline'
+                    />
+                  </Show>
+                  <Button type='submit' name='Save' />
                 </div>
               </div>
             </div>
@@ -474,27 +484,26 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   </p>
                 </div>
                 <Show when={!state.displayDeletionConfirmation}>
-                  <button
-                    type='button'
+                  <Button
+                    variant='destructive'
+                    name='Delete'
                     onClick={(event) => state.askForConfirmation()}
-                    class={state.classes.deleteBtn}>
-                    Delete
-                  </button>
+                  />
                 </Show>
                 <Show when={state.displayDeletionConfirmation}>
                   <div class={defaultClasses.confirmationDiv}>
-                    <h1>
+                    <p>
                       Are you sure you want to delete the Connection? This action cannot be undone and will
                       permanently delete the Connection.
-                    </h1>
-                    <button
-                      class={state.classes.deleteBtn}
-                      onClick={(event) => state.deleteSSOConnection(event)}>
-                      Confirm
-                    </button>
-                    <button class={state.classes.outlineBtn} onClick={(event) => state.onCancel()}>
-                      Cancel
-                    </button>
+                    </p>
+                    <div class={defaultClasses.promptAction}>
+                      <Button
+                        variant='destructive'
+                        name='Confirm'
+                        onClick={(event) => state.deleteSSOConnection(event)}
+                      />
+                      <Button variant='outline' name='Cancel' onClick={(event) => state.onCancel()} />
+                    </div>
                   </div>
                 </Show>
               </section>
