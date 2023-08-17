@@ -13,7 +13,7 @@ import SecretInputFormControl from '../../../../shared/SecretInputFormControl/in
 import Card from '../../../../shared/Card/index.lite';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
-import CopyToClipboardButton from '../../../../shared/ClipboardButton/index.lite';
+import CopyToClipboardButton from '../../../../shared/CopyToClipboardButton/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
 
 const DEFAULT_VALUES = {
