@@ -1,0 +1,33 @@
+@import url(../common.module.css);
+.a {
+  text-decoration: underline;
+  outline: none;
+}
+.a:link {
+  color: var(--primary-color-950);
+}
+
+.a:visited {
+  color: var(--primary-color-500);
+}
+
+.a:focus {
+  text-decoration: none;
+  background: var(--primary-color-200);
+}
+
+.a:hover {
+  text-decoration: none;
+  background: var(--primary-color-100);
+}
+
+.a:active {
+  background: var(--primary-color-950);
+  color: var(--primary-color-50);
+}
+
+.button {
+  border: 1px solid var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}

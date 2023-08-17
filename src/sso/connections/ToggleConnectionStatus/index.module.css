@@ -14,6 +14,11 @@
 .displayMessage {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+}
+
+.displayMessage > div {
+  display: flex;
 }
 
 .cancelBtn {

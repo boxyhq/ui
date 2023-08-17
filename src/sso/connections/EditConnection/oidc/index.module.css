@@ -1,3 +1,4 @@
+@import url('../../../../shared/common.module.css');
 .container {
   min-width: 448px;
   background-color: white;
@@ -52,18 +53,26 @@
 
 .input {
   width: 100%;
-  border: 1px solid rgba(24, 26, 42, 0.2);
-  padding: 8px 16px;
-  height: 48px;
-  line-height: 24px;
-  border-radius: 4px;
-  flex-shrink: 1;
+  height: 3rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  line-height: 2;
+  line-height: 1.5rem;
+  border: 1px solid var(--secondary-foreground-color);
+  background-color: #fff;
+  border-radius: var(--border-radius);
+}
+
+.input:focus-visible {
+  border-color: var(--secondary-color);
+  outline: 2px solid var(--primary-color-700);
+  outline-offset: 2px;
 }
 
 .textarea {
   width: 100%;
   height: 96px;
-  border: 1px solid rgba(24, 26, 42, 0.2);
+  border: 1px solid var(--secondary-foreground-color);
   min-height: 48px;
   padding: 8px 16px;
   white-space: pre;
@@ -98,69 +107,12 @@
   width: 50%;
 }
 
-.saveDiv {
-  display: flex;
-  width: 100%;
-  padding-top: 24px;
-  padding-bottom: 24px;
-}
-
-.saveBtn {
-  color: white;
-  cursor: pointer;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  text-transform: none;
-  text-align: center;
-  border-radius: 4px;
-  background-color: rgb(54, 211, 153);
-  border: 1px solid rgb(54, 211, 153);
-  padding: 0px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  height: 48px;
-  line-height: 14px;
-}
-
-.deleteBtn {
-  color: white;
-  cursor: pointer;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  text-transform: none;
-  text-align: center;
-  background-color: rgb(248, 114, 114);
-  border: 1px solid rgb(248, 114, 114);
-  border-radius: 4px;
-  padding: 0px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  height: 48px;
-  line-height: 14px;
-}
-
-.outlineBtn {
-  color: black;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 4px;
-  cursor: pointer;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  text-transform: none;
-  text-align: center;
-  padding: 0px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  height: 48px;
-  line-height: 14px;
-  margin-left: 30px;
-}
-
 .hint {
   font-size: 0.75rem;
   line-height: 2rem;
+}
+
+.promptAction {
+  display: flex;
+  gap: 0.5rem;
 }
