@@ -151,13 +151,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           }}
         /> */}
       </Show>
-      <Spacer y={5} />
-      {/* <Show when={!state.connectionsAdded && state.view === 'LIST'}>
-        <div class={defaultClasses.status}>
-          <p>Allow team members to login using an Identity Provider.</p>
-          <Button onClick={(event) => (state.view = 'CREATE')} name='Configure' />
-        </div>
-      </Show> */}
     </div>
   );
 }
