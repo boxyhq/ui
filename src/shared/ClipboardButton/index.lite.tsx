@@ -1,10 +1,11 @@
 import { useStore } from '@builder.io/mitosis';
 import IconButton from '../IconButton/index.lite';
 import CopytoClipboardIcon from '../icons/CopytoClipboardIcon.lite';
+import defaultStyles from './index.module.css';
 
 interface PropsType {
   text: string;
-  toastSuccessCallback: () => void;
+  copyDoneCallback: () => void;
 }
 
 export default function CopyToClipboardButton(props: PropsType) {
@@ -14,14 +15,14 @@ export default function CopyToClipboardButton(props: PropsType) {
     },
     onClick: () => {
       state.copyToClipboard(props.text);
-      props.toastSuccessCallback();
+      props.copyDoneCallback();
     },
   });
   return (
     <IconButton
       label='Copy'
       Icon={CopytoClipboardIcon}
-      iconClasses='hover:text-primary'
+      iconClasses={defaultStyles.icon}
       onClick={() => state.onClick()}
     />
   );

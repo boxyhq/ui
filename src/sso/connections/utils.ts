@@ -47,3 +47,24 @@ export const saveConnection = async ({
   });
   callback(res);
 };
+
+export const deleteConnection = async ({
+  url,
+  clientId,
+  clientSecret,
+  callback,
+}: {
+  url: string;
+  clientId: string;
+  clientSecret: string;
+  callback: (res: Response) => Promise<void>;
+}) => {
+  const queryParams = new URLSearchParams({
+    clientID: clientId,
+    clientSecret,
+  });
+  const res = await fetch(`${url}?${queryParams}`, {
+    method: 'DELETE',
+  });
+  callback(res);
+};

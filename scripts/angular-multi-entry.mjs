@@ -3,7 +3,7 @@ import { rimraf } from 'rimraf';
 
 const BASE = `angular/projects/boxyhq/angular-ui`;
 const TMP = `${BASE}/tmp/src`;
-const ENTRYPOINTS = ['sso'];
+const ENTRYPOINTS = ['sso', 'shared'];
 
 // Rename all .module.css files to .css files
 for (const ep of ENTRYPOINTS) {

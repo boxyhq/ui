@@ -32,28 +32,46 @@ export interface ModalProps {
   children?: any;
 }
 
-export interface ConfirmationModalProps {
-  visible: boolean;
-  title: string;
-  description: string;
-  onConfirm: () => void | Promise<void>;
-  onCancel: () => void;
-  actionButtonText?: string;
-  overrideDeleteButton?: boolean;
-  dataTestId?: string;
-  translation?: any;
-}
-
-export interface ButtonBaseProps {
-  children?: any;
-  color?: string;
-  iconClasses?: string;
-  label?: string;
-  onClick: (event: any) => void;
-}
-
 export interface ButtonProps {
-  children?: string;
-  label?: string;
-  onClick: () => void;
+  name: string;
+  onClick?: (event: any) => void;
+  type?: 'submit' | 'reset' | 'button';
+  variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
+}
+
+export interface SecretInputFormControlProps {
+  label: string;
+  value: string;
+  id: string;
+  placeholder?: string;
+  required: boolean;
+  maxLength?: string;
+  readOnly: boolean;
+  copyDoneCallback: () => void;
+  handleChange: (event: Event) => void;
+}
+
+export interface ToggleSwitchProps {
+  label: string;
+  checked: boolean;
+  disabled: boolean;
+  onChange: (event: Event) => void;
+}
+
+export interface CardProps {
+  arrangement?: 'horizontal' | 'vertical';
+  children?: any;
+  title: string;
+  variant: 'info' | 'success';
+}
+
+export interface LinkProps {
+  href: string;
+  linkText: string;
+  variant?: 'primary' | 'button';
+}
+
+export interface LoadingContainerProps {
+  children?: any;
+  isBusy: boolean;
 }

@@ -1,0 +1,37 @@
+@import url('../common.module.css');
+
+.container {
+  margin-top: 1.25rem;
+  display: flex;
+  border: 1px solid var(--primary-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.vertical {
+  flex-direction: column;
+}
+
+.title {
+  padding: 0.75rem;
+  font-weight: 500;
+  color: var(--primary-foreground-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.body {
+  padding: 0.75rem;
+  flex: 1;
+}
+
+.info {
+  background: #fff;
+}
+
+.success {
+  background: var(--primary-color-50);
+}

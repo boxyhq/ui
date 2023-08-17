@@ -36,8 +36,6 @@
   margin-left: 4px;
   font-size: 14px;
   line-height: 20px;
-  --tw-text-opacity: 1;
-  color: hsl(var(--bc) / var(--tw-text-opacity));
 }
 
 .radio {
