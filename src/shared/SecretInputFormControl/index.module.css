@@ -35,3 +35,9 @@
   background-color: #fff;
   border-radius: 0.25rem;
 }
+
+.input:focus-visible {
+  border-color: var(--secondary-color);
+  outline: 2px solid var(--primary-color-700);
+  outline-offset: 2px;
+}
