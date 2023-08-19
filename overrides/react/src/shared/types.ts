@@ -34,7 +34,7 @@ export interface ModalProps {
 
 export interface ButtonProps {
   name: string;
-  onClick?: (event: any) => void;
+  handleClick?: (event: any) => void;
   type?: 'submit' | 'reset' | 'button';
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
 }
@@ -74,4 +74,18 @@ export interface LinkProps {
 export interface LoadingContainerProps {
   children?: any;
   isBusy: boolean;
+}
+
+export interface TableProps {
+  cols: string[];
+  tableCaption?: string;
+  classNames?: {
+    table?: string;
+    tableHead?: string;
+  };
+}
+
+export interface ConfirmationPromptProps {
+  promptMessge: string;
+  confirmationCallback: () => void;
 }
