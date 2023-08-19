@@ -392,7 +392,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 <Button
                   type='button'
                   name='Cancel'
-                  onClick={(event) => props.cancelCallback?.()}
+                  handleClick={(event) => props.cancelCallback?.()}
                   variant='outline'
                 />
               </Show>
@@ -410,7 +410,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   <Button
                     variant='destructive'
                     name='Delete'
-                    onClick={(event) => state.askForConfirmation()}
+                    handleClick={(event) => state.askForConfirmation()}
                   />
                 </Show>
                 <Show when={state.displayDeletionConfirmation}>
@@ -423,9 +423,9 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                       <Button
                         variant='destructive'
                         name='Confirm'
-                        onClick={(event) => state.deleteSSOConnection(event)}
+                        handleClick={(event) => state.deleteSSOConnection(event)}
                       />
-                      <Button variant='outline' name='Cancel' onClick={(event) => state.onCancel()} />
+                      <Button variant='outline' name='Cancel' handleClick={(event) => state.onCancel()} />
                     </div>
                   </div>
                 </Show>

@@ -92,9 +92,9 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
               <Button
                 variant={props.connection.deactivated ? 'primary' : 'destructive'}
                 name='Confirm'
-                onClick={(event) => state.onConfirm()}></Button>
+                handleClick={(event) => state.onConfirm()}></Button>
               <Spacer x={1.5} />
-              <Button name='Cancel' variant='outline' onClick={(event) => state.onCancel()}></Button>
+              <Button name='Cancel' variant='outline' handleClick={(event) => state.onCancel()}></Button>
             </div>
           </div>
         </Show>

@@ -274,7 +274,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             <Button
               type='button'
               name='Cancel'
-              onClick={(event) => props.cancelCallback?.()}
+              handleClick={(event) => props.cancelCallback?.()}
               variant='outline'
             />
           </Show>
