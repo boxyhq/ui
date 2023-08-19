@@ -1,0 +1,23 @@
+.table {
+  width: 100%;
+  text-align: left;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgb(107 114 128);
+}
+
+.caption {
+  background-color: white;
+}
+
+.tableHeadContainer {
+  color: rgb(55 65 81);
+  background-color: rgb(249 250 251);
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.tableHead {
+  padding: 12px 24px;
+}
