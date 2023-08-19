@@ -33,6 +33,8 @@ export interface DeleteDirectoryProps {
 
 export interface DirectoryListProps {
   tableCaption?: string;
+  cols: string[];
+  data: object[];
   hideCols?: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   setupLinkToken?: string;
   urls: {
