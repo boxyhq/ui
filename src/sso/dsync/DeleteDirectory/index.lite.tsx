@@ -3,10 +3,10 @@ import { ApiResponse } from '../types';
 import { DeleteDirectoryProps } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
+import ConfirmationPrompt from '../../../shared/ConfirmationPrompt/index.lite';
 
 export default function DeleteDirectory(props: DeleteDirectoryProps) {
   const state = useStore({
-    displayDeletionConfirmation: false,
     get classes() {
       return {
         section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
@@ -14,13 +14,7 @@ export default function DeleteDirectory(props: DeleteDirectoryProps) {
         outlineBtn: cssClassAssembler(props.classNames?.outlineBtn, defaultClasses.outlineBtn),
       };
     },
-    askForConfirmation() {
-      state.displayDeletionConfirmation = true;
-    },
-    onCancel() {
-      state.displayDeletionConfirmation = false;
-    },
-    onConfirm() {
+    promptConfirmationCallback() {
       state.deleteDirectory(props.urls.delete);
     },
     deleteDirectory(url: string) {
@@ -42,7 +36,6 @@ export default function DeleteDirectory(props: DeleteDirectoryProps) {
         }
       }
 
-      state.displayDeletionConfirmation = false;
       sendHTTPrequest(url);
     },
   });
@@ -54,30 +47,11 @@ export default function DeleteDirectory(props: DeleteDirectoryProps) {
           <h6 className={defaultClasses.sectionHeading}>Delete this directory connection</h6>
           <p className={defaultClasses.sectionPara}>All your apps using this connection will stop working.</p>
         </div>
-        <Show when={!state.displayDeletionConfirmation}>
-          <button
-            type='button'
-            onClick={(event) => state.askForConfirmation()}
-            class={state.classes.deleteBtn}>
-            Delete
-          </button>
-        </Show>
-        <Show when={state.displayDeletionConfirmation}>
-          <div class={defaultClasses.confirmationDiv}>
-            <h6>
-              Are you sure you want to delete the directory connection? This will permanently delete the
-              directory connection, users, and groups.
-            </h6>
-            <div class={defaultClasses.buttonsDiv}>
-              <button type='button' class={state.classes.deleteBtn} onClick={() => state.onConfirm()}>
-                Confirm
-              </button>
-              <button type='button' class={state.classes.outlineBtn} onClick={() => state.onCancel()}>
-                Cancel
-              </button>
-            </div>
-          </div>
-        </Show>
+        <ConfirmationPrompt
+          promptMessge=' Are you sure you want to delete the directory connection? This will permanently delete the
+              directory connection, users, and groups.'
+          confirmationCallback={state.promptConfirmationCallback}
+        />
       </section>
     </>
   );
