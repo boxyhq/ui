@@ -1,6 +1,6 @@
-import { useStore, Show, onMount, For } from '@builder.io/mitosis';
+import { useStore, Show, For, onUpdate } from '@builder.io/mitosis';
 import type { Directory } from '../types';
-import Loading from '../../../shared/Loading/index.lite';
+import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';
 import type { DirectoryListProps } from '../types';
 import Badge from '../../../shared/Badge/index.lite';
@@ -8,6 +8,7 @@ import IconButton from '../../../shared/IconButton/index.lite';
 import PencilIcon from '../../../shared/icons/PencilIcon.lite';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
+import Table from '../../../shared/Table/index.lite';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
@@ -18,6 +19,7 @@ export default function DirectoryList(props: DirectoryListProps) {
   const state = useStore({
     directoryListData: DEFAULT_VALUES.directoryListData,
     providers: DEFAULT_VALUES.providers,
+    isDirectoryListLoading: true,
     directoryListError: '',
     directoryListIsLoading: true,
     get displayTenantProduct() {
@@ -33,7 +35,7 @@ export default function DirectoryList(props: DirectoryListProps) {
     },
   });
 
-  onMount(() => {
+  onUpdate(() => {
     async function getFieldsData(directoryListUrl: string, directoryProvider: string) {
       // fetch request for obtaining directory lists data
       const directoryListResponse = await fetch(directoryListUrl);
@@ -42,6 +44,8 @@ export default function DirectoryList(props: DirectoryListProps) {
       // fetch request for obtaining directory providers data
       const directoryProvidersResponse = await fetch(directoryProvider);
       const { data: providersData } = await directoryProvidersResponse.json();
+
+      state.isDirectoryListLoading = false;
 
       state.directoryListData = listData;
       state.providers = providersData;
@@ -53,7 +57,7 @@ export default function DirectoryList(props: DirectoryListProps) {
     }
 
     getFieldsData(props.urls.getDirectoriesUrl, props.urls.useDirectoryProviderUrl);
-  });
+  }, [props.urls.getDirectoriesUrl]);
 
   return (
     <Show
@@ -163,9 +167,10 @@ export default function DirectoryList(props: DirectoryListProps) {
               </table>
             </div>
           </Show>
+          <Table cols={props.cols} />
         </div>
       }>
-      <Loading />
+      <LoadingContainer isBusy={state.isDirectoryListLoading} />
     </Show>
   );
 }
