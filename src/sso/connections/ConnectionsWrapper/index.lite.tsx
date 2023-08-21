@@ -1,4 +1,4 @@
-import { Show, useStore } from '@builder.io/mitosis';
+import { Show, onMount, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
 import type { ConnectionData, ConnectionsWrapperProp, OIDCSSORecord, SAMLSSORecord } from '../types';
 import cssClassAssembler from '../../utils/cssClassAssembler';
@@ -37,6 +37,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
+    switchToCreateView() {
+      state.view = 'CREATE';
+    },
     switchToEditView(connection: ConnectionData<any>) {
       state.view = 'EDIT';
       state.connectionToEdit = connection;
@@ -64,7 +67,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                     linkText='Access SP Metadata'
                     variant='button'></Anchor>
                 </Show>
-                <Button name='Add Connection' handleClick={(event) => (state.view = 'CREATE')} />
+                <Button name='Add Connection' handleClick={state.switchToCreateView} />
               </div>
             </Card>
             <Spacer y={4} />
@@ -82,7 +85,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                     linkText='Access SP Metadata'
                     variant='button'></Anchor>
                 </Show>
-                <Button name='Add Connection' handleClick={(event) => (state.view = 'CREATE')} />
+                <Button name='Add Connection' handleClick={state.switchToCreateView} />
               </div>
             </Card>
           </ConnectionList>
