@@ -467,7 +467,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     <Button
                       type='button'
                       name='Cancel'
-                      handleClick={(event) => props.cancelCallback?.()}
+                      handleClick={props.cancelCallback}
                       variant='outline'
                     />
                   </Show>
@@ -484,11 +484,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   </p>
                 </div>
                 <Show when={!state.displayDeletionConfirmation}>
-                  <Button
-                    variant='destructive'
-                    name='Delete'
-                    handleClick={(event) => state.askForConfirmation()}
-                  />
+                  <Button variant='destructive' name='Delete' handleClick={state.askForConfirmation} />
                 </Show>
                 <Show when={state.displayDeletionConfirmation}>
                   <div class={defaultClasses.confirmationDiv}>
@@ -502,7 +498,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                         name='Confirm'
                         handleClick={(event) => state.deleteSSOConnection(event)}
                       />
-                      <Button variant='outline' name='Cancel' handleClick={(event) => state.onCancel()} />
+                      <Button variant='outline' name='Cancel' handleClick={state.onCancel} />
                     </div>
                   </div>
                 </Show>
