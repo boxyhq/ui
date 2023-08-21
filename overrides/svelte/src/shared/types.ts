@@ -27,7 +27,7 @@ export interface BadgeProps {
 
 export interface ButtonProps {
   name: string;
-  onClick?: (event: any) => void;
+  handleClick?: (event: any) => void;
   type?: 'submit' | 'reset' | 'button';
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
 }
