@@ -55,7 +55,7 @@ export interface ToggleSwitchProps {
   label: string;
   checked: boolean;
   disabled: boolean;
-  onChange: (event: Event) => void;
+  handleChange: (event: Event) => void;
 }
 
 export interface CardProps {
