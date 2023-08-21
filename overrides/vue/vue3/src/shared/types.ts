@@ -5,7 +5,7 @@ export type SVGProps = SVGAttributes;
 export interface IconButtonProps {
   Icon: Component<{ svgElmtProps: SVGProps; classNames: string }>;
   label?: string;
-  onClick: (event: any) => void;
+  handleClick: (event: any) => void;
   iconClasses: string;
 }
 
