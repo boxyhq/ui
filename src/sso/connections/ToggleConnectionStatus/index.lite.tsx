@@ -92,16 +92,16 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
               <Button
                 variant={props.connection.deactivated ? 'primary' : 'destructive'}
                 name='Confirm'
-                handleClick={(event) => state.onConfirm()}></Button>
+                handleClick={state.onConfirm}></Button>
               <Spacer x={1.5} />
-              <Button name='Cancel' variant='outline' handleClick={(event) => state.onCancel()}></Button>
+              <Button name='Cancel' variant='outline' handleClick={state.onCancel}></Button>
             </div>
           </div>
         </Show>
         <Show when={!state.displayPrompt}>
           <ToggleSwitch
             label={state.connectionStatus}
-            onChange={(event) => state.askForConfirmation()}
+            handleChange={state.askForConfirmation}
             checked={!props.connection.deactivated}
             disabled={state.displayPrompt}
           />

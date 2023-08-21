@@ -38,6 +38,9 @@ export default function ConnectionList(props: ConnectionListProps) {
         icon: cssClassAssembler(props.classNames?.icon, defaultClasses.icon),
       };
     },
+    switchToEditView(connection: any) {
+      return () => props.onActionClick(connection);
+    },
     connectionDisplayName(connection: SAMLSSORecord | OIDCSSORecord) {
       if (connection.name) {
         return connection.name;
@@ -173,7 +176,7 @@ export default function ConnectionList(props: ConnectionListProps) {
                               Icon={PencilIcon}
                               iconClasses={state.classes.icon}
                               data-testid='edit'
-                              onClick={(event) => props.onActionClick(connection)}
+                              handleClick={() => state.switchToEditView(connection)}
                             />
                           </span>
                         </td>

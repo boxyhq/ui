@@ -159,7 +159,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           />
         </div>
         <div>
-          <form onSubmit={(event) => state.saveSSOConnection(event)} method='post'>
+          <form onSubmit={state.saveSSOConnection} method='post'>
             <Show when={state.formVariant === 'advanced'}>
               <Show when={!state.isExcluded('name')}>
                 <div class={defaultClasses.field}>
@@ -389,12 +389,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             <Spacer y={4} />
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
-                <Button
-                  type='button'
-                  name='Cancel'
-                  handleClick={(event) => props.cancelCallback?.()}
-                  variant='outline'
-                />
+                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
               </Show>
               <Button type='submit' name='Save' />
             </div>
@@ -407,11 +402,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   </p>
                 </div>
                 <Show when={!state.displayDeletionConfirmation}>
-                  <Button
-                    variant='destructive'
-                    name='Delete'
-                    handleClick={(event) => state.askForConfirmation()}
-                  />
+                  <Button variant='destructive' name='Delete' handleClick={state.askForConfirmation} />
                 </Show>
                 <Show when={state.displayDeletionConfirmation}>
                   <div class={defaultClasses.confirmationDiv}>
@@ -420,12 +411,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                       permanently delete the Connection.
                     </p>
                     <div class={defaultClasses.promptAction}>
-                      <Button
-                        variant='destructive'
-                        name='Confirm'
-                        handleClick={(event) => state.deleteSSOConnection(event)}
-                      />
-                      <Button variant='outline' name='Cancel' handleClick={(event) => state.onCancel()} />
+                      <Button variant='destructive' name='Confirm' handleClick={state.deleteSSOConnection} />
+                      <Button variant='outline' name='Cancel' handleClick={state.onCancel} />
                     </div>
                   </div>
                 </Show>
