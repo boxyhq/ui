@@ -478,7 +478,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             </div>
             <Show when={props.connection?.clientID && props.connection.clientSecret}>
               <section class={state.classes.section}>
-                <div class={defaultClasses.sectionDiv}>
+                <div>
                   <h6 class={defaultClasses.sectionHeading}>Delete this connection</h6>
                   <p class={defaultClasses.sectionPara}>
                     All your apps using this connection will stop working.
