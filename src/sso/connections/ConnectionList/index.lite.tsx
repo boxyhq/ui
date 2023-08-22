@@ -39,7 +39,7 @@ export default function ConnectionList(props: ConnectionListProps) {
       };
     },
     switchToEditView(connection: any) {
-      return () => props.onActionClick(connection);
+      return () => props.handleActionClick(connection);
     },
     connectionDisplayName(connection: SAMLSSORecord | OIDCSSORecord) {
       if (connection.name) {
@@ -66,7 +66,7 @@ export default function ConnectionList(props: ConnectionListProps) {
       state.connectionListError = error;
     } else {
       state.connectionListData = data;
-      typeof props.onListFetchComplete === 'function' && props.onListFetchComplete(data);
+      typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(data);
     }
   }
 
@@ -176,7 +176,7 @@ export default function ConnectionList(props: ConnectionListProps) {
                               Icon={PencilIcon}
                               iconClasses={state.classes.icon}
                               data-testid='edit'
-                              handleClick={() => state.switchToEditView(connection)}
+                              handleClick={state.switchToEditView(connection)}
                             />
                           </span>
                         </td>
