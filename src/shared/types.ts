@@ -87,5 +87,5 @@ export interface TableProps {
 
 export interface ConfirmationPromptProps {
   promptMessge: string;
-  confirmationCallback: () => void;
+  confirmationCallback: (event: Event) => void;
 }
