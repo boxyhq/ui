@@ -37,6 +37,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
+    switchToCreateView() {
+      state.view = 'CREATE';
+    },
     switchToEditView(connection: ConnectionData<any>) {
       state.view = 'EDIT';
       state.connectionToEdit = connection;
@@ -64,7 +67,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                     linkText='Access SP Metadata'
                     variant='button'></Anchor>
                 </Show>
-                <Button name='Add Connection' onClick={(event) => (state.view = 'CREATE')} />
+                <Button name='Add Connection' handleClick={state.switchToCreateView} />
               </div>
             </Card>
             <Spacer y={4} />
@@ -82,7 +85,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                     linkText='Access SP Metadata'
                     variant='button'></Anchor>
                 </Show>
-                <Button name='Add Connection' onClick={(event) => (state.view = 'CREATE')} />
+                <Button name='Add Connection' handleClick={state.switchToCreateView} />
               </div>
             </Card>
           </ConnectionList>
@@ -131,25 +134,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           urls={{ save: '' }}
           {...props.componentProps.createSSOConnection.componentProps?.saml}
         />
-        {/* <CreateSSOConnection
-          {...props.componentProps.createSSOConnection}
-          componentProps={{
-            saml: {
-              successCallback: state.switchToListView,
-              errorCallback: state.logError,
-              variant: 'basic',
-              urls: { save: '' },
-              ...props.componentProps.createSSOConnection?.componentProps?.saml,
-            },
-            oidc: {
-              successCallback: state.switchToListView,
-              errorCallback: state.logError,
-              variant: 'basic',
-              urls: { save: '' },
-              ...props.componentProps.createSSOConnection?.componentProps?.oidc,
-            },
-          }}
-        /> */}
       </Show>
     </div>
   );
