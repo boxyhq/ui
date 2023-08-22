@@ -493,11 +493,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                       permanently delete the Connection.
                     </p>
                     <div class={defaultClasses.promptAction}>
-                      <Button
-                        variant='destructive'
-                        name='Confirm'
-                        handleClick={(event) => state.deleteSSOConnection(event)}
-                      />
+                      <Button variant='destructive' name='Confirm' handleClick={state.deleteSSOConnection} />
                       <Button variant='outline' name='Cancel' handleClick={state.onCancel} />
                     </div>
                   </div>

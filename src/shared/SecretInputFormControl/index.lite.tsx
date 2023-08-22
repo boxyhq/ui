@@ -9,6 +9,9 @@ import defaultStyles from './index.module.css';
 export default function SecretInputFormControl(props: SecretInputFormControlProps) {
   const state = useStore({
     isSecretShown: false,
+    toggleIsSecretShown() {
+      state.isSecretShown = !state.isSecretShown;
+    },
     onChange: (event: Event) => {
       props.handleChange(event);
     },
@@ -24,7 +27,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
           <IconButton
             Icon={state.isSecretShown ? EyeSlashIcon : EyeIcon}
             iconClasses={defaultStyles.icon}
-            onClick={() => (state.isSecretShown = !state.isSecretShown)}
+            handleClick={state.toggleIsSecretShown}
           />
           <CopyToClipboardButton text={props.value} copyDoneCallback={props.copyDoneCallback} />
         </div>
