@@ -19,7 +19,7 @@ const DEFAULT_VALUES = {
 export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
   const state = useStore({
     connections: DEFAULT_VALUES.connectionListData,
-    onListFetchComplete: (connectionsList: ConnectionData<any>[]) => {
+    handleListFetchComplete: (connectionsList: ConnectionData<any>[]) => {
       state.connections = connectionsList;
     },
     view: DEFAULT_VALUES.view,
@@ -74,8 +74,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           </Show>
           <Spacer y={4} />
           <ConnectionList
-            onActionClick={(connection) => state.switchToEditView(connection)}
-            onListFetchComplete={(connectionList) => state.onListFetchComplete(connectionList)}
+            handleActionClick={state.switchToEditView}
+            handleListFetchComplete={state.handleListFetchComplete}
             {...props.componentProps.connectionList}>
             <Card variant='info' title='SSO not enabled'>
               <div class={defaultClasses.ctoa}>
