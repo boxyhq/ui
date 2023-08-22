@@ -13,6 +13,7 @@ import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
+import ConfirmationPrompt from '../../../../shared/ConfirmationPrompt/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -467,7 +468,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     <Button
                       type='button'
                       name='Cancel'
-                      onClick={(event) => props.cancelCallback?.()}
+                      handleClick={props.cancelCallback}
                       variant='outline'
                     />
                   </Show>
@@ -483,29 +484,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     All your apps using this connection will stop working.
                   </p>
                 </div>
-                <Show when={!state.displayDeletionConfirmation}>
-                  <Button
-                    variant='destructive'
-                    name='Delete'
-                    onClick={(event) => state.askForConfirmation()}
-                  />
-                </Show>
-                <Show when={state.displayDeletionConfirmation}>
-                  <div class={defaultClasses.confirmationDiv}>
-                    <p>
-                      Are you sure you want to delete the Connection? This action cannot be undone and will
-                      permanently delete the Connection.
-                    </p>
-                    <div class={defaultClasses.promptAction}>
-                      <Button
-                        variant='destructive'
-                        name='Confirm'
-                        onClick={(event) => state.deleteSSOConnection(event)}
-                      />
-                      <Button variant='outline' name='Cancel' onClick={(event) => state.onCancel()} />
-                    </div>
-                  </div>
-                </Show>
+                <ConfirmationPrompt
+                  promptMessge='Are you sure you want to delete the Connection? This action cannot be undone and will permanently delete the Connection.'
+                  confirmationCallback={state.deleteSSOConnection}
+                />
               </section>
             </Show>
           </form>
