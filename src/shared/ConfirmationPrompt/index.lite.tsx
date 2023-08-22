@@ -9,12 +9,12 @@ export default function ConfirmationPrompt(props: ConfirmationPromptProps) {
     askForConfirmation() {
       state.isPromptVisible = true;
     },
-    onCancel() {
+    handleCancel() {
       state.isPromptVisible = false;
     },
-    onConfirm() {
+    handleConfirm(event: Event) {
       state.isPromptVisible = false;
-      props.confirmationCallback();
+      props.confirmationCallback(event);
     },
   });
 
@@ -26,9 +26,9 @@ export default function ConfirmationPrompt(props: ConfirmationPromptProps) {
       <Show when={state.isPromptVisible}>
         <div class={defaultClasses.confirmationDiv}>
           <h6>{props.promptMessge}</h6>
-          <div>
-            <Button name='Confirm' type='button' variant='destructive' handleClick={state.onConfirm} />
-            <Button name='Cancel' type='button' variant='outline' handleClick={state.onCancel} />
+          <div class={defaultClasses.buttonsDiv}>
+            <Button name='Confirm' type='button' variant='destructive' handleClick={state.handleConfirm} />
+            <Button name='Cancel' type='button' variant='outline' handleClick={state.handleCancel} />
           </div>
         </div>
       </Show>
