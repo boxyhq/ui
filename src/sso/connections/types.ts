@@ -5,8 +5,8 @@ export interface ConnectionListProps {
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;
-  onListFetchComplete?: (connections: ConnectionData<any>[]) => void;
-  onActionClick: (e: ConnectionData<any>) => void;
+  handleListFetchComplete?: (connections: ConnectionData<any>[]) => void;
+  handleActionClick: (e: ConnectionData<any>) => void;
   /**
    * Classnames for each inner components that make up the component.
    */
@@ -271,7 +271,7 @@ export interface ConnectionsWrapperProp {
   classNames?: { button?: string };
   copyDoneCallback: () => void;
   componentProps: {
-    connectionList: Omit<ConnectionListProps, 'onActionClick'>;
+    connectionList: Omit<ConnectionListProps, 'handleActionClick'>;
     createSSOConnection: Partial<CreateSSOConnectionProps>;
     editOIDCConnection: Partial<EditOIDCConnectionProps>;
     editSAMLConnection: Partial<EditSAMLConnectionProps>;
