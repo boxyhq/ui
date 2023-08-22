@@ -159,7 +159,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           />
         </div>
         <div>
-          <form onSubmit={state.saveSSOConnection} method='post'>
+          <form onSubmit={(event) => state.saveSSOConnection(event)} method='post'>
             <Show when={state.formVariant === 'advanced'}>
               <Show when={!state.isExcluded('name')}>
                 <div class={defaultClasses.field}>
