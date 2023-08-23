@@ -37,10 +37,8 @@ export interface DirectoryListProps {
   data: object[];
   hideCols?: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   setupLinkToken?: string;
-  urls: {
-    getDirectoriesUrl: string;
-    useDirectoryProviderUrl: string;
-  };
+  getDirectoriesUrl: string;
+  useDirectoryProviderUrl: string;
   onActionClick: () => void;
   classNames?: {
     container?: string;
@@ -53,10 +51,10 @@ export interface DirectoryListProps {
 export interface EditDirectoryProps {
   urls: {
     put: string;
-    get: string;
     patch: string;
     delete: string;
   };
+  getUrl: string;
   errorCallback: (errMsg: string) => void;
   successCallback: (successMsg: string) => void;
   deleteCallback: () => void;
