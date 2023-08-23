@@ -8,7 +8,7 @@ import cssClassAssembler from '../../utils/cssClassAssembler';
 export default function EditDirectory(props: EditDirectoryProps) {
   const state: any = useStore({
     loading: true,
-    directory: null as Directory | null,
+    directory: {} as Directory,
     get classes() {
       return {
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
@@ -19,16 +19,12 @@ export default function EditDirectory(props: EditDirectoryProps) {
         btn: cssClassAssembler(props.classNames?.btn, defaultClasses.btn),
       };
     },
-    get getUrl() {
-      const { get } = props.urls;
-      return get;
-    },
     updateDirectory(key: string, newValue: string, id: string) {
       if (id === 'webhook.endpoint' || id === 'webhook.secret') {
         return {
           ...state.directory,
           webhook: {
-            ...state.directory.webhook,
+            ...state.directory?.webhook,
             [id.split('.')[1]]: newValue,
           },
         };
@@ -90,8 +86,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
         alert(error);
       }
     }
-    getDirectory(state.getUrl);
-  }, [state.getUrl]);
+    getDirectory(props.getUrl);
+  }, [props.getUrl]);
 
   return (
     <div>
