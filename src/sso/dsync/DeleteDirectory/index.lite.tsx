@@ -43,9 +43,9 @@ export default function DeleteDirectory(props: DeleteDirectoryProps) {
   return (
     <>
       <section class={state.classes.section}>
-        <div className={defaultClasses.sectionDiv}>
-          <h6 className={defaultClasses.sectionHeading}>Delete this directory connection</h6>
-          <p className={defaultClasses.sectionPara}>All your apps using this connection will stop working.</p>
+        <div class={defaultClasses.info}>
+          <h6 class={defaultClasses.sectionHeading}>Delete this directory connection</h6>
+          <p class={defaultClasses.sectionPara}>All your apps using this connection will stop working.</p>
         </div>
         <ConfirmationPrompt
           promptMessge=' Are you sure you want to delete the directory connection? This will permanently delete the
