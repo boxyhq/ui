@@ -19,6 +19,10 @@ export default function EditDirectory(props: EditDirectoryProps) {
         btn: cssClassAssembler(props.classNames?.btn, defaultClasses.btn),
       };
     },
+    get getUrl() {
+      const { get } = props.urls;
+      return get;
+    },
     updateDirectory(key: string, newValue: string, id: string) {
       if (id === 'webhook.endpoint' || id === 'webhook.secret') {
         return {
@@ -37,7 +41,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement;
-      const name = target.name as keyof typeof state.directory;
+      const name = target.name;
       const value = target.type === 'checkbox' ? target.checked : target.value;
 
       state.directory = state.updateDirectory(name, value, target.id);
@@ -86,8 +90,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
         alert(error);
       }
     }
-    getDirectory(props.urls.get);
-  }, [props.urls.get]);
+    getDirectory(state.getUrl);
+  }, [state.getUrl]);
 
   return (
     <div>

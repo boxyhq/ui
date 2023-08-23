@@ -25,6 +25,14 @@ export default function DirectoryList(props: DirectoryListProps) {
     get displayTenantProduct() {
       return props.setupLinkToken ? false : true;
     },
+    get directoriesUrl() {
+      const { getDirectoriesUrl } = props.urls;
+      return getDirectoriesUrl;
+    },
+    get directoryProviderUrl() {
+      const { useDirectoryProviderUrl } = props.urls;
+      return useDirectoryProviderUrl;
+    },
     get classes() {
       return {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
@@ -56,8 +64,8 @@ export default function DirectoryList(props: DirectoryListProps) {
       state.directoryListIsLoading = false;
     }
 
-    getFieldsData(props.urls.getDirectoriesUrl, props.urls.useDirectoryProviderUrl);
-  }, [props.urls.getDirectoriesUrl]);
+    getFieldsData(state.directoriesUrl, state.directoryProviderUrl);
+  }, [state.directoriesUrl, state.directoryProviderUrl]);
 
   return (
     <Show
