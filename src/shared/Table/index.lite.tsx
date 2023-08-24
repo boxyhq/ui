@@ -9,6 +9,8 @@ export default function Table(props: TableProps) {
       return {
         table: cssClassAssembler(props.classNames?.table, defaultClasses.table),
         tableHead: cssClassAssembler(props.classNames?.tableHead, defaultClasses.tableHead),
+        tableData: cssClassAssembler(props.classNames?.tableData, defaultClasses.tableHead),
+        icon: cssClassAssembler(props.classNames?.icon, defaultClasses.icon),
       };
     },
   });
@@ -29,6 +31,34 @@ export default function Table(props: TableProps) {
           </For>
         </tr>
       </thead>
+      <tbody>
+        <For each={props.data}>
+          {(item: any) => (
+            <tr class={defaultClasses.tableRow}>
+              <For each={props.cols}>
+                {(col) => (
+                  <td class={state.classes.tableData}>
+                    <Show
+                      when={col !== 'actions'}
+                      else={
+                        <For each={item.actions}>
+                          {(action: any, i: number) => (
+                            <button key={i} type='button' onClick={() => action.handleClick()}>
+                              <span class={state.classes.icon}>{action.icon}</span>
+                              {action.children}
+                            </button>
+                          )}
+                        </For>
+                      }>
+                      {item[col]}
+                    </Show>
+                  </td>
+                )}
+              </For>
+            </tr>
+          )}
+        </For>
+      </tbody>
     </table>
   );
 }
