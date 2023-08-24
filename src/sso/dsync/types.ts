@@ -33,9 +33,9 @@ export interface DeleteDirectoryProps {
 
 export interface DirectoryListProps {
   tableCaption?: string;
-  cols: string[];
-  data: object[];
+  cols: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   hideCols?: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
+  actions: { icon: any; handleClick: () => void; iconClass?: string; children?: string }[];
   setupLinkToken?: string;
   getDirectoriesUrl: string;
   useDirectoryProviderUrl: string;

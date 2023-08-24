@@ -1,5 +1,7 @@
 export interface ConnectionListProps {
   children?: any;
+  cols: ('provider' | 'type' | 'status' | 'actions')[];
+  actions: { icon: any; handleClick: () => void; iconClass?: string; children?: string }[];
   tableCaption?: string;
   hideCols?: ('provider' | 'tenant' | 'product' | 'idp_type' | 'status' | 'actions')[];
   idpEntityID?: string;
