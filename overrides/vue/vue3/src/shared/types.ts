@@ -78,10 +78,13 @@ export interface LoadingContainerProps {
 
 export interface TableProps {
   cols: string[];
+  data: object[];
   tableCaption?: string;
   classNames?: {
     table?: string;
     tableHead?: string;
+    tableData?: string;
+    icon?: string;
   };
 }
 
