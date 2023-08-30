@@ -1,4 +1,4 @@
-import { Show, useStore } from '@builder.io/mitosis';
+import { Show, onMount, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
 import type { ConnectionData, ConnectionsWrapperProp, OIDCSSORecord, SAMLSSORecord } from '../types';
 import cssClassAssembler from '../../utils/cssClassAssembler';
@@ -19,7 +19,7 @@ const DEFAULT_VALUES = {
 export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
   const state = useStore({
     connections: DEFAULT_VALUES.connectionListData,
-    onListFetchComplete: (connectionsList: ConnectionData<any>[]) => {
+    handleListFetchComplete: (connectionsList: ConnectionData<any>[]) => {
       state.connections = connectionsList;
     },
     view: DEFAULT_VALUES.view,
@@ -36,6 +36,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       return {
         button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
+    },
+    switchToCreateView() {
+      state.view = 'CREATE';
     },
     switchToEditView(connection: ConnectionData<any>) {
       state.view = 'EDIT';
@@ -64,15 +67,15 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                     linkText='Access SP Metadata'
                     variant='button'></Anchor>
                 </Show>
-                <Button name='Add Connection' onClick={(event) => (state.view = 'CREATE')} />
+                <Button name='Add Connection' handleClick={state.switchToCreateView} />
               </div>
             </Card>
             <Spacer y={4} />
           </Show>
           <Spacer y={4} />
           <ConnectionList
-            onActionClick={(connection) => state.switchToEditView(connection)}
-            onListFetchComplete={(connectionList) => state.onListFetchComplete(connectionList)}
+            handleActionClick={state.switchToEditView}
+            handleListFetchComplete={state.handleListFetchComplete}
             {...props.componentProps.connectionList}>
             <Card variant='info' title='SSO not enabled'>
               <div class={defaultClasses.ctoa}>
@@ -82,7 +85,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                     linkText='Access SP Metadata'
                     variant='button'></Anchor>
                 </Show>
-                <Button name='Add Connection' onClick={(event) => (state.view = 'CREATE')} />
+                <Button name='Add Connection' handleClick={state.switchToCreateView} />
               </div>
             </Card>
           </ConnectionList>
@@ -131,25 +134,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           urls={{ save: '' }}
           {...props.componentProps.createSSOConnection.componentProps?.saml}
         />
-        {/* <CreateSSOConnection
-          {...props.componentProps.createSSOConnection}
-          componentProps={{
-            saml: {
-              successCallback: state.switchToListView,
-              errorCallback: state.logError,
-              variant: 'basic',
-              urls: { save: '' },
-              ...props.componentProps.createSSOConnection?.componentProps?.saml,
-            },
-            oidc: {
-              successCallback: state.switchToListView,
-              errorCallback: state.logError,
-              variant: 'basic',
-              urls: { save: '' },
-              ...props.componentProps.createSSOConnection?.componentProps?.oidc,
-            },
-          }}
-        /> */}
       </Show>
     </div>
   );
