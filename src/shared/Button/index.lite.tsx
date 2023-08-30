@@ -10,7 +10,7 @@ export default function Button(props: ButtonProps) {
     <button
       type={props.type || 'button'}
       class={`${styles.btn}${state.variantCss}`}
-      onClick={(event) => props.onClick?.(event)}>
+      onClick={(event) => props.handleClick?.(event)}>
       {props.name}
     </button>
   );

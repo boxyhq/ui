@@ -467,7 +467,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     <Button
                       type='button'
                       name='Cancel'
-                      onClick={(event) => props.cancelCallback?.()}
+                      handleClick={props.cancelCallback}
                       variant='outline'
                     />
                   </Show>
@@ -484,11 +484,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   </p>
                 </div>
                 <Show when={!state.displayDeletionConfirmation}>
-                  <Button
-                    variant='destructive'
-                    name='Delete'
-                    onClick={(event) => state.askForConfirmation()}
-                  />
+                  <Button variant='destructive' name='Delete' handleClick={state.askForConfirmation} />
                 </Show>
                 <Show when={state.displayDeletionConfirmation}>
                   <div class={defaultClasses.confirmationDiv}>
@@ -497,12 +493,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                       permanently delete the Connection.
                     </p>
                     <div class={defaultClasses.promptAction}>
-                      <Button
-                        variant='destructive'
-                        name='Confirm'
-                        onClick={(event) => state.deleteSSOConnection(event)}
-                      />
-                      <Button variant='outline' name='Cancel' onClick={(event) => state.onCancel()} />
+                      <Button variant='destructive' name='Confirm' handleClick={state.deleteSSOConnection} />
+                      <Button variant='outline' name='Cancel' handleClick={state.onCancel} />
                     </div>
                   </div>
                 </Show>

@@ -5,7 +5,7 @@ export type SVGProps = JSX.SvgSVGAttributes<SVGSVGElement>;
 export interface IconButtonProps {
   Icon: (props: { svgElmtProps: SVGProps; classNames: string }) => JSX.Element;
   label?: string;
-  onClick: (event: any) => void;
+  handleClick: (event: any) => void;
   iconClasses: string;
 }
 
@@ -34,7 +34,7 @@ export interface ModalProps {
 
 export interface ButtonProps {
   name: string;
-  onClick?: (event: any) => void;
+  handleClick?: (event: any) => void;
   type?: 'submit' | 'reset' | 'button';
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
 }
@@ -55,7 +55,7 @@ export interface ToggleSwitchProps {
   label: string;
   checked: boolean;
   disabled: boolean;
-  onChange: (event: Event) => void;
+  handleChange: (event: Event) => void;
 }
 
 export interface CardProps {
