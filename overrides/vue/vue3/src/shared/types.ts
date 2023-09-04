@@ -78,12 +78,18 @@ export interface LoadingContainerProps {
 
 export interface TableProps {
   cols: string[];
-  data: object[];
+  data: Partial<{
+    actions: { icon: any; handleClick: () => void; iconClass?: string }[];
+    [key: string]: any;
+  }>[];
   tableCaption?: string;
   classNames?: {
     table?: string;
-    tableHead?: string;
-    tableData?: string;
+    caption?: string;
+    thead?: string;
+    tr?: string;
+    th?: string;
+    td?: string;
     icon?: string;
   };
 }

@@ -68,3 +68,26 @@ export interface LoadingContainerProps {
   children?: any;
   isBusy: boolean;
 }
+
+export interface TableProps {
+  cols: string[];
+  data: Partial<{
+    actions: { icon: any; handleClick: () => void; iconClass?: string }[];
+    [key: string]: any;
+  }>[];
+  tableCaption?: string;
+  classNames?: {
+    table?: string;
+    caption?: string;
+    thead?: string;
+    tr?: string;
+    th?: string;
+    td?: string;
+    icon?: string;
+  };
+}
+
+export interface ConfirmationPromptProps {
+  promptMessge: string;
+  confirmationCallback: () => void;
+}
