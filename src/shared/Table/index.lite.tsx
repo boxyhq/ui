@@ -43,9 +43,12 @@ export default function Table(props: TableProps) {
                       else={
                         <For each={item.actions}>
                           {(action: any, i: number) => (
-                            <button key={i} type='button' onClick={() => action.handleClick()}>
+                            <button
+                              aria-label={action.name}
+                              key={i}
+                              type='button'
+                              onClick={() => action.handleClick()}>
                               <span class={state.classes.icon}>{action.icon}</span>
-                              {action.children}
                             </button>
                           )}
                         </For>

@@ -35,7 +35,7 @@ export interface DirectoryListProps {
   tableCaption?: string;
   cols: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   hideCols?: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
-  actions: { icon: any; handleClick: () => void; iconClass?: string; children?: string }[];
+  actions: { icon: any; handleClick: () => void; iconClass?: string; name?: string }[];
   setupLinkToken?: string;
   getDirectoriesUrl: string;
   useDirectoryProviderUrl: string;
