@@ -72,7 +72,7 @@ export interface LoadingContainerProps {
 export interface TableProps {
   cols: string[];
   data: Partial<{
-    actions: { icon: any; handleClick: () => void; iconClass?: string }[];
+    actions: { icon: any; handleClick: () => void; iconClass?: string; name?: string }[];
     [key: string]: any;
   }>[];
   tableCaption?: string;
@@ -89,5 +89,5 @@ export interface TableProps {
 
 export interface ConfirmationPromptProps {
   promptMessge: string;
-  confirmationCallback: () => void;
+  confirmationCallback: (event: any) => void;
 }
