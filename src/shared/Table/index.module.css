@@ -1,46 +1,62 @@
+@import url('../common.module.css');
 .table {
+  border-collapse: collapse;
   width: 100%;
   text-align: left;
   font-size: 14px;
   line-height: 20px;
   color: rgb(107 114 128);
-  border: 1px solid rgb(229, 231, 235);
+  border-bottom-width: 1px;
+  border-color: rgb(209 213 219);
 }
 
 .caption {
-  background-color: white;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: start;
+  padding: 0.75rem;
+  background-color: rgb(243 244 246);
+  color: rgb(17 24 39);
+  border-bottom: 1px solid rgb(209 213 219);
 }
 
-.tableHeadContainer {
-  color: rgb(55 65 81);
+.thead {
   background-color: rgb(249 250 251);
-  text-transform: uppercase;
   font-size: 12px;
   line-height: 16px;
+  text-transform: uppercase;
+  color: rgb(55 65 81);
 }
 
-.tableHead {
-  padding: 12px 24px;
+.th,
+.td {
+  padding: 0.75rem 1.5rem;
 }
 
-.tableData {
-  padding: 0px 24px;
+tbody .tr {
+  border-bottom-width: 1px;
+  background-color: rgb(255 255 255);
 }
 
-.tableRow {
-  background-color: white;
-  border-bottom: 1px solid rgb(229, 231, 235);
-  border-left: 1px solid rgb(229, 231, 235);
-  border-right: 1px solid rgb(229, 231, 235);
+tbody .tr:last-child {
+  border-bottom-width: 0px;
 }
 
-.icon {
-  --s: 218 19% 23%;
-  height: 1.25rem;
-  width: 1.25rem;
-  color: hsl(var(--s));
+tbody .tr:hover {
+  background-color: rgb(249 250 251);
 }
+
+.badgeClass {
+  margin-left: 8px;
+  text-transform: uppercase;
+}
+
+.spanIcon {
+  display: inline-flex;
+  align-items: baseline;
+}
+
 .icon:hover {
-  --tw-scale: 1.15;
-  transform: scale(var(--tw-scale));
+  color: var(--primary-hover);
 }

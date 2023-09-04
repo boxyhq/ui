@@ -8,8 +8,11 @@ export default function Table(props: TableProps) {
     get classes() {
       return {
         table: cssClassAssembler(props.classNames?.table, defaultClasses.table),
-        tableHead: cssClassAssembler(props.classNames?.tableHead, defaultClasses.tableHead),
-        tableData: cssClassAssembler(props.classNames?.tableData, defaultClasses.tableHead),
+        caption: cssClassAssembler(props.classNames?.caption, defaultClasses.caption),
+        thead: cssClassAssembler(props.classNames?.thead, defaultClasses.thead),
+        tr: cssClassAssembler(props.classNames?.tr, defaultClasses.tr),
+        th: cssClassAssembler(props.classNames?.th, defaultClasses.th),
+        td: cssClassAssembler(props.classNames?.td, defaultClasses.td),
         icon: cssClassAssembler(props.classNames?.icon, defaultClasses.icon),
       };
     },
@@ -18,13 +21,13 @@ export default function Table(props: TableProps) {
   return (
     <table class={state.classes.table}>
       <Show when={props.tableCaption}>
-        <caption class={defaultClasses.caption}>{props.tableCaption}</caption>
+        <caption class={state.classes.caption}>{props.tableCaption}</caption>
       </Show>
-      <thead class={defaultClasses.tableHeadContainer}>
-        <tr>
+      <thead class={state.classes.thead}>
+        <tr class={state.classes.tr}>
           <For each={props.cols}>
             {(item) => (
-              <th key={item} scope='col' class={state.classes.tableHead}>
+              <th key={item} scope='col' class={state.classes.th}>
                 {item}
               </th>
             )}
@@ -33,21 +36,17 @@ export default function Table(props: TableProps) {
       </thead>
       <tbody>
         <For each={props.data}>
-          {(item: any) => (
-            <tr class={defaultClasses.tableRow}>
+          {(item: TableProps["data"][number]) => (
+            <tr class={state.classes.tr}>
               <For each={props.cols}>
                 {(col) => (
-                  <td class={state.classes.tableData}>
+                  <td class={state.classes.td}>
                     <Show
                       when={col !== 'actions'}
                       else={
                         <For each={item.actions}>
                           {(action: any, i: number) => (
-                            <button
-                              aria-label={action.name}
-                              key={i}
-                              type='button'
-                              onClick={() => action.handleClick()}>
+                            <button key={i} type='button' onClick={() => action.handleClick()} aria-label={action.name}>
                               <span class={state.classes.icon}>{action.icon}</span>
                             </button>
                           )}
