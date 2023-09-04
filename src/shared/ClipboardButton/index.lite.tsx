@@ -13,7 +13,7 @@ export default function CopyToClipboardButton(props: PropsType) {
     copyToClipboard(text: string) {
       navigator.clipboard.writeText(text);
     },
-    onClick: () => {
+    handleClick: () => {
       state.copyToClipboard(props.text);
       props.copyDoneCallback();
     },
@@ -23,7 +23,7 @@ export default function CopyToClipboardButton(props: PropsType) {
       label='Copy'
       Icon={CopytoClipboardIcon}
       iconClasses={defaultStyles.icon}
-      onClick={() => state.onClick()}
+      handleClick={state.handleClick}
     />
   );
 }

@@ -59,7 +59,7 @@
     "@types/react": "18.2.20",
     "@vitejs/plugin-react": "4.0.4",
     "rimraf": "5.0.1",
-    "serve": "14.2.0",
+    "serve": "14.2.1",
     "vite": "4.4.9",
     "vite-pages-theme-doc": "4.1.6",
     "vite-plugin-css-injected-by-js": "3.3.0",
