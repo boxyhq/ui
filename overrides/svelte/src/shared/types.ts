@@ -27,7 +27,7 @@ export interface BadgeProps {
 
 export interface ButtonProps {
   name: string;
-  onClick?: (event: any) => void;
+  handleClick?: (event: any) => void;
   type?: 'submit' | 'reset' | 'button';
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
 }
@@ -48,7 +48,7 @@ export interface ToggleSwitchProps {
   label: string;
   checked: boolean;
   disabled: boolean;
-  onChange: (event: Event) => void;
+  handleChange: (event: Event) => void;
 }
 
 export interface CardProps {
@@ -67,4 +67,27 @@ export interface LinkProps {
 export interface LoadingContainerProps {
   children?: any;
   isBusy: boolean;
+}
+
+export interface TableProps {
+  cols: string[];
+  data: Partial<{
+    actions: { icon: any; handleClick: () => void; iconClass?: string; name?: string }[];
+    [key: string]: any;
+  }>[];
+  tableCaption?: string;
+  classNames?: {
+    table?: string;
+    caption?: string;
+    thead?: string;
+    tr?: string;
+    th?: string;
+    td?: string;
+    icon?: string;
+  };
+}
+
+export interface ConfirmationPromptProps {
+  promptMessge: string;
+  confirmationCallback: (event: any) => void;
 }

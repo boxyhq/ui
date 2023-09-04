@@ -8,7 +8,7 @@ export default function ToggleSwitch(props: ToggleSwitchProps) {
       <input
         type='checkbox'
         class={`${styles.input} ${styles['sr-only']}`}
-        onChange={(event) => props.onChange(event)}
+        onChange={(event) => props.handleChange(event)}
         checked={props.checked}
         disabled={props.disabled}
       />

@@ -1,4 +1,4 @@
-import { useStore, Show, For, onUpdate } from '@builder.io/mitosis';
+import { useStore, Show, onUpdate } from '@builder.io/mitosis';
 import type { ConnectionData, ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';
@@ -36,6 +36,9 @@ export default function ConnectionList(props: ConnectionListProps) {
         icon: cssClassAssembler(props.classNames?.icon, defaultClasses.icon),
       };
     },
+    switchToEditView(connection: any) {
+      return () => props.handleActionClick(connection);
+    },
     connectionDisplayName(connection: SAMLSSORecord | OIDCSSORecord) {
       if (connection.name) {
         return connection.name;
@@ -70,8 +73,8 @@ export default function ConnectionList(props: ConnectionListProps) {
     if (error) {
       state.connectionListError = error;
     } else {
-      state.connectionListData = connectionsListDataUpdated;
-      typeof props.onListFetchComplete === 'function' && props.onListFetchComplete(data);
+      state.connectionListData = data;
+      typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(data);
     }
   }
 

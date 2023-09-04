@@ -19,7 +19,7 @@
     "@angular/router": "16.1.1",
     "prismjs": "1.29.0",
     "rxjs": "7.8.1",
-    "tslib": "2.6.1",
+    "tslib": "2.6.2",
     "zone.js": "0.13.1"
   },
   "devDependencies": {
@@ -29,14 +29,14 @@
     "@types/jasmine": "4.3.5",
     "@types/prismjs": "1.26.0",
     "autoprefixer": "10.4.15",
-    "jasmine-core": "5.1.0",
+    "jasmine-core": "5.1.1",
     "karma": "6.4.2",
     "karma-chrome-launcher": "3.2.0",
     "karma-coverage": "2.2.1",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.1.0",
-    "ng-packagr": "16.2.0",
-    "postcss": "8.4.28",
+    "ng-packagr": "16.2.2",
+    "postcss": "8.4.29",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6"
   }

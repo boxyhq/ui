@@ -89,11 +89,11 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           props.variant === 'advanced'
             ? { ...state.samlConnection }
             : {
-                clientID: state.samlConnection.clientID,
-                clientSecret: state.samlConnection.clientSecret,
-                rawMetadata: state.samlConnection.rawMetadata,
-                metadataUrl: state.samlConnection.metadataUrl,
-              },
+              clientID: state.samlConnection.clientID,
+              clientSecret: state.samlConnection.clientSecret,
+              rawMetadata: state.samlConnection.rawMetadata,
+              metadataUrl: state.samlConnection.metadataUrl,
+            },
         connectionIsSAML: true,
         callback: async (rawResponse: any) => {
           const response: ApiResponse = await rawResponse.json();

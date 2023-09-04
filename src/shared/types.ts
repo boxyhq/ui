@@ -5,7 +5,7 @@ export type SVGProps = JSX.SvgSVGAttributes<SVGSVGElement>;
 export interface IconButtonProps {
   Icon: (props: { svgElmtProps: SVGProps; classNames: string }) => JSX.Element;
   label?: string;
-  onClick: (event: any) => void;
+  handleClick: (event: any) => void;
   iconClasses: string;
 }
 
@@ -55,7 +55,7 @@ export interface ToggleSwitchProps {
   label: string;
   checked: boolean;
   disabled: boolean;
-  onChange: (event: Event) => void;
+  handleChange: (event: Event) => void;
 }
 
 export interface CardProps {
@@ -78,12 +78,18 @@ export interface LoadingContainerProps {
 
 export interface TableProps {
   cols: string[];
-  data: object[];
+  data: Partial<{
+    actions: { icon: any; handleClick: () => void; iconClass?: string; name?: string }[];
+    [key: string]: any;
+  }>[];
   tableCaption?: string;
   classNames?: {
     table?: string;
-    tableHead?: string;
-    tableData?: string;
+    caption?: string;
+    thead?: string;
+    tr?: string;
+    th?: string;
+    td?: string;
     icon?: string;
   };
 }
