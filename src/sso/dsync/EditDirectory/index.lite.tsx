@@ -108,7 +108,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
       }
 
       if (error) {
-        alert(error);
+        console.error(error);
       }
     }
     getDirectory(props.getUrl);
