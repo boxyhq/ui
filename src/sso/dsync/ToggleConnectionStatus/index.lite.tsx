@@ -83,7 +83,7 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
             label={state.connectionStatus}
             disabled={state.displayPrompt}
             checked={!props.connection?.deactivated}
-            onChange={() => state.askForConfirmation()}
+            handleChange={state.askForConfirmation}
           />
         </Show>
       </div>
