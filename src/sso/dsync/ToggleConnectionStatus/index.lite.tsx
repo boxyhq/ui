@@ -11,7 +11,7 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
       return props.connection?.deactivated ? 'Inactive' : 'Active';
     },
     get connectionAction() {
-      return props.connection?.deactivated ? 'Activate' : 'Deactivate';
+      return props.connection?.deactivated ? 'activate' : 'deactivate';
     },
     askForConfirmation() {
       state.displayPrompt = true;
