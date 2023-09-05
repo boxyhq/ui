@@ -5,10 +5,26 @@ import DeleteDirectory from '../DeleteDirectory/index.lite';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 
+type FormState = Pick<Directory, 'name' | 'log_webhook_events' | 'webhook' | 'google_domain'>;
+
+const DEFAULT_VALUES: { formState: FormState, directory: Directory | null } = {
+  formState: {
+    name: '',
+    log_webhook_events: false,
+    webhook: {
+      endpoint: '',
+      secret: '',
+    },
+    google_domain: '',
+  },
+  directory: null
+};
+
 export default function EditDirectory(props: EditDirectoryProps) {
   const state: any = useStore({
     loading: true,
-    directory: {} as Directory,
+    formState: DEFAULT_VALUES.formState,
+    directory: DEFAULT_VALUES.directory,
     get classes() {
       return {
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
@@ -19,19 +35,19 @@ export default function EditDirectory(props: EditDirectoryProps) {
         btn: cssClassAssembler(props.classNames?.btn, defaultClasses.btn),
       };
     },
-    updateDirectory(key: string, newValue: string, id: string) {
+    updateFormState(key: string, newValue: string | boolean, id: string) {
       if (id === 'webhook.endpoint' || id === 'webhook.secret') {
         return {
-          ...state.directory,
+          ...state.formState,
           webhook: {
-            ...state.directory?.webhook,
+            ...state.formState?.webhook,
             [id.split('.')[1]]: newValue,
           },
         };
       }
 
       return {
-        ...state.directory,
+        ...state.formState,
         [key]: newValue,
       };
     },
@@ -40,7 +56,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
       const name = target.name;
       const value = target.type === 'checkbox' ? target.checked : target.value;
 
-      state.directory = state.updateDirectory(name, value, target.id);
+      state.formState = state.updateFormState(name, value, target.id);
     },
     onSubmit(event: Event) {
       event.preventDefault();
@@ -52,7 +68,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(state.directory),
+          body: JSON.stringify(state.formState),
         });
 
         state.loading = false;
@@ -80,6 +96,15 @@ export default function EditDirectory(props: EditDirectoryProps) {
 
       if (directoryData) {
         state.directory = directoryData;
+        state.formState = {
+          name: directoryData.name,
+          log_webhook_events: directoryData.log_webhook_events,
+          webhook: {
+            endpoint: directoryData.webhook?.endpoint,
+            secret: directoryData.webhook?.secret,
+          },
+          google_domain: directoryData.google_domain,
+        };
       }
 
       if (error) {
@@ -114,7 +139,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
                 class={state.classes.input}
                 required={true}
                 onChange={(event) => state.handleChange(event)}
-                value={state.directory?.name}
+                value={state.formState?.name}
               />
             </div>
             <Show when={state.directory?.type === 'google'}>
@@ -128,7 +153,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
                   name='google_domain'
                   class={state.classes.input}
                   onChange={(event) => state.handleChange(event)}
-                  value={state.directory?.google_domain}
+                  value={state.formState?.google_domain}
                 />
               </div>
             </Show>
@@ -142,7 +167,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
                 name='webhook.endpoint'
                 class={state.classes.input}
                 onChange={(event) => state.handleChange(event)}
-                value={state.directory?.webhook.endpoint}
+                value={state.formState?.webhook.endpoint}
               />
             </div>
             <div class={state.classes.fieldsDiv}>
@@ -155,7 +180,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
                 name='webhook.secret'
                 class={state.classes.input}
                 onChange={(event) => state.handleChange(event)}
-                value={state.directory?.webhook.secret}
+                value={state.formState?.webhook.secret}
               />
             </div>
             <div class={defaultClasses.checkboxFieldsDiv}>
@@ -164,7 +189,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
                   id='log_webhook_events'
                   name='log_webhook_events'
                   type='checkbox'
-                  checked={state.directory?.log_webhook_events}
+                  checked={state.formState?.log_webhook_events}
                   onChange={(event) => state.handleChange(event)}
                   class={defaultClasses.checkboxInput}
                 />
