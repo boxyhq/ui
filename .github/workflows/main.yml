@@ -21,7 +21,7 @@ jobs:
       run:
         working-directory: .
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -93,7 +93,7 @@ jobs:
         working-directory: ${{ matrix.framework }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: SDK version
         run: echo ${{ needs.mitosis-generate.outputs.NPM_VERSION }}
       - name: SDK release_tag
