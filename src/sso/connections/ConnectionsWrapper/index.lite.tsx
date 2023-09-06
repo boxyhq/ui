@@ -1,4 +1,4 @@
-import { Show, onMount, useStore } from '@builder.io/mitosis';
+import { Show, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
 import type { ConnectionData, ConnectionsWrapperProp, OIDCSSORecord, SAMLSSORecord } from '../types';
 import cssClassAssembler from '../../utils/cssClassAssembler';
@@ -40,7 +40,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     switchToCreateView() {
       state.view = 'CREATE';
     },
-    switchToEditView(connection: ConnectionData<any>) {
+    switchToEditView(action: "edit", connection: ConnectionData<any>) {
       state.view = 'EDIT';
       state.connectionToEdit = connection;
     },
@@ -74,9 +74,10 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           </Show>
           <Spacer y={4} />
           <ConnectionList
+            {...props.componentProps.connectionList}
             handleActionClick={state.switchToEditView}
             handleListFetchComplete={state.handleListFetchComplete}
-            {...props.componentProps.connectionList}>
+          >
             <Card variant='info' title='SSO not enabled'>
               <div class={defaultClasses.ctoa}>
                 <Show when={props.urls?.spMetadata}>

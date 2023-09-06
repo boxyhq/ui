@@ -57,7 +57,7 @@ export default function ConnectionList(props: ConnectionListProps) {
       return 'Unknown';
     },
     get actions(): TableProps["actions"] {
-      return [{ icon: "PencilIcon", name: "Edit", handleClick: (connection) => props.handleActionClick(connection) }]
+      return [{ icon: "PencilIcon", label: "Edit", handleClick: (connection: ConnectionData<any>) => props.handleActionClick("edit", connection) }]
     }
   });
 

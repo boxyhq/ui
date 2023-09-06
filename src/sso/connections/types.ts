@@ -1,15 +1,12 @@
-import { TableProps } from '../../shared/types';
-
 export interface ConnectionListProps {
   children?: any;
   cols: ('provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
-  actions: TableProps['actions'];
   tableCaption?: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;
   handleListFetchComplete?: (connections: ConnectionData<any>[]) => void;
-  handleActionClick: (e: ConnectionData<any>) => void;
+  handleActionClick: (action: 'edit', connection: ConnectionData<any>) => void;
   /**
    * Classnames for each inner components that make up the component.
    */
