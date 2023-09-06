@@ -1,10 +1,11 @@
-import { useStore, Show, onUpdate } from '@builder.io/mitosis';
+import { useStore, onUpdate, Show } from '@builder.io/mitosis';
 import type { ConnectionData, ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
 import Table from '../../../shared/Table/index.lite';
+import { TableProps } from '../../../shared/types';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -36,9 +37,10 @@ export default function ConnectionList(props: ConnectionListProps) {
         icon: cssClassAssembler(props.classNames?.icon, defaultClasses.icon),
       };
     },
-    switchToEditView(connection: any) {
-      return () => props.handleActionClick(connection);
+    get colsToDisplay() {
+      return props.cols || ["provider", "tenant", "product", "type", "status", "actions"]
     },
+
     connectionDisplayName(connection: SAMLSSORecord | OIDCSSORecord) {
       if (connection.name) {
         return connection.name;
@@ -54,18 +56,22 @@ export default function ConnectionList(props: ConnectionListProps) {
 
       return 'Unknown';
     },
+    get actions(): TableProps["actions"] {
+      return [{ icon: "PencilIcon", name: "Edit", handleClick: (connection) => props.handleActionClick(connection) }]
+    }
   });
 
   async function getFieldsData(url: string) {
     const response = await fetch(url);
     const { data, error } = await response.json();
 
-    const connectionsListDataUpdated = data.map((connection: OIDCSSORecord | SAMLSSORecord) => {
+    const _connectionsListData = data.map((connection: ConnectionData<any>) => {
       return {
+        ...connection,
         provider: state.connectionDisplayName(connection),
         type: 'oidcProvider' in connection ? 'OIDC' : 'SAML',
         status: connection.deactivated ? 'Inactive' : 'Active',
-        actions: props.actions,
+        isSystemSSO: connection.isSystemSSO
       };
     });
 
@@ -73,7 +79,7 @@ export default function ConnectionList(props: ConnectionListProps) {
     if (error) {
       state.connectionListError = error;
     } else {
-      state.connectionListData = data;
+      state.connectionListData = _connectionsListData;
       typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(data);
     }
   }
@@ -93,7 +99,7 @@ export default function ConnectionList(props: ConnectionListProps) {
             </Show>
           }>
           <div class={state.classes.tableContainer}>
-            <Table cols={props.cols} data={state.connectionListData} />
+            <Table cols={state.colsToDisplay} data={state.connectionListData} actions={state.actions} />
           </div>
         </Show>
       </div>

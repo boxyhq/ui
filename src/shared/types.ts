@@ -2,13 +2,6 @@ import type { JSX } from '@builder.io/mitosis/jsx-runtime';
 
 export type SVGProps = JSX.SvgSVGAttributes<SVGSVGElement>;
 
-export interface IconButtonProps {
-  Icon: (props: { svgElmtProps: SVGProps; classNames: string }) => JSX.Element;
-  label?: string;
-  handleClick: (event: any) => void;
-  iconClasses: string;
-}
-
 export interface EmptyStateProps {
   title: string;
   href?: string;
@@ -78,10 +71,8 @@ export interface LoadingContainerProps {
 
 export interface TableProps {
   cols: string[];
-  data: Partial<{
-    actions: { icon: any; handleClick: () => void; iconClass?: string; name?: string }[];
-    [key: string]: any;
-  }>[];
+  data: Record<string, any>[];
+  actions: { icon: any; handleClick: (item: any) => void; name?: string }[];
   tableCaption?: string;
   classNames?: {
     table?: string;
@@ -91,6 +82,7 @@ export interface TableProps {
     th?: string;
     td?: string;
     icon?: string;
+    iconSpan?: string;
   };
 }
 

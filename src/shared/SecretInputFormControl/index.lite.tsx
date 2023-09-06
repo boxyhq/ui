@@ -1,10 +1,11 @@
-import { useStore } from '@builder.io/mitosis';
+import { Show, useStore } from '@builder.io/mitosis';
 import { SecretInputFormControlProps } from '../types';
 import CopyToClipboardButton from '../ClipboardButton/index.lite';
 import IconButton from '../IconButton/index.lite';
 import EyeIcon from '../icons/EyeIcon.lite';
 import EyeSlashIcon from '../icons/EyeSlashIcon.lite';
 import defaultStyles from './index.module.css';
+import Spacer from '../Spacer/index.lite';
 
 export default function SecretInputFormControl(props: SecretInputFormControlProps) {
   const state = useStore({
@@ -25,10 +26,14 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
         </label>
         <div>
           <IconButton
-            Icon={state.isSecretShown ? EyeSlashIcon : EyeIcon}
-            iconClasses={defaultStyles.icon}
             handleClick={state.toggleIsSecretShown}
-          />
+            label={state.isSecretShown ? 'Hide secret' : 'Show secret'}
+          >
+            <Show when={state.isSecretShown} else={<EyeIcon aria-hidden={true} />}>
+              <EyeSlashIcon aria-hidden={true} />
+            </Show>
+          </IconButton>
+          <Spacer x={2} />
           <CopyToClipboardButton text={props.value} copyDoneCallback={props.copyDoneCallback} />
         </div>
       </div>

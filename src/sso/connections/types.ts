@@ -1,9 +1,10 @@
+import { TableProps } from '../../shared/types';
+
 export interface ConnectionListProps {
   children?: any;
-  cols: ('provider' | 'type' | 'status' | 'actions')[];
-  actions: { icon: any; handleClick: () => void; iconClass?: string; name?: string }[];
+  cols: ('provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
+  actions: TableProps['actions'];
   tableCaption?: string;
-  hideCols?: ('provider' | 'tenant' | 'product' | 'idp_type' | 'status' | 'actions')[];
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;

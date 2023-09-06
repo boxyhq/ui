@@ -52,7 +52,7 @@ tbody .tr:hover {
   text-transform: uppercase;
 }
 
-.spanIcon {
+.iconSpan {
   display: inline-flex;
   align-items: baseline;
 }
