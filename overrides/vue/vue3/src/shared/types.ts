@@ -1,13 +1,6 @@
-import type { SVGAttributes, Component } from 'vue';
+import type { SVGAttributes } from 'vue';
 
 export type SVGProps = SVGAttributes;
-
-export interface IconButtonProps {
-  Icon: Component<{ svgElmtProps: SVGProps; classNames: string }>;
-  label?: string;
-  handleClick: (event: any) => void;
-  iconClasses: string;
-}
 
 export interface EmptyStateProps {
   title: string;
@@ -78,10 +71,8 @@ export interface LoadingContainerProps {
 
 export interface TableProps {
   cols: string[];
-  data: Partial<{
-    actions: { icon: any; handleClick: () => void; iconClass?: string; name?: string }[];
-    [key: string]: any;
-  }>[];
+  data: Record<string, any>[];
+  actions: { icon: any; handleClick: () => void; name?: string }[];
   tableCaption?: string;
   classNames?: {
     table?: string;
@@ -91,6 +82,7 @@ export interface TableProps {
     th?: string;
     td?: string;
     icon?: string;
+    iconSpan?: string;
   };
 }
 

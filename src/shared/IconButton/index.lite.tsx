@@ -1,15 +1,14 @@
-import type { IconButtonProps } from '../types';
 import styles from './index.module.css';
-import { useStore } from '@builder.io/mitosis';
+
+
+export interface IconButtonProps {
+  children: any;
+  label?: string;
+  handleClick: (event: any) => void;
+}
 
 export default function IconButton(props: IconButtonProps) {
-  const state = useStore({
-    get classes() {
-      return {
-        iconClasses: styles.icon + (props.iconClasses ? ` ${props.iconClasses}` : ''),
-      };
-    },
-  });
+
   // TODO: bring tooltip
   return (
     <button
@@ -17,7 +16,7 @@ export default function IconButton(props: IconButtonProps) {
       onClick={(event) => props.handleClick(event)}
       class={styles.btn}
       aria-label={props.label}>
-      <props.Icon svgElmtProps={{ 'aria-hidden': true }} classNames={state.classes.iconClasses} />
+      {props.children}
     </button>
   );
 }
