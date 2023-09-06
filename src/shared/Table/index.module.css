@@ -57,6 +57,4 @@ tbody .tr:hover {
   align-items: baseline;
 }
 
-.icon:hover {
-  color: var(--primary-hover);
-}
+

@@ -2,6 +2,20 @@ import type { SVGAttributes } from 'vue';
 
 export type SVGProps = SVGAttributes;
 
+export interface IconButtonProps {
+  label?: string;
+  handleClick: (event: any) => void;
+  icon:
+    | 'PencilIcon'
+    | 'CopytoClipboardIcon'
+    | 'EyeIcon'
+    | 'EyeSlashIcon'
+    | 'InfoIcon'
+    | 'LinkIcon'
+    | 'PlusIcon'
+    | 'CheckMarkIcon';
+}
+
 export interface EmptyStateProps {
   title: string;
   href?: string;
@@ -72,7 +86,7 @@ export interface LoadingContainerProps {
 export interface TableProps {
   cols: string[];
   data: Record<string, any>[];
-  actions: { icon: any; handleClick: () => void; name?: string }[];
+  actions: { icon: IconButtonProps['icon']; handleClick: (item: any) => void; label?: string }[];
   tableCaption?: string;
   classNames?: {
     table?: string;

@@ -3,7 +3,6 @@ import { For, Show, useStore } from '@builder.io/mitosis';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../sso/utils/cssClassAssembler';
 import IconButton from '../IconButton/index.lite';
-import PencilIcon from '../icons/PencilIcon.lite';
 
 export default function Table(props: TableProps) {
   const state = useStore({
@@ -54,21 +53,19 @@ export default function Table(props: TableProps) {
                           {(action) => (
                             <span class={state.classes.iconSpan}>
                               <IconButton
-                                label={action.name}
+                                label={action.label}
                                 handleClick={state.actionClick(action, item)}
-                              >
-                                <Show when={action.icon === "PencilIcon"}>
-                                  <PencilIcon aria-hidden={true} class={state.classes.icon} />
-                                </Show>
-                              </IconButton>
+                                icon={action.icon}
+                              ></IconButton>
                             </span>
                           )}</For>}>
                       {item[col]}
                     </Show>
                   </td>)}
               </For>
-            </tr>)}
-        </For>
+            </tr>)
+          }
+        </For >
       </tbody >
     </table >
   );

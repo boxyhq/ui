@@ -1,12 +1,7 @@
-import { useStore } from '@builder.io/mitosis';
 import type { SVGProps } from '../types';
 
-export default function EyeSlashIcon(props: SVGProps) {
-  const state = useStore({
-    get svgAttrs() {
-      return props;
-    },
-  });
+export default function EyeSlashIcon(props: { svgAttrs?: SVGProps }) {
+
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -15,7 +10,7 @@ export default function EyeSlashIcon(props: SVGProps) {
       stroke-width='1.5'
       stroke='currentColor'
       class='w-6 h-6'
-      {...state.svgAttrs}>
+      {...props.svgAttrs}>
       <path
         stroke-linecap='round'
         stroke-linejoin='round'
