@@ -12,10 +12,6 @@
   flex-direction: column;
 }
 
-.fieldContainer + .fieldContainer {
-  margin-top: 1rem;
-}
-
 .label {
   display: flex;
   align-items: center;
