@@ -28,8 +28,6 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
       return {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         heading: cssClassAssembler(props.classNames?.heading, defaultClasses.heading),
-        confirmBtn: cssClassAssembler(props.classNames?.confirmBtn, defaultClasses.confirmBtn),
-        cancelBtn: cssClassAssembler(props.classNames?.cancelBtn, defaultClasses.cancelBtn),
         toggle: cssClassAssembler(props.classNames?.toggle, defaultClasses.toggle),
         displayMessage: cssClassAssembler(props.classNames?.displayMessage, defaultClasses.displayMessage),
       };

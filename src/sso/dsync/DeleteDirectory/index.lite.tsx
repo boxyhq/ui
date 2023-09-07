@@ -10,8 +10,6 @@ export default function DeleteDirectory(props: DeleteDirectoryProps) {
     get classes() {
       return {
         section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
-        deleteBtn: cssClassAssembler(props.classNames?.deleteBtn, defaultClasses.deleteBtn),
-        outlineBtn: cssClassAssembler(props.classNames?.outlineBtn, defaultClasses.outlineBtn),
       };
     },
     promptConfirmationCallback() {

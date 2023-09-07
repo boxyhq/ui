@@ -26,7 +26,6 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
         fieldContainer: cssClassAssembler(props.classNames?.fieldContainer, defaultClasses.fieldContainer),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
-        button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
     handleChange(event: Event) {
