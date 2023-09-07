@@ -11,8 +11,6 @@ import CheckMarkIcon from '../icons/CheckMarkIcon.lite';
 import { IconButtonProps } from '../types';
 
 
-
-
 export default function IconButton(props: IconButtonProps) {
 
   // TODO: bring tooltip
