@@ -1,3 +1,4 @@
+@import url('../../../shared/common.module.css');
 .heading {
   margin: 20px 0px;
   font-size: 20px;
@@ -14,18 +15,18 @@
 
 .input {
   width: 100%;
-  border: 1px solid rgba(24, 26, 42, 0.2);
+  border: 1px solid var(--secondary-foreground-color);
+  border-radius: var(--border-radius);
   padding: 8px 16px;
   height: 48px;
   line-height: 24px;
-  border-radius: 4px;
   flex-shrink: 1;
 }
 
 .checkboxInput {
   height: 16px;
   width: 16px;
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   border: 1px solid rgb(209 213 219);
   background-color: rgb(243 244 246);
   color: rgb(37 99 235);
@@ -49,7 +50,7 @@
 }
 
 .container {
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   border: 1px solid rgb(229 231 235);
   background-color: white;
   padding: 24px;
@@ -70,17 +71,4 @@
   padding: 8px 0px;
   width: 100%;
   margin-top: 12px;
-}
-
-.btn {
-  color: white;
-  background-color: rgb(37, 194, 160);
-  border: 1px solid rgb(37, 194, 160);
-  padding: 0px 16px;
-  text-align: center;
-  cursor: pointer;
-  font-weight: 600;
-  line-height: 14px;
-  min-height: 48px;
-  border-radius: 4px;
 }
