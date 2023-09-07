@@ -5,6 +5,7 @@ import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
+import Separator from '../../../../shared/Separator/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -36,10 +37,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
     loading: false,
     oidcConnection: INITIAL_VALUES.oidcConnection,
-    hasDiscoveryUrl: true,
-    toggleHasDiscoveryUrl() {
-      state.hasDiscoveryUrl = !state.hasDiscoveryUrl;
-    },
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.oidcConnection, [key]: newValue };
     },
@@ -251,99 +248,87 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             required
           />
         </div>
-        <Show when={state.hasDiscoveryUrl}>
-          <div class={state.classes.fieldContainer}>
-            <div class={defaultClasses.labelWithAction}>
-              <label for='oidcDiscoveryUrl' class={state.classes.label}>
-                Well-known URL of OpenID Provider
-              </label>
-              <button class={defaultClasses.hint} onClick={() => state.toggleHasDiscoveryUrl()}>
-                Missing the discovery URL? Click here to set the individual attributes
-              </button>
-            </div>
-            <input
-              id='oidcDiscoveryUrl'
-              name='oidcDiscoveryUrl'
-              class={state.classes.input}
-              onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection.oidcDiscoveryUrl}
-              type='url'
-              placeholder='https://example.com/.well-known/openid-configuration'
-            />
-          </div>
-        </Show>
-        <Show when={!state.hasDiscoveryUrl}>
-          <div class={state.classes.fieldContainer}>
-            <div class={defaultClasses.labelWithAction}>
-              <label for='issuer' class={state.classes.label}>
-                Issuer
-              </label>
-              <button class={defaultClasses.hint} onClick={() => state.toggleHasDiscoveryUrl()}>
-                Have a discovery URL? Click here to set it
-              </button>
-            </div>
-            <input
-              id='issuer'
-              name='oidcMetadata.issuer'
-              class={state.classes.input}
-              onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection['oidcMetadata.issuer']}
-              type='url'
-            />
-          </div>
-          <div class={state.classes.fieldContainer}>
-            <label for='authorization_endpoint' class={state.classes.label}>
-              Authorization Endpoint
-            </label>
-            <input
-              id='authorization_endpoint'
-              name='oidcMetadata.authorization_endpoint'
-              class={state.classes.input}
-              onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection['oidcMetadata.authorization_endpoint']}
-              type='url'
-            />
-          </div>
-          <div class={state.classes.fieldContainer}>
-            <label for='token_endpoint' class={state.classes.label}>
-              Token endpoint
-            </label>
-            <input
-              id='token_endpoint'
-              name='oidcMetadata.token_endpoint'
-              class={state.classes.input}
-              onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection['oidcMetadata.token_endpoint']}
-              type='url'
-            />
-          </div>
-          <div class={state.classes.fieldContainer}>
-            <label for='jwks_uri' class={state.classes.label}>
-              JWKS URI
-            </label>
-            <input
-              id='jwks_uri'
-              name='oidcMetadata.jwks_uri'
-              class={state.classes.input}
-              onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection['oidcMetadata.jwks_uri']}
-              type='url'
-            />
-          </div>
-          <div class={state.classes.fieldContainer}>
-            <label for='userinfo_endpoint' class={state.classes.label}>
-              UserInfo endpoint
-            </label>
-            <input
-              id='userinfo_endpoint'
-              name='oidcMetadata.userinfo_endpoint'
-              class={state.classes.input}
-              onInput={(event) => state.handleChange(event)}
-              value={state.oidcConnection['oidcMetadata.userinfo_endpoint']}
-              type='url'
-            />
-          </div>
-        </Show>
+        <div class={state.classes.fieldContainer}>
+          <label for='oidcDiscoveryUrl' class={state.classes.label}>
+            Well-known URL of OpenID Provider
+          </label>
+          <input
+            id='oidcDiscoveryUrl'
+            name='oidcDiscoveryUrl'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection.oidcDiscoveryUrl}
+            type='url'
+            placeholder='https://example.com/.well-known/openid-configuration'
+          />
+        </div>
+        <Separator text='OR' />
+        <Spacer y={6} />
+        <div class={state.classes.fieldContainer}>
+          <label for='issuer' class={state.classes.label}>
+            Issuer
+          </label>
+          <input
+            id='issuer'
+            name='oidcMetadata.issuer'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection['oidcMetadata.issuer']}
+            type='url'
+          />
+        </div>
+        <div class={state.classes.fieldContainer}>
+          <label for='authorization_endpoint' class={state.classes.label}>
+            Authorization Endpoint
+          </label>
+          <input
+            id='authorization_endpoint'
+            name='oidcMetadata.authorization_endpoint'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection['oidcMetadata.authorization_endpoint']}
+            type='url'
+          />
+        </div>
+        <div class={state.classes.fieldContainer}>
+          <label for='token_endpoint' class={state.classes.label}>
+            Token endpoint
+          </label>
+          <input
+            id='token_endpoint'
+            name='oidcMetadata.token_endpoint'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection['oidcMetadata.token_endpoint']}
+            type='url'
+          />
+        </div>
+        <div class={state.classes.fieldContainer}>
+          <label for='jwks_uri' class={state.classes.label}>
+            JWKS URI
+          </label>
+          <input
+            id='jwks_uri'
+            name='oidcMetadata.jwks_uri'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection['oidcMetadata.jwks_uri']}
+            type='url'
+          />
+        </div>
+        <div class={state.classes.fieldContainer}>
+          <label for='userinfo_endpoint' class={state.classes.label}>
+            UserInfo endpoint
+          </label>
+          <input
+            id='userinfo_endpoint'
+            name='oidcMetadata.userinfo_endpoint'
+            class={state.classes.input}
+            onInput={(event) => state.handleChange(event)}
+            value={state.oidcConnection['oidcMetadata.userinfo_endpoint']}
+            type='url'
+          />
+        </div>
         <Spacer y={4} />
         {/* TODO: bring loading state */}
         {/* TODO: bring translation support */}
