@@ -13,7 +13,6 @@ export interface CreateDirectoryProps {
     fieldContainer?: string;
     input?: string;
     label?: string;
-    button?: string;
   };
 }
 
@@ -26,8 +25,6 @@ export interface DeleteDirectoryProps {
   errorCallback: (errMsg: string) => void;
   classNames?: {
     section?: string;
-    deleteBtn?: string;
-    outlineBtn?: string;
   };
 }
 
@@ -63,7 +60,6 @@ export interface EditDirectoryProps {
     container?: string;
     formDiv?: string;
     fieldsDiv?: string;
-    btn?: string;
   };
 }
 
@@ -79,8 +75,6 @@ export interface ToggleDirectoryStatusProps {
     heading?: string;
     toggle?: string;
     displayMessage?: string;
-    confirmBtn?: string;
-    cancelBtn?: string;
   };
 }
 
