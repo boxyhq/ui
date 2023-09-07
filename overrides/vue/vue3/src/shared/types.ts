@@ -1,12 +1,19 @@
-import type { SVGAttributes, Component } from 'vue';
+import type { SVGAttributes } from 'vue';
 
 export type SVGProps = SVGAttributes;
 
 export interface IconButtonProps {
-  Icon: Component<{ svgElmtProps: SVGProps; classNames: string }>;
   label?: string;
   handleClick: (event: any) => void;
-  iconClasses: string;
+  icon:
+    | 'PencilIcon'
+    | 'CopytoClipboardIcon'
+    | 'EyeIcon'
+    | 'EyeSlashIcon'
+    | 'InfoIcon'
+    | 'LinkIcon'
+    | 'PlusIcon'
+    | 'CheckMarkIcon';
 }
 
 export interface EmptyStateProps {
@@ -78,10 +85,8 @@ export interface LoadingContainerProps {
 
 export interface TableProps {
   cols: string[];
-  data: Partial<{
-    actions: { icon: any; handleClick: () => void; iconClass?: string; name?: string }[];
-    [key: string]: any;
-  }>[];
+  data: Record<string, any>[];
+  actions: { icon: IconButtonProps['icon']; handleClick: (item: any) => void; label?: string }[];
   tableCaption?: string;
   classNames?: {
     table?: string;
@@ -91,6 +96,7 @@ export interface TableProps {
     th?: string;
     td?: string;
     icon?: string;
+    iconSpan?: string;
   };
 }
 

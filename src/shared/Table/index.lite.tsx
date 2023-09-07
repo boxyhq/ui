@@ -2,6 +2,7 @@ import { TableProps } from '../types';
 import { For, Show, useStore } from '@builder.io/mitosis';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../sso/utils/cssClassAssembler';
+import IconButton from '../IconButton/index.lite';
 
 export default function Table(props: TableProps) {
   const state = useStore({
@@ -14,8 +15,13 @@ export default function Table(props: TableProps) {
         th: cssClassAssembler(props.classNames?.th, defaultClasses.th),
         td: cssClassAssembler(props.classNames?.td, defaultClasses.td),
         icon: cssClassAssembler(props.classNames?.icon, defaultClasses.icon),
+        iconSpan: cssClassAssembler(props.classNames?.iconSpan, defaultClasses.iconSpan),
       };
     },
+    actionClick(action: TableProps["actions"][number], item: TableProps["data"][number]) {
+      return () => action.handleClick(item)
+    }
+
   });
 
   return (
@@ -41,26 +47,26 @@ export default function Table(props: TableProps) {
               <For each={props.cols}>
                 {(col) => (
                   <td class={state.classes.td}>
-                    <Show
-                      when={col !== 'actions'}
+                    <Show when={col !== 'actions'}
                       else={
-                        <For each={item.actions}>
-                          {(action: any, i: number) => (
-                            <button key={i} type='button' onClick={() => action.handleClick()} aria-label={action.name}>
-                              <span class={state.classes.icon}>{action.icon}</span>
-                            </button>
-                          )}
-                        </For>
-                      }>
+                        <For each={props.actions}>
+                          {(action) => (
+                            <span class={state.classes.iconSpan}>
+                              <IconButton
+                                label={action.label}
+                                handleClick={state.actionClick(action, item)}
+                                icon={action.icon}
+                              ></IconButton>
+                            </span>
+                          )}</For>}>
                       {item[col]}
                     </Show>
-                  </td>
-                )}
+                  </td>)}
               </For>
-            </tr>
-          )}
-        </For>
-      </tbody>
-    </table>
+            </tr>)
+          }
+        </For >
+      </tbody >
+    </table >
   );
 }

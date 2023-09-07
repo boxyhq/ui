@@ -1,3 +1,5 @@
+@import url('../common.module.css');
+
 .toolbar {
   display: flex;
   align-items: center;
@@ -16,13 +18,6 @@
   margin-bottom: 0.5rem;
 }
 
-.icon {
-  margin-right: 0.5rem;
-}
-.icon:hover {
-  color: #25c2a0;
-}
-
 .input {
   height: 3rem;
   width: 100%;
@@ -33,7 +28,7 @@
   border-width: 1px;
   border-color: rgb(24, 26, 42);
   background-color: #fff;
-  border-radius: 0.25rem;
+  border-radius: var(--border-radius);
 }
 
 .input:focus-visible {

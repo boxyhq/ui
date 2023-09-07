@@ -1,11 +1,11 @@
-import { useStore, Show, For, onUpdate } from '@builder.io/mitosis';
+import { useStore, Show, onUpdate } from '@builder.io/mitosis';
 import type { Directory } from '../types';
 import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
-import EmptyState from '../../../shared/EmptyState/index.lite';
 import type { DirectoryListProps } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import Table from '../../../shared/Table/index.lite';
+import { TableProps } from '../../../shared/types';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
@@ -30,6 +30,20 @@ export default function DirectoryList(props: DirectoryListProps) {
         tableData: cssClassAssembler(props.classNames?.tableData, defaultClasses.tableData),
       };
     },
+    get actions(): TableProps["actions"] {
+      return [
+        {
+          icon: "EyeIcon",
+          label: "View",
+          handleClick: (directory: Directory) => props.handleActionClick("view", directory)
+        },
+        {
+          icon: "PencilIcon",
+          label: "Edit",
+          handleClick: (directory: Directory) => props.handleActionClick("edit", directory)
+        }
+      ]
+    }
   });
 
   onUpdate(() => {
@@ -51,7 +65,6 @@ export default function DirectoryList(props: DirectoryListProps) {
           product: directory.product,
           type: directory.type,
           status: directory.deactivated ? 'Inactive' : 'Active',
-          actions: props.actions,
         };
       });
 
@@ -72,7 +85,7 @@ export default function DirectoryList(props: DirectoryListProps) {
       when={state.directoryListIsLoading}
       else={
         <div>
-          <Table cols={props.cols} data={state.directoryListData} />
+          <Table cols={props.cols} data={state.directoryListData} actions={state.actions} />
         </div>
       }>
       <LoadingContainer isBusy={state.isDirectoryListLoading} />

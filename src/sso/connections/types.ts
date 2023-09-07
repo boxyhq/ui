@@ -1,14 +1,12 @@
 export interface ConnectionListProps {
   children?: any;
-  cols: ('provider' | 'type' | 'status' | 'actions')[];
-  actions: { icon: any; handleClick: () => void; iconClass?: string; name?: string }[];
+  cols: ('provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   tableCaption?: string;
-  hideCols?: ('provider' | 'tenant' | 'product' | 'idp_type' | 'status' | 'actions')[];
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;
   handleListFetchComplete?: (connections: ConnectionData<any>[]) => void;
-  handleActionClick: (e: ConnectionData<any>) => void;
+  handleActionClick: (action: 'edit', connection: ConnectionData<any>) => void;
   /**
    * Classnames for each inner components that make up the component.
    */

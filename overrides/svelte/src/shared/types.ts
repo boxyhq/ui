@@ -1,12 +1,17 @@
-import type { ComponentType, SvelteComponent } from 'svelte';
-
 export type SVGProps = SVGSVGElement;
 
 export interface IconButtonProps {
-  Icon: ComponentType<SvelteComponent<{ svgElmtProps: SVGProps; classNames: string }>>;
   label?: string;
-  onClick: (event: any) => void;
-  iconClasses: string;
+  handleClick: (event: any) => void;
+  icon:
+    | 'PencilIcon'
+    | 'CopytoClipboardIcon'
+    | 'EyeIcon'
+    | 'EyeSlashIcon'
+    | 'InfoIcon'
+    | 'LinkIcon'
+    | 'PlusIcon'
+    | 'CheckMarkIcon';
 }
 
 export interface EmptyStateProps {
@@ -71,10 +76,8 @@ export interface LoadingContainerProps {
 
 export interface TableProps {
   cols: string[];
-  data: Partial<{
-    actions: { icon: any; handleClick: () => void; iconClass?: string; name?: string }[];
-    [key: string]: any;
-  }>[];
+  data: Record<string, any>[];
+  actions: { icon: IconButtonProps['icon']; handleClick: (item: any) => void; label?: string }[];
   tableCaption?: string;
   classNames?: {
     table?: string;
@@ -84,6 +87,7 @@ export interface TableProps {
     th?: string;
     td?: string;
     icon?: string;
+    iconSpan?: string;
   };
 }
 
