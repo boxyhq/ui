@@ -3,6 +3,8 @@ import type { ToggleDirectoryStatusProps, ApiResponse } from '../types';
 import ToggleSwitch from '../../../shared/ToggleSwitch/index.lite';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
+import Button from '../../../shared/Button/index.lite';
+import Spacer from '../../../shared/Spacer/index.lite';
 
 export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps) {
   const state = useStore({
@@ -49,6 +51,8 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
 
         const response: ApiResponse = await res.json();
 
+        state.displayPrompt = false;
+
         if ('error' in response) {
           props.errorCallback(response.error.message);
           return;
@@ -70,12 +74,10 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
         <Show when={state.displayPrompt}>
           <div class={state.classes.displayMessage}>
             <span>Do you want to {` ${state.connectionAction} `} connection?</span>
-            <button class={state.classes.confirmBtn} onClick={() => state.onConfirm()}>
-              Confirm
-            </button>
-            <button class={state.classes.cancelBtn} onClick={() => state.onCancel()}>
-              Cancel
-            </button>
+            <Spacer x={3} />
+            <Button variant='destructive' name='Confirm' type='button' handleClick={state.onConfirm} />
+            <Spacer x={3} />
+            <Button variant='outline' name='Cancel' type='button' handleClick={state.onCancel} />
           </div>
         </Show>
         <Show when={!state.displayPrompt}>

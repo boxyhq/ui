@@ -2,6 +2,8 @@ import { For, Show, onMount, useStore } from '@builder.io/mitosis';
 import { CreateDirectoryProps, ApiResponse, Directory } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
+import Button from '../../../shared/Button/index.lite';
+import Spacer from '../../../shared/Spacer/index.lite';
 
 const DEFAULT_DIRECTORY_VALUES = {
   name: '',
@@ -194,9 +196,8 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
               />
             </div>
             <div>
-              <button class={state.classes.button} type='submit'>
-                Create Directory
-              </button>
+              <Spacer y={5} />
+              <Button variant='primary' type='submit' name='Create Directory' />
             </div>
           </div>
         </form>

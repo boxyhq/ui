@@ -4,10 +4,12 @@ import ToggleConnectionStatus from '../ToggleConnectionStatus/index.lite';
 import DeleteDirectory from '../DeleteDirectory/index.lite';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
+import Button from '../../../shared/Button/index.lite';
+import Spacer from '../../../shared/Spacer/index.lite';
 
 type FormState = Pick<Directory, 'name' | 'log_webhook_events' | 'webhook' | 'google_domain'>;
 
-const DEFAULT_VALUES: { formState: FormState, directory: Directory | null } = {
+const DEFAULT_VALUES: { formState: FormState; directory: Directory | null } = {
   formState: {
     name: '',
     log_webhook_events: false,
@@ -17,7 +19,7 @@ const DEFAULT_VALUES: { formState: FormState, directory: Directory | null } = {
     },
     google_domain: '',
   },
-  directory: null
+  directory: null,
 };
 
 export default function EditDirectory(props: EditDirectoryProps) {
@@ -199,9 +201,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
               </div>
             </div>
             <div>
-              <button type='submit' class={state.classes.btn}>
-                Save Changes
-              </button>
+              <Spacer y={4} />
+              <Button name='Save Changes' type='submit' variant='primary' />
             </div>
           </div>
         </form>
