@@ -34,7 +34,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         formDiv: cssClassAssembler(props.classNames?.formDiv, defaultClasses.formDiv),
         fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
-        btn: cssClassAssembler(props.classNames?.btn, defaultClasses.btn),
       };
     },
     updateFormState(key: string, newValue: string | boolean, id: string) {
