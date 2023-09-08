@@ -76,12 +76,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           const response: ApiResponse = await rawResponse.json();
 
           if ('error' in response) {
-            props.errorCallback(response.error.message);
+            (typeof props.errorCallback === 'function') && props.errorCallback(response.error.message);
             return;
           }
 
           if (rawResponse.ok) {
-            props.successCallback();
+            (typeof props.successCallback === 'function') && props.successCallback();
           }
         },
       });
