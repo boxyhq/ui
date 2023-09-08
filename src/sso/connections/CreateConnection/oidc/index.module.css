@@ -49,10 +49,6 @@
   line-height: 1rem;
 }
 
-.button {
-  margin-top: 1.5rem;
-}
-
 .formAction {
   display: flex;
   gap: 0.5rem;

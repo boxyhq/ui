@@ -93,7 +93,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           props.classNames?.radioContainer,
           defaultClasses.radioContainer + ' ' + defaultClasses.fieldContainer
         ),
-        button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
     isExcluded(fieldName: keyof SAMLSSOConnection) {

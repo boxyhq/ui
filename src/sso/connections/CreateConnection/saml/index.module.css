@@ -69,20 +69,6 @@
   line-height: 1rem;
 }
 
-.button {
-  margin-top: 1.5rem;
-}
-
-.labelWithAction {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.labelWithAction .hint {
-  text-decoration: underline;
-}
-
 .formAction {
   display: flex;
   gap: 0.5rem;

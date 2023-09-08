@@ -97,7 +97,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           props.classNames?.input,
           defaultClasses.input + ' ' + defaultClasses.textarea
         ),
-        button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
       };
     },
     get formVariant() {
