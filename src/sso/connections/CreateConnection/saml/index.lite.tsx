@@ -8,6 +8,7 @@ import Spacer from '../../../../shared/Spacer/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
 import Well from '../../../../shared/Well/index.lite';
 import Anchor from '../../../../shared/Anchor/index.lite';
+import Checkbox from '../../../../shared/Checkbox/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -284,19 +285,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           <Spacer y={6} />
           <Show when={state.formVariant === 'advanced'}>
             <Show when={!state.isExcluded('forceAuthn')}>
-              <div class={state.classes.radioContainer}>
-                <label for='forceAuthn' class={state.classes.label}>
-                  Force Authentication
-                </label>
-                <input
-                  id='forceAuthn'
-                  name='forceAuthn'
-                  onChange={(event) => state.handleChange(event)}
-                  checked={state.samlConnection.forceAuthn}
-                  required={false}
-                  type='checkbox'
-                />
-              </div>
+              <Checkbox checked={state.samlConnection.forceAuthn} handleChange={state.handleChange} label='Force Authentication' name='forceAuthn' />
             </Show>
           </Show>
           <Spacer y={6} />
