@@ -68,6 +68,7 @@ export interface CardProps {
 export interface LinkProps {
   href: string;
   linkText: string;
+  cssClass?: string;
   variant?: 'primary' | 'button';
 }
 
