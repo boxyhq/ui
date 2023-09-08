@@ -110,6 +110,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               <label for='name' class={state.classes.label}>
                 Connection name (Optional)
               </label>
+                <Spacer y={2} />
               <input
                 class={state.classes.input}
                 id='name'
@@ -122,11 +123,13 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               />
             </div>
           </Show>
+            <Spacer y={6} />
           <Show when={!state.isExcluded('description')}>
             <div class={state.classes.fieldContainer}>
               <label for='description' class={state.classes.label}>
                 Description
               </label>
+                <Spacer y={2} />
               <input
                 class={state.classes.input}
                 id='description'
@@ -140,11 +143,13 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               />
             </div>
           </Show>
+            <Spacer y={6} />
           <Show when={!state.isExcluded('tenant')}>
             <div class={state.classes.fieldContainer}>
               <label for='tenant' class={state.classes.label}>
                 Tenant
               </label>
+                <Spacer y={2} />
               <input
                 class={state.classes.input}
                 id='tenant'
@@ -160,11 +165,13 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               </span>
             </div>
           </Show>
+            <Spacer y={6} />
           <Show when={!state.isExcluded('product')}>
             <div class={state.classes.fieldContainer}>
               <label for='product' class={state.classes.label}>
                 Product
               </label>
+                <Spacer y={2} />
               <input
                 class={state.classes.input}
                 id='product'
@@ -176,11 +183,13 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               />
             </div>
           </Show>
+            <Spacer y={6} />
           <Show when={!state.isExcluded('redirectUrl')}>
             <div class={state.classes.fieldContainer}>
               <label for='redirectUrl' class={state.classes.label}>
                 Allowed redirect URLs (newline separated)
               </label>
+                <Spacer y={2} />
               <textarea
                 id='redirectUrl'
                 name='redirectUrl'
@@ -196,11 +205,13 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               </span>
             </div>
           </Show>
+            <Spacer y={6} />
           <Show when={!state.isExcluded('defaultRedirectUrl')}>
             <div class={state.classes.fieldContainer}>
               <label for='defaultRedirectUrl' class={state.classes.label}>
                 Default redirect URL
               </label>
+                <Spacer y={2} />
               <input
                 class={state.classes.input}
                 id='defaultRedirectUrl'
@@ -212,13 +223,15 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               />
             </div>
           </Show>
+            <Spacer y={6} />
+            <Spacer y={6} />
         </Show>
         <div class={state.classes.fieldContainer}>
           <div class={defaultClasses.labelWithAction}>
             <label for='rawMetadata' class={state.classes.label}>
               Raw IdP XML
             </label>
-          </div>
+            <Spacer y={2} />
           <textarea
             id='rawMetadata'
             class={state.classes.textarea}
@@ -229,6 +242,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             placeholder='Paste the raw XML here'
           />
         </div>
+          <Spacer y={6} />
         <Separator text='OR' />
         <Spacer y={6} />
         <div class={state.classes.fieldContainer}>
@@ -236,7 +250,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             <label for='metadataUrl' class={state.classes.label}>
               Metadata URL
             </label>
-          </div>
+            <Spacer y={2} />
           <input
             class={state.classes.input}
             id='metadataUrl'
@@ -248,6 +262,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             placeholder='Paste the Metadata URL here'
           />
         </div>
+          <Spacer y={6} />
         <Show when={state.formVariant === 'advanced'}>
           <Show when={!state.isExcluded('forceAuthn')}>
             <div class={state.classes.radioContainer}>
@@ -265,7 +280,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             </div>
           </Show>
         </Show>
-        <Spacer y={4} />
+          <Spacer y={6} />
         {/* TODO: bring loading state */}
         {/* TODO: bring translation support */}
         <div class={defaultClasses.formAction}>

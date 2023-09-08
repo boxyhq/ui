@@ -130,11 +130,13 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 />
               </div>
             </Show>
+            <Spacer y={6} />
             <Show when={!state.isExcluded('description')}>
               <div class={state.classes.fieldContainer}>
                 <label for='description' class={state.classes.label}>
                   Description
                 </label>
+                <Spacer y={2} />
                 <input
                   id='description'
                   name='description'
@@ -148,11 +150,13 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 />
               </div>
             </Show>
+            <Spacer y={6} />
             <Show when={!state.isExcluded('tenant')}>
               <div class={state.classes.fieldContainer}>
                 <label for='tenant' class={state.classes.label}>
                   Tenant
                 </label>
+                <Spacer y={2} />
                 <input
                   id='tenant'
                   name='tenant'
@@ -168,11 +172,13 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 </span>
               </div>
             </Show>
+            <Spacer y={6} />
             <Show when={!state.isExcluded('product')}>
               <div class={state.classes.fieldContainer}>
                 <label for='product' class={state.classes.label}>
                   Product
                 </label>
+                <Spacer y={2} />
                 <input
                   id='product'
                   name='product'
@@ -184,11 +190,13 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 />
               </div>
             </Show>
+            <Spacer y={6} />
             <Show when={!state.isExcluded('redirectUrl')}>
               <div class={state.classes.fieldContainer}>
                 <label for='redirectUrl' class={state.classes.label}>
                   Allowed redirect URLs (newline separated)
                 </label>
+                <Spacer y={2} />
                 <textarea
                   id='redirectUrl'
                   name='redirectUrl'
@@ -204,6 +212,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 </span>
               </div>
             </Show>
+            <Spacer y={6} />
             <Show when={!state.isExcluded('defaultRedirectUrl')}>
               <div class={state.classes.fieldContainer}>
                 <label for='defaultRedirectUrl' class={state.classes.label}>
@@ -220,11 +229,14 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 />
               </div>
             </Show>
+            <Spacer y={6} />
+            <Spacer y={6} />
           </Show>
           <div class={state.classes.fieldContainer}>
             <label for='oidcClientId' class={state.classes.label}>
               Client ID [OIDC Provider]
             </label>
+            <Spacer y={2} />
             <input
               id='oidcClientId'
               name='oidcClientId'
@@ -235,10 +247,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               required
             />
           </div>
+          <Spacer y={6} />
           <div class={state.classes.fieldContainer}>
             <label for='oidcClientSecret' class={state.classes.label}>
               Client Secret [OIDC Provider]
             </label>
+            <Spacer y={2} />
             <input
               id='oidcClientSecret'
               name='oidcClientSecret'
@@ -249,10 +263,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               required
             />
           </div>
+          <Spacer y={6} />
           <div class={state.classes.fieldContainer}>
             <label for='oidcDiscoveryUrl' class={state.classes.label}>
               Well-known URL of OpenID Provider
             </label>
+            <Spacer y={2} />
             <input
               id='oidcDiscoveryUrl'
               name='oidcDiscoveryUrl'
@@ -270,6 +286,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <label for='issuer' class={state.classes.label}>
               Issuer
             </label>
+            <Spacer y={2} />
             <input
               id='issuer'
               name='oidcMetadata.issuer'
@@ -279,10 +296,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               type='url'
             />
           </div>
+          <Spacer y={6} />
           <div class={state.classes.fieldContainer}>
             <label for='authorization_endpoint' class={state.classes.label}>
               Authorization Endpoint
             </label>
+            <Spacer y={2} />
             <input
               id='authorization_endpoint'
               name='oidcMetadata.authorization_endpoint'
@@ -292,10 +311,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               type='url'
             />
           </div>
+          <Spacer y={6} />
           <div class={state.classes.fieldContainer}>
             <label for='token_endpoint' class={state.classes.label}>
               Token endpoint
             </label>
+            <Spacer y={2} />
             <input
               id='token_endpoint'
               name='oidcMetadata.token_endpoint'
@@ -305,10 +326,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               type='url'
             />
           </div>
+          <Spacer y={6} />
           <div class={state.classes.fieldContainer}>
             <label for='jwks_uri' class={state.classes.label}>
               JWKS URI
             </label>
+            <Spacer y={2} />
             <input
               id='jwks_uri'
               name='oidcMetadata.jwks_uri'
@@ -318,10 +341,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               type='url'
             />
           </div>
+          <Spacer y={6} />
           <div class={state.classes.fieldContainer}>
             <label for='userinfo_endpoint' class={state.classes.label}>
               UserInfo endpoint
             </label>
+            <Spacer y={2} />
             <input
               id='userinfo_endpoint'
               name='oidcMetadata.userinfo_endpoint'
@@ -331,7 +356,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               type='url'
             />
           </div>
-          <Spacer y={4} />
+          <Spacer y={6} />
           {/* TODO: bring loading state */}
           {/* TODO: bring translation support */}
           <div class={defaultClasses.formAction}>
