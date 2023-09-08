@@ -1,4 +1,4 @@
-import { Show, onMount, useStore } from '@builder.io/mitosis';
+import { Show, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
 import type { ConnectionData, ConnectionsWrapperProp, OIDCSSORecord, SAMLSSORecord } from '../types';
 import cssClassAssembler from '../../utils/cssClassAssembler';
