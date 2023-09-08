@@ -7,6 +7,7 @@ import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
 import Well from '../../../../shared/Well/index.lite';
+import Anchor from '../../../../shared/Anchor/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -109,8 +110,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
 
   return (
     <div>
-      <h2 class={defaultClasses.heading}>Create OIDC Connection</h2>
       <Well>
+        <Show when={props.displayHeader !== undefined ? props.displayHeader : true}>
+          <h2 class={defaultClasses.heading}>Create OIDC Connection</h2>
+        </Show>
         <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
           <Show when={state.formVariant === 'advanced'}>
             <Show when={!state.isExcluded('name')}>
@@ -118,6 +121,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 <label for='name' class={state.classes.label}>
                   Connection name (Optional)
                 </label>
+                <Spacer y={2} />
                 <input
                   id='name'
                   name='name'
@@ -134,7 +138,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <Show when={!state.isExcluded('description')}>
               <div class={state.classes.fieldContainer}>
                 <label for='description' class={state.classes.label}>
-                  Description
+                  Description (Optional)
                 </label>
                 <Spacer y={2} />
                 <input
@@ -160,6 +164,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 <input
                   id='tenant'
                   name='tenant'
+                  required
                   class={state.classes.input}
                   onInput={(event) => state.handleChange(event)}
                   value={state.oidcConnection.tenant}
@@ -168,7 +173,11 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                   aria-describedby='tenant-hint'
                 />
                 <span id='tenant-hint' class={defaultClasses.hint}>
-                  Unique identifier for the tenant in your app
+                  Unique identifier for the tenant to which this SSO connection is linked.See
+                  <Spacer x={1} />
+                  <Anchor href='https://boxyhq.com/guides/jackson/configuring-saml-sso#sso-connection-identifier'
+                    linkText='SSO connection identifier.'
+                  />
                 </span>
               </div>
             </Show>
@@ -182,12 +191,17 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 <input
                   id='product'
                   name='product'
+                  required
                   class={state.classes.input}
                   onInput={(event) => state.handleChange(event)}
                   value={state.oidcConnection.product}
                   type='text'
                   placeholder='demo'
+                  aria-describedby='product-hint'
                 />
+                <span id='product-hint' class={defaultClasses.hint}>
+                  Identifies the product/app to which this SSO connection is linked.
+                </span>
               </div>
             </Show>
             <Spacer y={6} />
@@ -200,6 +214,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 <textarea
                   id='redirectUrl'
                   name='redirectUrl'
+                  required
                   class={state.classes.textarea}
                   onInput={(event) => state.handleChange(event)}
                   value={state.oidcConnection.redirectUrl}
@@ -218,6 +233,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
                 <label for='defaultRedirectUrl' class={state.classes.label}>
                   Default redirect URL
                 </label>
+                <Spacer y={2} />
                 <input
                   id='defaultRedirectUrl'
                   name='defaultRedirectUrl'
@@ -230,11 +246,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               </div>
             </Show>
             <Spacer y={6} />
+            <Separator text='OIDC Provider Metadata' />
             <Spacer y={6} />
           </Show>
           <div class={state.classes.fieldContainer}>
             <label for='oidcClientId' class={state.classes.label}>
-              Client ID [OIDC Provider]
+              Client ID
             </label>
             <Spacer y={2} />
             <input
@@ -245,12 +262,16 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               value={state.oidcConnection.oidcClientId}
               type='text'
               required
+              aria-describedby='oidc-clientid-hint'
             />
+            <span id='oidc-clientid-hint' class={defaultClasses.hint}>
+              ClientId of the app created on the OIDC Provider.
+            </span>
           </div>
           <Spacer y={6} />
           <div class={state.classes.fieldContainer}>
             <label for='oidcClientSecret' class={state.classes.label}>
-              Client Secret [OIDC Provider]
+              Client Secret
             </label>
             <Spacer y={2} />
             <input
@@ -261,7 +282,11 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               value={state.oidcConnection.oidcClientSecret}
               type='text'
               required
+              aria-describedby='oidc-clientsecret-hint'
             />
+            <span id='oidc-clientsecret-hint' class={defaultClasses.hint}>
+              ClientSecret of the app created on the OIDC Provider.
+            </span>
           </div>
           <Spacer y={6} />
           <div class={state.classes.fieldContainer}>
@@ -277,7 +302,11 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               value={state.oidcConnection.oidcDiscoveryUrl}
               type='url'
               placeholder='https://example.com/.well-known/openid-configuration'
+              aria-describedby='oidc-metadata-hint'
             />
+            <span id='oidc-metadata-hint' class={defaultClasses.hint}>
+              Enter the well known discovery path of OpenID provider or manually enter the OpenId provider metadata below.
+            </span>
           </div>
           <Spacer y={6} />
           <Separator text='OR' />
@@ -291,6 +320,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='issuer'
               name='oidcMetadata.issuer'
               class={state.classes.input}
+              placeholder='https://example.com'
               onInput={(event) => state.handleChange(event)}
               value={state.oidcConnection['oidcMetadata.issuer']}
               type='url'
@@ -306,6 +336,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='authorization_endpoint'
               name='oidcMetadata.authorization_endpoint'
               class={state.classes.input}
+              placeholder='https://example.com/oauth/authorize'
               onInput={(event) => state.handleChange(event)}
               value={state.oidcConnection['oidcMetadata.authorization_endpoint']}
               type='url'
@@ -321,6 +352,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='token_endpoint'
               name='oidcMetadata.token_endpoint'
               class={state.classes.input}
+              placeholder='https://example.com/oauth/token'
               onInput={(event) => state.handleChange(event)}
               value={state.oidcConnection['oidcMetadata.token_endpoint']}
               type='url'
@@ -336,6 +368,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='jwks_uri'
               name='oidcMetadata.jwks_uri'
               class={state.classes.input}
+              placeholder='https://example.com/.well-known/jwks.json'
               onInput={(event) => state.handleChange(event)}
               value={state.oidcConnection['oidcMetadata.jwks_uri']}
               type='url'
@@ -351,6 +384,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='userinfo_endpoint'
               name='oidcMetadata.userinfo_endpoint'
               class={state.classes.input}
+              placeholder='https://example.com/userinfo'
               onInput={(event) => state.handleChange(event)}
               value={state.oidcConnection['oidcMetadata.userinfo_endpoint']}
               type='url'
