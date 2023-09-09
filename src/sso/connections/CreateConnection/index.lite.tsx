@@ -48,8 +48,9 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         </div>
       </Show>
       <div>
+        <h2 class={defaultClasses.heading}>Create SSO Connection</h2>
         <fieldset className={state.classes.container}>
-          <legend className={state.classes.selectSSO}>Select SSO type</legend>
+          <legend className={state.classes.selectSSO}>Select SSO type:</legend>
           <div className={state.classes.formControl}>
             <label className={state.classes.label}>
               <input
@@ -84,7 +85,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             classNames={props.componentProps.saml.classNames}
             variant={props.componentProps.saml.variant}
             errorCallback={props.componentProps.saml.errorCallback!}
-            successCallback={props.componentProps.saml.successCallback!}></CreateSAMLConnection>
+            successCallback={props.componentProps.saml.successCallback!} displayHeader={false} />
         </Show>
         <Show when={state.connectionIsOIDC}>
           <CreateOIDCConnection
@@ -93,7 +94,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             classNames={props.componentProps.oidc.classNames}
             variant={props.componentProps.oidc.variant}
             errorCallback={props.componentProps.oidc.errorCallback!}
-            successCallback={props.componentProps.oidc.successCallback!}></CreateOIDCConnection>
+            successCallback={props.componentProps.oidc.successCallback!} displayHeader={false} />
         </Show>
       </div>
     </div>

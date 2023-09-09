@@ -21,7 +21,6 @@ export interface ConnectionListProps {
     th?: string;
     connectionListContainer?: string;
     td?: string;
-    badgeClass?: string;
     tableData?: string;
     spanIcon?: string;
     icon?: string;
@@ -29,8 +28,8 @@ export interface ConnectionListProps {
 }
 
 export interface CreateConnectionProps {
-  errorCallback: (errMessage: string) => void;
-  successCallback: () => void;
+  errorCallback?: (errMessage: string) => void;
+  successCallback?: () => void;
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
@@ -43,12 +42,13 @@ export interface CreateConnectionProps {
   classNames?: {
     form?: string;
     container?: string;
-    button?: string;
     input?: string;
     radioContainer?: string;
     label?: string;
     fieldContainer?: string;
   };
+  /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
+  displayHeader?: boolean;
 }
 
 export interface CreateSSOConnectionProps {

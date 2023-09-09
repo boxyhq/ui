@@ -18,11 +18,9 @@ export interface EmptyStateProps {
 }
 
 export interface BadgeProps {
-  children?: any;
-  className?: string;
-  color?: string;
-  size?: string;
+  badgeText: string;
   ariaLabel?: string;
+  variant?: 'success' | 'info' | 'warning';
 }
 
 export interface ModalProps {
@@ -68,6 +66,7 @@ export interface CardProps {
 export interface LinkProps {
   href: string;
   linkText: string;
+  cssClass?: string;
   variant?: 'primary' | 'button';
 }
 

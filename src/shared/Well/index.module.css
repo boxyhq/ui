@@ -1,0 +1,7 @@
+@import url('../common.module.css');
+
+.well {
+  border-radius: var(--border-radius);
+  border: 1px solid var(--secondary-color);
+  padding: 1.5rem;
+}
