@@ -1,3 +1,19 @@
+@import url('../../../shared/common.module.css');
+
+.heading {
+  margin: 1.5rem 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--secondary-foreground-color);
+}
+
+@media (min-width: 768px) {
+  .heading {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+}
+
 .formControl {
   display: flex;
   flex-direction: column;
@@ -47,32 +63,26 @@
   /* Not removed via appearance */
   margin: 0;
   font: inherit;
-  color: currentColor;
+  color: var(--primary-color);
   height: 1.5rem /* 24px */;
   width: 1.5rem /* 24px */;
-  border: 0.15rem solid currentColor;
+  border: 1px solid currentColor;
   border-radius: 50%;
   transform: translateY(-0.075rem);
   display: grid;
   place-content: center;
 }
 
-.radio::before {
-  content: '';
-  width: 0.65rem;
-  height: 0.65rem;
-  border-radius: 50%;
-  transform: scale(0);
-  transition: 120ms transform ease-in-out;
-  box-shadow: inset 1rem 1rem currentColor;
-}
-
-.radio:checked::before {
-  transform: scale(1);
-}
-
 .radio:focus,
 .radio:checked {
-  outline: max(2px, 0.15rem) solid currentColor;
-  outline-offset: max(2px, 0.15rem);
+  animation: radiomark 0.2s ease-out;
+  background-color: var(--primary-color);
+  box-shadow:
+    0 0 0 4px var(--ring-offset-color) inset,
+    0 0 0 4px var(--ring-offset-color) inset;
+}
+
+.radio:focus-visible {
+  outline: var(--primary-color) solid var(--ring-offset-width, 2px);
+  outline-offset: var(--ring-offset-width, 2px);
 }
