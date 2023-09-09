@@ -32,7 +32,6 @@ export default function ConnectionList(props: ConnectionListProps) {
           defaultClasses.connectionListContainer
         ),
         td: cssClassAssembler(props.classNames?.td, defaultClasses.td),
-        badgeClass: cssClassAssembler(props.classNames?.badgeClass, defaultClasses.badgeClass),
         spanIcon: cssClassAssembler(props.classNames?.spanIcon, defaultClasses.spanIcon),
         icon: cssClassAssembler(props.classNames?.icon, defaultClasses.icon),
       };

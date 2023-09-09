@@ -55,5 +55,5 @@ export default function Spacer(props: SpacerProps) {
     },
   });
 
-  return <div style={{ marginLeft: state.marginLeft, marginTop: state.marginTop }} aria-hidden></div>;
+  return <div style={{ marginLeft: state.marginLeft, marginTop: state.marginTop, display: "inline-block" }} aria-hidden></div>;
 }
