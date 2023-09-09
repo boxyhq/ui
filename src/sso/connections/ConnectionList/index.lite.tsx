@@ -33,7 +33,6 @@ export default function ConnectionList(props: ConnectionListProps) {
           defaultClasses.connectionListContainer
         ),
         td: cssClassAssembler(props.classNames?.td, defaultClasses.td),
-        badgeClass: cssClassAssembler(props.classNames?.badgeClass, defaultClasses.badgeClass),
         spanIcon: cssClassAssembler(props.classNames?.spanIcon, defaultClasses.spanIcon),
         icon: cssClassAssembler(props.classNames?.icon, defaultClasses.icon),
       };
@@ -132,12 +131,10 @@ export default function ConnectionList(props: ConnectionListProps) {
                           {state.connectionDisplayName(connection)}
                           <Show when={connection.isSystemSSO}>
                             <Badge
-                              color='info'
+                              variant='info'
+                              badgeText='system'
                               ariaLabel='is an sso connection for the admin portal'
-                              size='xs'
-                              className={state.classes.badgeClass}>
-                              system
-                            </Badge>
+                            />
                           </Show>
                         </td>
                       </Show>
@@ -158,13 +155,9 @@ export default function ConnectionList(props: ConnectionListProps) {
                           <Show
                             when={connection.deactivated}
                             else={
-                              <Badge color='black' size='md'>
-                                Active
-                              </Badge>
+                              <Badge badgeText='Active' variant='success' />
                             }>
-                            <Badge color='red' size='md'>
-                              Inactive
-                            </Badge>
+                            <Badge badgeText='Inactive' variant='warning' />
                           </Show>
                         </td>
                       </Show>

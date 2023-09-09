@@ -21,7 +21,6 @@ export interface ConnectionListProps {
     th?: string;
     connectionListContainer?: string;
     td?: string;
-    badgeClass?: string;
     tableData?: string;
     spanIcon?: string;
     icon?: string;
