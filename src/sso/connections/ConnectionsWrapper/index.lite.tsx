@@ -40,7 +40,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     switchToCreateView() {
       state.view = 'CREATE';
     },
-    switchToEditView(action: "edit", connection: ConnectionData<any>) {
+    switchToEditView(action: 'edit', connection: ConnectionData<any>) {
       state.view = 'EDIT';
       state.connectionToEdit = connection;
     },
@@ -54,7 +54,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
 
   return (
     <div>
-      <div className='flex flex-col'>
+      <div class={defaultClasses.listView}>
         <Show when={state.view === 'LIST'}>
           <Show when={state.connectionsAdded}>
             <Card
@@ -76,8 +76,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           <ConnectionList
             {...props.componentProps.connectionList}
             handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}
-          >
+            handleListFetchComplete={state.handleListFetchComplete}>
             <Card variant='info' title='SSO not enabled'>
               <div class={defaultClasses.ctoa}>
                 <Show when={props.urls?.spMetadata}>
