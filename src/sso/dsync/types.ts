@@ -29,11 +29,13 @@ export interface DeleteDirectoryProps {
 }
 
 export interface DirectoryListProps {
+  children?: any;
   tableCaption?: string;
   cols: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   setupLinkToken?: string;
   getDirectoriesUrl: string;
   useDirectoryProviderUrl: string;
+  handleListFetchComplete?: (directories: Directory[]) => void;
   handleActionClick: (action: 'edit' | 'view', directory: any) => void;
   classNames?: {
     container?: string;
@@ -75,6 +77,14 @@ export interface ToggleDirectoryStatusProps {
     heading?: string;
     toggle?: string;
     displayMessage?: string;
+  };
+}
+
+export interface DirectoriesWrapperProps {
+  componentProps: {
+    directoryList: Omit<DirectoryListProps, 'handleActionClick'>;
+    createDirectory: CreateDirectoryProps;
+    editDirectory: EditDirectoryProps;
   };
 }
 
