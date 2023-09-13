@@ -9,3 +9,4 @@ export { default as ConnectionsWrapper } from './connections/ConnectionsWrapper/
 export { default as CreateDirectory } from './dsync/CreateDirectory/index.lite';
 export { default as DirectoryList } from './dsync/DirectoryList/index.lite';
 export { default as EditDirectory } from './dsync/EditDirectory/index.lite';
+export { default as DirectoriesWrapper } from './dsync/DirectoriesWrapper/index.lite';
