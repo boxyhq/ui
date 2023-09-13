@@ -18,12 +18,8 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     view: DEFAULT_VALUES.view,
     handleListFetchComplete: (directoryList: Directory[]) => {
       state.directories = directoryList;
-      console.log('Handle fetch is being triggered', directoryList);
     },
     get directoriesAdded(): boolean {
-      console.log('These are the current number of directories', state.directories.length);
-      console.log('Directories', state.directories);
-
       return state.directories.length > 0;
     },
     directoryToEdit: {} as Directory,
