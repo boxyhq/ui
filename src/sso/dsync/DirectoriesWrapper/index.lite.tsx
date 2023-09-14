@@ -26,7 +26,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     switchToCreateView() {
       state.view = 'CREATE';
     },
-    switchToEditView(action: 'edit', directory: any) {
+    switchToEditView(action: 'edit' | 'view', directory: any) {
       state.view = 'EDIT';
       state.directoryToEdit = directory;
     },
