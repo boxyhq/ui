@@ -41,7 +41,6 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   const state = useStore({
     samlConnection: INITIAL_VALUES.samlConnection,
-    displayDeletionConfirmation: false,
     get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
     },
@@ -72,12 +71,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       const targetValue = name !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked;
 
       state.samlConnection = state.updateConnection(name, targetValue);
-    },
-    onCancel() {
-      state.displayDeletionConfirmation = false;
-    },
-    askForConfirmation() {
-      state.displayDeletionConfirmation = true;
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
@@ -111,7 +104,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     },
     deleteSSOConnection(event: Event) {
       event.preventDefault();
-      state.displayDeletionConfirmation = false;
 
       deleteConnection({
         url: props.urls.delete,

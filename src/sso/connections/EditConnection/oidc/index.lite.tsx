@@ -43,7 +43,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
   const state = useStore({
     oidcConnection: INITIAL_VALUES.oidcConnection,
     hasDiscoveryUrl: true,
-    displayDeletionConfirmation: false,
     get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
     },
@@ -77,12 +76,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
 
       state.oidcConnection = state.updateConnection(name, targetValue);
-    },
-    onCancel() {
-      state.displayDeletionConfirmation = false;
-    },
-    askForConfirmation() {
-      state.displayDeletionConfirmation = true;
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
@@ -120,7 +113,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     },
     deleteSSOConnection(event: Event) {
       event.preventDefault();
-      state.displayDeletionConfirmation = false;
 
       deleteConnection({
         url: props.urls.delete,
