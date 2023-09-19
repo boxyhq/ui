@@ -1,11 +1,11 @@
 import type { Directory, EditDirectoryProps, ApiResponse } from '../types';
 import { useStore, onUpdate, Show } from '@builder.io/mitosis';
 import ToggleConnectionStatus from '../ToggleConnectionStatus/index.lite';
-import DeleteDirectory from '../DeleteDirectory/index.lite';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
+import ConfirmationPrompt from '../../../shared/ConfirmationPrompt/index.lite';
 
 type FormState = Pick<Directory, 'name' | 'log_webhook_events' | 'webhook' | 'google_domain'>;
 
@@ -77,17 +77,36 @@ export default function EditDirectory(props: EditDirectoryProps) {
         const response: ApiResponse<Directory> = await rawResponse.json();
 
         if ('error' in response) {
-          props.errorCallback(response.error.message);
-          return null;
+          (typeof props.errorCallback === 'function') && props.errorCallback(response.error.message);
+          return;
         }
 
         if (rawResponse.ok) {
-          props.successCallback('Directory updated successfully');
-          props.cb();
+          (typeof props.successCallback === 'function') && props.successCallback();
         }
       }
       sendHttpRequest(props.urls.put);
     },
+    deleteDirectory() {
+      async function sendHTTPrequest(url: string) {
+        const rawResponse = await fetch(url, {
+          method: 'DELETE',
+        });
+
+        const response: ApiResponse<unknown> = await rawResponse.json();
+
+        if ('error' in response) {
+          (typeof props.errorCallback === 'function') && props.errorCallback(response.error.message);
+          return;
+        }
+
+        if ('data' in response) {
+          (typeof props.successCallback === 'function') && props.successCallback();
+        }
+      }
+
+      sendHTTPrequest(props.urls.delete);
+    }
   });
 
   onUpdate(() => {
@@ -114,6 +133,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
     }
     getDirectory(props.getUrl);
   }, [props.getUrl]);
+
+
 
   return (
     <div>
@@ -199,19 +220,27 @@ export default function EditDirectory(props: EditDirectoryProps) {
                 </label>
               </div>
             </div>
-            <div>
-              <Spacer y={4} />
-              <Button name='Save Changes' type='submit' variant='primary' />
+            <Spacer y={4} />
+            <div class={defaultClasses.formAction}>
+              <Show when={typeof props.cancelCallback === 'function'}>
+                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
+              </Show>
+              <Button type='submit' name='Save' variant='primary' />
             </div>
           </div>
         </form>
       </div>
-      <DeleteDirectory
-        urls={{ delete: props.urls.delete }}
-        cb={props.deleteCallback}
-        successCallback={props.successCallback}
-        errorCallback={props.errorCallback}
-      />
+      <section class={state.classes.section}>
+        <div class={defaultClasses.info}>
+          <h6 class={defaultClasses.sectionHeading}>Delete this directory connection</h6>
+          <p class={defaultClasses.sectionPara}>All your apps using this connection will stop working.</p>
+        </div>
+        <ConfirmationPrompt
+          promptMessge=' Are you sure you want to delete the directory connection? This will permanently delete the
+              directory connection, users, and groups.'
+          confirmationCallback={state.promptConfirmationCallback}
+        />
+      </section>
     </div>
   );
 }

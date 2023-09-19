@@ -72,3 +72,34 @@
   width: 100%;
   margin-top: 12px;
 }
+
+.section {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  border-radius: 4px;
+  padding: 24px;
+  color: rgb(127 29 29);
+  border: 1px solid rgb(254 226 226);
+  background-color: rgb(254 226 226);
+  margin-top: 40px;
+}
+
+.info {
+  width: 100%;
+}
+
+.sectionHeading {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.sectionPara {
+  font-weight: 300;
+}
+
+.confirmationDiv {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
