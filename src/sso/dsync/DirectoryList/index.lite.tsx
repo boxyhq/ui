@@ -78,8 +78,8 @@ export default function DirectoryList(props: DirectoryListProps) {
   }
 
   onUpdate(() => {
-    getFieldsData(props.getDirectoriesUrl, props.useDirectoryProviderUrl);
-  }, [props.getDirectoriesUrl, props.useDirectoryProviderUrl]);
+    getFieldsData(props.urls.directories, props.urls.providers);
+  }, [props.urls.directories, props.urls.providers]);
 
   return (
     <Show

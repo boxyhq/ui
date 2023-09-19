@@ -66,7 +66,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
           return;
         }
       }
-      sendHTTPrequest(state.directory, props.urls.patchUrl);
+      sendHTTPrequest(state.directory, props.urls.post);
     },
   });
 
@@ -80,7 +80,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
       state.providers = data;
     }
 
-    getDirectoryProviders(props.urls.useDirectoryProviderUrl);
+    getDirectoryProviders(props.urls.providers);
   });
 
   return (

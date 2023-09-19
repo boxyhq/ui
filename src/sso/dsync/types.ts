@@ -1,7 +1,7 @@
 export interface CreateDirectoryProps {
   urls: {
-    patchUrl: string;
-    useDirectoryProviderUrl: string;
+    post: string;
+    providers: string;
   };
   defaultWebhookEndpoint?: string | undefined;
   setupLinkToken?: string;
@@ -33,8 +33,10 @@ export interface DirectoryListProps {
   tableCaption?: string;
   cols: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   setupLinkToken?: string;
-  getDirectoriesUrl: string;
-  useDirectoryProviderUrl: string;
+  urls: {
+    directories: string;
+    providers: string;
+  };
   handleListFetchComplete?: (directories: Directory[]) => void;
   handleActionClick: (action: 'edit' | 'view', directory: any) => void;
   classNames?: {
