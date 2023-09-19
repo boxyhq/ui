@@ -3,21 +3,6 @@
   justify-content: space-between;
 }
 
-.status {
-  margin-bottom: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.ssoAdded {
-  background-color: #5cecc8;
-  color: #124f45;
-  padding: 0.75rem 1rem;
-  border-radius: 0.25rem;
-  margin-bottom: 1rem;
-}
-
 .listView {
   display: flex;
   flex-direction: column;

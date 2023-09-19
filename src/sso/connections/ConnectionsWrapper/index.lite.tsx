@@ -32,11 +32,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         state.connectionsAdded && state.connections.some((connection) => connection.deactivated === false)
       );
     },
-    get classes() {
-      return {
-        button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
-      };
-    },
     switchToCreateView() {
       state.view = 'CREATE';
     },
