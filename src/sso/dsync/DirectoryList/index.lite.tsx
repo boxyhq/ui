@@ -47,39 +47,40 @@ export default function DirectoryList(props: DirectoryListProps) {
     },
   });
 
-  async function getFieldsData(directoryListUrl: string, directoryProviderUrl: string) {
-    // fetch request for obtaining directory lists data
-    const directoryListResponse = await fetch(directoryListUrl);
-    const { data: listData, error } = await directoryListResponse.json();
 
-    // fetch request for obtaining directory providers data
-    const directoryProvidersResponse = await fetch(directoryProviderUrl);
-    const { data: providersData } = await directoryProvidersResponse.json();
-
-    const directoriesListData = listData.map((directory: Directory) => {
-      return {
-        name: directory.name,
-        tenant: directory.tenant,
-        product: directory.product,
-        type: directory.type,
-        status: directory.deactivated ? 'Inactive' : 'Active',
-      };
-    });
-
-    state.directoryListIsLoading = false;
-
-    if (error) {
-      state.directoryListError = error;
-    } else {
-      state.directoryListData = directoriesListData;
-      state.providers = providersData;
-      typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(listData);
-    }
-  }
 
   onUpdate(() => {
+    async function getFieldsData(directoryListUrl: string, directoryProviderUrl: string) {
+      // fetch request for obtaining directory lists data
+      const directoryListResponse = await fetch(directoryListUrl);
+      const { data: listData, error } = await directoryListResponse.json();
+
+      // fetch request for obtaining directory providers data
+      const directoryProvidersResponse = await fetch(directoryProviderUrl);
+      const { data: providersData } = await directoryProvidersResponse.json();
+
+      const directoriesListData = listData.map((directory: Directory) => {
+        return {
+          name: directory.name,
+          tenant: directory.tenant,
+          product: directory.product,
+          type: directory.type,
+          status: directory.deactivated ? 'Inactive' : 'Active',
+        };
+      });
+
+      state.directoryListIsLoading = false;
+
+      if (error) {
+        state.directoryListError = error;
+      } else {
+        state.directoryListData = directoriesListData;
+        state.providers = providersData;
+        typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(listData);
+      }
+    }
     getFieldsData(props.urls.directories, props.urls.providers);
-  }, [props.urls.directories, props.urls.providers]);
+  }, [props.urls]);
 
   return (
     <Show

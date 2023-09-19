@@ -5,8 +5,7 @@ export interface CreateDirectoryProps {
   };
   defaultWebhookEndpoint?: string | undefined;
   setupLinkToken?: string;
-  cb: () => void;
-  successCallback: (successMsg: string) => void;
+  successCallback: () => void;
   errorCallback: (errMsg: string) => void;
   classNames?: {
     container?: string;
@@ -54,10 +53,11 @@ export interface EditDirectoryProps {
     delete: string;
   };
   getUrl: string;
-  errorCallback: (errMsg: string) => void;
-  successCallback: (successMsg: string) => void;
+  errorCallback: (errMessage: string) => void;
+  successCallback: () => void;
+  cancelCallback?: () => void;
   deleteCallback: () => void;
-  cb: () => void;
+
   classNames?: {
     label?: string;
     input?: string;
