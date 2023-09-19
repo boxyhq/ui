@@ -56,14 +56,12 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
         const response: ApiResponse<Directory> = await rawResponse.json();
 
         if ('error' in response) {
-          props.errorCallback(response.error.message);
+          (typeof props.errorCallback === 'function') && props.errorCallback(response.error.message);
           return;
         }
 
         if (rawResponse.ok) {
-          props.cb();
-          props.successCallback('Directory created successfully');
-          return;
+          (typeof props.successCallback === 'function') && props.successCallback();
         }
       }
       sendHTTPrequest(state.directory, props.urls.post);
