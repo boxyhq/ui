@@ -238,7 +238,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
         <ConfirmationPrompt
           promptMessge=' Are you sure you want to delete the directory connection? This will permanently delete the
               directory connection, users, and groups.'
-          confirmationCallback={state.promptConfirmationCallback}
+          confirmationCallback={state.deleteDirectory}
         />
       </section>
     </div>
