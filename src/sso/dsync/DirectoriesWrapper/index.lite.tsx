@@ -23,6 +23,11 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     get directoriesAdded(): boolean {
       return state.directories.length > 0;
     },
+    get dsyncEnabled(): boolean {
+      return (
+        state.directoriesAdded && state.directories.some((directory) => directory.deactivated === false)
+      );
+    },
     directoryToEdit: {} as Directory,
     switchToCreateView() {
       state.view = 'CREATE';
@@ -45,8 +50,8 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
         <Show when={state.view === 'LIST'}>
           <Show when={state.directoriesAdded}>
             <Card
-              title='Directory Sync Enabled'
-              variant='success'>
+              title={state.dsyncEnabled ? 'Directory Sync enabled' : 'Directory Sync disabled'}
+              variant={state.dsyncEnabled ? 'success' : 'info'}>
               <div class={styles.ctoa}>
                 <Button name='Add Connection' handleClick={state.switchToCreateView} />
               </div>
