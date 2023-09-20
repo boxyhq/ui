@@ -13,7 +13,7 @@ const DEFAULT_VALUES = {
 };
 
 export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
-  const state: any = useStore({
+  const state = useStore({
     directories: DEFAULT_VALUES.directoryListData,
     view: DEFAULT_VALUES.view,
     handleListFetchComplete: (directoryList: Directory[]) => {
