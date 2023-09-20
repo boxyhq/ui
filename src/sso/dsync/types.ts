@@ -48,10 +48,9 @@ export interface DirectoryListProps {
 
 export interface EditDirectoryProps {
   urls: {
-    put: string;
     patch: string;
     delete: string;
-    providers: string;
+    get: string;
   };
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
@@ -84,8 +83,8 @@ export interface ToggleDirectoryStatusProps {
 export interface DirectoriesWrapperProps {
   componentProps: {
     directoryList: Omit<DirectoryListProps, 'handleActionClick'>;
-    createDirectory: CreateDirectoryProps;
-    editDirectory: EditDirectoryProps;
+    createDirectory: Partial<CreateDirectoryProps>;
+    editDirectory: Partial<EditDirectoryProps>;
   };
 }
 

@@ -76,10 +76,9 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           deleteCallback={state.switchToListView}
           errorCallback={state.logError}
           urls={{
-            put: props.componentProps.editDirectory.urls.put || '',
-            patch: props.componentProps.editDirectory.urls.patch || '',
-            delete: props.componentProps.editDirectory.urls.delete || '',
-            providers: props.componentProps.editDirectory.urls.providers || ''
+            patch: `${props.componentProps.editDirectory.urls?.patch}/${state.directoryToEdit.id}` || '',
+            delete: `${props.componentProps.editDirectory.urls?.delete}/${state.directoryToEdit.id}` || '',
+            get: `${props.componentProps.editDirectory.urls?.get}/${state.directoryToEdit.id}` || ''
           }}
         />
       </Show>
@@ -89,6 +88,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           {...props.componentProps.createDirectory}
           successCallback={state.switchToListView}
           errorCallback={state.logError}
+          urls={{ post: props.componentProps.createDirectory.urls?.post || '', providers: props.componentProps.createDirectory.urls?.providers || '' }}
         />
       </Show>
     </div>

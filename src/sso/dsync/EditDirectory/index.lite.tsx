@@ -85,7 +85,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           (typeof props.successCallback === 'function') && props.successCallback();
         }
       }
-      sendHttpRequest(props.urls.put);
+      sendHttpRequest(props.urls.patch);
     },
     deleteDirectory() {
       async function sendHTTPrequest(url: string) {
@@ -131,7 +131,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
         console.error(error);
       }
     }
-    getDirectory(props.urls.providers);
+    getDirectory(props.urls.get);
   }, [props.urls]);
 
 
