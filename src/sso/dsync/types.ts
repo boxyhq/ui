@@ -51,13 +51,12 @@ export interface EditDirectoryProps {
     put: string;
     patch: string;
     delete: string;
+    providers: string;
   };
-  getUrl: string;
   errorCallback: (errMessage: string) => void;
   successCallback: () => void;
   cancelCallback?: () => void;
   deleteCallback: () => void;
-
   classNames?: {
     label?: string;
     input?: string;

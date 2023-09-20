@@ -131,8 +131,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
         console.error(error);
       }
     }
-    getDirectory(props.getUrl);
-  }, [props.getUrl]);
+    getDirectory(props.urls.providers);
+  }, [props.urls]);
 
 
 

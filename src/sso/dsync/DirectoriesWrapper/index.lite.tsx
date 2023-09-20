@@ -74,6 +74,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
             put: props.componentProps.editDirectory.urls.put || '',
             patch: props.componentProps.editDirectory.urls.patch || '',
             delete: props.componentProps.editDirectory.urls.delete || '',
+            providers: props.componentProps.editDirectory.urls.providers || ''
           }}
         />
       </Show>
