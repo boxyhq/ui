@@ -1,0 +1,9 @@
+.ctoa {
+  display: flex;
+  justify-content: space-between;
+}
+
+.listView {
+  display: flex;
+  flex-direction: column;
+}

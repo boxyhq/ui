@@ -6,6 +6,7 @@ import EditDirectory from '../EditDirectory/index.lite';
 import DirectoryList from '../DirectoryList/index.lite';
 import Card from '../../../shared/Card/index.lite';
 import Button from '../../../shared/Button/index.lite';
+import styles from "./index.module.css"
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
@@ -40,8 +41,19 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
 
   return (
     <div>
-      <div class='flex flex-col'>
+      <div class={styles.listview}>
         <Show when={state.view === 'LIST'}>
+          <Show when={state.directoriesAdded}>
+            <Card
+              title='Directory Sync Enabled'
+              variant='success'>
+              <div class={styles.ctoa}>
+                <Button name='Add Connection' handleClick={state.switchToCreateView} />
+              </div>
+            </Card>
+            <Spacer y={4} />
+          </Show>
+          <Spacer y={4} />
           <DirectoryList
             {...props.componentProps.directoryList}
             handleActionClick={state.switchToEditView}
