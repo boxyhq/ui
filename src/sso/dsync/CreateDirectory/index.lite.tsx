@@ -1,9 +1,10 @@
-import { For, Show, onMount, useStore } from '@builder.io/mitosis';
+import { Show, onMount, useStore } from '@builder.io/mitosis';
 import { CreateDirectoryProps, ApiResponse, Directory } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
+import Select from '../../../shared/Select/index.lite';
 
 const DEFAULT_DIRECTORY_VALUES = {
   name: '',
@@ -13,13 +14,14 @@ const DEFAULT_DIRECTORY_VALUES = {
   webhook_secret: '',
   type: 'azure-scim-v2',
   google_domain: '',
+  providers: [] as { value: string, text: string }[]
 };
 
 export default function CreateDirectory(props: CreateDirectoryProps) {
   const state = useStore({
     directory: DEFAULT_DIRECTORY_VALUES,
     showDomain: false,
-    providers: {},
+    providers: DEFAULT_DIRECTORY_VALUES.providers,
     get classes() {
       return {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
@@ -75,7 +77,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
       const response = await fetch(url);
       const { data } = await response.json();
 
-      state.providers = data;
+      state.providers = Object.entries<string>(data).map(([value, text]) => ({ value, text }));
     }
 
     getDirectoryProviders(props.urls.providers);
@@ -102,20 +104,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
               />
             </div>
             <div class={state.classes.fieldContainer}>
-              <label class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Directory provider</span>
-              </label>
-              <select>
-                <Show when={state.providers}>
-                  <For each={Object.entries(state.providers)}>
-                    {(item: any) => (
-                      <option key={item[0]} value={item[0]}>
-                        {item[1]}
-                      </option>
-                    )}
-                  </For>
-                </Show>
-              </select>
+              <Select label='Directory provider' options={state.providers} />
             </div>
             <Show when={state.showDomain}>
               <div class={state.classes.fieldContainer}>
