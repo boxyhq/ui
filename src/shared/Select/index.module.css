@@ -2,8 +2,16 @@
 
 :root {
   --select-border: var(--ring-color);
-  --select-focus: var(--primary-hover);
+  --select-focus: var(--secondary-color);
   --select-arrow: var(--select-border);
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .div {
@@ -13,7 +21,6 @@
   border: 1px solid var(--select-border);
   border-radius: 0.25em;
   padding: 0.25em 0.5em;
-  font-size: 1.25rem;
   cursor: pointer;
   line-height: 1.1;
   background-color: #fff;
@@ -31,6 +38,12 @@
   background-color: var(--select-arrow);
   clip-path: polygon(100% 0%, 0 0%, 50% 100%);
   justify-self: end;
+}
+
+.div--disabled {
+  cursor: not-allowed;
+  background-color: #eee;
+  background-image: linear-gradient(to top, #ddd, #eee 33%);
 }
 
 .select {
@@ -61,7 +74,7 @@
   display: none;
 }
 
-.select:focus + .focus {
+.select:focus-visible + .focus {
   position: absolute;
   top: -1px;
   left: -1px;
@@ -69,6 +82,8 @@
   bottom: -1px;
   border: 2px solid var(--select-focus);
   border-radius: inherit;
+  outline: 2px solid var(--primary-color-700);
+  outline-offset: 2px;
 }
 
 .div::after,
