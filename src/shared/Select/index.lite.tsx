@@ -17,7 +17,6 @@ export default function Select(props: SelectProps) {
         },
     })
 
-
     return (
         <Fragment>
             <label htmlFor={state.id} class={styles.label}>{props.label}</label>
@@ -26,7 +25,7 @@ export default function Select(props: SelectProps) {
                 <select id={state.id} class={styles.select} disabled={props.disabled ?? false} value={props.selectedValue} onChange={(event) => props.handleChange(event.target.value)}>
                     <For each={props.options}>
                         {(optionItem) => (
-                            <option value={optionItem.value}>{optionItem.text}
+                            <option value={optionItem.value} key={optionItem.value}>{optionItem.text}
                             </option>
                         )
                         }
