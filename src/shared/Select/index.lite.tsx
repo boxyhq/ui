@@ -6,21 +6,24 @@ interface SelectProps {
     label: string;
     options: Array<{ value: string, text: string }>;
     disabled?: boolean;
+    selectedValue: string;
+    handleChange: (value: string) => void;
 }
 export default function Select(props: SelectProps) {
     const state = useStore({
         id: props.label.replace(/ /g, ''),
         get divCss() {
             return styles.div + (props.disabled ? ` ${styles["div--disabled"]}` : '')
-        }
+        },
     })
+
 
     return (
         <Fragment>
             <label htmlFor={state.id} class={styles.label}>{props.label}</label>
             <Spacer y={2} />
             <div class={state.divCss}>
-                <select id={state.id} class={styles.select} disabled={props.disabled ?? false}>
+                <select id={state.id} class={styles.select} disabled={props.disabled ?? false} value={props.selectedValue} onChange={(event) => props.handleChange(event.target.value)}>
                     <For each={props.options}>
                         {(optionItem) => (
                             <option value={optionItem.value}>{optionItem.text}
