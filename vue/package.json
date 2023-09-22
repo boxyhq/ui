@@ -39,7 +39,7 @@
     }
   },
   "devDependencies": {
-    "@tsconfig/node18": "18.2.1",
+    "@tsconfig/node18": "18.2.2",
     "@types/node": "20.6.3",
     "@vitejs/plugin-vue": "4.3.4",
     "@vue/tsconfig": "0.4.0",
