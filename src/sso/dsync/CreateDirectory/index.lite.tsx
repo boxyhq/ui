@@ -23,8 +23,8 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     directory: DEFAULT_DIRECTORY_VALUES,
     showDomain: false,
     providers: DEFAULT_PROVIDERS,
-    setProvider(value: string) {
-      state.directory = { ...state.directory, type: value }
+    setProvider(event: any) {
+      state.directory = { ...state.directory, type: event?.target?.value }
     },
     get classes() {
       return {
