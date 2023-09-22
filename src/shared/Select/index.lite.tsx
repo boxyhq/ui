@@ -4,6 +4,7 @@ import Spacer from "../Spacer/index.lite";
 
 interface SelectProps {
     label: string;
+    name: string;
     options: Array<{ value: string, text: string }>;
     disabled?: boolean;
     selectedValue: string;
@@ -22,7 +23,7 @@ export default function Select(props: SelectProps) {
             <label htmlFor={state.id} class={styles.label}>{props.label}</label>
             <Spacer y={2} />
             <div class={state.divCss}>
-                <select id={state.id} class={styles.select} disabled={props.disabled ?? false} value={props.selectedValue} onChange={(event) => props.handleChange(event.target.value)}>
+                <select id={state.id} name={props.name} class={styles.select} disabled={props.disabled ?? false} value={props.selectedValue} onChange={(event) => props.handleChange(event.target.value)}>
                     <For each={props.options}>
                         {(optionItem) => (
                             <option value={optionItem.value} key={optionItem.value}>{optionItem.text}
