@@ -12,7 +12,7 @@ interface SelectProps {
 }
 export default function Select(props: SelectProps) {
     const state = useStore({
-        id: props.label.replace(/ /g, ''),
+        get id() { return props.label.replace(/ /g, '') },
         get divCss() {
             return styles.div + (props.disabled ? ` ${styles["div--disabled"]}` : '')
         },
