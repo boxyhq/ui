@@ -11,6 +11,7 @@ import styles from "./index.module.css"
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
   view: 'LIST' as 'LIST' | 'EDIT' | 'CREATE',
+  directoryToEdit: {} as Directory
 };
 
 export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
@@ -28,7 +29,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
         state.directoriesAdded && state.directories.some((directory) => directory.deactivated === false)
       );
     },
-    directoryToEdit: {} as Directory,
+    directoryToEdit: DEFAULT_VALUES.directoryToEdit,
     switchToCreateView() {
       state.view = 'CREATE';
     },
