@@ -62,6 +62,7 @@ export interface EditDirectoryProps {
     container?: string;
     formDiv?: string;
     fieldsDiv?: string;
+    section?: string;
   };
 }
 
