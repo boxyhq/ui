@@ -14,14 +14,18 @@ const DEFAULT_DIRECTORY_VALUES = {
   webhook_secret: '',
   type: 'azure-scim-v2',
   google_domain: '',
-  providers: [] as { value: string, text: string }[]
 };
+
+const DEFAULT_PROVIDERS = [] as { value: string, text: string }[]
 
 export default function CreateDirectory(props: CreateDirectoryProps) {
   const state = useStore({
     directory: DEFAULT_DIRECTORY_VALUES,
     showDomain: false,
-    providers: DEFAULT_DIRECTORY_VALUES.providers,
+    providers: DEFAULT_PROVIDERS,
+    setProvider(value: string) {
+      state.directory = { ...state.directory, type: value }
+    },
     get classes() {
       return {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
@@ -104,7 +108,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
               />
             </div>
             <div class={state.classes.fieldContainer}>
-              <Select label='Directory provider' options={state.providers} />
+              <Select label='Directory provider' options={state.providers} selectedValue={state.directory.type} handleChange={state.setProvider} name='type' />
             </div>
             <Show when={state.showDomain}>
               <div class={state.classes.fieldContainer}>
