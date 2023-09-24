@@ -20,7 +20,7 @@
   max-width: 30ch;
   border: 1px solid var(--select-border);
   border-radius: 0.25em;
-  padding: 0.25em 0.5em;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   line-height: 1.1;
   background-color: #fff;
@@ -58,7 +58,7 @@
   font-family: inherit;
   font-size: inherit;
   cursor: inherit;
-  line-height: inherit;
+  line-height: 1.5rem;
   box-sizing: border-box;
   /* Remove the default outline */
   outline: none;
