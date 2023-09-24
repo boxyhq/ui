@@ -7,12 +7,16 @@ export interface CreateDirectoryProps {
   setupLinkToken?: string;
   successCallback: () => void;
   errorCallback: (errMsg: string) => void;
+  // To handle cancel button click
+  cancelCallback?: () => void;
   classNames?: {
     container?: string;
     fieldContainer?: string;
     input?: string;
     label?: string;
   };
+  /** Use this boolean to toggle the header display on/off. Useful when using the create component standalone */
+  displayHeader?: boolean;
 }
 
 export interface DeleteDirectoryProps {
