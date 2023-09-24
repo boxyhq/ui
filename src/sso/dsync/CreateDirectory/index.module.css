@@ -1,54 +1,56 @@
 @import url('../../../shared/common.module.css');
+
 .heading {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 0 0 1.5rem 0;
+  font-size: 1rem;
   font-weight: 700;
-  color: rgb(55 65 81);
+  color: var(--secondary-foreground-color);
 }
 
-.container {
-  min-width: 448px;
-  border-radius: 4px;
-  background-color: white;
-  padding: 8px 24px 28px 24px;
-  border: 1px solid rgb(229, 231, 235);
-  border-radius: var(--border-radius);
-}
-
-.divContainer {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  color: rgb(24, 26, 42);
-  line-height: 24px;
-  margin-top: 12px;
+@media (min-width: 768px) {
+  .heading {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
 }
 
 .fieldContainer {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  box-sizing: border-box;
-  color: rgb(24, 26, 42);
-  line-height: 24px;
 }
 
 .label {
-  padding: 8px 4px;
-}
-
-.labelText {
-  font-size: 14px;
-  color: rgb(24, 26, 42);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .input {
-  padding: 8px 16px;
-  background-color: white;
+  height: 3rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  line-height: 2;
+  line-height: 1.5rem;
   border: 1px solid var(--secondary-foreground-color);
+  background-color: #fff;
   border-radius: var(--border-radius);
-  font-size: 16px;
-  font-weight: 400;
-  text-align: start;
-  line-height: 24px;
+}
+
+.input:focus-visible {
+  border-color: var(--secondary-color);
+  outline: 2px solid var(--primary-color-700);
+  outline-offset: 2px;
+}
+
+.input:disabled,
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.input:disabled {
+  background-color: var(--secondary-color);
+  border: 1px solid transparent;
 }
