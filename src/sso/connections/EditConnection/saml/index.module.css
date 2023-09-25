@@ -1,13 +1,8 @@
 @import url('../../../../shared/common.module.css');
-.container {
-  min-width: 448px;
-  background-color: white;
-}
 
 .formDiv {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
 .heading {
@@ -21,16 +16,6 @@
   display: flex;
   gap: 16px;
   width: 100%;
-}
-
-.fieldsDiv {
-  flex: 1;
-  padding: 24px 16px;
-}
-
-.readOnlyFieldsDiv {
-  flex: 1;
-  padding: 24px 16px;
 }
 
 .pre {
@@ -113,6 +98,7 @@
 .section {
   display: flex;
   align-items: start;
+  justify-content: space-between;
   border-radius: 4px;
   padding: 24px;
   color: rgb(127 29 29);
@@ -121,13 +107,13 @@
   margin-top: 40px;
 }
 
+.info {
+  width: 100%;
+}
+
 .sectionHeading {
   margin-bottom: 4px;
   font-weight: 500;
-}
-
-.sectionDiv {
-  flex: 1 1 0%;
 }
 
 .sectionPara {

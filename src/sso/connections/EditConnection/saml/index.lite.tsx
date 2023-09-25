@@ -15,6 +15,7 @@ import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
 import CopyToClipboardButton from '../../../../shared/ClipboardButton/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
+import ConfirmationPrompt from '../../../../shared/ConfirmationPrompt/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -23,6 +24,8 @@ const DEFAULT_VALUES = {
 const INITIAL_VALUES = {
   samlConnection: {
     name: '',
+    tenant: '',
+    product: '',
     clientID: '',
     clientSecret: '',
     description: '',
@@ -40,16 +43,12 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   const state = useStore({
     samlConnection: INITIAL_VALUES.samlConnection,
-    displayDeletionConfirmation: false,
     get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
     },
     get classes() {
       return {
-        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         formDiv: cssClassAssembler(props.classNames?.formDiv, defaultClasses.formDiv),
-        fieldsContainer: cssClassAssembler(props.classNames?.fieldsContainer, defaultClasses.fieldsContainer),
-        fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
         textarea: cssClassAssembler(
@@ -72,12 +71,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
 
       state.samlConnection = state.updateConnection(name, targetValue);
     },
-    onCancel() {
-      state.displayDeletionConfirmation = false;
-    },
-    askForConfirmation() {
-      state.displayDeletionConfirmation = true;
-    },
     saveSSOConnection(event: Event) {
       event.preventDefault();
 
@@ -88,11 +81,13 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           props.variant === 'advanced'
             ? { ...state.samlConnection }
             : {
-                clientID: state.samlConnection.clientID,
-                clientSecret: state.samlConnection.clientSecret,
-                rawMetadata: state.samlConnection.rawMetadata,
-                metadataUrl: state.samlConnection.metadataUrl,
-              },
+              tenant: state.samlConnection.tenant,
+              product: state.samlConnection.product,
+              clientID: state.samlConnection.clientID,
+              clientSecret: state.samlConnection.clientSecret,
+              rawMetadata: state.samlConnection.rawMetadata,
+              metadataUrl: state.samlConnection.metadataUrl,
+            },
         connectionIsSAML: true,
         callback: async (rawResponse: any) => {
           const response: ApiResponse = await rawResponse.json();
@@ -110,7 +105,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     },
     deleteSSOConnection(event: Event) {
       event.preventDefault();
-      state.displayDeletionConfirmation = false;
 
       deleteConnection({
         url: props.urls.delete,
@@ -135,6 +129,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   onUpdate(() => {
     state.samlConnection = {
       name: props.connection.name || '',
+      tenant: props.connection.tenant || '',
+      product: props.connection.product || '',
       clientID: props.connection.clientID,
       clientSecret: props.connection.clientSecret,
       description: props.connection.description || '',
@@ -395,27 +391,16 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             </div>
             <Show when={props.connection?.clientID && props.connection.clientSecret}>
               <section class={state.classes.section}>
-                <div class={defaultClasses.sectionDiv}>
+                <div class={defaultClasses.info}>
                   <h6 class={defaultClasses.sectionHeading}>Delete this connection</h6>
                   <p class={defaultClasses.sectionPara}>
                     All your apps using this connection will stop working.
                   </p>
                 </div>
-                <Show when={!state.displayDeletionConfirmation}>
-                  <Button variant='destructive' name='Delete' handleClick={state.askForConfirmation} />
-                </Show>
-                <Show when={state.displayDeletionConfirmation}>
-                  <div class={defaultClasses.confirmationDiv}>
-                    <p>
-                      Are you sure you want to delete the Connection? This action cannot be undone and will
-                      permanently delete the Connection.
-                    </p>
-                    <div class={defaultClasses.promptAction}>
-                      <Button variant='destructive' name='Confirm' handleClick={state.deleteSSOConnection} />
-                      <Button variant='outline' name='Cancel' handleClick={state.onCancel} />
-                    </div>
-                  </div>
-                </Show>
+                <ConfirmationPrompt
+                  confirmationCallback={state.deleteSSOConnection}
+                  promptMessge=' Are you sure you want to delete the Connection? This action cannot be undone and will permanently delete the Connection.'
+                />
               </section>
             </Show>
           </form>

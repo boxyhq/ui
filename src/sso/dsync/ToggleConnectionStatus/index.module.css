@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.heading {
+  color: white;
+  background-color: red;
+  padding: 10px 5px;
+  margin: 7px;
+}
+
+.displayMessage {
+  display: flex;
+  align-items: center;
+}

@@ -3,10 +3,17 @@ import type { SVGAttributes, JSX } from 'react';
 export type SVGProps = SVGAttributes<SVGSVGElement>;
 
 export interface IconButtonProps {
-  Icon: (props: { svgElmtProps: SVGProps; classNames: string }) => JSX.Element;
   label?: string;
   handleClick: (event: any) => void;
-  iconClasses: string;
+  icon:
+    | 'PencilIcon'
+    | 'CopytoClipboardIcon'
+    | 'EyeIcon'
+    | 'EyeSlashIcon'
+    | 'InfoIcon'
+    | 'LinkIcon'
+    | 'PlusIcon'
+    | 'CheckMarkIcon';
 }
 
 export interface EmptyStateProps {
@@ -73,4 +80,26 @@ export interface LinkProps {
 export interface LoadingContainerProps {
   children?: any;
   isBusy: boolean;
+}
+
+export interface TableProps {
+  cols: string[];
+  data: Record<string, any>[];
+  actions: { icon: IconButtonProps['icon']; handleClick: (item: any) => void; label?: string }[];
+  tableCaption?: string;
+  classNames?: {
+    table?: string;
+    caption?: string;
+    thead?: string;
+    tr?: string;
+    th?: string;
+    td?: string;
+    icon?: string;
+    iconSpan?: string;
+  };
+}
+
+export interface ConfirmationPromptProps {
+  promptMessge: string;
+  confirmationCallback: (event: any) => void;
 }

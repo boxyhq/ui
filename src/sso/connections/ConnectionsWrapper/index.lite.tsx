@@ -1,7 +1,6 @@
 import { Show, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
 import type { ConnectionData, ConnectionsWrapperProp, OIDCSSORecord, SAMLSSORecord } from '../types';
-import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
 import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
@@ -32,15 +31,10 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         state.connectionsAdded && state.connections.some((connection) => connection.deactivated === false)
       );
     },
-    get classes() {
-      return {
-        button: cssClassAssembler(props.classNames?.button, defaultClasses.button),
-      };
-    },
     switchToCreateView() {
       state.view = 'CREATE';
     },
-    switchToEditView(connection: ConnectionData<any>) {
+    switchToEditView(action: 'edit', connection: ConnectionData<any>) {
       state.view = 'EDIT';
       state.connectionToEdit = connection;
     },
@@ -54,7 +48,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
 
   return (
     <div>
-      <div className='flex flex-col'>
+      <div class={defaultClasses.listView}>
         <Show when={state.view === 'LIST'}>
           <Show when={state.connectionsAdded}>
             <Card
@@ -74,9 +68,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           </Show>
           <Spacer y={4} />
           <ConnectionList
+            {...props.componentProps.connectionList}
             handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}
-            {...props.componentProps.connectionList}>
+            handleListFetchComplete={state.handleListFetchComplete}>
             <Card variant='info' title='SSO not enabled'>
               <div class={defaultClasses.ctoa}>
                 <Show when={props.urls?.spMetadata}>

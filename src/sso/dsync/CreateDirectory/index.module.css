@@ -1,0 +1,56 @@
+@import url('../../../shared/common.module.css');
+
+.heading {
+  margin: 0 0 1.5rem 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--secondary-foreground-color);
+}
+
+@media (min-width: 768px) {
+  .heading {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+}
+
+.fieldContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.input {
+  height: 3rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  line-height: 2;
+  line-height: 1.5rem;
+  border: 1px solid var(--secondary-foreground-color);
+  background-color: #fff;
+  border-radius: var(--border-radius);
+}
+
+.input:focus-visible {
+  border-color: var(--secondary-color);
+  outline: 2px solid var(--primary-color-700);
+  outline-offset: 2px;
+}
+
+.input:disabled,
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.input:disabled {
+  background-color: var(--secondary-color);
+  border: 1px solid transparent;
+}

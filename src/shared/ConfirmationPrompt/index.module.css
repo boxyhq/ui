@@ -1,0 +1,10 @@
+.confirmationDiv {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.buttonsDiv {
+  display: flex;
+  gap: 20px;
+}
