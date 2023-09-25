@@ -39,17 +39,17 @@
     }
   },
   "devDependencies": {
-    "@tsconfig/node18": "18.2.1",
-    "@types/node": "20.5.9",
+    "@tsconfig/node18": "18.2.2",
+    "@types/node": "20.6.3",
     "@vitejs/plugin-vue": "4.3.4",
     "@vue/tsconfig": "0.4.0",
     "npm-run-all": "4.1.5",
     "typescript": "5.2.2",
     "vite": "4.4.9",
     "vite-plugin-css-injected-by-js": "3.3.0",
-    "vitepress": "1.0.0-rc.10",
+    "vitepress": "1.0.0-rc.15",
     "vue": "3.3.4",
-    "vue-tsc": "1.8.10"
+    "vue-tsc": "1.8.13"
   },
   "peerDependencies": {
     "vue": "^3.3.4 || ^2.7.x"
