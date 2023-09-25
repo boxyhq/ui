@@ -1,8 +1,4 @@
 @import url('../../../../shared/common.module.css');
-.container {
-  min-width: 448px;
-  background-color: white;
-}
 
 .formDiv {
   display: flex;
@@ -21,16 +17,6 @@
   display: flex;
   gap: 16px;
   width: 100%;
-}
-
-.fieldsDiv {
-  flex: 1;
-  padding: 24px 16px;
-}
-
-.readOnlyFieldsDiv {
-  flex: 1;
-  padding: 24px 16px;
 }
 
 .pre {

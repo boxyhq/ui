@@ -46,10 +46,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     },
     get classes() {
       return {
-        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         formDiv: cssClassAssembler(props.classNames?.formDiv, defaultClasses.formDiv),
-        fieldsContainer: cssClassAssembler(props.classNames?.fieldsContainer, defaultClasses.fieldsContainer),
-        fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
         textarea: cssClassAssembler(

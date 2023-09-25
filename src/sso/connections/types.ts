@@ -257,10 +257,7 @@ export interface EditSAMLConnectionProps {
     patch: string;
   };
   classNames?: {
-    container?: string;
     formDiv?: string;
-    fieldsContainer?: string;
-    fieldsDiv?: string;
     label?: string;
     input?: string;
     section?: string;
