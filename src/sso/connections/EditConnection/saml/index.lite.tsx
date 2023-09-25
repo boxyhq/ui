@@ -24,6 +24,8 @@ const DEFAULT_VALUES = {
 const INITIAL_VALUES = {
   samlConnection: {
     name: '',
+    tenant: '',
+    product: '',
     clientID: '',
     clientSecret: '',
     description: '',
@@ -79,6 +81,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           props.variant === 'advanced'
             ? { ...state.samlConnection }
             : {
+              tenant: state.samlConnection.tenant,
+              product: state.samlConnection.product,
               clientID: state.samlConnection.clientID,
               clientSecret: state.samlConnection.clientSecret,
               rawMetadata: state.samlConnection.rawMetadata,
@@ -125,6 +129,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   onUpdate(() => {
     state.samlConnection = {
       name: props.connection.name || '',
+      tenant: props.connection.tenant || '',
+      product: props.connection.product || '',
       clientID: props.connection.clientID,
       clientSecret: props.connection.clientSecret,
       description: props.connection.description || '',

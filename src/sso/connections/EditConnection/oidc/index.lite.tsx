@@ -1,6 +1,6 @@
 import SecretInputFormControl from '../../../../shared/SecretInputFormControl/index.lite';
 import ToggleConnectionStatus from '../../ToggleConnectionStatus/index.lite';
-import { Show, useStore, onMount } from '@builder.io/mitosis';
+import { Show, useStore, onUpdate } from '@builder.io/mitosis';
 import type {
   EditOIDCConnectionProps,
   FormObj,
@@ -22,6 +22,8 @@ const DEFAULT_VALUES = {
 const INITIAL_VALUES = {
   oidcConnection: {
     name: '',
+    tenant: '',
+    product: '',
     description: '',
     redirectUrl: '',
     defaultRedirectUrl: '',
@@ -133,9 +135,11 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     },
   });
 
-  onMount(() => {
+  onUpdate(() => {
     state.oidcConnection = {
       name: props.connection.name || '',
+      tenant: props.connection.tenant || '',
+      product: props.connection.product || '',
       description: props.connection.description || '',
       redirectUrl: props.connection.redirectUrl.join(`\r\n`),
       defaultRedirectUrl: props.connection.defaultRedirectUrl,
@@ -151,7 +155,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     };
 
     state.hasDiscoveryUrl = props.connection.oidcProvider.discoveryUrl ? true : false;
-  });
+  }, [props.connection]);
 
   return (
     <div>
