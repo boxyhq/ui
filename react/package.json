@@ -58,7 +58,7 @@
     "@types/node": "20.6.5",
     "@types/react": "18.2.22",
     "@vitejs/plugin-react": "4.1.0",
-    "rimraf": "5.0.1",
+    "rimraf": "5.0.4",
     "serve": "14.2.1",
     "vite": "4.4.9",
     "vite-pages-theme-doc": "4.1.6",
