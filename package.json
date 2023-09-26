@@ -51,7 +51,7 @@
     "postcss": "8.4.30",
     "postcss-cli": "10.1.0",
     "prettier": "3.0.3",
-    "rimraf": "5.0.1",
+    "rimraf": "5.0.4",
     "traverse": "0.6.7",
     "typescript": "5.2.2"
   }
