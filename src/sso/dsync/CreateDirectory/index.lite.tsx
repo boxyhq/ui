@@ -5,7 +5,6 @@ import cssClassAssembler from '../../utils/cssClassAssembler';
 import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
 import Select from '../../../shared/Select/index.lite';
-import Well from '../../../shared/Well/index.lite';
 
 const DEFAULT_DIRECTORY_VALUES = {
   name: '',
@@ -17,7 +16,7 @@ const DEFAULT_DIRECTORY_VALUES = {
   google_domain: '',
 };
 
-const DEFAULT_PROVIDERS = [] as { value: string, text: string }[]
+const DEFAULT_PROVIDERS = [] as { value: string; text: string }[];
 
 export default function CreateDirectory(props: CreateDirectoryProps) {
   const state = useStore({
@@ -25,7 +24,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     showDomain: false,
     providers: DEFAULT_PROVIDERS,
     setProvider(event: any) {
-      state.directory = { ...state.directory, type: event?.target?.value }
+      state.directory = { ...state.directory, type: event?.target?.value };
     },
     get classes() {
       return {
@@ -63,12 +62,12 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
         const response: ApiResponse<Directory> = await rawResponse.json();
 
         if ('error' in response) {
-          (typeof props.errorCallback === 'function') && props.errorCallback(response.error.message);
+          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
           return;
         }
 
         if (rawResponse.ok) {
-          (typeof props.successCallback === 'function') && props.successCallback();
+          typeof props.successCallback === 'function' && props.successCallback();
         }
       }
       sendHTTPrequest(state.directory, props.urls.post);
@@ -90,124 +89,128 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
 
   return (
     <div>
-      <Well>
-        <Show when={props.displayHeader !== undefined ? props.displayHeader : true}>
-          <h2 class={defaultClasses.heading}>Create Directory</h2>
-        </Show>
-        <form onSubmit={(event) => state.onSubmit(event)}>
+      <Show when={props.displayHeader !== undefined ? props.displayHeader : true}>
+        <h2 class={defaultClasses.heading}>Create Directory</h2>
+      </Show>
+      <form onSubmit={(event) => state.onSubmit(event)}>
+        <div class={state.classes.fieldContainer}>
+          <label for='name' class={state.classes.label}>
+            <span class={defaultClasses.labelText}>Directory name</span>
+          </label>
+          <Spacer y={2} />
+          <input
+            type='text'
+            id='name'
+            name='name'
+            class={state.classes.input}
+            required={true}
+            onChange={(event) => state.handleChange(event)}
+            value={state.directory.name}
+          />
+        </div>
+        <Spacer y={6} />
+        <div class={state.classes.fieldContainer}>
+          <Select
+            label='Directory provider'
+            options={state.providers}
+            selectedValue={state.directory.type}
+            handleChange={state.setProvider}
+            name='type'
+          />
+        </div>
+        <Spacer y={6} />
+        <Show when={state.showDomain}>
           <div class={state.classes.fieldContainer}>
-            <label for='name' class={state.classes.label}>
-              <span class={defaultClasses.labelText}>Directory name</span>
+            <label for='google_domain' class={state.classes.label}>
+              Directory domain
             </label>
             <Spacer y={2} />
             <input
               type='text'
-              id='name'
-              name='name'
+              id='google_domain'
+              name='google_domain'
               class={state.classes.input}
-              required={true}
               onChange={(event) => state.handleChange(event)}
-              value={state.directory.name}
+              value={state.directory.google_domain}
+              pattern={`^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$`}
+              title='Please enter a valid domain (e.g: boxyhq.com)'
             />
           </div>
-          <Spacer y={6} />
-          <div class={state.classes.fieldContainer}>
-            <Select label='Directory provider' options={state.providers} selectedValue={state.directory.type} handleChange={state.setProvider} name='type' />
-          </div>
-          <Spacer y={6} />
-          <Show when={state.showDomain}>
+        </Show>
+        <Spacer y={6} />
+        <Show when={!props.setupLinkToken}>
+          <Fragment>
             <div class={state.classes.fieldContainer}>
-              <label for='google_domain' class={state.classes.label}>
-                Directory domain
+              <label for='tenant' class={state.classes.label}>
+                Tenant
               </label>
               <Spacer y={2} />
               <input
                 type='text'
-                id='google_domain'
-                name='google_domain'
+                id='tenant'
+                name='tenant'
                 class={state.classes.input}
+                required={true}
                 onChange={(event) => state.handleChange(event)}
-                value={state.directory.google_domain}
-                pattern={`^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$`}
-                title='Please enter a valid domain (e.g: boxyhq.com)'
+                value={state.directory.tenant}
               />
             </div>
+            <Spacer y={6} />
+            <div class={state.classes.fieldContainer}>
+              <label for='product' class={state.classes.label}>
+                Product
+              </label>
+              <Spacer y={2} />
+              <input
+                type='text'
+                id='product'
+                name='product'
+                class={state.classes.input}
+                required={true}
+                onChange={(event) => state.handleChange(event)}
+                value={state.directory.product}
+              />
+            </div>
+          </Fragment>
+        </Show>
+        <Spacer y={6} />
+        <div class={state.classes.fieldContainer}>
+          <label for='webhook_url' class={state.classes.label}>
+            Webhook URL
+          </label>
+          <Spacer y={2} />
+          <input
+            type='text'
+            id='webhook_url'
+            name='webhook_url'
+            class={state.classes.input}
+            onChange={(event) => state.handleChange(event)}
+            value={state.directory.webhook_url}
+          />
+        </div>
+        <Spacer y={6} />
+        <div class={state.classes.fieldContainer}>
+          <label for='webhook_secret' class={state.classes.label}>
+            Webhook secret
+          </label>
+          <Spacer y={2} />
+          <input
+            type='text'
+            id='webhook_secret'
+            name='webhook_secret'
+            class={state.classes.input}
+            onChange={(event) => state.handleChange(event)}
+            value={state.directory.webhook_secret}
+          />
+        </div>
+        <Spacer y={6} />
+        <div class={defaultClasses.formAction}>
+          <Show when={typeof props.cancelCallback === 'function'}>
+            <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
           </Show>
-          <Spacer y={6} />
-          <Show when={!props.setupLinkToken}>
-            <Fragment>
-              <div class={state.classes.fieldContainer}>
-                <label for='tenant' class={state.classes.label}>
-                  Tenant
-                </label>
-                <Spacer y={2} />
-                <input
-                  type='text'
-                  id='tenant'
-                  name='tenant'
-                  class={state.classes.input}
-                  required={true}
-                  onChange={(event) => state.handleChange(event)}
-                  value={state.directory.tenant}
-                />
-              </div>
-              <Spacer y={6} />
-              <div class={state.classes.fieldContainer}>
-                <label for='product' class={state.classes.label}>
-                  Product
-                </label>
-                <Spacer y={2} />
-                <input
-                  type='text'
-                  id='product'
-                  name='product'
-                  class={state.classes.input}
-                  required={true}
-                  onChange={(event) => state.handleChange(event)}
-                  value={state.directory.product}
-                />
-              </div>
-            </Fragment>
-          </Show>
-          <Spacer y={6} />
-          <div class={state.classes.fieldContainer}>
-            <label for='webhook_url' class={state.classes.label}>
-              Webhook URL
-            </label>
-            <Spacer y={2} />
-            <input
-              type='text'
-              id='webhook_url'
-              name='webhook_url'
-              class={state.classes.input}
-              onChange={(event) => state.handleChange(event)}
-              value={state.directory.webhook_url}
-            />
-          </div>
-          <Spacer y={6} />
-          <div class={state.classes.fieldContainer}>
-            <label for='webhook_secret' class={state.classes.label}>
-              Webhook secret
-            </label>
-            <Spacer y={2} />
-            <input
-              type='text'
-              id='webhook_secret'
-              name='webhook_secret'
-              class={state.classes.input}
-              onChange={(event) => state.handleChange(event)}
-              value={state.directory.webhook_secret}
-            />
-          </div>
-          <Spacer y={6} />
-          <div class={defaultClasses.formAction}>
-            <Show when={typeof props.cancelCallback === 'function'}>
-              <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
-            </Show>
-            <Button variant='primary' type='submit' name='Create Directory' />
-          </div>
-        </form>
-      </Well>
+          <Button variant='primary' type='submit' name='Create Directory' />
+        </div>
+      </form>
     </div>
   );
 }
