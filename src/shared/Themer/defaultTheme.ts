@@ -13,7 +13,7 @@ export const THEME = {
   '--primary-color-800': '#105f53',
   '--primary-color-900': '#124f45',
   '--primary-color-950': '#03302b',
-  '--secondary-color': '#f4f4f5',
+  '--secondary-color': '#e5e7eb',
   /* --secondary-color: "#27272a",  dark mode */
   '--secondary-foreground-color': '#18181b',
   /* --secondary-foreground-color: #fafafa, dark mode */
@@ -22,5 +22,6 @@ export const THEME = {
   /* --ring-offset-color: hsl(240 10 3.9),  dark mode*/
   '--ring-color': 'hsl(240 5% 64.9%)',
   /* --ring-color: hsl(240 4.9% 83.9%),  dark mode */
+  '--border-color': '#e5e7eb',
   '--border-radius': '0.375rem',
 };

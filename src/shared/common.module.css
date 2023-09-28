@@ -22,6 +22,7 @@
   /* --ring-offset-color: hsl(240 10 3.9);  dark mode*/
   --ring-color: hsl(240 5% 64.9%);
   /* --ring-color: hsl(240 4.9% 83.9%);  dark mode */
+  --border-color: #e5e7eb;
   --border-radius: 0.375rem;
   --alert-color-success: #36d399;
   --alert-color-info: #3abff8;
