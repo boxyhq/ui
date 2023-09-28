@@ -64,9 +64,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                 <Button name='Add Connection' handleClick={state.switchToCreateView} />
               </div>
             </Card>
-            <Spacer y={4} />
+            <Spacer y={8} />
           </Show>
-          <Spacer y={4} />
           <ConnectionList
             {...props.componentProps.connectionList}
             handleActionClick={state.switchToEditView}
