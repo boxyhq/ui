@@ -10,7 +10,7 @@
 .separator::after {
   content: '';
   flex: 1;
-  border-bottom: 1px solid var(--secondary-foreground-color);
+  border-bottom: 1px solid var(--primary-text-color-500);
   opacity: 0.8;
 }
 

@@ -15,8 +15,9 @@ export const THEME = {
   '--primary-color-950': '#03302b',
   '--secondary-color': '#e5e7eb',
   /* --secondary-color: "#27272a",  dark mode */
-  '--secondary-foreground-color': '#18181b',
-  /* --secondary-foreground-color: #fafafa, dark mode */
+  '--primary-text-color': '#18181b',
+  /* --primary-text-color: #fafafa, dark mode */
+  '--primary-text-color-500': '#737584',
   '--ring-offset-width': '2px',
   '--ring-offset-color': 'hsl(0 0% 100%)',
   /* --ring-offset-color: hsl(240 10 3.9),  dark mode*/
