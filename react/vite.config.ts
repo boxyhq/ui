@@ -33,6 +33,19 @@ export default defineConfig({
   },
   plugins: [
     cssInjectedByJsPlugin({
+      injectCodeFunction: function injectCodeCustomRunTimeFunction(cssCode, options) {
+        try {
+          if (typeof document != 'undefined') {
+            var elementStyle = document.createElement('style');
+            elementStyle.appendChild(document.createTextNode(`${cssCode}`));
+            const _firstStyleNode = document.head.getElementsByTagName('style')[0];
+            document.head.insertBefore(elementStyle, _firstStyleNode);
+            // document.head.appendChild(elementStyle);
+          }
+        } catch (e) {
+          console.error('vite-plugin-css-injected-by-js', e);
+        }
+      },
       jsAssetsFilterFunction: function customJsAssetsfilterFunction(outputChunk) {
         // console.log(outputChunk.fileName, outputChunk.name);
         const entryPoints = ['sso', 'shared', 'index'];
