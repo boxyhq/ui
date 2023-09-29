@@ -18,11 +18,13 @@ export const THEME = {
   '--primary-text-color': '#18181b',
   /* --primary-text-color: #fafafa, dark mode */
   '--primary-text-color-500': '#737584',
+  '--ring-offset': '2px',
   '--ring-offset-width': '2px',
-  '--ring-offset-color': 'hsl(0 0% 100%)',
+  '--ring-offset-color': 'hsla(167, 68%, 45%, 0.2)',
   /* --ring-offset-color: hsl(240 10 3.9),  dark mode*/
   '--ring-color': 'hsl(240 5% 64.9%)',
   /* --ring-color: hsl(240 4.9% 83.9%),  dark mode */
   '--border-color': '#e5e7eb',
+  '--border-width': '1px',
   '--border-radius': '0.375rem',
 };
