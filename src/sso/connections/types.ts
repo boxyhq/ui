@@ -46,6 +46,7 @@ export interface CreateConnectionProps {
     radioContainer?: string;
     label?: string;
     fieldContainer?: string;
+    button?: string;
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;

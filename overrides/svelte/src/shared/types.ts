@@ -33,6 +33,7 @@ export interface ButtonProps {
   handleClick?: (event: any) => void;
   type?: 'submit' | 'reset' | 'button';
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
+  classNames?: string;
 }
 
 export interface SecretInputFormControlProps {
