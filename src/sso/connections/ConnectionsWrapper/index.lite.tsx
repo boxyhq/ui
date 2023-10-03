@@ -61,7 +61,11 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                     linkText='Access SP Metadata'
                     variant='button'></Anchor>
                 </Show>
-                <Button name='Add Connection' handleClick={state.switchToCreateView} classNames={props.classNames?.button?.ctoa}/>
+                <Button
+                  name='Add Connection'
+                  handleClick={state.switchToCreateView}
+                  classNames={props.classNames?.button?.ctoa}
+                />
               </div>
             </Card>
             <Spacer y={8} />
