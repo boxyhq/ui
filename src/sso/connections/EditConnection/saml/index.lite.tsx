@@ -81,13 +81,13 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           props.variant === 'advanced'
             ? { ...state.samlConnection }
             : {
-              tenant: state.samlConnection.tenant,
-              product: state.samlConnection.product,
-              clientID: state.samlConnection.clientID,
-              clientSecret: state.samlConnection.clientSecret,
-              rawMetadata: state.samlConnection.rawMetadata,
-              metadataUrl: state.samlConnection.metadataUrl,
-            },
+                tenant: state.samlConnection.tenant,
+                product: state.samlConnection.product,
+                clientID: state.samlConnection.clientID,
+                clientSecret: state.samlConnection.clientSecret,
+                rawMetadata: state.samlConnection.rawMetadata,
+                metadataUrl: state.samlConnection.metadataUrl,
+              },
         connectionIsSAML: true,
         callback: async (rawResponse: any) => {
           const response: ApiResponse = await rawResponse.json();
@@ -387,7 +387,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
               </Show>
-              <Button type='submit' name='Save' />
+              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
             </div>
             <Show when={props.connection?.clientID && props.connection.clientSecret}>
               <section class={state.classes.section}>

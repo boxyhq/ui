@@ -458,14 +458,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             <Spacer y={4} />
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
-                <Button
-                  type='button'
-                  name='Cancel'
-                  handleClick={props.cancelCallback}
-                  variant='outline'
-                />
+                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
               </Show>
-              <Button type='submit' name='Save' />
+              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
             </div>
             <Show when={props.connection?.clientID && props.connection.clientSecret}>
               <section class={state.classes.section}>
