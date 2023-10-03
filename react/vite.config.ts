@@ -4,7 +4,6 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import typescript from '@rollup/plugin-typescript';
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 export default defineConfig({
   build: {
@@ -32,27 +31,6 @@ export default defineConfig({
     },
   },
   plugins: [
-    cssInjectedByJsPlugin({
-      injectCodeFunction: function injectCodeCustomRunTimeFunction(cssCode, options) {
-        try {
-          if (typeof document != 'undefined') {
-            var elementStyle = document.createElement('style');
-            elementStyle.appendChild(document.createTextNode(`${cssCode}`));
-            const _firstStyleNode = document.head.getElementsByTagName('style')[0];
-            document.head.insertBefore(elementStyle, _firstStyleNode);
-            // document.head.appendChild(elementStyle);
-          }
-        } catch (e) {
-          console.error('vite-plugin-css-injected-by-js', e);
-        }
-      },
-      jsAssetsFilterFunction: function customJsAssetsfilterFunction(outputChunk) {
-        // console.log(outputChunk.fileName, outputChunk.name);
-        const entryPoints = ['sso', 'shared', 'index'];
-        // TODO: at the moment this plugin injects all styles into every file instead of splitting by entry point, also look into styles not being injected into sso.cjs
-        return entryPoints.includes(outputChunk.name);
-      },
-    }),
     // use @rollup/plugin-typescript to generate .d.ts files
     typescript({
       declaration: true,
