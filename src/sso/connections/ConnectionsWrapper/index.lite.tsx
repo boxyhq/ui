@@ -102,6 +102,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
               delete: props.componentProps.editOIDCConnection.urls?.delete || '',
               patch: props.componentProps.editOIDCConnection.urls?.patch || '',
             }}
+            {...props.componentProps.editOIDCConnection}
           />
         </Show>
         <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
@@ -117,6 +118,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
               delete: props.componentProps.editSAMLConnection.urls?.delete || '',
               patch: props.componentProps.editSAMLConnection.urls?.patch || '',
             }}
+            {...props.componentProps.editSAMLConnection}
           />
         </Show>
       </Show>
