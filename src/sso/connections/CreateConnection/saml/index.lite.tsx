@@ -95,7 +95,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           props.classNames?.radioContainer,
           defaultClasses.radioContainer + ' ' + defaultClasses.fieldContainer
         ),
-        button: cssClassAssembler(props.classNames?.button),
       };
     },
     isExcluded(fieldName: keyof SAMLSSOConnection) {
@@ -300,7 +299,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           <Show when={typeof props.cancelCallback === 'function'}>
             <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
           </Show>
-          <Button type='submit' name='Save' classNames={props.classNames?.button} />
+          <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
         </div>
       </form>
     </div>

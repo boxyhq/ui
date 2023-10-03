@@ -46,7 +46,7 @@ export interface CreateConnectionProps {
     radioContainer?: string;
     label?: string;
     fieldContainer?: string;
-    button?: string;
+    button?: { ctoa?: string };
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
@@ -266,7 +266,7 @@ export interface EditSAMLConnectionProps {
 }
 
 export interface ConnectionsWrapperProp {
-  classNames?: { button?: string };
+  classNames?: { button?: { ctoa?: string } };
   copyDoneCallback: () => void;
   componentProps: {
     connectionList: Omit<ConnectionListProps, 'handleActionClick'>;
