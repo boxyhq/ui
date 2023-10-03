@@ -235,6 +235,7 @@ export interface EditOIDCConnectionProps {
     patch: string;
   };
   classNames?: {
+    button?: { ctoa?: string };
     container?: string;
     formDiv?: string;
     fieldsContainer?: string;
@@ -258,6 +259,7 @@ export interface EditSAMLConnectionProps {
     patch: string;
   };
   classNames?: {
+    button?: { ctoa?: string; destructive?: string };
     formDiv?: string;
     label?: string;
     input?: string;
