@@ -75,7 +75,7 @@
 
 .section {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
   border-radius: 4px;
   padding: 24px;
