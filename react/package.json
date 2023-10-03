@@ -38,6 +38,10 @@
       "types": "./dist/sso/index.d.ts",
       "import": "./dist/sso.js",
       "require": "./dist/sso.cjs"
+    },
+    "./dist/*.css": {
+      "import": "./dist/*.css",
+      "require": "./dist/*.css"
     }
   },
   "scripts": {
@@ -62,7 +66,6 @@
     "serve": "14.2.1",
     "vite": "4.4.9",
     "vite-pages-theme-doc": "4.1.6",
-    "vite-plugin-css-injected-by-js": "3.3.0",
     "vite-plugin-react-pages": "4.1.4"
   },
   "peerDependencies": {
