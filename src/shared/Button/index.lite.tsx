@@ -10,6 +10,7 @@ export default function Button(props: ButtonProps) {
   });
   return (
     <button
+      ref={props.buttonRef}
       type={props.type || 'button'}
       class={`${styles.btn}${state.variantCss}${props.classNames ? ' ' + props.classNames : ''}`}
       onClick={(event) => props.handleClick?.(event)}>

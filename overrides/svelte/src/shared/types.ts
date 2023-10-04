@@ -29,6 +29,7 @@ export interface BadgeProps {
 }
 
 export interface ButtonProps {
+  buttonRef?: any;
   name: string;
   handleClick?: (event: any) => void;
   type?: 'submit' | 'reset' | 'button';
@@ -92,6 +93,10 @@ export interface TableProps {
 }
 
 export interface ConfirmationPromptProps {
-  promptMessge: string;
-  confirmationCallback: (event: any) => void;
+  buttonNames?: { ctoa?: string; cancel?: string };
+  classNames?: { button?: { ctoa?: string; cancel?: string } };
+  ctoaVariant: ButtonProps['variant'];
+  promptMessage: string;
+  confirmationCallback: (event: Event) => void;
+  cancelCallback: (event: Event) => void;
 }
