@@ -237,7 +237,8 @@ export interface EditOIDCConnectionProps {
     patch: string;
   };
   classNames?: {
-    button?: { ctoa?: string };
+    button?: { ctoa?: string; destructive?: string };
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
     container?: string;
     formDiv?: string;
     fieldsContainer?: string;

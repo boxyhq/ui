@@ -44,6 +44,10 @@ type Values = (typeof INITIAL_VALUES.oidcConnection)[Keys];
 export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
   const state = useStore({
     oidcConnection: INITIAL_VALUES.oidcConnection,
+    showDelConfirmation: false,
+    toggleDelConfirmation() {
+      state.showDelConfirmation = !state.showDelConfirmation;
+    },
     hasDiscoveryUrl: true,
     get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
@@ -470,10 +474,24 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     All your apps using this connection will stop working.
                   </p>
                 </div>
-                <ConfirmationPrompt
-                  promptMessge='Are you sure you want to delete the Connection? This action cannot be undone and will permanently delete the Connection.'
-                  confirmationCallback={state.deleteSSOConnection}
-                />
+                <Show when={!state.showDelConfirmation}>
+                  <Button
+                    name='Delete'
+                    handleClick={state.toggleDelConfirmation}
+                    variant='outline'
+                    type='button'
+                    classNames={props.classNames?.button?.destructive}
+                  />
+                </Show>
+                <Show when={state.showDelConfirmation}>
+                  <ConfirmationPrompt
+                    ctoaVariant='destructive'
+                    classNames={props.classNames?.confirmationPrompt}
+                    cancelCallback={state.toggleDelConfirmation}
+                    promptMessage='Are you sure you want to delete the Connection? This action cannot be undone and will permanently delete the Connection.'
+                    confirmationCallback={state.deleteSSOConnection}
+                  />
+                </Show>
               </section>
             </Show>
           </form>
