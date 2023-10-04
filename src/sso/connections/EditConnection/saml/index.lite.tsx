@@ -43,6 +43,10 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   const state = useStore({
     samlConnection: INITIAL_VALUES.samlConnection,
+    showDelConfirmation: false,
+    toggleDelConfirmation() {
+      state.showDelConfirmation = !state.showDelConfirmation;
+    },
     get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
     },
@@ -397,10 +401,24 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                     All your apps using this connection will stop working.
                   </p>
                 </div>
-                <ConfirmationPrompt
-                  confirmationCallback={state.deleteSSOConnection}
-                  promptMessge=' Are you sure you want to delete the Connection? This action cannot be undone and will permanently delete the Connection.'
-                />
+                <Show when={!state.showDelConfirmation}>
+                  <Button
+                    name='Delete'
+                    handleClick={state.toggleDelConfirmation}
+                    variant='outline'
+                    type='button'
+                    classNames={props.classNames?.button?.destructive}
+                  />
+                </Show>
+                <Show when={state.showDelConfirmation}>
+                  <ConfirmationPrompt
+                    ctoaVariant='destructive'
+                    classNames={props.classNames?.confirmationPrompt}
+                    cancelCallback={state.toggleDelConfirmation}
+                    confirmationCallback={state.deleteSSOConnection}
+                    promptMessage=' Are you sure you want to delete the Connection? This action cannot be undone and will permanently delete the Connection.'
+                  />
+                </Show>
               </section>
             </Show>
           </form>

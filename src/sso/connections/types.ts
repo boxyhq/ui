@@ -1,3 +1,5 @@
+import { ConfirmationPromptProps } from '../../shared/types';
+
 export interface ConnectionListProps {
   children?: any;
   cols: ('provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
@@ -260,6 +262,7 @@ export interface EditSAMLConnectionProps {
   };
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
     formDiv?: string;
     label?: string;
     input?: string;
