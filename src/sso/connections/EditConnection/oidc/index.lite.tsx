@@ -273,6 +273,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   />
                 </div>
                 <SecretInputFormControl
+                  classNames={{ input: props.classNames?.secretInput }}
                   label='Client Secret [OIDC Provider]'
                   value={state.oidcConnection.oidcClientSecret}
                   id='oidcClientSecret'
@@ -449,6 +450,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   />
                 </div>
                 <SecretInputFormControl
+                  classNames={{ input: props.classNames?.secretInput }}
                   label='Client Secret'
                   value={props.connection.clientSecret}
                   id='clientSecret'

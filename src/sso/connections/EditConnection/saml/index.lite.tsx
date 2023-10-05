@@ -376,6 +376,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   />
                 </div>
                 <SecretInputFormControl
+                  classNames={{ input: props.classNames?.secretInput }}
                   label='Client Secret'
                   id='clientSecret'
                   value={props.connection.clientSecret}

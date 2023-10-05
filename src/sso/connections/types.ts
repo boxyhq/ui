@@ -239,6 +239,7 @@ export interface EditOIDCConnectionProps {
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    secretInput?: string;
     container?: string;
     formDiv?: string;
     fieldsContainer?: string;
@@ -264,6 +265,7 @@ export interface EditSAMLConnectionProps {
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    secretInput?: string;
     formDiv?: string;
     label?: string;
     input?: string;
