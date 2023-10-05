@@ -56,6 +56,7 @@ export interface SecretInputFormControlProps {
   readOnly: boolean;
   copyDoneCallback: () => void;
   handleChange: (event: Event) => void;
+  classNames?: { input?: string };
 }
 
 export interface ToggleSwitchProps {
