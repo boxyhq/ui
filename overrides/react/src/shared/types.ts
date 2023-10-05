@@ -40,8 +40,8 @@ export interface ModalProps {
 export interface ButtonProps {
   buttonRef?: any;
   name: string;
-  handleClick?: (event: any) => void;
   type?: 'submit' | 'reset' | 'button';
+  handleClick?: (event: any) => void;
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
 }
