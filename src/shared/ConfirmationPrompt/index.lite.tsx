@@ -1,4 +1,4 @@
-import { useRef, onMount } from '@builder.io/mitosis';
+import { useRef, onMount, useStore } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
 import { ConfirmationPromptProps } from '../types';
 import defaultClasses from './index.module.css';
@@ -6,8 +6,16 @@ import defaultClasses from './index.module.css';
 export default function ConfirmationPrompt(props: ConfirmationPromptProps) {
   const cancelRef = useRef<HTMLButtonElement>(null);
 
+  const state = useStore({
+    focusCancelButton() {
+      if (cancelRef) {
+        cancelRef.focus();
+      }
+    },
+  });
+
   onMount(() => {
-    cancelRef.focus();
+    state.focusCancelButton();
   });
 
   return (
@@ -27,7 +35,7 @@ export default function ConfirmationPrompt(props: ConfirmationPromptProps) {
           variant='outline'
           handleClick={props.cancelCallback}
           classNames={props.classNames?.button?.cancel}
-          ref={cancelRef}
+          buttonRef={cancelRef}
         />
       </div>
     </div>
