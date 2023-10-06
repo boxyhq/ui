@@ -8,6 +8,7 @@ export default function Button(props: ButtonProps) {
       return props.variant ? ' ' + styles[props.variant] : '';
     },
   });
+
   return (
     <button
       ref={props.buttonRef}
