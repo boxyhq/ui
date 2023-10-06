@@ -1,21 +1,15 @@
-import { useRef, onMount, useStore } from '@builder.io/mitosis';
+import { useRef, onMount, useMetadata } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
 import { ConfirmationPromptProps } from '../types';
 import defaultClasses from './index.module.css';
 
+useMetadata({ fixRefProp: true });
+
 export default function ConfirmationPrompt(props: ConfirmationPromptProps) {
   const cancelRef = useRef<HTMLButtonElement>(null);
 
-  const state = useStore({
-    focusCancelButton() {
-      if (cancelRef) {
-        cancelRef.focus();
-      }
-    },
-  });
-
   onMount(() => {
-    state.focusCancelButton();
+    cancelRef?.focus();
   });
 
   return (
