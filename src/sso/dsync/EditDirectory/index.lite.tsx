@@ -25,6 +25,10 @@ const DEFAULT_VALUES: { formState: FormState; directory: Directory | null } = {
 export default function EditDirectory(props: EditDirectoryProps) {
   const state: any = useStore({
     loading: true,
+    showDelConfirmation: false,
+    toggleDelConfirmation() {
+      state.showDelConfirmation = !state.showDelConfirmation;
+    },
     formState: DEFAULT_VALUES.formState,
     directory: DEFAULT_VALUES.directory,
     get classes() {
@@ -78,12 +82,12 @@ export default function EditDirectory(props: EditDirectoryProps) {
         const response: ApiResponse<Directory> = await rawResponse.json();
 
         if ('error' in response) {
-          (typeof props.errorCallback === 'function') && props.errorCallback(response.error.message);
+          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
           return;
         }
 
         if (rawResponse.ok) {
-          (typeof props.successCallback === 'function') && props.successCallback();
+          typeof props.successCallback === 'function' && props.successCallback();
         }
       }
       sendHttpRequest(props.urls.patch);
@@ -97,17 +101,17 @@ export default function EditDirectory(props: EditDirectoryProps) {
         const response: ApiResponse<unknown> = await rawResponse.json();
 
         if ('error' in response) {
-          (typeof props.errorCallback === 'function') && props.errorCallback(response.error.message);
+          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
           return;
         }
 
         if ('data' in response) {
-          (typeof props.successCallback === 'function') && props.successCallback();
+          typeof props.successCallback === 'function' && props.successCallback();
         }
       }
 
       sendHTTPrequest(props.urls.delete);
-    }
+    },
   });
 
   onUpdate(() => {
@@ -134,8 +138,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
     }
     getDirectory(props.urls.get);
   }, [props.urls]);
-
-
 
   return (
     <div>
@@ -226,7 +228,12 @@ export default function EditDirectory(props: EditDirectoryProps) {
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
               </Show>
-              <Button type='submit' name='Save' variant='primary' />
+              <Button
+                type='submit'
+                name='Save'
+                variant='primary'
+                classNames={props.classNames?.button?.ctoa}
+              />
             </div>
           </div>
         </form>
@@ -236,11 +243,25 @@ export default function EditDirectory(props: EditDirectoryProps) {
           <h6 class={defaultClasses.sectionHeading}>Delete this directory connection</h6>
           <p class={defaultClasses.sectionPara}>All your apps using this connection will stop working.</p>
         </div>
-        <ConfirmationPrompt
-          promptMessge=' Are you sure you want to delete the directory connection? This will permanently delete the
+        <Show when={!state.showDelConfirmation}>
+          <Button
+            name='Delete'
+            handleClick={state.toggleDelConfirmation}
+            variant='outline'
+            type='button'
+            classNames={props.classNames?.button?.destructive}
+          />
+        </Show>
+        <Show when={state.showDelConfirmation}>
+          <ConfirmationPrompt
+            ctoaVariant='destructive'
+            classNames={props.classNames?.confirmationPrompt}
+            cancelCallback={state.toggleDelConfirmation}
+            promptMessage=' Are you sure you want to delete the directory connection? This will permanently delete the
               directory connection, users, and groups.'
-          confirmationCallback={state.deleteDirectory}
-        />
+            confirmationCallback={state.deleteDirectory}
+          />
+        </Show>
       </section>
     </div>
   );

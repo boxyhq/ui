@@ -61,12 +61,15 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                     linkText='Access SP Metadata'
                     variant='button'></Anchor>
                 </Show>
-                <Button name='Add Connection' handleClick={state.switchToCreateView} />
+                <Button
+                  name='Add Connection'
+                  handleClick={state.switchToCreateView}
+                  classNames={props.classNames?.button?.ctoa}
+                />
               </div>
             </Card>
-            <Spacer y={4} />
+            <Spacer y={8} />
           </Show>
-          <Spacer y={4} />
           <ConnectionList
             {...props.componentProps.connectionList}
             handleActionClick={state.switchToEditView}
@@ -79,7 +82,11 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                     linkText='Access SP Metadata'
                     variant='button'></Anchor>
                 </Show>
-                <Button name='Add Connection' handleClick={state.switchToCreateView} />
+                <Button
+                  name='Add Connection'
+                  handleClick={state.switchToCreateView}
+                  classNames={props.classNames?.button?.ctoa}
+                />
               </div>
             </Card>
           </ConnectionList>
@@ -99,6 +106,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
               delete: props.componentProps.editOIDCConnection.urls?.delete || '',
               patch: props.componentProps.editOIDCConnection.urls?.patch || '',
             }}
+            {...props.componentProps.editOIDCConnection}
           />
         </Show>
         <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
@@ -114,6 +122,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
               delete: props.componentProps.editSAMLConnection.urls?.delete || '',
               patch: props.componentProps.editSAMLConnection.urls?.patch || '',
             }}
+            {...props.componentProps.editSAMLConnection}
           />
         </Show>
       </Show>

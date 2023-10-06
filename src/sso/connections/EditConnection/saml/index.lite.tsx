@@ -43,6 +43,10 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   const state = useStore({
     samlConnection: INITIAL_VALUES.samlConnection,
+    showDelConfirmation: false,
+    toggleDelConfirmation() {
+      state.showDelConfirmation = !state.showDelConfirmation;
+    },
     get formVariant() {
       return props.variant || DEFAULT_VALUES.variant;
     },
@@ -81,13 +85,13 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           props.variant === 'advanced'
             ? { ...state.samlConnection }
             : {
-              tenant: state.samlConnection.tenant,
-              product: state.samlConnection.product,
-              clientID: state.samlConnection.clientID,
-              clientSecret: state.samlConnection.clientSecret,
-              rawMetadata: state.samlConnection.rawMetadata,
-              metadataUrl: state.samlConnection.metadataUrl,
-            },
+                tenant: state.samlConnection.tenant,
+                product: state.samlConnection.product,
+                clientID: state.samlConnection.clientID,
+                clientSecret: state.samlConnection.clientSecret,
+                rawMetadata: state.samlConnection.rawMetadata,
+                metadataUrl: state.samlConnection.metadataUrl,
+              },
         connectionIsSAML: true,
         callback: async (rawResponse: any) => {
           const response: ApiResponse = await rawResponse.json();
@@ -372,6 +376,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   />
                 </div>
                 <SecretInputFormControl
+                  classNames={{ input: props.classNames?.secretInput }}
                   label='Client Secret'
                   id='clientSecret'
                   value={props.connection.clientSecret}
@@ -387,7 +392,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
               </Show>
-              <Button type='submit' name='Save' />
+              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
             </div>
             <Show when={props.connection?.clientID && props.connection.clientSecret}>
               <section class={state.classes.section}>
@@ -397,10 +402,24 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                     All your apps using this connection will stop working.
                   </p>
                 </div>
-                <ConfirmationPrompt
-                  confirmationCallback={state.deleteSSOConnection}
-                  promptMessge=' Are you sure you want to delete the Connection? This action cannot be undone and will permanently delete the Connection.'
-                />
+                <Show when={!state.showDelConfirmation}>
+                  <Button
+                    name='Delete'
+                    handleClick={state.toggleDelConfirmation}
+                    variant='outline'
+                    type='button'
+                    classNames={props.classNames?.button?.destructive}
+                  />
+                </Show>
+                <Show when={state.showDelConfirmation}>
+                  <ConfirmationPrompt
+                    ctoaVariant='destructive'
+                    classNames={props.classNames?.confirmationPrompt}
+                    cancelCallback={state.toggleDelConfirmation}
+                    confirmationCallback={state.deleteSSOConnection}
+                    promptMessage=' Are you sure you want to delete the Connection? This action cannot be undone and will permanently delete the Connection.'
+                  />
+                </Show>
               </section>
             </Show>
           </form>

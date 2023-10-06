@@ -4,7 +4,7 @@
   margin: 0 0 1.5rem;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--secondary-foreground-color);
+  color: var(--primary-text-color);
 }
 
 @media (min-width: 768px) {
@@ -33,16 +33,15 @@
   font-size: 1rem;
   line-height: 2;
   line-height: 1.5rem;
-  border-width: 1px;
-  border-color: var(--secondary-foreground-color);
+  border: var(--border-width) solid var(--border-color);
   background-color: #fff;
   border-radius: var(--border-radius);
 }
 
 .input:focus {
-  border-color: var(--secondary-color);
-  outline: 2px solid var(--primary-color-700);
-  outline-offset: 2px;
+  border-color: var(--primary-color-500);
+  outline: var(--ring-offset-width) solid var(--ring-offset-color);
+  outline-offset: var(--ring-offset);
 }
 
 .textarea {

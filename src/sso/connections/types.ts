@@ -1,3 +1,5 @@
+import { ConfirmationPromptProps } from '../../shared/types';
+
 export interface ConnectionListProps {
   children?: any;
   cols: ('provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
@@ -46,6 +48,7 @@ export interface CreateConnectionProps {
     radioContainer?: string;
     label?: string;
     fieldContainer?: string;
+    button?: { ctoa?: string };
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
@@ -234,6 +237,9 @@ export interface EditOIDCConnectionProps {
     patch: string;
   };
   classNames?: {
+    button?: { ctoa?: string; destructive?: string };
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    secretInput?: string;
     container?: string;
     formDiv?: string;
     fieldsContainer?: string;
@@ -257,6 +263,9 @@ export interface EditSAMLConnectionProps {
     patch: string;
   };
   classNames?: {
+    button?: { ctoa?: string; destructive?: string };
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    secretInput?: string;
     formDiv?: string;
     label?: string;
     input?: string;
@@ -265,7 +274,7 @@ export interface EditSAMLConnectionProps {
 }
 
 export interface ConnectionsWrapperProp {
-  classNames?: { button?: string };
+  classNames?: { button?: { ctoa?: string } };
   copyDoneCallback: () => void;
   componentProps: {
     connectionList: Omit<ConnectionListProps, 'handleActionClick'>;

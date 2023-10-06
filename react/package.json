@@ -38,6 +38,10 @@
       "types": "./dist/sso/index.d.ts",
       "import": "./dist/sso.js",
       "require": "./dist/sso.cjs"
+    },
+    "./dist/*.css": {
+      "import": "./dist/*.css",
+      "require": "./dist/*.css"
     }
   },
   "scripts": {

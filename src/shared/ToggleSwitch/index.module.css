@@ -58,7 +58,7 @@
 }
 
 .input:focus + .display {
-  outline: 1px dotted #98f7dc;
+  outline: 1px dotted var(--primary-color-200);
   outline: 1px auto -webkit-focus-ring-color;
 }
 
@@ -67,11 +67,11 @@
 }
 
 .input:checked + .display {
-  border-color: #5cecc8;
+  border-color: var(--primary-color);
 }
 
 .input:checked + .display::before {
-  background-color: #5cecc8;
+  background-color: var(--primary-color);
   transform: translate(100%, -50%);
 }
 

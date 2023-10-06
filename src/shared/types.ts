@@ -38,10 +38,12 @@ export interface ModalProps {
 }
 
 export interface ButtonProps {
+  buttonRef?: any;
   name: string;
   handleClick?: (event: any) => void;
   type?: 'submit' | 'reset' | 'button';
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
+  classNames?: string;
 }
 
 export interface SecretInputFormControlProps {
@@ -54,6 +56,7 @@ export interface SecretInputFormControlProps {
   readOnly: boolean;
   copyDoneCallback: () => void;
   handleChange: (event: Event) => void;
+  classNames?: { input?: string };
 }
 
 export interface ToggleSwitchProps {
@@ -100,6 +103,10 @@ export interface TableProps {
 }
 
 export interface ConfirmationPromptProps {
-  promptMessge: string;
+  buttonNames?: { ctoa?: string; cancel?: string };
+  classNames?: { button?: { ctoa?: string; cancel?: string } };
+  ctoaVariant: ButtonProps['variant'];
+  promptMessage: string;
   confirmationCallback: (event: Event) => void;
+  cancelCallback: (event: Event) => void;
 }

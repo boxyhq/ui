@@ -1,3 +1,5 @@
+import { ConfirmationPromptProps } from '../../shared/types';
+
 export interface CreateDirectoryProps {
   urls: {
     post: string;
@@ -61,6 +63,8 @@ export interface EditDirectoryProps {
   cancelCallback?: () => void;
   deleteCallback: () => void;
   classNames?: {
+    button?: { ctoa?: string; destructive?: string };
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
     label?: string;
     input?: string;
     container?: string;

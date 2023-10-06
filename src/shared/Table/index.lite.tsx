@@ -18,10 +18,9 @@ export default function Table(props: TableProps) {
         iconSpan: cssClassAssembler(props.classNames?.iconSpan, defaultClasses.iconSpan),
       };
     },
-    actionClick(action: TableProps["actions"][number], item: TableProps["data"][number]) {
-      return () => action.handleClick(item)
-    }
-
+    actionClick(action: TableProps['actions'][number], item: TableProps['data'][number]) {
+      return () => action.handleClick(item);
+    },
   });
 
   return (
@@ -42,12 +41,13 @@ export default function Table(props: TableProps) {
       </thead>
       <tbody>
         <For each={props.data}>
-          {(item: TableProps["data"][number]) => (
+          {(item: TableProps['data'][number]) => (
             <tr class={state.classes.tr}>
               <For each={props.cols}>
                 {(col) => (
                   <td class={state.classes.td}>
-                    <Show when={col !== 'actions'}
+                    <Show
+                      when={col !== 'actions'}
                       else={
                         <For each={props.actions}>
                           {(action) => (
@@ -55,18 +55,20 @@ export default function Table(props: TableProps) {
                               <IconButton
                                 label={action.label}
                                 handleClick={state.actionClick(action, item)}
-                                icon={action.icon}
-                              ></IconButton>
+                                icon={action.icon}></IconButton>
                             </span>
-                          )}</For>}>
+                          )}
+                        </For>
+                      }>
                       {item[col]}
                     </Show>
-                  </td>)}
+                  </td>
+                )}
               </For>
-            </tr>)
-          }
-        </For >
-      </tbody >
-    </table >
+            </tr>
+          )}
+        </For>
+      </tbody>
+    </table>
   );
 }

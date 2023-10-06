@@ -41,7 +41,7 @@
 
 .secondary {
   background: var(--secondary-color);
-  color: var(--secondary-foreground-color);
+  color: var(--primary-text-color);
 }
 .outline {
   background: transparent;

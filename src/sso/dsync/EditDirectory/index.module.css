@@ -15,7 +15,7 @@
 
 .input {
   width: 100%;
-  border: 1px solid var(--secondary-foreground-color);
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   padding: 8px 16px;
   height: 48px;
@@ -75,7 +75,7 @@
 
 .section {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
   border-radius: 4px;
   padding: 24px;

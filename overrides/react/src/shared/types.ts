@@ -1,4 +1,4 @@
-import type { SVGAttributes, JSX } from 'react';
+import type { SVGAttributes, ComponentPropsWithRef } from 'react';
 
 export type SVGProps = SVGAttributes<SVGSVGElement>;
 
@@ -37,11 +37,13 @@ export interface ModalProps {
   children?: any;
 }
 
-export interface ButtonProps {
+export interface ButtonProps extends ComponentPropsWithRef<'button'> {
+  buttonRef?: HTMLButtonElement;
   name: string;
-  handleClick?: (event: any) => void;
   type?: 'submit' | 'reset' | 'button';
+  handleClick?: (event: any) => void;
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
+  classNames?: string;
 }
 
 export interface SecretInputFormControlProps {
@@ -54,6 +56,7 @@ export interface SecretInputFormControlProps {
   readOnly: boolean;
   copyDoneCallback: () => void;
   handleChange: (event: Event) => void;
+  classNames?: { input?: string };
 }
 
 export interface ToggleSwitchProps {
@@ -100,6 +103,10 @@ export interface TableProps {
 }
 
 export interface ConfirmationPromptProps {
-  promptMessge: string;
-  confirmationCallback: (event: any) => void;
+  buttonNames?: { ctoa?: string; cancel?: string };
+  classNames?: { button?: { ctoa?: string; cancel?: string } };
+  ctoaVariant: ButtonProps['variant'];
+  promptMessage: string;
+  confirmationCallback: (event: Event) => void;
+  cancelCallback: (event: Event) => void;
 }
