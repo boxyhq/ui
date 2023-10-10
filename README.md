@@ -21,9 +21,10 @@
 
 ___
 
-# ui
+# UI SDK
 
-Toolkit to ease BoxyHQ integration
+Toolkit to ease BoxyHQ integration. This SDK includes core components that can be used inside web apps and help in configuring features like SSO, Directory Sync, etc. Currently, these components are used in projects such as [Jackson](https://github.com/boxyhq/jackson) and [saas-starter-kit](https://github.com/boxyhq/saas-starter-kit). We use [mitosis](https://github.com/BuilderIO/mitosis) for authoring components and the code for each framework (see table below for the npm package) is then generated in the build process. 
+
 
 | UI Framework | NPM |
 | --- | --- |
