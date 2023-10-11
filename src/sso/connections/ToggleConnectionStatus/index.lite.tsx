@@ -4,8 +4,7 @@ import { ApiResponse } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import ToggleSwitch from '../../../shared/ToggleSwitch/index.lite';
-import Button from '../../../shared/Button/index.lite';
-import Spacer from '../../../shared/Spacer/index.lite';
+import ConfirmationPrompt from '../../../shared/ConfirmationPrompt/index.lite';
 
 export default function ToggleConnectionStatus(props: ToggleConnectionStatusProps) {
   const state: any = useStore({
@@ -29,8 +28,6 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
       return {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         heading: cssClassAssembler(props.classNames?.heading, defaultClasses.heading),
-        confirmBtn: cssClassAssembler(props.classNames?.confirmBtn, defaultClasses.confirmBtn),
-        cancelBtn: cssClassAssembler(props.classNames?.cancelBtn, defaultClasses.cancelBtn),
         toggle: cssClassAssembler(props.classNames?.toggle, defaultClasses.toggle),
         displayMessage: cssClassAssembler(props.classNames?.displayMessage, defaultClasses.displayMessage),
         toggleTransition: cssClassAssembler(
@@ -86,17 +83,13 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
     <Show when={props.connection !== undefined || props.connection !== null}>
       <div class={state.classes.container}>
         <Show when={state.displayPrompt}>
-          <div class={state.classes.displayMessage}>
-            <span>Do you want to {` ${state.connectionAction} `} the connection?</span>
-            <div>
-              <Button
-                variant={props.connection.deactivated ? 'primary' : 'destructive'}
-                name='Confirm'
-                handleClick={state.onConfirm}></Button>
-              <Spacer x={1.5} />
-              <Button name='Cancel' variant='outline' handleClick={state.onCancel}></Button>
-            </div>
-          </div>
+          <ConfirmationPrompt
+            ctoaVariant={props.connection.deactivated ? 'primary' : 'destructive'}
+            classNames={props.classNames?.confirmationPrompt}
+            cancelCallback={state.onCancel}
+            confirmationCallback={state.onConfirm}
+            promptMessage={`Do you want to ${state.connectionAction} the connection?`}
+          />
         </Show>
         <Show when={!state.displayPrompt}>
           <ToggleSwitch

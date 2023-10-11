@@ -205,8 +205,7 @@ export interface ToggleConnectionStatusProps {
     toggle?: string;
     toggleTransition?: string;
     displayMessage?: string;
-    confirmBtn?: string;
-    cancelBtn?: string;
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
   };
 }
 
