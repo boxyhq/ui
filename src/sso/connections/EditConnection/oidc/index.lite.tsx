@@ -169,6 +169,18 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           <ToggleConnectionStatus
             connection={props.connection}
             urls={{ patch: props.urls.patch }}
+            classNames={{
+              confirmationPrompt: {
+                button: {
+                  ctoa: `${props.classNames?.confirmationPrompt?.button?.ctoa} ${
+                    props.connection.deactivated
+                      ? props.classNames?.button?.ctoa
+                      : props.classNames?.button?.destructive
+                  }`.trim(),
+                  cancel: props.classNames?.confirmationPrompt?.button?.cancel,
+                },
+              },
+            }}
             errorCallback={props.errorCallback}
             successCallback={props.successCallback}
           />
@@ -488,7 +500,12 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 <Show when={state.showDelConfirmation}>
                   <ConfirmationPrompt
                     ctoaVariant='destructive'
-                    classNames={props.classNames?.confirmationPrompt}
+                    classNames={{
+                      button: {
+                        ctoa: `${props.classNames?.button?.destructive} ${props.classNames?.confirmationPrompt?.button?.ctoa}`.trim(),
+                        cancel: props.classNames?.confirmationPrompt?.button?.cancel,
+                      },
+                    }}
                     cancelCallback={state.toggleDelConfirmation}
                     promptMessage='Are you sure you want to delete the Connection? This action cannot be undone and will permanently delete the Connection.'
                     confirmationCallback={state.deleteSSOConnection}
