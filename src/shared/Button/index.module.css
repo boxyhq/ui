@@ -18,8 +18,8 @@
   appearance: none;
 }
 
-.btn.primary:hover,
-.btn.primary:focus-visible {
+.primary:hover,
+.primary:focus-visible {
   background: var(--primary-hover);
 }
 
