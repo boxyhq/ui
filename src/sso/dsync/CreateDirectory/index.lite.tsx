@@ -208,7 +208,12 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
           <Show when={typeof props.cancelCallback === 'function'}>
             <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
           </Show>
-          <Button variant='primary' type='submit' name='Create Directory' />
+          <Button
+            variant='primary'
+            type='submit'
+            name='Create Directory'
+            classNames={props.classNames?.button?.ctoa}
+          />
         </div>
       </form>
     </div>

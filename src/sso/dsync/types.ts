@@ -16,6 +16,7 @@ export interface CreateDirectoryProps {
     fieldContainer?: string;
     input?: string;
     label?: string;
+    button?: { ctoa?: string };
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the create component standalone */
   displayHeader?: boolean;
