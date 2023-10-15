@@ -75,9 +75,14 @@ export interface LoadingContainerProps {
   children?: any;
   isBusy: boolean;
 }
+// Used for advanced customisation of Table column cells such as displaying a badge
+export interface TableCol {
+  name: string;
+  badge?: { position?: 'left' | 'right' | 'surround' } & BadgeProps;
+}
 
 export interface TableProps {
-  cols: string[];
+  cols: (string | 'actions' | TableCol)[];
   data: Record<string, any>[];
   actions: { icon: IconButtonProps['icon']; handleClick: (item: any) => void; label?: string }[];
   tableCaption?: string;
