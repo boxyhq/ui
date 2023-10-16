@@ -1,6 +1,6 @@
-import { For, Fragment, useStore } from '@builder.io/mitosis';
+import { For, Fragment, Show, useStore } from '@builder.io/mitosis';
 import Badge from '../Badge/index.lite';
-import { TableProps } from '../types';
+import { TableCol, TableProps } from '../types';
 import IconButton from '../IconButton/index.lite';
 
 interface TableCellProps {
@@ -15,51 +15,87 @@ export default function TableCell(props: TableCellProps) {
     actionClick(action: TableProps['actions'][number], item: TableProps['data'][number]) {
       return () => action.handleClick(item);
     },
+    get cellValue() {
+      const _col = props.col;
+      if (this.isStringColumn) {
+        return props.rowData[_col as string];
+      } else if (this.isAdvancedColumnType) {
+        return props.rowData[(_col as TableCol).name];
+      }
+    },
+    get isStringColumn() {
+      return typeof props.col === 'string';
+    },
+    get isAdvancedColumnType() {
+      return typeof props.col === 'object' && 'name' in props.col;
+    },
+    get isActionsColumn() {
+      return props.col === 'actions' || (typeof props.col === 'object' && props.col.name === 'actions');
+    },
+    get displayBadge() {
+      const _col = props.col as TableCol;
+      return !!(_col.badge?.position || _col.badge?.badgeText);
+    },
+    get badgePosition() {
+      const _col = props.col as TableCol;
+      return _col.badge?.position;
+    },
+    get badgeText() {
+      const _col = props.col as TableCol;
+      return _col.badge?.badgeText || props.rowData[_col.name];
+    },
+    get badgeLabel() {
+      const _col = props.col as TableCol;
+      return _col.badge?.ariaLabel;
+    },
+    get badgeVariant() {
+      const _col = props.col as TableCol;
+      return _col.badge?.variant;
+    },
   });
 
-  if (props.col === 'actions' || (typeof props.col === 'object' && props.col.name === 'actions')) {
-    return (
-      <For each={props.actions}>
-        {(action) => (
-          <span class={props.classNames?.iconSpan}>
-            <IconButton
-              label={action.label}
-              handleClick={state.actionClick(action, props.rowData)}
-              icon={action.icon}></IconButton>
-          </span>
-        )}
-      </For>
-    );
-  }
-  if (typeof props.col === 'string') {
-    return props.rowData[props.col];
-  }
-  if (typeof props.col === 'object' && 'name' in props.col) {
-    if (props.col.badge?.position === 'surround') {
-      return (
-        <Badge
-          badgeText={props.col.badge.badgeText || props.rowData[props.col.name]}
-          ariaLabel={props.col.badge.ariaLabel}
-          variant={props.col.badge.variant}></Badge>
-      );
-    } else if (props.col.badge?.position === 'left') {
-      <Fragment>
-        <Badge
-          badgeText={props.col.badge.badgeText}
-          ariaLabel={props.col.badge.ariaLabel}
-          variant={props.col.badge.variant}></Badge>
-        {props.rowData[props.col.name]}
-      </Fragment>;
-    } else if (props.col.badge?.position === 'right') {
-      <Fragment>
-        {props.rowData[props.col.name]}
-        <Badge
-          badgeText={props.col.badge.badgeText}
-          ariaLabel={props.col.badge.ariaLabel}
-          variant={props.col.badge.variant}></Badge>
-      </Fragment>;
-    } else {
-      return props.rowData[props.col.name];
-    }
-  }
+  return (
+    <Fragment>
+      <Show when={state.isActionsColumn}>
+        <For each={props.actions}>
+          {(action) => (
+            <span class={props.classNames?.iconSpan}>
+              <IconButton
+                label={action.label}
+                handleClick={state.actionClick(action, props.rowData)}
+                icon={action.icon}></IconButton>
+            </span>
+          )}
+        </For>
+      </Show>
+      <Show when={state.isStringColumn}>{state.cellValue}</Show>
+      <Show when={state.isAdvancedColumnType}>
+        <Show when={!state.displayBadge}>{state.cellValue}</Show>
+        <Show when={state.badgePosition === 'surround' || state.displayBadge}>
+          <Badge
+            badgeText={state.badgeText}
+            ariaLabel={state.badgeLabel}
+            variant={state.badgeVariant}></Badge>
+        </Show>
+        <Show when={state.badgePosition === 'left'}>
+          <Fragment>
+            <Badge
+              badgeText={state.badgeText}
+              ariaLabel={state.badgeLabel}
+              variant={state.badgeVariant}></Badge>
+            {state.cellValue}
+          </Fragment>
+        </Show>
+        <Show when={state.badgePosition === 'right'}>
+          <Fragment>
+            {state.cellValue}
+            <Badge
+              badgeText={state.badgeText}
+              ariaLabel={state.badgeLabel}
+              variant={state.badgeVariant}></Badge>
+          </Fragment>
+        </Show>
+      </Show>
+    </Fragment>
+  );
 }
