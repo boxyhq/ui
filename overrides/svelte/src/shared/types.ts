@@ -24,6 +24,7 @@ export interface EmptyStateProps {
 
 export interface BadgeProps {
   badgeText: string;
+  // badgeText will be the label if ariaLabel is not set
   ariaLabel?: string;
   variant?: 'success' | 'info' | 'warning';
 }
