@@ -79,7 +79,18 @@ export interface LoadingContainerProps {
 // Used for advanced customisation of Table column cells such as displaying a badge
 export interface TableCol {
   name: string;
-  badge?: { position?: 'left' | 'right' | 'surround' } & BadgeProps;
+  badge?: {
+    position?: 'left' | 'right' | 'surround';
+    variantSelector?: (rowData: TableCellProps['rowData']) => BadgeProps['variant'];
+    shouldDisplayBadge?: (rowData: TableCellProps['rowData']) => boolean;
+  } & BadgeProps;
+}
+
+export interface TableCellProps {
+  col: TableProps['cols'][number];
+  rowData: TableProps['data'][number];
+  actions: TableProps['actions'];
+  classNames: TableProps['classNames'];
 }
 
 export interface TableProps {

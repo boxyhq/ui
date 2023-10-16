@@ -1,8 +1,8 @@
-import { ConfirmationPromptProps } from '../../shared/types';
+import { ConfirmationPromptProps, TableCol } from '../../shared/types';
 
 export interface ConnectionListProps {
   children?: any;
-  cols: ('provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
+  cols: ('provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
   tableCaption?: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
