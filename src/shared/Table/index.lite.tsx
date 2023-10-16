@@ -43,11 +43,11 @@ export default function Table(props: TableProps) {
       </thead>
       <tbody>
         <For each={props.data}>
-          {(item) => (
-            <tr class={state.classes.tr}>
+          {(item, index) => (
+            <tr class={state.classes.tr} key={index}>
               <For each={props.cols}>
-                {(col) => (
-                  <td class={state.classes.td}>
+                {(col, index) => (
+                  <td class={state.classes.td} key={index}>
                     <TableCell col={col} rowData={item} actions={props.actions} classNames={state.classes} />
                   </td>
                 )}

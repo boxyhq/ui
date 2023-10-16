@@ -58,8 +58,8 @@ export default function TableCell(props: TableCellProps) {
     <Fragment>
       <Show when={state.isActionsColumn}>
         <For each={props.actions}>
-          {(action) => (
-            <span class={props.classNames?.iconSpan}>
+          {(action, index) => (
+            <span class={props.classNames?.iconSpan} key={index}>
               <IconButton
                 label={action.label}
                 handleClick={state.actionClick(action, props.rowData)}
