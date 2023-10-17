@@ -109,3 +109,8 @@
   flex-direction: column;
   width: 50%;
 }
+
+.formAction {
+  display: flex;
+  gap: 0.5rem;
+}
