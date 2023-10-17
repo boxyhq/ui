@@ -189,7 +189,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
             <Spacer y={6} />
           </div>
         </Show>
-        <Show when={state.isExcluded('webhook_url')}>
+        <Show when={!state.isExcluded('webhook_url')}>
           <div class={state.classes.fieldContainer}>
             <label for='webhook_url' class={state.classes.label}>
               Webhook URL
@@ -206,7 +206,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
             <Spacer y={6} />
           </div>
         </Show>
-        <Show when={state.isExcluded('webhook_secret')}>
+        <Show when={!state.isExcluded('webhook_secret')}>
           <div class={state.classes.fieldContainer}>
             <label for='webhook_secret' class={state.classes.label}>
               Webhook secret
