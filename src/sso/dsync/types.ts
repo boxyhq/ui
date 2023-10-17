@@ -7,7 +7,6 @@ export interface CreateDirectoryProps {
     providers: string;
   };
   defaultWebhookEndpoint?: string | undefined;
-  setupLinkToken?: string;
   successCallback: () => void;
   errorCallback: (errMsg: string) => void;
   // To handle cancel button click
