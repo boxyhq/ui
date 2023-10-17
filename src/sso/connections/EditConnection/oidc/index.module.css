@@ -10,6 +10,17 @@
   gap: 0;
 }
 
+.headingContainer {
+  margin: 20px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headingContainer > :last-child {
+  margin-left: auto;
+}
+
 .heading {
   margin-top: 20px;
   margin-bottom: 20px;

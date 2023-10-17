@@ -243,6 +243,8 @@ export interface EditOIDCConnectionProps {
     input?: string;
     section?: string;
   };
+  /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
+  displayHeader?: boolean;
 }
 
 export interface EditSAMLConnectionProps {
@@ -266,6 +268,8 @@ export interface EditSAMLConnectionProps {
     input?: string;
     section?: string;
   };
+  /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
+  displayHeader?: boolean;
 }
 
 export interface ConnectionsWrapperProp {

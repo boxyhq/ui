@@ -100,11 +100,17 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
     isExcluded(fieldName: keyof SAMLSSOConnection) {
       return !!(props.excludeFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
     },
+    get shouldDisplayHeader() {
+      if (props.displayHeader !== undefined) {
+        return props.displayHeader;
+      }
+      return true;
+    },
   });
 
   return (
     <div>
-      <Show when={props.displayHeader !== undefined ? props.displayHeader : true}>
+      <Show when={state.shouldDisplayHeader}>
         <h2 class={defaultClasses.heading}>Create SAML Connection</h2>
       </Show>
       <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
