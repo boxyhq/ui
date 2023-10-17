@@ -16,6 +16,7 @@ import Spacer from '../../../../shared/Spacer/index.lite';
 import CopyToClipboardButton from '../../../../shared/ClipboardButton/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
 import ConfirmationPrompt from '../../../../shared/ConfirmationPrompt/index.lite';
+import Checkbox from '../../../../shared/Checkbox/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -290,19 +291,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             <Show when={state.formVariant === 'advanced'}>
               <Show when={!state.isExcluded('forceAuthn')}>
                 <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='forceAuthn' class={state.classes.label}>
-                      Force Authentication
-                    </label>
-                  </div>
-                  <input
-                    class={defaultClasses.checkbox}
+                  <Checkbox
+                    checked={state.samlConnection.forceAuthn}
+                    handleChange={state.handleChange}
+                    label='Force Authentication'
                     name='forceAuthn'
                     id='forceAuthn'
-                    type='checkbox'
-                    onChange={(event) => state.handleChange(event)}
-                    checked={state.samlConnection.forceAuthn === true}
-                    required={false}
                   />
                 </div>
               </Show>

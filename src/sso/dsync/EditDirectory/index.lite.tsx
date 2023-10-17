@@ -209,20 +209,16 @@ export default function EditDirectory(props: EditDirectoryProps) {
           </Show>
           <Show when={!state.isExcluded('log_webhook_events')}>
             <div class={defaultClasses.checkboxFieldsDiv}>
-              <input
+              <Checkbox
+                label='Enable Webhook events logging'
                 id='log_webhook_events'
                 name='log_webhook_events'
-                type='checkbox'
                 checked={state.directoryUpdated?.log_webhook_events}
-                onChange={(event) => state.handleChange(event)}
-                class={defaultClasses.checkboxInput}
+                handleChange={state.handleChange}
               />
-              <label for='log_webhook_events' class={defaultClasses.checkboxLabel}>
-                Enable Webhook events logging
-              </label>
+              <Spacer y={6} />
             </div>
           </Show>
-          <Spacer y={4} />
           <div class={defaultClasses.formAction}>
             <Show when={typeof props.cancelCallback === 'function'}>
               <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
