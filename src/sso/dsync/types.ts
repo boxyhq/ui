@@ -1,7 +1,7 @@
 import { ConfirmationPromptProps } from '../../shared/types';
 
 export interface CreateDirectoryProps {
-  excludeFields: Array<keyof UnSavedDirectory>;
+  excludeFields?: Array<keyof UnSavedDirectory>;
   urls: {
     post: string;
     providers: string;
