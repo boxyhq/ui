@@ -81,7 +81,7 @@ export default function DirectoryList(props: DirectoryListProps) {
       const directoryProvidersResponse = await fetch(directoryProviderUrl);
       const { data: providersData } = await directoryProvidersResponse.json();
 
-      const directoriesListData = listData.map((directory: Directory) => {
+      const directoriesListData = listData?.map((directory: Directory) => {
         return {
           name: directory.name,
           tenant: directory.tenant,

@@ -103,7 +103,7 @@ export default function ConnectionList(props: ConnectionListProps) {
     const response = await fetch(url);
     const { data, error } = await response.json();
 
-    const _connectionsListData = data.map((connection: ConnectionData<any>) => {
+    const _connectionsListData = data?.map((connection: ConnectionData<any>) => {
       return {
         ...connection,
         provider: state.connectionDisplayName(connection),
