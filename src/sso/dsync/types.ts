@@ -87,9 +87,7 @@ export interface ToggleDirectoryStatusProps {
   successCallback: (successMsg: string) => void;
   classNames?: {
     container?: string;
-    heading?: string;
-    toggle?: string;
-    displayMessage?: string;
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
   };
 }
 
@@ -143,10 +141,7 @@ export type Directory = {
   google_refresh_token?: string;
 };
 
-export type UnSavedDirectory = Omit<
-  Directory,
-  'id' | 'log_webhook_events' | 'scim' | 'deactivated' | 'webhook'
-> & {
+export type UnSavedDirectory = Omit<Directory, 'id' | 'scim' | 'deactivated' | 'webhook'> & {
   webhook_url: string;
   webhook_secret: string;
 };

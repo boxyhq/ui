@@ -138,8 +138,20 @@ export default function EditDirectory(props: EditDirectoryProps) {
           <h2 className={defaultClasses.heading}>Update Directory</h2>
         </Show>
         <ToggleConnectionStatus
-          connection={state.directory}
+          connection={state.directoryUpdated}
           urls={{ patch: props.urls.patch }}
+          classNames={{
+            confirmationPrompt: {
+              button: {
+                ctoa: `${props.classNames?.confirmationPrompt?.button?.ctoa} ${
+                  state.directoryUpdated?.deactivated
+                    ? props.classNames?.button?.ctoa
+                    : props.classNames?.button?.destructive
+                }`.trim(),
+                cancel: props.classNames?.confirmationPrompt?.button?.cancel,
+              },
+            },
+          }}
           errorCallback={props.errorCallback}
           successCallback={props.successCallback}
         />
@@ -244,7 +256,12 @@ export default function EditDirectory(props: EditDirectoryProps) {
         <Show when={state.showDelConfirmation}>
           <ConfirmationPrompt
             ctoaVariant='destructive'
-            classNames={props.classNames?.confirmationPrompt}
+            classNames={{
+              button: {
+                ctoa: `${props.classNames?.button?.destructive} ${props.classNames?.confirmationPrompt?.button?.ctoa}`.trim(),
+                cancel: props.classNames?.confirmationPrompt?.button?.cancel,
+              },
+            }}
             cancelCallback={state.toggleDelConfirmation}
             promptMessage=' Are you sure you want to delete the directory connection? This will permanently delete the
               directory connection, users, and groups.'
