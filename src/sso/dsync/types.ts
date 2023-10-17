@@ -73,6 +73,7 @@ export interface EditDirectoryProps {
     fieldsDiv?: string;
     section?: string;
   };
+  excludeFields: Array<keyof Directory>;
 }
 
 export interface ToggleDirectoryStatusProps {

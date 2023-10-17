@@ -112,6 +112,9 @@ export default function EditDirectory(props: EditDirectoryProps) {
 
       sendHTTPrequest(props.urls.delete);
     },
+    isExcluded(fieldName: keyof Directory) {
+      return !!(props.excludeFields as (keyof Directory)[])?.includes(fieldName);
+    },
   });
 
   onUpdate(() => {
@@ -153,20 +156,22 @@ export default function EditDirectory(props: EditDirectoryProps) {
       <div class={state.classes.container}>
         <form onSubmit={(event) => state.onSubmit(event)}>
           <div class={state.classes.formDiv}>
-            <div class={state.classes.fieldsDiv}>
-              <label for='name' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Directory name</span>
-              </label>
-              <input
-                type='text'
-                id='name'
-                name='name'
-                class={state.classes.input}
-                required={true}
-                onChange={(event) => state.handleChange(event)}
-                value={state.formState?.name}
-              />
-            </div>
+            <Show when={state.isExcluded('name')}>
+              <div class={state.classes.fieldsDiv}>
+                <label for='name' class={state.classes.label}>
+                  <span class={defaultClasses.labelText}>Directory name</span>
+                </label>
+                <input
+                  type='text'
+                  id='name'
+                  name='name'
+                  class={state.classes.input}
+                  required={true}
+                  onChange={(event) => state.handleChange(event)}
+                  value={state.formState?.name}
+                />
+              </div>
+            </Show>
             <Show when={state.directory?.type === 'google'}>
               <div class={state.classes.fieldsDiv}>
                 <label for='google_domain' class={state.classes.label}>
@@ -182,34 +187,38 @@ export default function EditDirectory(props: EditDirectoryProps) {
                 />
               </div>
             </Show>
-            <div class={state.classes.fieldsDiv}>
-              <label for='webhook.endpoint' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Webhook URL</span>
-              </label>
-              <input
-                type='text'
-                id='webhook.endpoint'
-                name='webhook.endpoint'
-                class={state.classes.input}
-                onChange={(event) => state.handleChange(event)}
-                value={state.formState?.webhook.endpoint}
-              />
-            </div>
-            <div class={state.classes.fieldsDiv}>
-              <label for='webhook.secret' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Webhook secret</span>
-              </label>
-              <input
-                type='text'
-                id='webhook.secret'
-                name='webhook.secret'
-                class={state.classes.input}
-                onChange={(event) => state.handleChange(event)}
-                value={state.formState?.webhook.secret}
-              />
-            </div>
-            <div class={defaultClasses.checkboxFieldsDiv}>
-              <div class='flex items-center'>
+            <Show when={state.isExcluded('webhook_url')}>
+              <div class={state.classes.fieldsDiv}>
+                <label for='webhook_url' class={state.classes.label}>
+                  <span class={defaultClasses.labelText}>Webhook URL</span>
+                </label>
+                <input
+                  type='url'
+                  id='webhook_url'
+                  name='webhook_url'
+                  class={state.classes.input}
+                  onChange={(event) => state.handleChange(event)}
+                  value={state.formState?.webhook.endpoint}
+                />
+              </div>
+            </Show>
+            <Show when={state.isExcluded('webhook_secret')}>
+              <div class={state.classes.fieldsDiv}>
+                <label for='webhook_secret' class={state.classes.label}>
+                  <span class={defaultClasses.labelText}>Webhook secret</span>
+                </label>
+                <input
+                  type='text'
+                  id='webhook_secret'
+                  name='webhook_secret'
+                  class={state.classes.input}
+                  onChange={(event) => state.handleChange(event)}
+                  value={state.formState?.webhook.secret}
+                />
+              </div>
+            </Show>
+            <Show when={state.isExcluded('log_webhook_events')}>
+              <div class={defaultClasses.checkboxFieldsDiv}>
                 <input
                   id='log_webhook_events'
                   name='log_webhook_events'
@@ -222,7 +231,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
                   Enable Webhook events logging
                 </label>
               </div>
-            </div>
+            </Show>
             <Spacer y={4} />
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
