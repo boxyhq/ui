@@ -84,6 +84,7 @@ export default function DirectoryList(props: DirectoryListProps) {
 
       const directoriesListData = listData?.map((directory: Directory) => {
         return {
+          id: directory.id,
           name: directory.name,
           tenant: directory.tenant,
           product: directory.product,
