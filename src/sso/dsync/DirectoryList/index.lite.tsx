@@ -80,13 +80,14 @@ export default function DirectoryList(props: DirectoryListProps) {
       // fetch request for obtaining directory providers data
       const directoryProvidersResponse = await fetch(directoryProviderUrl);
       const { data: providersData } = await directoryProvidersResponse.json();
+      const _providersList = Object.entries<string>(providersData)?.map(([value, text]) => ({ value, text }));
 
       const directoriesListData = listData?.map((directory: Directory) => {
         return {
           name: directory.name,
           tenant: directory.tenant,
           product: directory.product,
-          type: directory.type,
+          type: _providersList?.find(({ value }) => value === directory.type)?.text,
           status: directory.deactivated ? 'Inactive' : 'Active',
         };
       });
