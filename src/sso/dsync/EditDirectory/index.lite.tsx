@@ -118,8 +118,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
         state.directoryUpdated = {
           name: directoryData.name,
           log_webhook_events: directoryData.log_webhook_events,
-          webhook_url: directoryData.webhook_url,
-          webhook_secret: directoryData.webhook_secret,
+          webhook_url: directoryData.webhook?.endpoint,
+          webhook_secret: directoryData.webhook?.secret,
           google_domain: directoryData.google_domain,
         };
       }
