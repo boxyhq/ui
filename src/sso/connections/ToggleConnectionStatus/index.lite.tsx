@@ -27,13 +27,6 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
     get classes() {
       return {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
-        heading: cssClassAssembler(props.classNames?.heading, defaultClasses.heading),
-        toggle: cssClassAssembler(props.classNames?.toggle, defaultClasses.toggle),
-        displayMessage: cssClassAssembler(props.classNames?.displayMessage, defaultClasses.displayMessage),
-        toggleTransition: cssClassAssembler(
-          props.classNames?.toggleTransition,
-          defaultClasses.toggleTransition
-        ),
       };
     },
     updateConnectionStatus(status: boolean) {

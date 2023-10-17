@@ -201,10 +201,6 @@ export interface ToggleConnectionStatusProps {
   successCallback: (successMsg: string) => void;
   classNames?: {
     container?: string;
-    heading?: string;
-    toggle?: string;
-    toggleTransition?: string;
-    displayMessage?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
   };
 }
