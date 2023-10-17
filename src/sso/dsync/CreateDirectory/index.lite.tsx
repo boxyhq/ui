@@ -24,7 +24,13 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     showDomain: false,
     providers: DEFAULT_PROVIDERS,
     setProvider(event: any) {
-      state.directory = { ...state.directory, type: event?.target?.value };
+      const _val = event?.target?.value;
+      if (_val === 'google') {
+        state.showDomain = true;
+      } else {
+        state.showDomain = false;
+      }
+      state.directory = { ...state.directory, type: _val };
     },
     get classes() {
       return {
@@ -47,11 +53,6 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
         ...state.directory,
         [target.id]: target.value,
       };
-
-      // Ask for domain if google is selected
-      if (target.id === 'type') {
-        target.value === 'google' ? (state.showDomain = true) : (state.showDomain = false);
-      }
     },
     onSubmit(event: Event) {
       event.preventDefault();
@@ -128,6 +129,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
               selectedValue={state.directory.type}
               handleChange={state.setProvider}
               name='type'
+              id='type'
             />
             <Spacer y={6} />
           </div>
