@@ -1,6 +1,7 @@
 import { ConfirmationPromptProps } from '../../shared/types';
 
 export interface CreateDirectoryProps {
+  excludeFields: Array<keyof UnSavedDirectory>;
   urls: {
     post: string;
     providers: string;
@@ -138,4 +139,12 @@ export type Directory = {
   google_domain?: string;
   google_access_token?: string;
   google_refresh_token?: string;
+};
+
+export type UnSavedDirectory = Omit<
+  Directory,
+  'id' | 'log_webhook_events' | 'scim' | 'deactivated' | 'webhook'
+> & {
+  webhook_url: string;
+  webhook_secret: string;
 };
