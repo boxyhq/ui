@@ -6,6 +6,7 @@ import cssClassAssembler from '../../utils/cssClassAssembler';
 import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
 import ConfirmationPrompt from '../../../shared/ConfirmationPrompt/index.lite';
+import Checkbox from '../../../shared/Checkbox/index.lite';
 
 type FormState = Pick<Directory, 'name' | 'log_webhook_events' | 'webhook' | 'google_domain'>;
 
@@ -121,6 +122,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           webhook_url: directoryData.webhook?.endpoint,
           webhook_secret: directoryData.webhook?.secret,
           google_domain: directoryData.google_domain,
+          deactivated: directoryData.deactivated,
         };
       }
 
@@ -174,7 +176,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
               />
             </div>
           </Show>
-          <Show when={state.directory?.type === 'google'}>
+          <Show when={state.directoryUpdated?.type === 'google'}>
             <div class={state.classes.fieldsDiv}>
               <label for='google_domain' class={state.classes.label}>
                 <span class={defaultClasses.labelText}>Directory domain</span>
