@@ -74,6 +74,8 @@ export interface EditDirectoryProps {
     section?: string;
   };
   excludeFields: Array<keyof Directory>;
+  /** Use this boolean to toggle the header display on/off. Useful when using the edit component standalone */
+  displayHeader?: boolean;
 }
 
 export interface ToggleDirectoryStatusProps {

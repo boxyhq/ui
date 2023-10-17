@@ -1,16 +1,20 @@
 @import url('../../../shared/common.module.css');
-.heading {
+.headingContainer {
   margin: 20px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headingContainer > :last-child {
+  margin-left: auto;
+}
+
+.heading {
   font-size: 20px;
   line-height: 28px;
   font-weight: 700;
   color: rgb(55 65 81);
-}
-
-.headingContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .input {

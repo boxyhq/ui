@@ -115,6 +115,12 @@ export default function EditDirectory(props: EditDirectoryProps) {
     isExcluded(fieldName: keyof Directory) {
       return !!(props.excludeFields as (keyof Directory)[])?.includes(fieldName);
     },
+    get shouldDisplayHeader() {
+      if (props.displayHeader !== undefined) {
+        return props.displayHeader;
+      }
+      return true;
+    },
   });
 
   onUpdate(() => {
@@ -145,7 +151,9 @@ export default function EditDirectory(props: EditDirectoryProps) {
   return (
     <div>
       <div class={defaultClasses.headingContainer}>
-        <h2 className={defaultClasses.heading}>Update Directory</h2>
+        <Show when={state.shouldDisplayHeader}>
+          <h2 className={defaultClasses.heading}>Update Directory</h2>
+        </Show>
         <ToggleConnectionStatus
           connection={state.directory}
           urls={{ patch: props.urls.patch }}
