@@ -16,6 +16,7 @@ import Spacer from '../../../../shared/Spacer/index.lite';
 import CopyToClipboardButton from '../../../../shared/ClipboardButton/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
 import ConfirmationPrompt from '../../../../shared/ConfirmationPrompt/index.lite';
+import Checkbox from '../../../../shared/Checkbox/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -128,6 +129,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
         },
       });
     },
+    get shouldDisplayHeader() {
+      if (props.displayHeader !== undefined) {
+        return props.displayHeader;
+      }
+      return true;
+    },
   });
 
   onUpdate(() => {
@@ -149,8 +156,10 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   return (
     <div>
       <div class={defaultClasses.formDiv}>
-        <div class={defaultClasses.labelDiv}>
-          <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
+        <div class={defaultClasses.headingContainer}>
+          <Show when={state.shouldDisplayHeader}>
+            <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
+          </Show>
           <ToggleConnectionStatus
             connection={props.connection}
             urls={{ patch: props.urls.patch }}
@@ -290,19 +299,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             <Show when={state.formVariant === 'advanced'}>
               <Show when={!state.isExcluded('forceAuthn')}>
                 <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='forceAuthn' class={state.classes.label}>
-                      Force Authentication
-                    </label>
-                  </div>
-                  <input
-                    class={defaultClasses.checkbox}
+                  <Checkbox
+                    checked={state.samlConnection.forceAuthn}
+                    handleChange={state.handleChange}
+                    label='Force Authentication'
                     name='forceAuthn'
                     id='forceAuthn'
-                    type='checkbox'
-                    onChange={(event) => state.handleChange(event)}
-                    checked={state.samlConnection.forceAuthn === true}
-                    required={false}
                   />
                 </div>
               </Show>

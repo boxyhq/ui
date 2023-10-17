@@ -105,11 +105,17 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
     isExcluded(fieldName: keyof OIDCSSOConnection) {
       return !!(props.excludeFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
     },
+    get shouldDisplayHeader() {
+      if (props.displayHeader !== undefined) {
+        return props.displayHeader;
+      }
+      return true;
+    },
   });
 
   return (
     <div>
-      <Show when={props.displayHeader !== undefined ? props.displayHeader : true}>
+      <Show when={state.shouldDisplayHeader}>
         <h2 class={defaultClasses.heading}>Create OIDC Connection</h2>
       </Show>
       <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>

@@ -137,6 +137,12 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
         },
       });
     },
+    get shouldDisplayHeader() {
+      if (props.displayHeader !== undefined) {
+        return props.displayHeader;
+      }
+      return true;
+    },
   });
 
   onUpdate(() => {
@@ -164,8 +170,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
   return (
     <div>
       <div class={defaultClasses.formDiv}>
-        <div class={defaultClasses.labelDiv}>
-          <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
+        <div class={defaultClasses.headingContainer}>
+          <Show when={state.shouldDisplayHeader}>
+            <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
+          </Show>
           <ToggleConnectionStatus
             connection={props.connection}
             urls={{ patch: props.urls.patch }}

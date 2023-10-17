@@ -26,6 +26,7 @@ export interface EmptyStateProps {
 
 export interface BadgeProps {
   badgeText: string;
+  // badgeText will be the label if ariaLabel is not set
   ariaLabel?: string;
   variant?: 'success' | 'info' | 'warning';
 }
@@ -85,8 +86,24 @@ export interface LoadingContainerProps {
   isBusy: boolean;
 }
 
+// Used for advanced customisation of Table column cells such as displaying a badge
+export interface TableCol {
+  name: string;
+  badge?: {
+    position?: 'left' | 'right' | 'surround';
+    variantSelector?: (rowData: TableCellProps['rowData']) => BadgeProps['variant'];
+    shouldDisplayBadge?: (rowData: TableCellProps['rowData']) => boolean;
+  } & BadgeProps;
+}
+
+export interface TableCellProps {
+  col: TableProps['cols'][number];
+  rowData: TableProps['data'][number];
+  actions: TableProps['actions'];
+  classNames: TableProps['classNames'];
+}
 export interface TableProps {
-  cols: string[];
+  cols: (string | 'actions' | TableCol)[];
   data: Record<string, any>[];
   actions: { icon: IconButtonProps['icon']; handleClick: (item: any) => void; label?: string }[];
   tableCaption?: string;

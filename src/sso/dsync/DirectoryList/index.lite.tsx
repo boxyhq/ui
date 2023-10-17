@@ -5,7 +5,7 @@ import type { DirectoryListProps } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import Table from '../../../shared/Table/index.lite';
-import { TableProps } from '../../../shared/types';
+import { BadgeProps, TableProps } from '../../../shared/types';
 import EmptyState from '../../../shared/EmptyState/index.lite';
 
 const DEFAULT_VALUES = {
@@ -45,9 +45,31 @@ export default function DirectoryList(props: DirectoryListProps) {
         },
       ];
     },
+    get colsToDisplay() {
+      return (props.cols || ['tenant', 'name', 'type', 'status', 'actions']).map((_col) => {
+        if (_col === 'status') {
+          return {
+            name: 'status',
+            badge: {
+              position: 'surround',
+              variantSelector(rowData) {
+                let _variant: BadgeProps['variant'];
+                if (rowData.deactivated) {
+                  _variant = 'warning';
+                }
+                if (!rowData.deactivated) {
+                  _variant = 'success';
+                }
+                return _variant;
+              },
+            },
+          };
+        } else {
+          return _col;
+        }
+      }) as TableProps['cols'];
+    },
   });
-
-
 
   onUpdate(() => {
     async function getFieldsData(directoryListUrl: string, directoryProviderUrl: string) {
@@ -58,13 +80,16 @@ export default function DirectoryList(props: DirectoryListProps) {
       // fetch request for obtaining directory providers data
       const directoryProvidersResponse = await fetch(directoryProviderUrl);
       const { data: providersData } = await directoryProvidersResponse.json();
+      const _providersList = Object.entries<string>(providersData)?.map(([value, text]) => ({ value, text }));
 
-      const directoriesListData = listData.map((directory: Directory) => {
+      const directoriesListData = listData?.map((directory: Directory) => {
         return {
+          ...directory,
+          id: directory.id,
           name: directory.name,
           tenant: directory.tenant,
           product: directory.product,
-          type: directory.type,
+          type: _providersList?.find(({ value }) => value === directory.type)?.text,
           status: directory.deactivated ? 'Inactive' : 'Active',
         };
       });
@@ -94,7 +119,7 @@ export default function DirectoryList(props: DirectoryListProps) {
             </Show>
           }>
           <div>
-            <Table cols={props.cols} data={state.directoryListData} actions={state.actions} />
+            <Table cols={state.colsToDisplay} data={state.directoryListData} actions={state.actions} />
           </div>
         </Show>
       }>

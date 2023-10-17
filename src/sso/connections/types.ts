@@ -1,8 +1,8 @@
-import { ConfirmationPromptProps } from '../../shared/types';
+import { ConfirmationPromptProps, TableCol } from '../../shared/types';
 
 export interface ConnectionListProps {
   children?: any;
-  cols: ('provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
+  cols: ('provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
   tableCaption?: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
@@ -201,10 +201,6 @@ export interface ToggleConnectionStatusProps {
   successCallback: (successMsg: string) => void;
   classNames?: {
     container?: string;
-    heading?: string;
-    toggle?: string;
-    toggleTransition?: string;
-    displayMessage?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
   };
 }
@@ -247,6 +243,8 @@ export interface EditOIDCConnectionProps {
     input?: string;
     section?: string;
   };
+  /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
+  displayHeader?: boolean;
 }
 
 export interface EditSAMLConnectionProps {
@@ -270,6 +268,8 @@ export interface EditSAMLConnectionProps {
     input?: string;
     section?: string;
   };
+  /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
+  displayHeader?: boolean;
 }
 
 export interface ConnectionsWrapperProp {

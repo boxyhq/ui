@@ -5,7 +5,7 @@ import EmptyState from '../../../shared/EmptyState/index.lite';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
 import Table from '../../../shared/Table/index.lite';
-import { TableProps } from '../../../shared/types';
+import { BadgeProps, TableProps } from '../../../shared/types';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -37,7 +37,40 @@ export default function ConnectionList(props: ConnectionListProps) {
       };
     },
     get colsToDisplay() {
-      return props.cols || ["provider", "tenant", "product", "type", "status", "actions"]
+      return (props.cols || ['provider', 'tenant', 'product', 'type', 'status', 'actions']).map((_col) => {
+        if (_col === 'status') {
+          return {
+            name: 'status',
+            badge: {
+              position: 'surround',
+              variantSelector(rowData) {
+                let _variant: BadgeProps['variant'];
+                if (rowData.deactivated) {
+                  _variant = 'warning';
+                }
+                if (!rowData.deactivated) {
+                  _variant = 'success';
+                }
+                return _variant;
+              },
+            },
+          };
+        } else if (_col === 'provider') {
+          return {
+            name: 'provider',
+            badge: {
+              position: 'right',
+              badgeText: 'system',
+              variant: 'info',
+              shouldDisplayBadge(rowData) {
+                return rowData.isSystemSSO;
+              },
+            },
+          };
+        } else {
+          return _col;
+        }
+      }) as TableProps['cols'];
     },
 
     connectionDisplayName(connection: SAMLSSORecord | OIDCSSORecord) {
@@ -55,22 +88,28 @@ export default function ConnectionList(props: ConnectionListProps) {
 
       return 'Unknown';
     },
-    get actions(): TableProps["actions"] {
-      return [{ icon: "PencilIcon", label: "Edit", handleClick: (connection: ConnectionData<any>) => props.handleActionClick("edit", connection) }]
-    }
+    get actions(): TableProps['actions'] {
+      return [
+        {
+          icon: 'PencilIcon',
+          label: 'Edit',
+          handleClick: (connection: ConnectionData<any>) => props.handleActionClick('edit', connection),
+        },
+      ];
+    },
   });
 
   async function getFieldsData(url: string) {
     const response = await fetch(url);
     const { data, error } = await response.json();
 
-    const _connectionsListData = data.map((connection: ConnectionData<any>) => {
+    const _connectionsListData = data?.map((connection: ConnectionData<any>) => {
       return {
         ...connection,
         provider: state.connectionDisplayName(connection),
         type: 'oidcProvider' in connection ? 'OIDC' : 'SAML',
         status: connection.deactivated ? 'Inactive' : 'Active',
-        isSystemSSO: connection.isSystemSSO
+        isSystemSSO: connection.isSystemSSO,
       };
     });
 

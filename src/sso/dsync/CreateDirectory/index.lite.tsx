@@ -1,12 +1,13 @@
-import { Fragment, Show, onMount, useStore } from '@builder.io/mitosis';
-import { CreateDirectoryProps, ApiResponse, Directory } from '../types';
+import { Show, onMount, useStore } from '@builder.io/mitosis';
+import type { CreateDirectoryProps, ApiResponse, Directory, UnSavedDirectory } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
 import Select from '../../../shared/Select/index.lite';
+import Checkbox from '../../../shared/Checkbox/index.lite';
 
-const DEFAULT_DIRECTORY_VALUES = {
+const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
   name: '',
   tenant: '',
   product: '',
@@ -14,6 +15,7 @@ const DEFAULT_DIRECTORY_VALUES = {
   webhook_secret: '',
   type: 'azure-scim-v2',
   google_domain: '',
+  log_webhook_events: false,
 };
 
 const DEFAULT_PROVIDERS = [] as { value: string; text: string }[];
@@ -24,7 +26,13 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     showDomain: false,
     providers: DEFAULT_PROVIDERS,
     setProvider(event: any) {
-      state.directory = { ...state.directory, type: event?.target?.value };
+      const _val = event?.target?.value;
+      if (_val === 'google') {
+        state.showDomain = true;
+      } else {
+        state.showDomain = false;
+      }
+      state.directory = { ...state.directory, type: _val };
     },
     get classes() {
       return {
@@ -34,18 +42,20 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
       };
     },
+    get shouldDisplayHeader() {
+      if (props.displayHeader !== undefined) {
+        return props.displayHeader;
+      }
+      return true;
+    },
     handleChange(event: Event) {
-      const target = event.target as HTMLInputElement | HTMLTextAreaElement;
+      const target = event.target as HTMLInputElement;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
 
       state.directory = {
         ...state.directory,
-        [target.id]: target.value,
+        [target.id]: value,
       };
-
-      // Ask for domain if google is selected
-      if (target.id === 'type') {
-        target.value === 'google' ? (state.showDomain = true) : (state.showDomain = false);
-      }
     },
     onSubmit(event: Event) {
       event.preventDefault();
@@ -72,6 +82,9 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
       }
       sendHTTPrequest(state.directory, props.urls.post);
     },
+    isExcluded(fieldName: keyof UnSavedDirectory) {
+      return !!(props.excludeFields as (keyof UnSavedDirectory)[])?.includes(fieldName);
+    },
   });
 
   onMount(() => {
@@ -89,36 +102,41 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
 
   return (
     <div>
-      <Show when={props.displayHeader !== undefined ? props.displayHeader : true}>
+      <Show when={state.shouldDisplayHeader}>
         <h2 class={defaultClasses.heading}>Create Directory</h2>
       </Show>
       <form onSubmit={(event) => state.onSubmit(event)}>
-        <div class={state.classes.fieldContainer}>
-          <label for='name' class={state.classes.label}>
-            <span class={defaultClasses.labelText}>Directory name</span>
-          </label>
-          <Spacer y={2} />
-          <input
-            type='text'
-            id='name'
-            name='name'
-            class={state.classes.input}
-            required={true}
-            onChange={(event) => state.handleChange(event)}
-            value={state.directory.name}
-          />
-        </div>
-        <Spacer y={6} />
-        <div class={state.classes.fieldContainer}>
-          <Select
-            label='Directory provider'
-            options={state.providers}
-            selectedValue={state.directory.type}
-            handleChange={state.setProvider}
-            name='type'
-          />
-        </div>
-        <Spacer y={6} />
+        <Show when={!state.isExcluded('name')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='name' class={state.classes.label}>
+              <span class={defaultClasses.labelText}>Directory name</span>
+            </label>
+            <Spacer y={2} />
+            <input
+              type='text'
+              id='name'
+              name='name'
+              class={state.classes.input}
+              required={true}
+              onChange={(event) => state.handleChange(event)}
+              value={state.directory.name}
+            />
+            <Spacer y={6} />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('type')}>
+          <div class={state.classes.fieldContainer}>
+            <Select
+              label='Directory provider'
+              options={state.providers}
+              selectedValue={state.directory.type}
+              handleChange={state.setProvider}
+              name='type'
+              id='type'
+            />
+            <Spacer y={6} />
+          </div>
+        </Show>
         <Show when={state.showDomain}>
           <div class={state.classes.fieldContainer}>
             <label for='google_domain' class={state.classes.label}>
@@ -135,80 +153,101 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
               pattern={`^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$`}
               title='Please enter a valid domain (e.g: boxyhq.com)'
             />
+            <Spacer y={6} />
           </div>
         </Show>
-        <Spacer y={6} />
-        <Show when={!props.setupLinkToken}>
-          <Fragment>
-            <div class={state.classes.fieldContainer}>
-              <label for='tenant' class={state.classes.label}>
-                Tenant
-              </label>
-              <Spacer y={2} />
-              <input
-                type='text'
-                id='tenant'
-                name='tenant'
-                class={state.classes.input}
-                required={true}
-                onChange={(event) => state.handleChange(event)}
-                value={state.directory.tenant}
-              />
-            </div>
+        <Show when={!state.isExcluded('tenant')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='tenant' class={state.classes.label}>
+              Tenant
+            </label>
+            <Spacer y={2} />
+            <input
+              type='text'
+              id='tenant'
+              name='tenant'
+              class={state.classes.input}
+              required={true}
+              onChange={(event) => state.handleChange(event)}
+              value={state.directory.tenant}
+            />
             <Spacer y={6} />
-            <div class={state.classes.fieldContainer}>
-              <label for='product' class={state.classes.label}>
-                Product
-              </label>
-              <Spacer y={2} />
-              <input
-                type='text'
-                id='product'
-                name='product'
-                class={state.classes.input}
-                required={true}
-                onChange={(event) => state.handleChange(event)}
-                value={state.directory.product}
-              />
-            </div>
-          </Fragment>
+          </div>
         </Show>
-        <Spacer y={6} />
-        <div class={state.classes.fieldContainer}>
-          <label for='webhook_url' class={state.classes.label}>
-            Webhook URL
-          </label>
-          <Spacer y={2} />
-          <input
-            type='text'
-            id='webhook_url'
-            name='webhook_url'
-            class={state.classes.input}
-            onChange={(event) => state.handleChange(event)}
-            value={state.directory.webhook_url}
-          />
-        </div>
-        <Spacer y={6} />
-        <div class={state.classes.fieldContainer}>
-          <label for='webhook_secret' class={state.classes.label}>
-            Webhook secret
-          </label>
-          <Spacer y={2} />
-          <input
-            type='text'
-            id='webhook_secret'
-            name='webhook_secret'
-            class={state.classes.input}
-            onChange={(event) => state.handleChange(event)}
-            value={state.directory.webhook_secret}
-          />
-        </div>
-        <Spacer y={6} />
+        <Show when={!state.isExcluded('product')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='product' class={state.classes.label}>
+              Product
+            </label>
+            <Spacer y={2} />
+            <input
+              type='text'
+              id='product'
+              name='product'
+              class={state.classes.input}
+              required={true}
+              onChange={(event) => state.handleChange(event)}
+              value={state.directory.product}
+            />
+            <Spacer y={6} />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('webhook_url')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='webhook_url' class={state.classes.label}>
+              Webhook URL
+            </label>
+            <Spacer y={2} />
+            <input
+              type='url'
+              id='webhook_url'
+              name='webhook_url'
+              class={state.classes.input}
+              onChange={(event) => state.handleChange(event)}
+              value={state.directory.webhook_url}
+            />
+            <Spacer y={6} />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('webhook_secret')}>
+          <div class={state.classes.fieldContainer}>
+            <label for='webhook_secret' class={state.classes.label}>
+              Webhook secret
+            </label>
+            <Spacer y={2} />
+            <input
+              type='text'
+              id='webhook_secret'
+              name='webhook_secret'
+              class={state.classes.input}
+              onChange={(event) => state.handleChange(event)}
+              value={state.directory.webhook_secret}
+            />
+            <Spacer y={6} />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('log_webhook_events')}>
+          <div class={defaultClasses.checkboxFieldsDiv}>
+            <Checkbox
+              label='Enable Webhook events logging'
+              id='log_webhook_events'
+              name='log_webhook_events'
+              checked={state.directory?.log_webhook_events}
+              handleChange={state.handleChange}
+            />
+            <Spacer y={6} />
+          </div>
+        </Show>
         <div class={defaultClasses.formAction}>
           <Show when={typeof props.cancelCallback === 'function'}>
             <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
           </Show>
-          <Button variant='primary' type='submit' name='Create Directory' />
+          <Button
+            variant='primary'
+            type='submit'
+            name='Create Directory'
+            classNames={props.classNames?.button?.ctoa}
+          />
         </div>
       </form>
     </div>

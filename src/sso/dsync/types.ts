@@ -1,12 +1,12 @@
 import { ConfirmationPromptProps } from '../../shared/types';
 
 export interface CreateDirectoryProps {
+  excludeFields?: Array<keyof UnSavedDirectory>;
   urls: {
     post: string;
     providers: string;
   };
   defaultWebhookEndpoint?: string | undefined;
-  setupLinkToken?: string;
   successCallback: () => void;
   errorCallback: (errMsg: string) => void;
   // To handle cancel button click
@@ -16,6 +16,7 @@ export interface CreateDirectoryProps {
     fieldContainer?: string;
     input?: string;
     label?: string;
+    button?: { ctoa?: string };
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the create component standalone */
   displayHeader?: boolean;
@@ -72,6 +73,9 @@ export interface EditDirectoryProps {
     fieldsDiv?: string;
     section?: string;
   };
+  excludeFields?: Array<keyof Directory>;
+  /** Use this boolean to toggle the header display on/off. Useful when using the edit component standalone */
+  displayHeader?: boolean;
 }
 
 export interface ToggleDirectoryStatusProps {
@@ -83,9 +87,7 @@ export interface ToggleDirectoryStatusProps {
   successCallback: (successMsg: string) => void;
   classNames?: {
     container?: string;
-    heading?: string;
-    toggle?: string;
-    displayMessage?: string;
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
   };
 }
 
@@ -137,4 +139,9 @@ export type Directory = {
   google_domain?: string;
   google_access_token?: string;
   google_refresh_token?: string;
+};
+
+export type UnSavedDirectory = Omit<Directory, 'id' | 'scim' | 'deactivated' | 'webhook'> & {
+  webhook_url: string;
+  webhook_secret: string;
 };
