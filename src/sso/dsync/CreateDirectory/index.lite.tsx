@@ -5,6 +5,7 @@ import cssClassAssembler from '../../utils/cssClassAssembler';
 import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
 import Select from '../../../shared/Select/index.lite';
+import Checkbox from '../../../shared/Checkbox/index.lite';
 
 const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
   name: '',
@@ -14,6 +15,7 @@ const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
   webhook_secret: '',
   type: 'azure-scim-v2',
   google_domain: '',
+  log_webhook_events: false,
 };
 
 const DEFAULT_PROVIDERS = [] as { value: string; text: string }[];
@@ -47,11 +49,12 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
       return true;
     },
     handleChange(event: Event) {
-      const target = event.target as HTMLInputElement | HTMLTextAreaElement;
+      const target = event.target as HTMLInputElement;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
 
       state.directory = {
         ...state.directory,
-        [target.id]: target.value,
+        [target.id]: value,
       };
     },
     onSubmit(event: Event) {
@@ -219,6 +222,18 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
               class={state.classes.input}
               onChange={(event) => state.handleChange(event)}
               value={state.directory.webhook_secret}
+            />
+            <Spacer y={6} />
+          </div>
+        </Show>
+        <Show when={!state.isExcluded('log_webhook_events')}>
+          <div class={defaultClasses.checkboxFieldsDiv}>
+            <Checkbox
+              label='Enable Webhook events logging'
+              id='log_webhook_events'
+              name='log_webhook_events'
+              checked={state.directory?.log_webhook_events}
+              handleChange={state.handleChange}
             />
             <Spacer y={6} />
           </div>
