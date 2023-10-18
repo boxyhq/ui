@@ -62,11 +62,7 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
           return;
         }
 
-        if (body.deactivated) {
-          props.successCallback('Connection Deactivated');
-        } else {
-          props.successCallback('Connection Activated');
-        }
+        props.successCallback({ operation: 'UPDATE' });
       }
       sendHTTPrequest();
     },

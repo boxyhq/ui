@@ -31,7 +31,10 @@ export interface ConnectionListProps {
 
 export interface CreateConnectionProps {
   errorCallback?: (errMessage: string) => void;
-  successCallback?: () => void;
+  successCallback?: (info: {
+    operation: 'CREATE';
+    connection: SAMLSSOConnection | OIDCSSOConnection;
+  }) => void;
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
@@ -45,6 +48,7 @@ export interface CreateConnectionProps {
     form?: string;
     container?: string;
     input?: string;
+    textarea?: string;
     radioContainer?: string;
     label?: string;
     fieldContainer?: string;
@@ -198,7 +202,7 @@ export interface ToggleConnectionStatusProps {
   };
   translation?: any;
   errorCallback: (errMsg: string) => void;
-  successCallback: (successMsg: string) => void;
+  successCallback: (info: { operation: 'UPDATE' }) => void;
   classNames?: {
     container?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
@@ -224,7 +228,7 @@ export interface EditOIDCConnectionProps {
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof OIDCSSOConnection>;
   errorCallback: (errMessage: string) => void;
-  successCallback: () => void;
+  successCallback: (info: { operation: 'UPDATE' | 'DELETE'; connection?: OIDCSSOConnection }) => void;
   cancelCallback?: () => void;
   copyDoneCallback: () => void;
   urls: {
@@ -241,6 +245,7 @@ export interface EditOIDCConnectionProps {
     fieldsDiv?: string;
     label?: string;
     input?: string;
+    textarea?: string;
     section?: string;
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
@@ -252,7 +257,7 @@ export interface EditSAMLConnectionProps {
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection>;
   errorCallback: (errMessage: string) => void;
-  successCallback: () => void;
+  successCallback: (info: { operation: 'UPDATE' | 'DELETE'; connection?: SAMLSSOConnection }) => void;
   cancelCallback?: () => void;
   copyDoneCallback: () => void;
   urls: {
@@ -266,6 +271,7 @@ export interface EditSAMLConnectionProps {
     formDiv?: string;
     label?: string;
     input?: string;
+    textarea?: string;
     section?: string;
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */

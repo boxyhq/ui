@@ -59,10 +59,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
         fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
-        textarea: cssClassAssembler(
-          props.classNames?.input,
-          defaultClasses.input + ' ' + defaultClasses.textarea
-        ),
+        textarea: cssClassAssembler(props.classNames?.textarea, defaultClasses.textarea),
         section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
       };
     },
@@ -111,7 +108,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            props.successCallback();
+            props.successCallback(response.data);
           }
         },
       });
@@ -132,7 +129,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            props.successCallback();
+            props.successCallback({ operation: 'UPDATE', connection: response.data });
           }
         },
       });

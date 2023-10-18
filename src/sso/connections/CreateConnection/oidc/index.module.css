@@ -27,21 +27,29 @@
   font-weight: 500;
 }
 
-.input {
+.input,
+.textarea {
   height: 3rem;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  line-height: 2;
   line-height: 1.5rem;
   border: var(--border-width) solid var(--border-color);
   background-color: #fff;
   border-radius: var(--border-radius);
 }
 
-.input:focus {
-  border-color: var(--primary-color-500);
+.input:focus,
+.textarea:focus {
   outline: var(--ring-offset-width) solid var(--ring-offset-color);
   outline-offset: var(--ring-offset);
+}
+
+.input:disabled,
+.textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background-color: var(--secondary-color);
+  border: 1px solid transparent;
 }
 
 .textarea {
@@ -52,6 +60,7 @@
 .hint {
   font-size: 0.75rem;
   line-height: 1rem;
+  margin: 5px 0 0 5px;
 }
 
 .formAction {

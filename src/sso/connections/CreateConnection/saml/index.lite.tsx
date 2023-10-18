@@ -72,7 +72,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            typeof props.successCallback === 'function' && props.successCallback();
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'CREATE', connection: response.data });
           }
         },
       });
@@ -87,10 +88,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
-        textarea: cssClassAssembler(
-          props.classNames?.input,
-          defaultClasses.input + ' ' + defaultClasses.textarea
-        ),
+        textarea: cssClassAssembler(props.classNames?.textarea, defaultClasses.textarea),
         radioContainer: cssClassAssembler(
           props.classNames?.radioContainer,
           defaultClasses.radioContainer + ' ' + defaultClasses.fieldContainer

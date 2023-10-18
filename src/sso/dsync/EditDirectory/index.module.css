@@ -27,6 +27,15 @@
   flex-shrink: 1;
 }
 
+.input:focus {
+  outline: var(--ring-offset-width) solid var(--ring-offset-color);
+  outline-offset: var(--ring-offset);
+}
+
+.input:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
 .checkboxInput {
   height: 16px;
   width: 16px;
