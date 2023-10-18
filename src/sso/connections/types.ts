@@ -45,6 +45,7 @@ export interface CreateConnectionProps {
     form?: string;
     container?: string;
     input?: string;
+    textarea?: string;
     radioContainer?: string;
     label?: string;
     fieldContainer?: string;
@@ -241,6 +242,7 @@ export interface EditOIDCConnectionProps {
     fieldsDiv?: string;
     label?: string;
     input?: string;
+    textarea?: string;
     section?: string;
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
@@ -266,6 +268,7 @@ export interface EditSAMLConnectionProps {
     formDiv?: string;
     label?: string;
     input?: string;
+    textarea?: string;
     section?: string;
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */

@@ -43,8 +43,7 @@
   outline-offset: var(--ring-offset);
 }
 
-.input:disabled,
-.disabled {
+.input:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }

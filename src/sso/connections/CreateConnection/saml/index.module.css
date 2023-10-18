@@ -44,12 +44,9 @@
 }
 
 .input:disabled,
-.disabled {
+.textarea:disabled {
   cursor: not-allowed;
   opacity: 0.5;
-}
-
-.input:disabled {
   background-color: var(--secondary-color);
   border: 1px solid transparent;
 }

@@ -93,10 +93,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
-        textarea: cssClassAssembler(
-          props.classNames?.input,
-          defaultClasses.input + ' ' + defaultClasses.textarea
-        ),
+        textarea: cssClassAssembler(props.classNames?.textarea, defaultClasses.textarea),
       };
     },
     get formVariant() {
