@@ -66,12 +66,12 @@
   gap: 0.5rem;
 }
 
-.input {
+.input,
+.textarea {
   width: 100%;
   height: 3rem;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  line-height: 2;
   line-height: 1.5rem;
   border: var(--border-width) solid var(--border-color);
   background-color: #fff;

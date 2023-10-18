@@ -27,18 +27,19 @@
   font-weight: 500;
 }
 
-.input {
+.input,
+.textarea {
   height: 3rem;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  line-height: 2;
   line-height: 1.5rem;
   border: var(--border-width) solid var(--border-color);
   background-color: #fff;
   border-radius: var(--border-radius);
 }
 
-.input:focus {
+.input:focus,
+.textarea:focus {
   outline: var(--ring-offset-width) solid var(--ring-offset-color);
   outline-offset: var(--ring-offset);
 }
