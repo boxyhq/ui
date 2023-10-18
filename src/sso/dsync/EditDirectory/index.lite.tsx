@@ -191,7 +191,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
               />
             </div>
           </Show>
-          <Show when={state.isExcluded('webhook_url')}>
+          <Show when={!state.isExcluded('webhook_url')}>
             <div class={state.classes.fieldsDiv}>
               <label for='webhook_url' class={state.classes.label}>
                 <span class={defaultClasses.labelText}>Webhook URL</span>
