@@ -39,7 +39,6 @@
 }
 
 .input:focus {
-  border-color: var(--primary-color-500);
   outline: var(--ring-offset-width) solid var(--ring-offset-color);
   outline-offset: var(--ring-offset);
 }

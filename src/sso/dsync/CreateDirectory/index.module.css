@@ -38,10 +38,9 @@
   border-radius: var(--border-radius);
 }
 
-.input:focus-visible {
-  border-color: var(--secondary-color);
-  outline: 2px solid var(--primary-color-700);
-  outline-offset: 2px;
+.input:focus {
+  outline: var(--ring-offset-width) solid var(--ring-offset-color);
+  outline-offset: var(--ring-offset);
 }
 
 .input:disabled,
