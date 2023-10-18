@@ -72,7 +72,8 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            typeof props.successCallback === 'function' && props.successCallback();
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'CREATE', connection: response.data });
           }
         },
       });

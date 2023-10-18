@@ -108,7 +108,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            props.successCallback();
+            props.successCallback(response.data);
           }
         },
       });
@@ -129,7 +129,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            props.successCallback();
+            props.successCallback({ operation: 'UPDATE', connection: response.data });
           }
         },
       });

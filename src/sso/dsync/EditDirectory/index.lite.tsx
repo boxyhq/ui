@@ -74,7 +74,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
         }
 
         if (rawResponse.ok) {
-          typeof props.successCallback === 'function' && props.successCallback();
+          typeof props.successCallback === 'function' &&
+            props.successCallback({ operation: 'UPDATE', connection: response.data });
         }
       }
       sendHttpRequest(props.urls.patch);
@@ -93,7 +94,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
         }
 
         if ('data' in response) {
-          typeof props.successCallback === 'function' && props.successCallback();
+          typeof props.successCallback === 'function' && props.successCallback({ operation: 'DELETE' });
         }
       }
 

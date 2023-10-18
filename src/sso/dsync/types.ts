@@ -7,8 +7,8 @@ export interface CreateDirectoryProps {
     providers: string;
   };
   defaultWebhookEndpoint?: string | undefined;
-  successCallback: () => void;
-  errorCallback: (errMsg: string) => void;
+  successCallback?: (info: { operation: 'CREATE'; connection?: Directory }) => void;
+  errorCallback?: (errMsg: string) => void;
   // To handle cancel button click
   cancelCallback?: () => void;
   classNames?: {
@@ -60,7 +60,7 @@ export interface EditDirectoryProps {
     get: string;
   };
   errorCallback: (errMessage: string) => void;
-  successCallback: () => void;
+  successCallback: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Directory }) => void;
   cancelCallback?: () => void;
   deleteCallback: () => void;
   classNames?: {
@@ -84,7 +84,7 @@ export interface ToggleDirectoryStatusProps {
     patch: string;
   };
   errorCallback: (errMsg: string) => void;
-  successCallback: (successMsg: string) => void;
+  successCallback: (info: { operation: 'UPDATE' }) => void;
   classNames?: {
     container?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];

@@ -100,7 +100,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            props.successCallback();
+            props.successCallback({ operation: 'UPDATE', connection: response.data });
           }
         },
       });
@@ -121,7 +121,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            props.successCallback();
+            props.successCallback({ operation: 'DELETE' });
           }
         },
       });

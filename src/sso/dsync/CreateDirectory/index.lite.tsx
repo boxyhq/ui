@@ -77,7 +77,8 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
         }
 
         if (rawResponse.ok) {
-          typeof props.successCallback === 'function' && props.successCallback();
+          typeof props.successCallback === 'function' &&
+            props.successCallback({ operation: 'CREATE', connection: response.data });
         }
       }
       sendHTTPrequest(state.directory, props.urls.post);

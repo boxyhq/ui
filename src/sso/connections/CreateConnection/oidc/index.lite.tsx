@@ -81,7 +81,8 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            typeof props.successCallback === 'function' && props.successCallback();
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'CREATE', connection: response.data });
           }
         },
       });
