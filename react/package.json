@@ -60,7 +60,7 @@
     "@mdx-js/react": "2.3.0",
     "@rollup/plugin-typescript": "11.1.5",
     "@types/node": "20.8.5",
-    "@types/react": "18.2.25",
+    "@types/react": "18.2.28",
     "@vitejs/plugin-react": "4.1.0",
     "rimraf": "5.0.5",
     "serve": "14.2.1",
