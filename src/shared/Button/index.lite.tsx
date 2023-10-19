@@ -17,7 +17,7 @@ export default function Button(props: ButtonProps) {
       class={`${styles.btn}${state.variantCss}${props.classNames ? ' ' + props.classNames : ''}`}
       disabled={props.isLoading}
       onClick={(event) => props.handleClick?.(event)}>
-      <Show when={props.isLoading} else={null}>
+      <Show when={props.isLoading}>
         <Spinner isLoading={props.isLoading} />
       </Show>
       {props.name}
