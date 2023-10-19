@@ -18,10 +18,10 @@ export default function Card(props: CardProps) {
     <article class={`${styles.container}${state.variantCss}${state.flexCss}`}>
       <h3 class={styles.title}>
         <Show when={props.variant === 'success'}>
-          <CheckMarkIcon />
+          <CheckMarkIcon svgAttrs={{ class: styles.svg }} />
         </Show>
         <Show when={props.variant === 'info'}>
-          <InfoIcon />
+          <InfoIcon svgAttrs={{ class: styles.svg }} />
         </Show>
         {props.title}
       </h3>
