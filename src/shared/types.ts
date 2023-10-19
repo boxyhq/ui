@@ -87,6 +87,10 @@ export interface LoadingContainerProps {
   isBusy: boolean;
 }
 
+export interface SpinnerProps {
+  isLoading?: boolean;
+}
+
 // Used for advanced customisation of Table column cells such as displaying a badge
 export interface TableCol {
   name: string;
