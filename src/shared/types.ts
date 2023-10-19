@@ -45,6 +45,7 @@ export interface ButtonProps {
   type?: 'submit' | 'reset' | 'button';
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
+  isLoading?: boolean;
 }
 
 export interface SecretInputFormControlProps {
