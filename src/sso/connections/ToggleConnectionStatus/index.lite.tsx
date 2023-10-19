@@ -58,11 +58,11 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
         state.displayPrompt = false;
 
         if ('error' in response) {
-          props.errorCallback(response.error.message);
+          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
           return;
         }
 
-        props.successCallback({ operation: 'UPDATE' });
+        typeof props.successCallback === 'function' && props.successCallback({ operation: 'UPDATE' });
       }
       sendHTTPrequest();
     },

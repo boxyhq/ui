@@ -59,10 +59,9 @@ export interface EditDirectoryProps {
     delete: string;
     get: string;
   };
-  errorCallback: (errMessage: string) => void;
-  successCallback: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Directory }) => void;
+  errorCallback?: (errMessage: string) => void;
+  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Directory }) => void;
   cancelCallback?: () => void;
-  deleteCallback: () => void;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
@@ -83,8 +82,8 @@ export interface ToggleDirectoryStatusProps {
   urls: {
     patch: string;
   };
-  errorCallback: (errMsg: string) => void;
-  successCallback: (info: { operation: 'UPDATE' }) => void;
+  errorCallback?: (errMsg: string) => void;
+  successCallback?: (info: { operation: 'UPDATE' }) => void;
   classNames?: {
     container?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];

@@ -33,7 +33,7 @@ export interface CreateConnectionProps {
   errorCallback?: (errMessage: string) => void;
   successCallback?: (info: {
     operation: 'CREATE';
-    connection: SAMLSSOConnection | OIDCSSOConnection;
+    connection?: SAMLSSOConnection | OIDCSSOConnection;
   }) => void;
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
@@ -201,8 +201,8 @@ export interface ToggleConnectionStatusProps {
     patch: string;
   };
   translation?: any;
-  errorCallback: (errMsg: string) => void;
-  successCallback: (info: { operation: 'UPDATE' }) => void;
+  errorCallback?: (errMsg: string) => void;
+  successCallback?: (info: { operation: 'UPDATE' }) => void;
   classNames?: {
     container?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
@@ -227,8 +227,8 @@ export interface EditOIDCConnectionProps {
   connection: OIDCSSORecord;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof OIDCSSOConnection>;
-  errorCallback: (errMessage: string) => void;
-  successCallback: (info: { operation: 'UPDATE' | 'DELETE'; connection?: OIDCSSOConnection }) => void;
+  errorCallback?: (errMessage: string) => void;
+  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: OIDCSSOConnection }) => void;
   cancelCallback?: () => void;
   copyDoneCallback: () => void;
   urls: {
@@ -256,8 +256,8 @@ export interface EditSAMLConnectionProps {
   connection: SAMLSSORecord;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection>;
-  errorCallback: (errMessage: string) => void;
-  successCallback: (info: { operation: 'UPDATE' | 'DELETE'; connection?: SAMLSSOConnection }) => void;
+  errorCallback?: (errMessage: string) => void;
+  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: SAMLSSOConnection }) => void;
   cancelCallback?: () => void;
   copyDoneCallback: () => void;
   urls: {
