@@ -1,6 +1,9 @@
 @import url('../common.module.css');
 
 .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 1.5rem;
   width: 1.5rem;
   color: var(--primary-foreground-color);
