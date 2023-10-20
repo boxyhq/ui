@@ -3,6 +3,7 @@ import type { SVGAttributes, ComponentPropsWithRef } from 'react';
 export type SVGProps = SVGAttributes<SVGSVGElement>;
 
 export interface IconButtonProps {
+  classNames?: { button?: string };
   label?: string;
   handleClick: (event: any) => void;
   icon:
