@@ -37,7 +37,7 @@ export default function ConnectionList(props: ConnectionListProps) {
       };
     },
     get colsToDisplay() {
-      return (props.cols || ['provider', 'tenant', 'product', 'type', 'status', 'actions']).map((_col) => {
+      return (props.cols || ['name', 'tenant', 'product', 'type', 'status', 'actions']).map((_col) => {
         if (_col === 'status') {
           return {
             name: 'status',
@@ -55,9 +55,9 @@ export default function ConnectionList(props: ConnectionListProps) {
               },
             },
           };
-        } else if (_col === 'provider') {
+        } else if (_col === 'name') {
           return {
-            name: 'provider',
+            name: 'name',
             badge: {
               position: 'right',
               badgeText: 'system',
@@ -106,7 +106,7 @@ export default function ConnectionList(props: ConnectionListProps) {
     const _connectionsListData = data?.map((connection: ConnectionData<any>) => {
       return {
         ...connection,
-        provider: state.connectionDisplayName(connection),
+        name: state.connectionDisplayName(connection),
         type: 'oidcProvider' in connection ? 'OIDC' : 'SAML',
         status: connection.deactivated ? 'Inactive' : 'Active',
         isSystemSSO: connection.isSystemSSO,
