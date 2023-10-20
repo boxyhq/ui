@@ -37,47 +37,45 @@ export default function ConnectionList(props: ConnectionListProps) {
       };
     },
     get colsToDisplay() {
-      return (props.cols || ['name', 'tenant', 'product', 'type', 'status', 'actions']).map((_col) => {
-        if (_col === 'status') {
-          return {
-            name: 'status',
-            badge: {
-              position: 'surround',
-              variantSelector(rowData) {
-                let _variant: BadgeProps['variant'];
-                if (rowData.deactivated) {
-                  _variant = 'warning';
-                }
-                if (!rowData.deactivated) {
-                  _variant = 'success';
-                }
-                return _variant;
+      return (props.cols || ['name', 'provider', 'tenant', 'product', 'type', 'status', 'actions']).map(
+        (_col) => {
+          if (_col === 'status') {
+            return {
+              name: 'status',
+              badge: {
+                position: 'surround',
+                variantSelector(rowData) {
+                  let _variant: BadgeProps['variant'];
+                  if (rowData.deactivated) {
+                    _variant = 'warning';
+                  }
+                  if (!rowData.deactivated) {
+                    _variant = 'success';
+                  }
+                  return _variant;
+                },
               },
-            },
-          };
-        } else if (_col === 'name') {
-          return {
-            name: 'name',
-            badge: {
-              position: 'right',
-              badgeText: 'system',
-              variant: 'info',
-              shouldDisplayBadge(rowData) {
-                return rowData.isSystemSSO;
+            };
+          } else if (_col === 'name') {
+            return {
+              name: 'name',
+              badge: {
+                position: 'right',
+                badgeText: 'system',
+                variant: 'info',
+                shouldDisplayBadge(rowData) {
+                  return rowData.isSystemSSO;
+                },
               },
-            },
-          };
-        } else {
-          return _col;
+            };
+          } else {
+            return _col;
+          }
         }
-      }) as TableProps['cols'];
+      ) as TableProps['cols'];
     },
 
-    connectionDisplayName(connection: SAMLSSORecord | OIDCSSORecord) {
-      if (connection.name) {
-        return connection.name;
-      }
-
+    connectionProviderName(connection: SAMLSSORecord | OIDCSSORecord) {
       if ('idpMetadata' in connection) {
         return connection.idpMetadata.friendlyProviderName || connection.idpMetadata.provider;
       }
@@ -106,7 +104,7 @@ export default function ConnectionList(props: ConnectionListProps) {
     const _connectionsListData = data?.map((connection: ConnectionData<any>) => {
       return {
         ...connection,
-        name: state.connectionDisplayName(connection),
+        provider: state.connectionProviderName(connection),
         type: 'oidcProvider' in connection ? 'OIDC' : 'SAML',
         status: connection.deactivated ? 'Inactive' : 'Active',
         isSystemSSO: connection.isSystemSSO,
