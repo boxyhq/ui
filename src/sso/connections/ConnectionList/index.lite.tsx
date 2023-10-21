@@ -120,8 +120,8 @@ export default function ConnectionList(props: ConnectionListProps) {
   }
 
   onUpdate(() => {
-    getFieldsData(props.getConnectionsUrl);
-  }, [props.getConnectionsUrl]);
+    getFieldsData(props.urls.get);
+  }, [props.urls.get]);
 
   return (
     <LoadingContainer isBusy={state.isConnectionListLoading}>
