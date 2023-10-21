@@ -40,8 +40,7 @@ export interface DirectoryListProps {
   cols: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   setupLinkToken?: string;
   urls: {
-    directories: string;
-    providers: string;
+    get: string;
   };
   handleListFetchComplete?: (directories: Directory[]) => void;
   handleActionClick: (action: 'edit' | 'view', directory: any) => void;
