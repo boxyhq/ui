@@ -102,7 +102,7 @@ export default function DirectoryList(props: DirectoryListProps) {
       }
     }
     getFieldsData(props.urls.get);
-  }, [props.urls.get, state.providers]);
+  }, [props.urls.get]);
 
   return (
     <Show
