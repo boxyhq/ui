@@ -7,6 +7,7 @@ export interface ConnectionListProps {
   idpEntityID?: string;
   isSettingsView?: boolean;
   getConnectionsUrl: string;
+  errorCallback?: (errMessage: string) => void;
   handleListFetchComplete?: (connections: ConnectionData<any>[]) => void;
   handleActionClick: (action: 'edit', connection: ConnectionData<any>) => void;
   /**

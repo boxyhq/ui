@@ -18,7 +18,6 @@ export default function DirectoryList(props: DirectoryListProps) {
     directoryListData: DEFAULT_VALUES.directoryListData,
     providers: DEFAULT_VALUES.providers,
     isDirectoryListLoading: true,
-    directoryListError: '',
     directoryListIsLoading: true,
     get displayTenantProduct() {
       return props.setupLinkToken ? false : true;
@@ -97,7 +96,7 @@ export default function DirectoryList(props: DirectoryListProps) {
       state.directoryListIsLoading = false;
 
       if (error) {
-        state.directoryListError = error;
+        typeof props.errorCallback === 'function' && props.errorCallback(error.message);
       } else {
         state.directoryListData = directoriesListData;
         typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(listData);

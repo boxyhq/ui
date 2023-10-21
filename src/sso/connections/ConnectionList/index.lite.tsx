@@ -15,7 +15,6 @@ const DEFAULT_VALUES = {
 export default function ConnectionList(props: ConnectionListProps) {
   const state = useStore({
     connectionListData: DEFAULT_VALUES.connectionListData,
-    connectionListError: '',
     isConnectionListLoading: true,
     get classes() {
       return {
@@ -113,7 +112,7 @@ export default function ConnectionList(props: ConnectionListProps) {
 
     state.isConnectionListLoading = false;
     if (error) {
-      state.connectionListError = error;
+      typeof props.errorCallback === 'function' && props.errorCallback(error.message);
     } else {
       state.connectionListData = _connectionsListData;
       typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(data);

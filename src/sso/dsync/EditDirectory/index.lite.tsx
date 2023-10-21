@@ -128,11 +128,11 @@ export default function EditDirectory(props: EditDirectoryProps) {
       }
 
       if (error) {
-        console.error(error);
+        typeof props.errorCallback === 'function' && props.errorCallback(error.message);
       }
     }
     getDirectory(props.urls.get);
-  }, [props.urls]);
+  }, [props.urls.get]);
 
   return (
     <div>
