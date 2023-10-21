@@ -4,7 +4,6 @@ export interface CreateDirectoryProps {
   excludeFields?: Array<keyof UnSavedDirectory>;
   urls: {
     post: string;
-    providers: string;
   };
   defaultWebhookEndpoint?: string | undefined;
   successCallback?: (info: { operation: 'CREATE'; connection?: Directory }) => void;

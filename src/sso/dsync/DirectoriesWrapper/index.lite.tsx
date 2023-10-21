@@ -94,7 +94,6 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           errorCallback={props.componentProps.createDirectory.errorCallback}
           urls={{
             post: props.componentProps.createDirectory.urls?.post || '',
-            providers: props.componentProps.createDirectory.urls?.providers || '',
           }}
         />
       </Show>

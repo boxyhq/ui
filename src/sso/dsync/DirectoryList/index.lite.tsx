@@ -10,13 +10,17 @@ import EmptyState from '../../../shared/EmptyState/index.lite';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
-  providers: DirectorySyncProviders,
 };
 
 export default function DirectoryList(props: DirectoryListProps) {
   const state = useStore({
     directoryListData: DEFAULT_VALUES.directoryListData,
-    providers: DEFAULT_VALUES.providers,
+    get providers() {
+      return Object.entries<string>(DirectorySyncProviders)?.map(([value, text]) => ({
+        value,
+        text,
+      }));
+    },
     isDirectoryListLoading: true,
     directoryListIsLoading: true,
     get displayTenantProduct() {
@@ -76,11 +80,6 @@ export default function DirectoryList(props: DirectoryListProps) {
       const directoryListResponse = await fetch(directoryListUrl);
       const { data: listData, error } = await directoryListResponse.json();
 
-      const _providersList = Object.entries<string>(state.providers)?.map(([value, text]) => ({
-        value,
-        text,
-      }));
-
       const directoriesListData = listData?.map((directory: Directory) => {
         return {
           ...directory,
@@ -88,7 +87,7 @@ export default function DirectoryList(props: DirectoryListProps) {
           name: directory.name,
           tenant: directory.tenant,
           product: directory.product,
-          type: _providersList?.find(({ value }) => value === directory.type)?.text,
+          type: state.providers.find(({ value }) => value === directory.type)?.text,
           status: directory.deactivated ? 'Inactive' : 'Active',
         };
       });
