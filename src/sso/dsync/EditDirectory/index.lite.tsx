@@ -118,6 +118,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
 
       if (directoryData) {
         state.directoryUpdated = {
+          ...directoryData,
           name: directoryData.name,
           log_webhook_events: directoryData.log_webhook_events,
           webhook_url: directoryData.webhook?.endpoint,
