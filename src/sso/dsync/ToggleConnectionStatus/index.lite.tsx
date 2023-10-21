@@ -48,15 +48,11 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
         state.displayPrompt = false;
 
         if ('error' in response) {
-          props.errorCallback(response.error.message);
+          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
           return;
         }
 
-        if (body.deactivated) {
-          props.successCallback('Connection deactivated successfully');
-        } else {
-          props.successCallback('Connection activated successfully');
-        }
+        typeof props.successCallback === 'function' && props.successCallback({ operation: 'UPDATE' });
       }
       sendHTTPrequest();
     },

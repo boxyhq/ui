@@ -1,6 +1,7 @@
 export type SVGProps = SVGSVGElement;
 
 export interface IconButtonProps {
+  classNames?: { button?: string };
   label?: string;
   handleClick: (event: any) => void;
   icon:

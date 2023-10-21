@@ -95,12 +95,13 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           const response: ApiResponse = await rawResponse.json();
 
           if ('error' in response) {
-            props.errorCallback(response.error.message);
+            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
             return;
           }
 
           if (rawResponse.ok) {
-            props.successCallback({ operation: 'UPDATE', connection: response.data });
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'UPDATE', connection: response.data });
           }
         },
       });
@@ -116,12 +117,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           const response: ApiResponse = await rawResponse.json();
 
           if ('error' in response) {
-            props.errorCallback(response.error.message);
+            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
             return;
           }
 
           if (rawResponse.ok) {
-            props.successCallback({ operation: 'DELETE' });
+            typeof props.successCallback === 'function' && props.successCallback({ operation: 'DELETE' });
           }
         },
       });

@@ -20,11 +20,12 @@
 }
 
 .label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.875rem;
+  display: block;
   font-weight: 500;
+  color: var(--primary-text-color);
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  padding: 0.5rem 0;
 }
 
 .input {

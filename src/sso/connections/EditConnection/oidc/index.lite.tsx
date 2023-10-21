@@ -103,12 +103,12 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           const response: ApiResponse = await rawResponse.json();
 
           if ('error' in response) {
-            props.errorCallback(response.error.message);
+            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
             return;
           }
 
           if (rawResponse.ok) {
-            props.successCallback(response.data);
+            typeof props.successCallback === 'function' && props.successCallback(response.data);
           }
         },
       });
@@ -124,12 +124,13 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           const response: ApiResponse = await rawResponse.json();
 
           if ('error' in response) {
-            props.errorCallback(response.error.message);
+            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
             return;
           }
 
           if (rawResponse.ok) {
-            props.successCallback({ operation: 'UPDATE', connection: response.data });
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'UPDATE', connection: response.data });
           }
         },
       });

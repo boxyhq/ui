@@ -4,7 +4,6 @@ export interface CreateDirectoryProps {
   excludeFields?: Array<keyof UnSavedDirectory>;
   urls: {
     post: string;
-    providers: string;
   };
   defaultWebhookEndpoint?: string | undefined;
   successCallback?: (info: { operation: 'CREATE'; connection?: Directory }) => void;
@@ -40,9 +39,9 @@ export interface DirectoryListProps {
   cols: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   setupLinkToken?: string;
   urls: {
-    directories: string;
-    providers: string;
+    get: string;
   };
+  errorCallback?: (errMessage: string) => void;
   handleListFetchComplete?: (directories: Directory[]) => void;
   handleActionClick: (action: 'edit' | 'view', directory: any) => void;
   classNames?: {
@@ -59,10 +58,9 @@ export interface EditDirectoryProps {
     delete: string;
     get: string;
   };
-  errorCallback: (errMessage: string) => void;
-  successCallback: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Directory }) => void;
+  errorCallback?: (errMessage: string) => void;
+  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Directory }) => void;
   cancelCallback?: () => void;
-  deleteCallback: () => void;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
@@ -83,8 +81,8 @@ export interface ToggleDirectoryStatusProps {
   urls: {
     patch: string;
   };
-  errorCallback: (errMsg: string) => void;
-  successCallback: (info: { operation: 'UPDATE' }) => void;
+  errorCallback?: (errMsg: string) => void;
+  successCallback?: (info: { operation: 'UPDATE' }) => void;
   classNames?: {
     container?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];

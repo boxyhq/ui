@@ -1,6 +1,13 @@
 import { Show, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
-import type { ConnectionData, ConnectionsWrapperProp, OIDCSSORecord, SAMLSSORecord } from '../types';
+import type {
+  ConnectionData,
+  ConnectionsWrapperProp,
+  OIDCSSOConnection,
+  OIDCSSORecord,
+  SAMLSSOConnection,
+  SAMLSSORecord,
+} from '../types';
 import defaultClasses from './index.module.css';
 import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
@@ -41,8 +48,21 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     switchToListView() {
       state.view = 'LIST';
     },
-    logError(err: string) {
-      console.error(err);
+    createSuccessCallback(info: {
+      operation: 'CREATE';
+      connection?: SAMLSSOConnection | OIDCSSOConnection | undefined;
+    }) {
+      // TODO handle oidc creation
+      props.componentProps.createSSOConnection.componentProps?.saml.successCallback?.(info);
+      state.switchToListView();
+    },
+    updateSuccessCallback(info: {
+      operation: 'UPDATE' | 'DELETE';
+      connection?: SAMLSSOConnection | undefined;
+    }) {
+      // TODO handle oidc updation
+      props.componentProps.editSAMLConnection.successCallback?.(info);
+      state.switchToListView();
     },
   });
 
@@ -95,47 +115,47 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <Show when={state.view === 'EDIT'}>
         <Show when={state.connectionToEdit && 'oidcProvider' in state.connectionToEdit}>
           <EditOIDCConnection
+            {...props.componentProps.editOIDCConnection}
             connection={state.connectionToEdit as ConnectionData<OIDCSSORecord>}
             cancelCallback={state.switchToListView}
             variant='basic'
-            errorCallback={state.logError}
-            successCallback={state.switchToListView}
+            errorCallback={props.componentProps.editOIDCConnection.errorCallback}
+            successCallback={state.updateSuccessCallback}
             // TODO: replace with SDK level toast
             copyDoneCallback={props.copyDoneCallback}
             urls={{
               delete: props.componentProps.editOIDCConnection.urls?.delete || '',
               patch: props.componentProps.editOIDCConnection.urls?.patch || '',
             }}
-            {...props.componentProps.editOIDCConnection}
           />
         </Show>
         <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
           <EditSAMLConnection
+            {...props.componentProps.editSAMLConnection}
             connection={state.connectionToEdit as ConnectionData<SAMLSSORecord>}
             cancelCallback={state.switchToListView}
             variant='basic'
-            errorCallback={state.logError}
-            successCallback={state.switchToListView}
+            errorCallback={props.componentProps.editSAMLConnection.errorCallback}
+            successCallback={state.updateSuccessCallback}
             // TODO: replace with SDK level toast
             copyDoneCallback={props.copyDoneCallback}
             urls={{
               delete: props.componentProps.editSAMLConnection.urls?.delete || '',
               patch: props.componentProps.editSAMLConnection.urls?.patch || '',
             }}
-            {...props.componentProps.editSAMLConnection}
           />
         </Show>
       </Show>
       <Show when={state.view === 'CREATE'}>
         <Spacer y={5} />
         <CreateSAMLConnection
+          {...props.componentProps.createSSOConnection.componentProps?.saml}
           cancelCallback={state.switchToListView}
           variant='basic'
-          successCallback={state.switchToListView}
+          successCallback={state.createSuccessCallback}
           //TODO: Bring inline error message display for SAML/OIDC forms */
-          errorCallback={state.logError}
-          urls={{ save: '' }}
-          {...props.componentProps.createSSOConnection.componentProps?.saml}
+          errorCallback={props.componentProps.createSSOConnection.componentProps?.saml.errorCallback}
+          urls={{ save: props.componentProps.createSSOConnection.componentProps?.saml.urls?.save || '' }}
         />
       </Show>
     </div>

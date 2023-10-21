@@ -1,5 +1,11 @@
 import { Show, onMount, useStore } from '@builder.io/mitosis';
-import type { CreateDirectoryProps, ApiResponse, Directory, UnSavedDirectory } from '../types';
+import {
+  type CreateDirectoryProps,
+  type ApiResponse,
+  type Directory,
+  type UnSavedDirectory,
+  DirectorySyncProviders,
+} from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import Button from '../../../shared/Button/index.lite';
@@ -18,13 +24,16 @@ const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
   log_webhook_events: false,
 };
 
-const DEFAULT_PROVIDERS = [] as { value: string; text: string }[];
-
 export default function CreateDirectory(props: CreateDirectoryProps) {
   const state = useStore({
     directory: DEFAULT_DIRECTORY_VALUES,
     showDomain: false,
-    providers: DEFAULT_PROVIDERS,
+    get providers() {
+      return Object.entries<string>(DirectorySyncProviders)?.map(([value, text]) => ({
+        value,
+        text,
+      }));
+    },
     setProvider(event: any) {
       const _val = event?.target?.value;
       if (_val === 'google') {
@@ -90,15 +99,6 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
 
   onMount(() => {
     state.directory.webhook_url = props.defaultWebhookEndpoint || '';
-
-    async function getDirectoryProviders(url: string) {
-      const response = await fetch(url);
-      const { data } = await response.json();
-
-      state.providers = Object.entries<string>(data).map(([value, text]) => ({ value, text }));
-    }
-
-    getDirectoryProviders(props.urls.providers);
   });
 
   return (

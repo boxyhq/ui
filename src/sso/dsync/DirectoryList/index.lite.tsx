@@ -1,5 +1,5 @@
 import { useStore, Show, onUpdate } from '@builder.io/mitosis';
-import type { Directory } from '../types';
+import { DirectorySyncProviders, type Directory } from '../types';
 import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
 import type { DirectoryListProps } from '../types';
 import defaultClasses from './index.module.css';
@@ -10,15 +10,18 @@ import EmptyState from '../../../shared/EmptyState/index.lite';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
-  providers: null,
 };
 
 export default function DirectoryList(props: DirectoryListProps) {
   const state = useStore({
     directoryListData: DEFAULT_VALUES.directoryListData,
-    providers: DEFAULT_VALUES.providers,
+    get providers() {
+      return Object.entries<string>(DirectorySyncProviders)?.map(([value, text]) => ({
+        value,
+        text,
+      }));
+    },
     isDirectoryListLoading: true,
-    directoryListError: '',
     directoryListIsLoading: true,
     get displayTenantProduct() {
       return props.setupLinkToken ? false : true;
@@ -72,15 +75,10 @@ export default function DirectoryList(props: DirectoryListProps) {
   });
 
   onUpdate(() => {
-    async function getFieldsData(directoryListUrl: string, directoryProviderUrl: string) {
+    async function getFieldsData(directoryListUrl: string) {
       // fetch request for obtaining directory lists data
       const directoryListResponse = await fetch(directoryListUrl);
       const { data: listData, error } = await directoryListResponse.json();
-
-      // fetch request for obtaining directory providers data
-      const directoryProvidersResponse = await fetch(directoryProviderUrl);
-      const { data: providersData } = await directoryProvidersResponse.json();
-      const _providersList = Object.entries<string>(providersData)?.map(([value, text]) => ({ value, text }));
 
       const directoriesListData = listData?.map((directory: Directory) => {
         return {
@@ -89,7 +87,7 @@ export default function DirectoryList(props: DirectoryListProps) {
           name: directory.name,
           tenant: directory.tenant,
           product: directory.product,
-          type: _providersList?.find(({ value }) => value === directory.type)?.text,
+          type: state.providers.find(({ value }) => value === directory.type)?.text,
           status: directory.deactivated ? 'Inactive' : 'Active',
         };
       });
@@ -97,15 +95,14 @@ export default function DirectoryList(props: DirectoryListProps) {
       state.directoryListIsLoading = false;
 
       if (error) {
-        state.directoryListError = error;
+        typeof props.errorCallback === 'function' && props.errorCallback(error.message);
       } else {
         state.directoryListData = directoriesListData;
-        state.providers = providersData;
         typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(listData);
       }
     }
-    getFieldsData(props.urls.directories, props.urls.providers);
-  }, [props.urls]);
+    getFieldsData(props.urls.get);
+  }, [props.urls.get]);
 
   return (
     <Show

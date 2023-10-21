@@ -6,12 +6,12 @@ import EditDirectory from '../EditDirectory/index.lite';
 import DirectoryList from '../DirectoryList/index.lite';
 import Card from '../../../shared/Card/index.lite';
 import Button from '../../../shared/Button/index.lite';
-import styles from "./index.module.css"
+import styles from './index.module.css';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
   view: 'LIST' as 'LIST' | 'EDIT' | 'CREATE',
-  directoryToEdit: {} as Directory
+  directoryToEdit: {} as Directory,
 };
 
 export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
@@ -25,9 +25,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       return state.directories.length > 0;
     },
     get dsyncEnabled(): boolean {
-      return (
-        state.directoriesAdded && state.directories.some((directory) => directory.deactivated === false)
-      );
+      return state.directoriesAdded && state.directories.some((directory) => directory.deactivated === false);
     },
     directoryToEdit: DEFAULT_VALUES.directoryToEdit,
     switchToCreateView() {
@@ -40,8 +38,14 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     switchToListView() {
       state.view = 'LIST';
     },
-    logError(err: string) {
-      console.error(err);
+    createSuccessCallback(info: { operation: 'CREATE'; connection?: Directory | undefined }) {
+      props.componentProps.createDirectory.successCallback?.(info);
+      state.switchToListView();
+    },
+    updateSuccessCallback(info: { operation: 'UPDATE' | 'DELETE'; connection?: Directory | undefined }) {
+      // TODO handle oidc updation
+      props.componentProps.editDirectory.successCallback?.(info);
+      state.switchToListView();
     },
   });
 
@@ -73,13 +77,12 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       <Show when={state.view === 'EDIT'}>
         <EditDirectory
           {...props.componentProps.editDirectory}
-          successCallback={state.switchToListView}
-          deleteCallback={state.switchToListView}
-          errorCallback={state.logError}
+          successCallback={state.updateSuccessCallback}
+          errorCallback={props.componentProps.editDirectory.errorCallback}
           urls={{
             patch: `${props.componentProps.editDirectory.urls?.patch}/${state.directoryToEdit.id}` || '',
             delete: `${props.componentProps.editDirectory.urls?.delete}/${state.directoryToEdit.id}` || '',
-            get: `${props.componentProps.editDirectory.urls?.get}/${state.directoryToEdit.id}` || ''
+            get: `${props.componentProps.editDirectory.urls?.get}/${state.directoryToEdit.id}` || '',
           }}
         />
       </Show>
@@ -87,9 +90,11 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
         <Spacer y={5} />
         <CreateDirectory
           {...props.componentProps.createDirectory}
-          successCallback={state.switchToListView}
-          errorCallback={state.logError}
-          urls={{ post: props.componentProps.createDirectory.urls?.post || '', providers: props.componentProps.createDirectory.urls?.providers || '' }}
+          successCallback={state.createSuccessCallback}
+          errorCallback={props.componentProps.createDirectory.errorCallback}
+          urls={{
+            post: props.componentProps.createDirectory.urls?.post || '',
+          }}
         />
       </Show>
     </div>

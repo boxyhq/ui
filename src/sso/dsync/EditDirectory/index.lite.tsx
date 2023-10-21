@@ -118,6 +118,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
 
       if (directoryData) {
         state.directoryUpdated = {
+          ...directoryData,
           name: directoryData.name,
           log_webhook_events: directoryData.log_webhook_events,
           webhook_url: directoryData.webhook?.endpoint,
@@ -128,11 +129,11 @@ export default function EditDirectory(props: EditDirectoryProps) {
       }
 
       if (error) {
-        console.error(error);
+        typeof props.errorCallback === 'function' && props.errorCallback(error.message);
       }
     }
     getDirectory(props.urls.get);
-  }, [props.urls]);
+  }, [props.urls.get]);
 
   return (
     <div>

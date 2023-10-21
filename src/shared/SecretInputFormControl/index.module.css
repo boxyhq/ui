@@ -8,6 +8,7 @@
 
 .toolbar > div {
   display: flex;
+  padding: 0.5rem 0;
 }
 
 .label {
@@ -15,7 +16,7 @@
   line-height: 1.25rem;
   font-weight: 500;
   color: rgb(17 24 39);
-  margin-bottom: 0.5rem;
+  padding: 0.5rem 0;
 }
 
 .input {
