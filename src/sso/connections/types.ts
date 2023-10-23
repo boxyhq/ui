@@ -91,9 +91,9 @@ export interface ApiError extends Error {
 
 export type ApiResponse<T = any> = ApiSuccess<T> | { error: ApiError };
 
-type FormObjValues = string | boolean | string[];
+type FormObjValues = string | boolean | string[] | undefined;
 
-export type FormObj = Record<string, FormObjValues | Record<string, FormObjValues>>;
+export type FormObj = Record<string, FormObjValues | Record<string, any>>;
 
 export interface MtlsEndpointAliases {
   token_endpoint?: string;
@@ -126,7 +126,7 @@ export interface IssuerMetadata {
 
 interface SSOConnection {
   defaultRedirectUrl: string;
-  redirectUrl: string[] | string;
+  redirectUrl: string[];
   tenant: string;
   product: string;
   name?: string;
@@ -150,7 +150,6 @@ export interface SAMLSSORecord extends SAMLSSOConnection {
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
   metadataUrl?: string;
-  redirectUrl: string[];
   idpMetadata: {
     entityID: string;
     loginType?: string;
@@ -169,6 +168,10 @@ export interface SAMLSSORecord extends SAMLSSOConnection {
   };
   deactivated?: boolean;
 }
+
+export type SAMLFormState = {
+  [K in keyof SAMLSSORecord]: K extends 'redirectUrl' ? string : SAMLSSORecord[K];
+};
 
 export interface OIDCSSORecord extends SSOConnection {
   clientID: string; // set by Jackson
@@ -199,7 +202,7 @@ declare namespace classNames {
 export declare function classNames(...args: classNames.ArgumentArray): string;
 
 export interface ToggleConnectionStatusProps {
-  connection: SAMLSSORecord | OIDCSSORecord;
+  connection: Partial<SAMLFormState | OIDCSSORecord>;
   urls: {
     patch: string;
   };
@@ -256,7 +259,6 @@ export interface EditOIDCConnectionProps {
 }
 
 export interface EditSAMLConnectionProps {
-  connection: SAMLSSORecord;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection>;
   errorCallback?: (errMessage: string) => void;
@@ -266,6 +268,7 @@ export interface EditSAMLConnectionProps {
   urls: {
     delete: string;
     patch: string;
+    get: string;
   };
   classNames?: {
     button?: { ctoa?: string; destructive?: string };

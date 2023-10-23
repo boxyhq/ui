@@ -3,8 +3,9 @@ import { Show, onUpdate, useStore } from '@builder.io/mitosis';
 import type {
   EditSAMLConnectionProps,
   ApiResponse,
-  CreateConnectionProps,
   SAMLSSOConnection,
+  SAMLSSORecord,
+  SAMLFormState,
 } from '../../types';
 import { saveConnection, deleteConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -20,7 +21,7 @@ import Checkbox from '../../../../shared/Checkbox/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
-} satisfies Partial<CreateConnectionProps>;
+} satisfies Partial<EditSAMLConnectionProps>;
 
 const INITIAL_VALUES = {
   samlConnection: {
@@ -35,7 +36,7 @@ const INITIAL_VALUES = {
     rawMetadata: '',
     metadataUrl: '',
     forceAuthn: false as boolean,
-  },
+  } as Partial<SAMLFormState>,
 };
 
 type Keys = keyof typeof INITIAL_VALUES.samlConnection;
@@ -111,8 +112,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
 
       deleteConnection({
         url: props.urls.delete,
-        clientId: props.connection.clientID,
-        clientSecret: props.connection.clientSecret,
+        clientId: state.samlConnection.clientID!,
+        clientSecret: state.samlConnection.clientSecret!,
         callback: async (rawResponse: any) => {
           const response: ApiResponse = await rawResponse.json();
 
@@ -136,20 +137,36 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   });
 
   onUpdate(() => {
-    state.samlConnection = {
-      name: props.connection.name || '',
-      tenant: props.connection.tenant || '',
-      product: props.connection.product || '',
-      clientID: props.connection.clientID,
-      clientSecret: props.connection.clientSecret,
-      description: props.connection.description || '',
-      redirectUrl: props.connection.redirectUrl.join(`\r\n`),
-      defaultRedirectUrl: props.connection.defaultRedirectUrl,
-      rawMetadata: props.connection.rawMetadata || '',
-      metadataUrl: props.connection.metadataUrl || '',
-      forceAuthn: props.connection.forceAuthn === true || props.connection.forceAuthn === 'true',
-    };
-  }, [props.connection]);
+    async function getConnection(url: string) {
+      const response = await fetch(url);
+      const apiResponse: ApiResponse<SAMLSSORecord[]> = await response.json();
+
+      if ('error' in apiResponse) {
+        typeof props.errorCallback === 'function' && props.errorCallback(apiResponse.error.message);
+        return;
+      }
+
+      const _connection = apiResponse.data[0];
+
+      if (_connection) {
+        state.samlConnection = {
+          ..._connection,
+          name: _connection.name || '',
+          tenant: _connection.tenant || '',
+          product: _connection.product || '',
+          clientID: _connection.clientID,
+          clientSecret: _connection.clientSecret,
+          description: _connection.description || '',
+          redirectUrl: _connection.redirectUrl.join(`\r\n`),
+          defaultRedirectUrl: _connection.defaultRedirectUrl,
+          rawMetadata: _connection.rawMetadata || '',
+          metadataUrl: _connection.metadataUrl || '',
+          forceAuthn: _connection.forceAuthn === true || _connection.forceAuthn === 'true',
+        };
+      }
+    }
+    getConnection(props.urls.get);
+  }, [props.urls.get]);
 
   return (
     <div>
@@ -159,13 +176,13 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
           </Show>
           <ToggleConnectionStatus
-            connection={props.connection}
+            connection={state.samlConnection}
             urls={{ patch: props.urls.patch }}
             classNames={{
               confirmationPrompt: {
                 button: {
                   ctoa: `${props.classNames?.confirmationPrompt?.button?.ctoa} ${
-                    props.connection.deactivated
+                    state.samlConnection.deactivated
                       ? props.classNames?.button?.ctoa
                       : props.classNames?.button?.destructive
                   }`.trim(),
@@ -298,7 +315,9 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               <Show when={!state.isExcluded('forceAuthn')}>
                 <div class={defaultClasses.field}>
                   <Checkbox
-                    checked={state.samlConnection.forceAuthn}
+                    checked={
+                      state.samlConnection.forceAuthn === 'true' || state.samlConnection.forceAuthn === true
+                    }
                     handleChange={state.handleChange}
                     label='Force Authentication'
                     name='forceAuthn'
@@ -324,7 +343,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                         placeholder='acme.com'
                         required={true}
                         readOnly={true}
-                        value={props.connection.tenant}
+                        value={state.samlConnection.tenant}
                       />
                     </div>
                   </Show>
@@ -343,7 +362,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                         required={true}
                         readOnly={true}
                         placeholder='demo'
-                        value={props.connection.product}
+                        value={state.samlConnection.product}
                       />
                     </div>
                   </Show>
@@ -355,7 +374,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                     </label>
                   </div>
                   <pre aria-readonly={true} class={defaultClasses.pre}>
-                    {JSON.stringify(props.connection.idpMetadata, null, 2)}
+                    {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
                   </pre>
                 </div>
                 <div class={defaultClasses.field}>
@@ -365,7 +384,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                     </label>
                   </div>
                   <pre aria-readonly={true} class={defaultClasses.pre}>
-                    {props.connection.idpMetadata.validTo}
+                    {state.samlConnection.idpMetadata?.validTo}
                   </pre>
                 </div>
                 <div class={defaultClasses.field}>
@@ -374,7 +393,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                       Client ID
                     </label>
                     <CopyToClipboardButton
-                      text={props.connection.clientID}
+                      text={state.samlConnection.clientID!}
                       copyDoneCallback={props.copyDoneCallback}
                     />
                   </div>
@@ -384,14 +403,14 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                     id='clientID'
                     type='text'
                     readOnly={true}
-                    value={props.connection.clientID}
+                    value={state.samlConnection.clientID}
                   />
                 </div>
                 <SecretInputFormControl
                   classNames={{ input: props.classNames?.secretInput }}
                   label='Client Secret'
                   id='clientSecret'
-                  value={props.connection.clientSecret}
+                  value={state.samlConnection.clientSecret!}
                   readOnly={true}
                   required={true}
                   copyDoneCallback={props.copyDoneCallback}
@@ -406,7 +425,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               </Show>
               <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
             </div>
-            <Show when={props.connection?.clientID && props.connection.clientSecret}>
+            <Show when={state.samlConnection?.clientID && state.samlConnection.clientSecret}>
               <section class={state.classes.section}>
                 <div class={defaultClasses.info}>
                   <h6 class={defaultClasses.sectionHeading}>Delete this connection</h6>
