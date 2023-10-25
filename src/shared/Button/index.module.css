@@ -1,10 +1,9 @@
 @import url('../common.module.css');
 
 .btn {
-  display: inline-block;
+  display: inline-flex;
   padding: 0.5rem 1rem;
   margin: 0;
-  display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
