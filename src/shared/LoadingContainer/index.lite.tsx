@@ -6,7 +6,9 @@ import styles from './index.module.css';
 export default function LoadingContainer(props: LoadingContainerProps) {
   return (
     <div class={styles.container}>
-      <Spinner isLoading={props.isBusy} />
+      <div aria-hidden={!props.isBusy}>
+        <Spinner />
+      </div>
       <div aria-busy={props.isBusy}>{props.children}</div>
     </div>
   );

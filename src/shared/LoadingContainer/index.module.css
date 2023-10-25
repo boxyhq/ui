@@ -1,3 +1,4 @@
-.container [aria-busy='true'] {
+.container [aria-busy='true'],
+.container > [aria-hidden='true'] {
   display: none;
 }
