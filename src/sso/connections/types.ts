@@ -176,7 +176,6 @@ export type SAMLFormState = {
 export interface OIDCSSORecord extends SSOConnection {
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
-  redirectUrl: string[];
   oidcProvider: {
     provider?: string;
     discoveryUrl?: string;
@@ -186,6 +185,19 @@ export interface OIDCSSORecord extends SSOConnection {
   };
   deactivated?: boolean;
 }
+
+export type OIDCFormState = {
+  [K in keyof OIDCSSORecord]: K extends 'redirectUrl' ? string : OIDCSSORecord[K];
+} & {
+  oidcClientSecret: string;
+  oidcClientId: string;
+  oidcDiscoveryUrl: string;
+  'oidcMetadata.issuer': string;
+  'oidcMetadata.authorization_endpoint': string;
+  'oidcMetadata.token_endpoint': string;
+  'oidcMetadata.jwks_uri': string;
+  'oidcMetadata.userinfo_endpoint': string;
+};
 
 export type ConnectionData<T extends SAMLSSORecord | OIDCSSORecord> = T & { isSystemSSO?: boolean };
 
@@ -230,7 +242,6 @@ export interface EditConnectionProps {
 }
 
 export interface EditOIDCConnectionProps {
-  connection: OIDCSSORecord;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof OIDCSSOConnection>;
   errorCallback?: (errMessage: string) => void;
@@ -240,6 +251,7 @@ export interface EditOIDCConnectionProps {
   urls: {
     delete: string;
     patch: string;
+    get: string;
   };
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
