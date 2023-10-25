@@ -1,9 +1,5 @@
 @import url('../common.module.css');
 
-.spinner[aria-hidden='true'] {
-  display: none;
-}
-
 .spinner {
   cursor: progress;
 }
