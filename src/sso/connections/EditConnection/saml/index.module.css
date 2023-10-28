@@ -56,7 +56,7 @@
   color: var(--primary-text-color);
   font-size: 0.875rem;
   line-height: 1.25rem;
-  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
 }
 
 .labelWithAction {

@@ -118,7 +118,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               <label for='name' class={state.classes.label}>
                 Connection name (Optional)
               </label>
-              <Spacer y={2} />
               <input
                 class={state.classes.input}
                 id='name'
@@ -137,7 +136,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               <label for='description' class={state.classes.label}>
                 Description (Optional)
               </label>
-              <Spacer y={2} />
               <input
                 class={state.classes.input}
                 id='description'
@@ -157,7 +155,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               <label for='tenant' class={state.classes.label}>
                 Tenant
               </label>
-              <Spacer y={2} />
               <input
                 class={state.classes.input}
                 id='tenant'
@@ -185,7 +182,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               <label for='product' class={state.classes.label}>
                 Product
               </label>
-              <Spacer y={2} />
               <input
                 class={state.classes.input}
                 id='product'
@@ -208,7 +204,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               <label for='redirectUrl' class={state.classes.label}>
                 Allowed redirect URLs (newline separated)
               </label>
-              <Spacer y={2} />
               <textarea
                 id='redirectUrl'
                 name='redirectUrl'
@@ -231,7 +226,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               <label for='defaultRedirectUrl' class={state.classes.label}>
                 Default redirect URL
               </label>
-              <Spacer y={2} />
               <input
                 class={state.classes.input}
                 id='defaultRedirectUrl'
@@ -251,7 +245,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           <label for='rawMetadata' class={state.classes.label}>
             Raw IdP XML
           </label>
-          <Spacer y={2} />
           <textarea
             id='rawMetadata'
             class={state.classes.textarea}
@@ -273,7 +266,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           <label for='metadataUrl' class={state.classes.label}>
             Metadata URL
           </label>
-          <Spacer y={2} />
           <input
             class={state.classes.input}
             id='metadataUrl'
