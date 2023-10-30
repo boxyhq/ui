@@ -329,6 +329,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 </div>
               </Show>
             </Show>
+            <div class={defaultClasses.formAction}>
+              <Show when={typeof props.cancelCallback === 'function'}>
+                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
+              </Show>
+              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
+            </div>
             <Card title='Connection info' variant='info' arrangement='vertical'>
               <div class={defaultClasses.info}>
                 <Show when={state.formVariant === 'advanced'}>
@@ -422,12 +428,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               </div>
             </Card>
             <Spacer y={4} />
-            <div class={defaultClasses.formAction}>
-              <Show when={typeof props.cancelCallback === 'function'}>
-                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
-              </Show>
-              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
-            </div>
             <Show when={state.samlConnection?.clientID && state.samlConnection.clientSecret}>
               <section class={state.classes.section}>
                 <div class={defaultClasses.info}>
