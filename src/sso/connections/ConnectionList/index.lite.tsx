@@ -94,6 +94,9 @@ export default function ConnectionList(props: ConnectionListProps) {
         },
       ];
     },
+    get listFetchUrl() {
+      return props.urls.get;
+    },
   });
 
   async function getFieldsData(url: string) {
@@ -120,8 +123,8 @@ export default function ConnectionList(props: ConnectionListProps) {
   }
 
   onUpdate(() => {
-    getFieldsData(props.urls.get);
-  }, [props.urls.get]);
+    getFieldsData(state.listFetchUrl);
+  }, [state.listFetchUrl]);
 
   return (
     <LoadingContainer isBusy={state.isConnectionListLoading}>
