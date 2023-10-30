@@ -50,7 +50,7 @@ export interface ButtonProps extends ComponentPropsWithRef<'button'> {
 
 export interface SecretInputFormControlProps {
   label: string;
-  value: string;
+  value?: string;
   id: string;
   placeholder?: string;
   required: boolean;

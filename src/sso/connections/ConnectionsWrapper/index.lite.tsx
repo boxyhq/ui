@@ -1,13 +1,6 @@
 import { Show, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
-import type {
-  ConnectionData,
-  ConnectionsWrapperProp,
-  OIDCSSOConnection,
-  OIDCSSORecord,
-  SAMLSSOConnection,
-  SAMLSSORecord,
-} from '../types';
+import type { ConnectionData, ConnectionsWrapperProp, OIDCSSOConnection, SAMLSSOConnection } from '../types';
 import defaultClasses from './index.module.css';
 import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
@@ -116,7 +109,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         <Show when={state.connectionToEdit && 'oidcProvider' in state.connectionToEdit}>
           <EditOIDCConnection
             {...props.componentProps.editOIDCConnection}
-            connection={state.connectionToEdit as ConnectionData<OIDCSSORecord>}
             cancelCallback={state.switchToListView}
             variant='basic'
             errorCallback={props.componentProps.editOIDCConnection.errorCallback}
@@ -126,13 +118,13 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{
               delete: props.componentProps.editOIDCConnection.urls?.delete || '',
               patch: props.componentProps.editOIDCConnection.urls?.patch || '',
+              get: props.componentProps.editOIDCConnection.urls?.get || '',
             }}
           />
         </Show>
         <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
           <EditSAMLConnection
             {...props.componentProps.editSAMLConnection}
-            connection={state.connectionToEdit as ConnectionData<SAMLSSORecord>}
             cancelCallback={state.switchToListView}
             variant='basic'
             errorCallback={props.componentProps.editSAMLConnection.errorCallback}
@@ -142,6 +134,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{
               delete: props.componentProps.editSAMLConnection.urls?.delete || '',
               patch: props.componentProps.editSAMLConnection.urls?.patch || '',
+              get: props.componentProps.editSAMLConnection.urls?.get || '',
             }}
           />
         </Show>

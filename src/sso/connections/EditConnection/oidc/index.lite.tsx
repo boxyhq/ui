@@ -6,7 +6,8 @@ import type {
   FormObj,
   OIDCSSOConnection,
   ApiResponse,
-  CreateConnectionProps,
+  OIDCSSORecord,
+  OIDCFormState,
 } from '../../types';
 import { saveConnection, deleteConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -15,42 +16,36 @@ import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
 import ConfirmationPrompt from '../../../../shared/ConfirmationPrompt/index.lite';
 
-const DEFAULT_VALUES = {
-  variant: 'basic',
-} satisfies Partial<CreateConnectionProps>;
-
 const INITIAL_VALUES = {
-  oidcConnection: {
-    name: '',
-    tenant: '',
-    product: '',
-    description: '',
-    redirectUrl: '',
-    defaultRedirectUrl: '',
-    oidcClientSecret: '',
-    oidcClientId: '',
-    oidcDiscoveryUrl: '',
-    'oidcMetadata.issuer': '',
-    'oidcMetadata.authorization_endpoint': '',
-    'oidcMetadata.token_endpoint': '',
-    'oidcMetadata.jwks_uri': '',
-    'oidcMetadata.userinfo_endpoint': '',
-  },
-};
+  name: '',
+  tenant: '',
+  product: '',
+  description: '',
+  redirectUrl: '',
+  defaultRedirectUrl: '',
+  oidcClientSecret: '',
+  oidcClientId: '',
+  oidcDiscoveryUrl: '',
+  'oidcMetadata.issuer': '',
+  'oidcMetadata.authorization_endpoint': '',
+  'oidcMetadata.token_endpoint': '',
+  'oidcMetadata.jwks_uri': '',
+  'oidcMetadata.userinfo_endpoint': '',
+} as Partial<OIDCFormState>;
 
-type Keys = keyof typeof INITIAL_VALUES.oidcConnection;
-type Values = (typeof INITIAL_VALUES.oidcConnection)[Keys];
+type Keys = keyof typeof INITIAL_VALUES;
+type Values = (typeof INITIAL_VALUES)[Keys];
 
 export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
   const state = useStore({
-    oidcConnection: INITIAL_VALUES.oidcConnection,
+    oidcConnection: INITIAL_VALUES,
     showDelConfirmation: false,
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
     },
     hasDiscoveryUrl: true,
     get formVariant() {
-      return props.variant || DEFAULT_VALUES.variant;
+      return props.variant || 'basic';
     },
     get classes() {
       return {
@@ -82,7 +77,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     saveSSOConnection(event: Event) {
       event.preventDefault();
 
-      const formObj: Partial<OIDCSSOConnection> = {};
+      const formObj: any = {};
       Object.entries(state.oidcConnection).map(([key, val]) => {
         if (key.startsWith('oidcMetadata.')) {
           if (formObj.oidcMetadata === undefined) {
@@ -118,8 +113,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
 
       deleteConnection({
         url: props.urls.delete,
-        clientId: props.connection.clientID,
-        clientSecret: props.connection.clientSecret,
+        clientId: state.oidcConnection.clientID!,
+        clientSecret: state.oidcConnection.clientSecret!,
         callback: async (rawResponse: any) => {
           const response: ApiResponse = await rawResponse.json();
 
@@ -144,26 +139,41 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
   });
 
   onUpdate(() => {
-    state.oidcConnection = {
-      name: props.connection.name || '',
-      tenant: props.connection.tenant || '',
-      product: props.connection.product || '',
-      description: props.connection.description || '',
-      redirectUrl: props.connection.redirectUrl.join(`\r\n`),
-      defaultRedirectUrl: props.connection.defaultRedirectUrl,
-      oidcClientId: props.connection.oidcProvider.clientId || '',
-      oidcClientSecret: props.connection.oidcProvider.clientSecret || '',
-      oidcDiscoveryUrl: props.connection.oidcProvider.discoveryUrl || '',
-      'oidcMetadata.issuer': props.connection.oidcProvider.metadata?.issuer || '',
-      'oidcMetadata.authorization_endpoint':
-        props.connection.oidcProvider.metadata?.authorization_endpoint || '',
-      'oidcMetadata.token_endpoint': props.connection.oidcProvider.metadata?.token_endpoint || '',
-      'oidcMetadata.jwks_uri': props.connection.oidcProvider.metadata?.jwks_uri || '',
-      'oidcMetadata.userinfo_endpoint': props.connection.oidcProvider.metadata?.userinfo_endpoint || '',
-    };
+    async function getConnection(url: string) {
+      const response = await fetch(url);
+      const apiResponse: ApiResponse<OIDCSSORecord[]> = await response.json();
 
-    state.hasDiscoveryUrl = props.connection.oidcProvider.discoveryUrl ? true : false;
-  }, [props.connection]);
+      if ('error' in apiResponse) {
+        typeof props.errorCallback === 'function' && props.errorCallback(apiResponse.error.message);
+        return;
+      }
+
+      const _connection = apiResponse.data[0];
+
+      if (_connection) {
+        state.oidcConnection = {
+          ..._connection,
+          name: _connection.name || '',
+          tenant: _connection.tenant || '',
+          product: _connection.product || '',
+          description: _connection.description || '',
+          redirectUrl: _connection.redirectUrl.join(`\r\n`),
+          defaultRedirectUrl: _connection.defaultRedirectUrl,
+          oidcClientId: _connection.oidcProvider.clientId || '',
+          oidcClientSecret: _connection.oidcProvider.clientSecret || '',
+          oidcDiscoveryUrl: _connection.oidcProvider.discoveryUrl || '',
+          'oidcMetadata.issuer': _connection.oidcProvider.metadata?.issuer || '',
+          'oidcMetadata.authorization_endpoint':
+            _connection.oidcProvider.metadata?.authorization_endpoint || '',
+          'oidcMetadata.token_endpoint': _connection.oidcProvider.metadata?.token_endpoint || '',
+          'oidcMetadata.jwks_uri': _connection.oidcProvider.metadata?.jwks_uri || '',
+          'oidcMetadata.userinfo_endpoint': _connection.oidcProvider.metadata?.userinfo_endpoint || '',
+        };
+      }
+      state.hasDiscoveryUrl = _connection.oidcProvider.discoveryUrl ? true : false;
+    }
+    getConnection(props.urls.get);
+  }, [props.urls.get]);
 
   return (
     <div>
@@ -173,13 +183,13 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
           </Show>
           <ToggleConnectionStatus
-            connection={props.connection}
+            connection={state.oidcConnection}
             urls={{ patch: props.urls.patch }}
             classNames={{
               confirmationPrompt: {
                 button: {
                   ctoa: `${props.classNames?.confirmationPrompt?.button?.ctoa} ${
-                    props.connection.deactivated
+                    state.oidcConnection.deactivated
                       ? props.classNames?.button?.ctoa
                       : props.classNames?.button?.destructive
                   }`.trim(),
@@ -427,7 +437,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                         type='text'
                         required={true}
                         disabled={true}
-                        value={props.connection.tenant}
+                        value={state.oidcConnection.tenant}
                       />
                     </div>
                   </Show>
@@ -446,7 +456,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                         required={true}
                         disabled={true}
                         placeholder='demo'
-                        value={props.connection.product}
+                        value={state.oidcConnection.product}
                       />
                     </div>
                   </Show>
@@ -464,13 +474,13 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     type='text'
                     required={true}
                     disabled={true}
-                    value={props.connection.clientID}
+                    value={state.oidcConnection.clientID}
                   />
                 </div>
                 <SecretInputFormControl
                   classNames={{ input: props.classNames?.secretInput }}
                   label='Client Secret'
-                  value={props.connection.clientSecret}
+                  value={state.oidcConnection.clientSecret}
                   id='clientSecret'
                   required={true}
                   readOnly={true}
@@ -486,7 +496,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               </Show>
               <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
             </div>
-            <Show when={props.connection?.clientID && props.connection.clientSecret}>
+            <Show when={state.oidcConnection.clientID && state.oidcConnection.clientSecret}>
               <section class={state.classes.section}>
                 <div class={defaultClasses.info}>
                   <h6 class={defaultClasses.sectionHeading}>Delete this connection</h6>
