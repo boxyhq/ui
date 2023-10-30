@@ -51,7 +51,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     },
     updateSuccessCallback(info: {
       operation: 'UPDATE' | 'DELETE';
-      connection?: SAMLSSOConnection | undefined;
+      connection?: SAMLSSOConnection | OIDCSSOConnection | undefined;
     }) {
       // TODO handle oidc updation
       props.componentProps.editSAMLConnection.successCallback?.(info);
