@@ -46,6 +46,7 @@ export interface ButtonProps {
   handleClick?: (event: any) => void;
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
+  isLoading?: boolean;
 }
 
 export interface SecretInputFormControlProps {

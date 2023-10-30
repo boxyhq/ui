@@ -46,6 +46,7 @@ export interface ButtonProps extends ComponentPropsWithRef<'button'> {
   handleClick?: (event: any) => void;
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
+  isLoading?: boolean;
 }
 
 export interface SecretInputFormControlProps {
