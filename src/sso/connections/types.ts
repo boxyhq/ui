@@ -247,7 +247,7 @@ export interface EditOIDCConnectionProps {
   errorCallback?: (errMessage: string) => void;
   successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: OIDCSSOConnection }) => void;
   cancelCallback?: () => void;
-  copyDoneCallback: () => void;
+  copyDoneCallback?: () => void;
   urls: {
     delete: string;
     patch: string;
@@ -276,7 +276,7 @@ export interface EditSAMLConnectionProps {
   errorCallback?: (errMessage: string) => void;
   successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: SAMLSSOConnection }) => void;
   cancelCallback?: () => void;
-  copyDoneCallback: () => void;
+  copyDoneCallback?: () => void;
   urls: {
     delete: string;
     patch: string;
@@ -298,7 +298,7 @@ export interface EditSAMLConnectionProps {
 
 export interface ConnectionsWrapperProp {
   classNames?: { button?: { ctoa?: string } };
-  copyDoneCallback: () => void;
+  copyDoneCallback?: () => void;
   componentProps: {
     connectionList: Omit<ConnectionListProps, 'handleActionClick'>;
     createSSOConnection: Partial<CreateSSOConnectionProps>;
