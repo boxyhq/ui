@@ -134,6 +134,9 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       }
       return true;
     },
+    get connectionFetchUrl() {
+      return props.urls.get;
+    },
   });
 
   onUpdate(() => {
@@ -165,8 +168,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
         };
       }
     }
-    getConnection(props.urls.get);
-  }, [props.urls.get]);
+    getConnection(state.connectionFetchUrl);
+  }, [state.connectionFetchUrl]);
 
   return (
     <div>

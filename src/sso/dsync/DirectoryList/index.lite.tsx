@@ -72,6 +72,9 @@ export default function DirectoryList(props: DirectoryListProps) {
         }
       }) as TableProps['cols'];
     },
+    get listFetchUrl() {
+      return props.urls.get;
+    },
   });
 
   onUpdate(() => {
@@ -101,8 +104,8 @@ export default function DirectoryList(props: DirectoryListProps) {
         typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(listData);
       }
     }
-    getFieldsData(props.urls.get);
-  }, [props.urls.get]);
+    getFieldsData(state.listFetchUrl);
+  }, [state.listFetchUrl]);
 
   return (
     <Show

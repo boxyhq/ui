@@ -136,6 +136,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       }
       return true;
     },
+    get connectionFetchUrl() {
+      return props.urls.get;
+    },
   });
 
   onUpdate(() => {
@@ -172,8 +175,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       }
       state.hasDiscoveryUrl = _connection.oidcProvider.discoveryUrl ? true : false;
     }
-    getConnection(props.urls.get);
-  }, [props.urls.get]);
+    getConnection(state.connectionFetchUrl);
+  }, [state.connectionFetchUrl]);
 
   return (
     <div>

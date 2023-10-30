@@ -109,6 +109,9 @@ export default function EditDirectory(props: EditDirectoryProps) {
       }
       return true;
     },
+    get directoryFetchUrl() {
+      return props.urls.get;
+    },
   });
 
   onUpdate(() => {
@@ -132,8 +135,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
         typeof props.errorCallback === 'function' && props.errorCallback(error.message);
       }
     }
-    getDirectory(props.urls.get);
-  }, [props.urls.get]);
+    getDirectory(state.directoryFetchUrl);
+  }, [state.directoryFetchUrl]);
 
   return (
     <div>
