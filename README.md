@@ -5,21 +5,6 @@
   <img alt="BoxyHQ Banner" src="https://github.com/boxyhq/jackson/assets/66887028/b40520b7-dbce-400b-88d3-400d1c215ea1">
 </picture>
 </a>
-<h3 align="center">
-  Participating in 
-</h3>
-
-<div align="center">  
-  
-  ![Hacktoberfest](https://ziadoua.github.io/m3-Markdown-Badges/badges/Hacktoberfest2023/hacktoberfest20231.svg)
-</div>
-
-<h3 align="center">
-
-[⬆️ Take a look at our Issues ⬆️](https://github.com/boxyhq/ui/issues)
-</h3>
-
-___
 
 # ui
 
