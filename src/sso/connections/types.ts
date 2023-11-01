@@ -245,7 +245,7 @@ export interface EditOIDCConnectionProps {
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof OIDCSSOConnection>;
   errorCallback?: (errMessage: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: OIDCSSOConnection }) => void;
+  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Partial<OIDCFormState> }) => void;
   cancelCallback?: () => void;
   copyDoneCallback?: () => void;
   urls: {
@@ -274,7 +274,7 @@ export interface EditSAMLConnectionProps {
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection>;
   errorCallback?: (errMessage: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: SAMLSSOConnection }) => void;
+  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Partial<SAMLFormState> }) => void;
   cancelCallback?: () => void;
   copyDoneCallback?: () => void;
   urls: {
@@ -299,6 +299,16 @@ export interface EditSAMLConnectionProps {
 export interface ConnectionsWrapperProp {
   classNames?: { button?: { ctoa?: string } };
   copyDoneCallback?: () => void;
+  successCallback?: (info: {
+    operation: 'CREATE' | 'UPDATE' | 'DELETE';
+    connection?: Partial<
+      (SAMLSSOConnection | OIDCSSOConnection | SAMLFormState | OIDCFormState) & {
+        connectionIsSAML: boolean;
+        connectionIsOIDC: boolean;
+      }
+    >;
+  }) => void;
+  errorCallback?: (errMessage: string) => void;
   componentProps: {
     connectionList: Omit<ConnectionListProps, 'handleActionClick'>;
     createSSOConnection: Partial<CreateSSOConnectionProps>;

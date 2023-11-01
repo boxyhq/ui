@@ -76,21 +76,21 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
-
+      const payload =
+        props.variant === 'advanced'
+          ? { ...state.samlConnection }
+          : {
+              tenant: state.samlConnection.tenant,
+              product: state.samlConnection.product,
+              clientID: state.samlConnection.clientID,
+              clientSecret: state.samlConnection.clientSecret,
+              rawMetadata: state.samlConnection.rawMetadata,
+              metadataUrl: state.samlConnection.metadataUrl,
+            };
       saveConnection({
         url: props.urls.patch,
         isEditView: true,
-        formObj:
-          props.variant === 'advanced'
-            ? { ...state.samlConnection }
-            : {
-                tenant: state.samlConnection.tenant,
-                product: state.samlConnection.product,
-                clientID: state.samlConnection.clientID,
-                clientSecret: state.samlConnection.clientSecret,
-                rawMetadata: state.samlConnection.rawMetadata,
-                metadataUrl: state.samlConnection.metadataUrl,
-              },
+        formObj: payload,
         connectionIsSAML: true,
         callback: async (rawResponse: any) => {
           const response: ApiResponse = await rawResponse.json();
@@ -102,7 +102,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
 
           if (rawResponse.ok) {
             typeof props.successCallback === 'function' &&
-              props.successCallback({ operation: 'UPDATE', connection: response.data });
+              props.successCallback({ operation: 'UPDATE', connection: payload });
           }
         },
       });

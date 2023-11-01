@@ -41,20 +41,76 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     switchToListView() {
       state.view = 'LIST';
     },
-    createSuccessCallback(info: {
-      operation: 'CREATE';
-      connection?: SAMLSSOConnection | OIDCSSOConnection | undefined;
-    }) {
+    createSuccessCallback(info: { operation: 'CREATE'; connection?: SAMLSSOConnection | OIDCSSOConnection }) {
+      const { operation, connection } = info;
+      const connectionIsSAML = !!(
+        connection &&
+        'idpMetadata' in connection &&
+        typeof connection.idpMetadata === 'object'
+      );
+      const connectionIsOIDC = !!(
+        connection &&
+        'oidcProvider' in connection &&
+        typeof connection.oidcProvider === 'object'
+      );
       // TODO handle oidc creation
-      props.componentProps.createSSOConnection.componentProps?.saml.successCallback?.(info);
+      if (connectionIsSAML) {
+        if (
+          typeof props.componentProps.createSSOConnection.componentProps?.saml.successCallback === 'function'
+        ) {
+          props.componentProps.createSSOConnection.componentProps.saml.successCallback(info);
+        } else if (typeof props.successCallback === 'function') {
+          props.successCallback({
+            operation,
+            connection: { ...connection, connectionIsOIDC, connectionIsSAML },
+          });
+        }
+      }
+      if (connectionIsOIDC) {
+        if (
+          typeof props.componentProps.createSSOConnection.componentProps?.saml.successCallback === 'function'
+        ) {
+          props.componentProps.createSSOConnection.componentProps.saml.successCallback(info);
+        } else if (typeof props.successCallback === 'function') {
+          props.successCallback({
+            operation,
+            connection: {
+              ...connection,
+              connectionIsOIDC,
+              connectionIsSAML,
+            },
+          });
+        }
+      }
       state.switchToListView();
     },
-    updateSuccessCallback(info: {
-      operation: 'UPDATE' | 'DELETE';
-      connection?: SAMLSSOConnection | OIDCSSOConnection | undefined;
-    }) {
-      // TODO handle oidc updation
-      props.componentProps.editSAMLConnection.successCallback?.(info);
+    updateSuccessCallback(info: { connection: any; operation: any }) {
+      const { connection, operation } = info;
+      const connectionIsSAML = !!(connection && connection.connectionIsSAML);
+      const connectionIsOIDC = !!(connection && connection.connectionIsOIDC);
+
+      console.log(connection, operation);
+
+      if (connectionIsSAML) {
+        if (typeof props.componentProps.editSAMLConnection.successCallback === 'function') {
+          props.componentProps.editSAMLConnection.successCallback(info);
+        } else if (typeof props.successCallback === 'function') {
+          props.successCallback({
+            operation,
+            connection: { ...connection, connectionIsSAML },
+          });
+        }
+      }
+      if (connectionIsOIDC) {
+        if (typeof props.componentProps.editOIDCConnection.successCallback === 'function') {
+          props.componentProps.editOIDCConnection.successCallback(info);
+        } else if (typeof props.successCallback === 'function') {
+          props.successCallback({
+            operation,
+            connection: { ...connection, connectionIsOIDC },
+          });
+        }
+      }
       state.switchToListView();
     },
   });
@@ -111,7 +167,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             {...props.componentProps.editOIDCConnection}
             cancelCallback={state.switchToListView}
             variant='basic'
-            errorCallback={props.componentProps.editOIDCConnection.errorCallback}
+            errorCallback={props.errorCallback}
+            // @ts-ignore
             successCallback={state.updateSuccessCallback}
             // TODO: replace with SDK level toast
             copyDoneCallback={props.copyDoneCallback}
@@ -127,7 +184,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             {...props.componentProps.editSAMLConnection}
             cancelCallback={state.switchToListView}
             variant='basic'
-            errorCallback={props.componentProps.editSAMLConnection.errorCallback}
+            errorCallback={props.errorCallback}
+            // @ts-ignore
             successCallback={state.updateSuccessCallback}
             // TODO: replace with SDK level toast
             copyDoneCallback={props.copyDoneCallback}
@@ -147,7 +205,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           variant='basic'
           successCallback={state.createSuccessCallback}
           //TODO: Bring inline error message display for SAML/OIDC forms */
-          errorCallback={props.componentProps.createSSOConnection.componentProps?.saml.errorCallback}
+          errorCallback={props.errorCallback}
           urls={{ save: props.componentProps.createSSOConnection.componentProps?.saml.urls?.save || '' }}
         />
       </Show>

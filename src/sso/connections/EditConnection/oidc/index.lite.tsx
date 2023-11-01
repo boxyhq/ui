@@ -103,7 +103,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            typeof props.successCallback === 'function' && props.successCallback(response.data);
+            typeof props.successCallback === 'function' && props.successCallback(formObj);
           }
         },
       });
