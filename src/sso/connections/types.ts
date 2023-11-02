@@ -37,6 +37,8 @@ export interface CreateConnectionProps {
   successCallback?: (info: {
     operation: 'CREATE';
     connection?: SAMLSSOConnection | OIDCSSOConnection;
+    connectionIsOIDC?: boolean;
+    connectionIsSAML?: boolean;
   }) => void;
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
@@ -221,7 +223,7 @@ export interface ToggleConnectionStatusProps {
   };
   translation?: any;
   errorCallback?: (errMsg: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' }) => void;
+  successCallback?: (info: any) => void;
   classNames?: {
     container?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
@@ -249,6 +251,7 @@ export interface EditOIDCConnectionProps {
   successCallback?: (info: {
     operation: 'UPDATE' | 'DELETE' | 'COPY';
     connection?: Partial<OIDCFormState>;
+    connectionIsOIDC: true;
   }) => void;
   cancelCallback?: () => void;
   urls: {
@@ -280,6 +283,7 @@ export interface EditSAMLConnectionProps {
   successCallback?: (info: {
     operation: 'UPDATE' | 'DELETE' | 'COPY';
     connection?: Partial<SAMLFormState>;
+    connectionIsSAML: true;
   }) => void;
   cancelCallback?: () => void;
   urls: {
@@ -305,21 +309,22 @@ export interface ConnectionsWrapperProp {
   classNames?: { button?: { ctoa?: string } };
   successCallback?: (info: {
     operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY';
-    connection?: Partial<
-      (SAMLSSOConnection | OIDCSSOConnection | SAMLFormState | OIDCFormState) & {
-        connectionIsSAML: boolean;
-        connectionIsOIDC: boolean;
-      }
-    >;
+    connection?: Partial<SAMLSSOConnection | OIDCSSOConnection | SAMLFormState | OIDCFormState>;
+    connectionIsSAML?: boolean;
+    connectionIsOIDC?: boolean;
   }) => void;
   errorCallback?: (errMessage: string) => void;
   componentProps: {
-    connectionList: Omit<ConnectionListProps, 'handleActionClick'>;
+    connectionList: Partial<Omit<ConnectionListProps, 'handleActionClick'>>;
     createSSOConnection: Partial<CreateSSOConnectionProps>;
     editOIDCConnection: Partial<EditOIDCConnectionProps>;
     editSAMLConnection: Partial<EditSAMLConnectionProps>;
   };
   urls?: {
     spMetadata?: string;
+    get: string;
+    post: string;
+    patch: string;
+    delete: string;
   };
 }
