@@ -77,7 +77,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     saveSSOConnection(event: Event) {
       event.preventDefault();
 
-      const formObj: any = {};
+      const formObj: any = { connectionIsOIDC: true };
       Object.entries(state.oidcConnection).map(([key, val]) => {
         if (key.startsWith('oidcMetadata.')) {
           if (formObj.oidcMetadata === undefined) {
@@ -125,7 +125,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
 
           if (rawResponse.ok) {
             typeof props.successCallback === 'function' &&
-              props.successCallback({ operation: 'UPDATE', connection: response.data });
+              props.successCallback({ operation: 'DELETE', connectionIsOIDC: true });
           }
         },
       });

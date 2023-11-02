@@ -102,7 +102,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
 
           if (rawResponse.ok) {
             typeof props.successCallback === 'function' &&
-              props.successCallback({ operation: 'UPDATE', connection: payload });
+              props.successCallback({ operation: 'UPDATE', connection: payload, connectionIsSAML: true });
           }
         },
       });
@@ -123,7 +123,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            typeof props.successCallback === 'function' && props.successCallback({ operation: 'DELETE' });
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'DELETE', connectionIsSAML: true });
           }
         },
       });
