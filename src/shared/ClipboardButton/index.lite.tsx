@@ -3,7 +3,7 @@ import IconButton from '../IconButton/index.lite';
 
 interface PropsType {
   text: string;
-  successCallback?: (info: { operation: 'COPY' }) => void;
+  successCallback?: (info: any) => void;
 }
 
 export default function CopyToClipboardButton(props: PropsType) {
