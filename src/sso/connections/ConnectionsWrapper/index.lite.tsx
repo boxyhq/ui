@@ -41,75 +41,44 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     switchToListView() {
       state.view = 'LIST';
     },
-    createSuccessCallback(info: { operation: 'CREATE'; connection?: SAMLSSOConnection | OIDCSSOConnection }) {
-      const { operation, connection } = info;
-      const connectionIsSAML = !!(
-        connection &&
-        'idpMetadata' in connection &&
-        typeof connection.idpMetadata === 'object'
-      );
-      const connectionIsOIDC = !!(
-        connection &&
-        'oidcProvider' in connection &&
-        typeof connection.oidcProvider === 'object'
-      );
-      // TODO handle oidc creation
-      if (connectionIsSAML) {
-        if (
-          typeof props.componentProps.createSSOConnection.componentProps?.saml.successCallback === 'function'
-        ) {
-          props.componentProps.createSSOConnection.componentProps.saml.successCallback(info);
-        } else if (typeof props.successCallback === 'function') {
-          props.successCallback({
-            operation,
-            connection: { ...connection, connectionIsOIDC, connectionIsSAML },
-          });
-        }
+    createSuccessCallback(info: {
+      operation: 'CREATE';
+      connection?: SAMLSSOConnection | OIDCSSOConnection;
+      connectionIsSAML?: boolean;
+      connectionIsOIDC?: boolean;
+    }) {
+      const { operation, connection, connectionIsSAML, connectionIsOIDC } = info;
+
+      if (typeof props.successCallback === 'function') {
+        props.successCallback({
+          operation,
+          connection,
+          connectionIsSAML,
+          connectionIsOIDC,
+        });
       }
-      if (connectionIsOIDC) {
-        if (
-          typeof props.componentProps.createSSOConnection.componentProps?.saml.successCallback === 'function'
-        ) {
-          props.componentProps.createSSOConnection.componentProps.saml.successCallback(info);
-        } else if (typeof props.successCallback === 'function') {
-          props.successCallback({
-            operation,
-            connection: {
-              ...connection,
-              connectionIsOIDC,
-              connectionIsSAML,
-            },
-          });
-        }
-      }
+
       state.switchToListView();
     },
-    updateSuccessCallback(info: { connection: any; operation: any }) {
-      const { connection, operation } = info;
-      const connectionIsSAML = !!(connection && connection.connectionIsSAML);
-      const connectionIsOIDC = !!(connection && connection.connectionIsOIDC);
+    updateSuccessCallback(info: {
+      connection: any;
+      operation: 'UPDATE' | 'DELETE' | 'COPY';
+      connectionIsSAML?: boolean;
+      connectionIsOIDC?: boolean;
+    }) {
+      const { connection, operation, connectionIsSAML = false, connectionIsOIDC = false } = info;
 
-      if (connectionIsSAML) {
-        if (typeof props.componentProps.editSAMLConnection.successCallback === 'function') {
-          props.componentProps.editSAMLConnection.successCallback(info);
-        } else if (typeof props.successCallback === 'function') {
-          props.successCallback({
-            operation,
-            connection: { ...connection, connectionIsSAML },
-          });
-        }
+      if (typeof props.successCallback === 'function') {
+        props.successCallback({
+          operation,
+          connection,
+          connectionIsSAML,
+          connectionIsOIDC,
+        });
       }
-      if (connectionIsOIDC) {
-        if (typeof props.componentProps.editOIDCConnection.successCallback === 'function') {
-          props.componentProps.editOIDCConnection.successCallback(info);
-        } else if (typeof props.successCallback === 'function') {
-          props.successCallback({
-            operation,
-            connection: { ...connection, connectionIsOIDC },
-          });
-        }
+      if (operation !== 'COPY') {
+        state.switchToListView();
       }
-      state.switchToListView();
     },
   });
 
@@ -139,6 +108,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           </Show>
           <ConnectionList
             {...props.componentProps.connectionList}
+            urls={{ get: props.urls?.get || '' }}
             handleActionClick={state.switchToEditView}
             handleListFetchComplete={state.handleListFetchComplete}>
             <Card variant='info' title='SSO not enabled'>
@@ -170,9 +140,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             successCallback={state.updateSuccessCallback}
             // TODO: replace with SDK level toast
             urls={{
-              delete: props.componentProps.editOIDCConnection.urls?.delete || '',
-              patch: props.componentProps.editOIDCConnection.urls?.patch || '',
-              get: props.componentProps.editOIDCConnection.urls?.get || '',
+              delete: props.urls?.delete || '',
+              patch: props.urls?.patch || '',
+              get: props.urls?.get || '',
             }}
           />
         </Show>
@@ -185,9 +155,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             // @ts-ignore
             successCallback={state.updateSuccessCallback}
             urls={{
-              delete: props.componentProps.editSAMLConnection.urls?.delete || '',
-              patch: props.componentProps.editSAMLConnection.urls?.patch || '',
-              get: props.componentProps.editSAMLConnection.urls?.get || '',
+              delete: props.urls?.delete || '',
+              patch: props.urls?.patch || '',
+              get: props.urls?.get || '',
             }}
           />
         </Show>
@@ -200,7 +170,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           variant='basic'
           successCallback={state.createSuccessCallback}
           errorCallback={props.errorCallback}
-          urls={{ post: props.componentProps.createSSOConnection.componentProps?.saml.urls?.post || '' }}
+          urls={{
+            post: props.urls?.post || '',
+          }}
         />
       </Show>
     </div>
