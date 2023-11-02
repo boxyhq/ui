@@ -64,6 +64,7 @@ export interface CreateConnectionProps {
 export interface CreateSSOConnectionProps {
   setupLinkToken?: string;
   idpEntityID?: string;
+  successCallback?: (info: { operation: 'COPY' }) => void;
   /**
    * Classnames for each inner components that make up the component.
    */
@@ -302,7 +303,6 @@ export interface EditSAMLConnectionProps {
 
 export interface ConnectionsWrapperProp {
   classNames?: { button?: { ctoa?: string } };
-  copyDoneCallback?: () => void;
   successCallback?: (info: {
     operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY';
     connection?: Partial<
