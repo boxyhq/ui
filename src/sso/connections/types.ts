@@ -304,7 +304,7 @@ export interface ConnectionsWrapperProp {
   classNames?: { button?: { ctoa?: string } };
   copyDoneCallback?: () => void;
   successCallback?: (info: {
-    operation: 'CREATE' | 'UPDATE' | 'DELETE';
+    operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY';
     connection?: Partial<
       (SAMLSSOConnection | OIDCSSOConnection | SAMLFormState | OIDCFormState) & {
         connectionIsSAML: boolean;

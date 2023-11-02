@@ -89,8 +89,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       const connectionIsSAML = !!(connection && connection.connectionIsSAML);
       const connectionIsOIDC = !!(connection && connection.connectionIsOIDC);
 
-      console.log(connection, operation);
-
       if (connectionIsSAML) {
         if (typeof props.componentProps.editSAMLConnection.successCallback === 'function') {
           props.componentProps.editSAMLConnection.successCallback(info);
@@ -171,7 +169,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             // @ts-ignore
             successCallback={state.updateSuccessCallback}
             // TODO: replace with SDK level toast
-            copyDoneCallback={props.copyDoneCallback}
             urls={{
               delete: props.componentProps.editOIDCConnection.urls?.delete || '',
               patch: props.componentProps.editOIDCConnection.urls?.patch || '',
@@ -187,8 +184,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             errorCallback={props.errorCallback}
             // @ts-ignore
             successCallback={state.updateSuccessCallback}
-            // TODO: replace with SDK level toast
-            copyDoneCallback={props.copyDoneCallback}
             urls={{
               delete: props.componentProps.editSAMLConnection.urls?.delete || '',
               patch: props.componentProps.editSAMLConnection.urls?.patch || '',
