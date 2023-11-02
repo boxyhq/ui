@@ -42,7 +42,7 @@ export interface CreateConnectionProps {
   variant?: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   urls: {
-    save: string;
+    post: string;
   };
   /**
    * Classnames for each inner components that make up the component.

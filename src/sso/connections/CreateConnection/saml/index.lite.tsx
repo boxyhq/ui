@@ -50,7 +50,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       state.loading = true;
 
       saveConnection({
-        url: props.urls.save,
+        url: props.urls.post,
         formObj:
           props.variant === 'advanced'
             ? { ...state.samlConnection }

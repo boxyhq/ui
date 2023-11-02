@@ -65,7 +65,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       });
 
       saveConnection({
-        url: props.urls.save,
+        url: props.urls.post,
         formObj: formObj as FormObj,
         connectionIsOIDC: true,
         callback: async (rawResponse: any) => {

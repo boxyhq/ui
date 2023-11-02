@@ -199,9 +199,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           cancelCallback={state.switchToListView}
           variant='basic'
           successCallback={state.createSuccessCallback}
-          //TODO: Bring inline error message display for SAML/OIDC forms */
           errorCallback={props.errorCallback}
-          urls={{ save: props.componentProps.createSSOConnection.componentProps?.saml.urls?.save || '' }}
+          urls={{ post: props.componentProps.createSSOConnection.componentProps?.saml.urls?.post || '' }}
         />
       </Show>
     </div>
