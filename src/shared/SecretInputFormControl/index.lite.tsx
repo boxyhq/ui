@@ -34,7 +34,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
             label={state.isSecretShown ? 'Hide secret' : 'Show secret'}
             icon={state.isSecretShown ? 'EyeSlashIcon' : 'EyeIcon'}></IconButton>
           <Spacer x={0.5} />
-          <CopyToClipboardButton text={props.value || ''} copyDoneCallback={props.copyDoneCallback} />
+          <CopyToClipboardButton text={props.value || ''} successCallback={props.copyDoneCallback} />
         </div>
       </div>
       <input

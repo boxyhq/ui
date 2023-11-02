@@ -245,9 +245,11 @@ export interface EditOIDCConnectionProps {
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof OIDCSSOConnection>;
   errorCallback?: (errMessage: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Partial<OIDCFormState> }) => void;
+  successCallback?: (info: {
+    operation: 'UPDATE' | 'DELETE' | 'COPY';
+    connection?: Partial<OIDCFormState>;
+  }) => void;
   cancelCallback?: () => void;
-  copyDoneCallback?: () => void;
   urls: {
     delete: string;
     patch: string;
@@ -274,9 +276,11 @@ export interface EditSAMLConnectionProps {
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection>;
   errorCallback?: (errMessage: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Partial<SAMLFormState> }) => void;
+  successCallback?: (info: {
+    operation: 'UPDATE' | 'DELETE' | 'COPY';
+    connection?: Partial<SAMLFormState>;
+  }) => void;
   cancelCallback?: () => void;
-  copyDoneCallback?: () => void;
   urls: {
     delete: string;
     patch: string;

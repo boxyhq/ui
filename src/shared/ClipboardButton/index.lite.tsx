@@ -3,7 +3,7 @@ import IconButton from '../IconButton/index.lite';
 
 interface PropsType {
   text: string;
-  copyDoneCallback?: () => void;
+  successCallback?: (info: { operation: 'COPY' }) => void;
 }
 
 export default function CopyToClipboardButton(props: PropsType) {
@@ -13,7 +13,7 @@ export default function CopyToClipboardButton(props: PropsType) {
     },
     handleClick: () => {
       state.copyToClipboard(props.text);
-      typeof props.copyDoneCallback === 'function' && props.copyDoneCallback();
+      typeof props.successCallback === 'function' && props.successCallback({ operation: 'COPY' });
     },
   });
   return <IconButton label='Copy' handleClick={state.handleClick} icon='CopytoClipboardIcon'></IconButton>;

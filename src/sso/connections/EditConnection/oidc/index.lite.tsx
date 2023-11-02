@@ -311,7 +311,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   placeholder=''
                   required={true}
                   readOnly={false}
-                  copyDoneCallback={props.copyDoneCallback}
+                  copyDoneCallback={props.successCallback}
                   handleChange={state.handleChange}
                 />
                 <Show when={state.hasDiscoveryUrl}>
@@ -487,7 +487,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   id='clientSecret'
                   required={true}
                   readOnly={true}
-                  copyDoneCallback={props.copyDoneCallback}
+                  copyDoneCallback={props.successCallback}
                   handleChange={state.handleChange}
                 />
               </div>
