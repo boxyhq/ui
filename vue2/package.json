@@ -18,6 +18,7 @@
     "dist",
     "index.d.ts",
     "sso.d.ts",
+    "dsync.d.ts",
     "shared.d.ts"
   ],
   "types": "./index.d.ts",
@@ -29,6 +30,10 @@
     "./sso": {
       "import": "./dist/sso.js",
       "require": "./dist/sso.cjs"
+    },
+    "./dsync": {
+      "import": "./dist/dsync.js",
+      "require": "./dist/dsync.cjs"
     }
   },
   "devDependencies": {
