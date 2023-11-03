@@ -1,4 +1,4 @@
-@import url('../../../shared/common.module.css');
+@import url('../../shared/common.module.css');
 .headingContainer {
   margin: 20px 0px;
   display: flex;
