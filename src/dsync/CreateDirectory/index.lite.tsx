@@ -7,10 +7,10 @@ import {
   DirectorySyncProviders,
 } from '../types';
 import defaultClasses from './index.module.css';
-import cssClassAssembler from '../../utils/cssClassAssembler';
-import Button from '../../../shared/Button/index.lite';
-import Spacer from '../../../shared/Spacer/index.lite';
-import Select from '../../../shared/Select/index.lite';
+import cssClassAssembler from '../../sso/utils/cssClassAssembler';
+import Button from '../../shared/Button/index.lite';
+import Spacer from '../../shared/Spacer/index.lite';
+import Select from '../../shared/Select/index.lite';
 // import Checkbox from '../../../shared/Checkbox/index.lite';
 
 const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
