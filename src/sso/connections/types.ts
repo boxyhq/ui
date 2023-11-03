@@ -1,4 +1,4 @@
-import { ConfirmationPromptProps, TableCol } from '../../shared/types';
+import { ConfirmationPromptProps, TableCol, TableProps } from '../../shared/types';
 
 export interface ConnectionListProps {
   children?: any;
@@ -16,20 +16,9 @@ export interface ConnectionListProps {
    * Classnames for each inner components that make up the component.
    */
   classNames?: {
-    container?: string;
-    formControl?: string;
     tableContainer?: string;
-    table?: string;
-    tableCaption?: string;
-    thead?: string;
-    tr?: string;
-    th?: string;
-    connectionListContainer?: string;
-    td?: string;
-    tableData?: string;
-    spanIcon?: string;
-    icon?: string;
   };
+  tableProps?: TableProps;
 }
 
 export interface CreateConnectionProps {
