@@ -295,7 +295,14 @@ export interface EditSAMLConnectionProps {
 }
 
 export interface ConnectionsWrapperProp {
-  classNames?: { button?: { ctoa?: string } };
+  classNames?: {
+    button?: { ctoa?: string; destructive?: string };
+    input?: string;
+    textarea?: string;
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    secretInput?: string;
+    section?: string;
+  };
   successCallback?: (info: {
     operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY';
     connection?: Partial<SAMLSSOConnection | OIDCSSOConnection | SAMLFormState | OIDCFormState>;
@@ -305,9 +312,9 @@ export interface ConnectionsWrapperProp {
   errorCallback?: (errMessage: string) => void;
   componentProps: {
     connectionList: Partial<Omit<ConnectionListProps, 'handleActionClick'>>;
-    createSSOConnection: Partial<CreateSSOConnectionProps>;
-    editOIDCConnection: Partial<EditOIDCConnectionProps>;
-    editSAMLConnection: Partial<EditSAMLConnectionProps>;
+    createSSOConnection?: Partial<CreateSSOConnectionProps>;
+    editOIDCConnection?: Partial<EditOIDCConnectionProps>;
+    editSAMLConnection?: Partial<EditSAMLConnectionProps>;
   };
   urls?: {
     spMetadata?: string;

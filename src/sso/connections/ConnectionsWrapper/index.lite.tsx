@@ -133,12 +133,12 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         <Show when={state.connectionToEdit && 'oidcProvider' in state.connectionToEdit}>
           <EditOIDCConnection
             {...props.componentProps.editOIDCConnection}
+            classNames={props.classNames}
             cancelCallback={state.switchToListView}
             variant='basic'
             errorCallback={props.errorCallback}
             // @ts-ignore
             successCallback={state.updateSuccessCallback}
-            // TODO: replace with SDK level toast
             urls={{
               delete: props.urls?.delete || '',
               patch: props.urls?.patch || '',
@@ -149,6 +149,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
           <EditSAMLConnection
             {...props.componentProps.editSAMLConnection}
+            classNames={props.classNames}
             cancelCallback={state.switchToListView}
             variant='basic'
             errorCallback={props.errorCallback}
@@ -165,7 +166,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <Show when={state.view === 'CREATE'}>
         <Spacer y={5} />
         <CreateSAMLConnection
-          {...props.componentProps.createSSOConnection.componentProps?.saml}
+          {...props.componentProps.createSSOConnection?.componentProps?.saml}
+          classNames={props.classNames}
           cancelCallback={state.switchToListView}
           variant='basic'
           successCallback={state.createSuccessCallback}
