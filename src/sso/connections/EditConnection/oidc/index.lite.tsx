@@ -180,7 +180,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
 
   return (
     <div>
-      <div class={defaultClasses.formDiv}>
+      <div class={state.classes.formDiv}>
         <div class={defaultClasses.headingContainer}>
           <Show when={state.shouldDisplayHeader}>
             <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
