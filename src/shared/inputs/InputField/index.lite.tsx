@@ -12,7 +12,7 @@ type InputProps = {
   label: string;
   value: string;
   classNames?: { input?: string; label?: string; container?: string };
-  handleInputChange: (e: any) => void;
+  handleInputChange?: (e: any) => void;
 } & JSX.InputHTMLAttributes<HTMLInputElement>;
 
 export default function InputField(props: InputProps) {
@@ -42,7 +42,7 @@ export default function InputField(props: InputProps) {
         id={props.id}
         value={props.value}
         class={state.cssClass.input}
-        onChange={(event) => props.handleInputChange(event)}
+        onChange={(event) => typeof props.handleInputChange === 'function' && props.handleInputChange(event)}
         {...state.inputHTMLAttributes}></input>
     </div>
   );

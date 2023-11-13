@@ -272,7 +272,7 @@ export interface EditSAMLConnectionProps {
   successCallback?: (info: {
     operation: 'UPDATE' | 'DELETE' | 'COPY';
     connection?: Partial<SAMLFormState>;
-    connectionIsSAML: true;
+    connectionIsSAML?: true;
   }) => void;
   cancelCallback?: () => void;
   urls: {
@@ -283,6 +283,7 @@ export interface EditSAMLConnectionProps {
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    fieldContainer?: string;
     secretInput?: string;
     formDiv?: string;
     label?: string;

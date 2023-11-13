@@ -231,6 +231,9 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           value={state.samlConnection.rawMetadata}
           handleInputChange={state.handleChange}
         />
+        <div id='xml-metadata-hint' class={defaultClasses.hint}>
+          Paste the raw XML metadata obtained from SAML provider or enter the metadata URL below.
+        </div>
         <Spacer y={6} />
         <Separator text='OR' />
         <Spacer y={6} />
