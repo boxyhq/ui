@@ -1,10 +1,23 @@
+import type { JSX } from '@builder.io/mitosis/jsx-runtime';
 import { useStore } from '@builder.io/mitosis';
-import { SecretInputFormControlProps } from '../../types';
 import CopyToClipboardButton from '../../ClipboardButton/index.lite';
 import IconButton from '../../IconButton/index.lite';
 import defaultStyles from './index.module.css';
 import Spacer from '../../Spacer/index.lite';
 import cssClassAssembler from '../../../sso/utils/cssClassAssembler';
+
+type SecretInputFormControlProps = {
+  label: string;
+  value?: string;
+  id: string;
+  placeholder?: string;
+  required: boolean;
+  maxLength?: string;
+  readOnly: boolean;
+  copyDoneCallback?: (info: any) => void;
+  handleChange: (event: Event) => void;
+  classNames?: { input?: string };
+} & JSX.InputHTMLAttributes<HTMLInputElement>;
 
 export default function SecretInputFormControl(props: SecretInputFormControlProps) {
   const state = useStore({

@@ -49,19 +49,6 @@ export interface ButtonProps {
   isLoading?: boolean;
 }
 
-export interface SecretInputFormControlProps {
-  label: string;
-  value?: string;
-  id: string;
-  placeholder?: string;
-  required: boolean;
-  maxLength?: string;
-  readOnly: boolean;
-  copyDoneCallback?: (info: any) => void;
-  handleChange: (event: Event) => void;
-  classNames?: { input?: string };
-}
-
 export interface ToggleSwitchProps {
   label: string;
   checked: boolean;
