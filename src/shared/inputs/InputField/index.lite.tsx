@@ -1,7 +1,7 @@
 import type { JSX } from '@builder.io/mitosis/jsx-runtime';
 
 import { useStore } from '@builder.io/mitosis';
-import styles from './index.module.css';
+import styles from '../index.module.css';
 import Spacer from '../../Spacer/index.lite';
 import cssClassAssembler from '../../../sso/utils/cssClassAssembler';
 

@@ -33,33 +33,6 @@
   --alert-color-warning: #fbbd23;
 }
 
-.flex {
-  display: flex;
-}
-
-.justify-between {
-  justify-content: space-between;
-}
-
-.input {
-  font-family: inherit;
-  appearance: none;
-  background-color: #fff;
-  border-radius: var(--border-radius);
-  border-width: 1px;
-  border-color: #ebedf0;
-  border-style: solid;
-  padding: 0.5rem 0.75rem;
-  font-size: 1rem;
-  margin-top: 1px;
-  outline: none;
-}
-
-.input:focus {
-  outline: 2px solid hsl(0 0% 20%/ 0.2);
-  outline-offset: 2px;
-}
-
 .sr-only {
   position: absolute;
   width: 1px;

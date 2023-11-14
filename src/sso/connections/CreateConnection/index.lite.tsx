@@ -4,7 +4,7 @@ import CreateSAMLConnection from './saml/index.lite';
 import type { CreateSSOConnectionProps } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
-import InputWithCopyButton from '../../../shared/InputWithCopyButton/index.lite';
+import InputWithCopyButton from '../../../shared/inputs/InputWithCopyButton/index.lite';
 
 export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
   const state = useStore({

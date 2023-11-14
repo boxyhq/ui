@@ -1,4 +1,4 @@
-import SecretInputFormControl from '../../../../shared/SecretInputFormControl/index.lite';
+import SecretInputFormControl from '../../../../shared/inputs/SecretInputFormControl/index.lite';
 import ToggleConnectionStatus from '../../ToggleConnectionStatus/index.lite';
 import { Show, useStore, onUpdate } from '@builder.io/mitosis';
 import type {

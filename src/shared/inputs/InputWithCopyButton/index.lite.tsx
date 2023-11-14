@@ -1,12 +1,15 @@
 import { useStore } from '@builder.io/mitosis';
-import styles from './index.module.css';
-import CopyToClipboardButton from '../ClipboardButton/index.lite';
+import styles from '../index.module.css';
+import CopyToClipboardButton from '../../ClipboardButton/index.lite';
+import cssClassAssembler from '../../../sso/utils/cssClassAssembler';
+import Spacer from '../../Spacer/index.lite';
 
 interface PropsType {
   text: string;
   label: string;
   copyDoneCallback?: (info: { operation: 'COPY' }) => void;
   classNames?: {
+    container?: string;
     label?: string;
     input?: string;
   };
@@ -17,19 +20,21 @@ export default function InputWithCopyButton(props: PropsType) {
     id: props.label.replace(/ /g, ''),
     get classes() {
       return {
-        label: styles.label + (props.classNames?.label ? ` ${props.classNames.label}` : ''),
-        input: styles.input + (props.classNames?.input ? ` ${props.classNames.input}` : ''),
+        container: cssClassAssembler(props.classNames?.container, styles.container),
+        input: cssClassAssembler(props.classNames?.input, styles.input),
+        label: cssClassAssembler(props.classNames?.label, styles.label),
       };
     },
   });
   return (
-    <div>
-      <div class={`${styles.flex} ${styles['justify-between']}`}>
+    <div class={state.classes.container}>
+      <div class={styles.labelWithCopy}>
         <label class={state.classes.label} for={state.id}>
           {props.label}
         </label>
         <CopyToClipboardButton successCallback={props.copyDoneCallback} text={props.text} />
       </div>
+      <Spacer y={2} />
       <input id={state.id} type='text' value={props.text} readOnly class={state.classes.input} />
     </div>
   );

@@ -1,10 +1,10 @@
 import { useStore } from '@builder.io/mitosis';
-import { SecretInputFormControlProps } from '../types';
-import CopyToClipboardButton from '../ClipboardButton/index.lite';
-import IconButton from '../IconButton/index.lite';
+import { SecretInputFormControlProps } from '../../types';
+import CopyToClipboardButton from '../../ClipboardButton/index.lite';
+import IconButton from '../../IconButton/index.lite';
 import defaultStyles from './index.module.css';
-import Spacer from '../Spacer/index.lite';
-import cssClassAssembler from '../../sso/utils/cssClassAssembler';
+import Spacer from '../../Spacer/index.lite';
+import cssClassAssembler from '../../../sso/utils/cssClassAssembler';
 
 export default function SecretInputFormControl(props: SecretInputFormControlProps) {
   const state = useStore({
@@ -23,7 +23,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
   });
 
   return (
-    <div>
+    <div class={defaultStyles.container}>
       <div class={defaultStyles.toolbar}>
         <label htmlFor={props.id} class={defaultStyles.label}>
           {props.label}
@@ -37,6 +37,7 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
           <CopyToClipboardButton text={props.value || ''} successCallback={props.copyDoneCallback} />
         </div>
       </div>
+      <Spacer y={2} />
       <input
         type={state.isSecretShown ? 'text' : 'password'}
         placeholder={props.placeholder}
