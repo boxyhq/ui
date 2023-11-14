@@ -240,7 +240,7 @@ export interface EditOIDCConnectionProps {
   successCallback?: (info: {
     operation: 'UPDATE' | 'DELETE' | 'COPY';
     connection?: Partial<OIDCFormState>;
-    connectionIsOIDC: true;
+    connectionIsOIDC?: true;
   }) => void;
   cancelCallback?: () => void;
   urls: {
@@ -251,6 +251,7 @@ export interface EditOIDCConnectionProps {
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    fieldContainer?: string;
     secretInput?: string;
     container?: string;
     formDiv?: string;

@@ -29,40 +29,6 @@
   color: rgb(55 65 81);
 }
 
-.fieldsContainer {
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  width: 100%;
-}
-
-.fieldsDiv {
-  width: 100%;
-  border: 1.5px solid rgb(229 231 235);
-  border-radius: 4px;
-  padding: 24px 16px;
-}
-
-.field {
-  margin-bottom: 24px;
-}
-
-.label {
-  display: block;
-  font-weight: 500;
-  color: var(--primary-text-color);
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  margin-bottom: 0.5rem;
-}
-
-.labelDiv {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .section {
   display: flex;
   align-items: flex-start;
@@ -75,8 +41,10 @@
   margin-top: 40px;
 }
 
-.info {
-  width: 100%;
+.info input,
+.info pre {
+  background: var(--primary-color-50);
+  color: var(--primary-color-800);
 }
 
 .sectionHeading {
