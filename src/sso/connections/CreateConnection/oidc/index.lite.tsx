@@ -143,7 +143,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             />
             <Spacer y={6} />
           </Show>
-          <Spacer y={6} />
           <Show when={!state.isExcluded('description')}>
             <InputField
               label='Description (Optional)'
@@ -158,7 +157,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             />
             <Spacer y={6} />
           </Show>
-          <Spacer y={6} />
           <Show when={!state.isExcluded('tenant')}>
             <InputField
               label='Tenant'
@@ -221,6 +219,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               label='Default redirect URL'
               id='defaultRedirectUrl'
               name='defaultRedirectUrl'
+              required
               placeholder='http://localhost:3366/login/saml'
               type='url'
               value={state.oidcConnection.defaultRedirectUrl}

@@ -210,6 +210,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               id='defaultRedirectUrl'
               name='defaultRedirectUrl'
               classNames={state.classes.inputField}
+              required
               placeholder='http://localhost:3366/login/saml'
               type='url'
               value={state.samlConnection.defaultRedirectUrl}
