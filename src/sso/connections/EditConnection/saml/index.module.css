@@ -44,13 +44,6 @@
   margin-bottom: 24px;
 }
 
-.labelDiv {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .info input,
 .info pre {
   background: var(--primary-color-50);
