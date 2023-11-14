@@ -10,11 +10,10 @@ import type {
 import { saveConnection, deleteConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
-import SecretInputFormControl from '../../../../shared/SecretInputFormControl/index.lite';
+import SecretInputFormControl from '../../../../shared/inputs/SecretInputFormControl/index.lite';
 import Card from '../../../../shared/Card/index.lite';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
-import CopyToClipboardButton from '../../../../shared/ClipboardButton/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
 import ConfirmationPrompt from '../../../../shared/ConfirmationPrompt/index.lite';
 import Checkbox from '../../../../shared/Checkbox/index.lite';
@@ -214,7 +213,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             <Show when={state.formVariant === 'advanced'}>
               <Show when={!state.isExcluded('name')}>
                 <InputField
-                  label='Name'
+                  label='Connection name (Optional)'
                   name='name'
                   id='name'
                   classNames={state.classes.inputField}
@@ -299,21 +298,21 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               value={state.samlConnection.metadataUrl!}
               handleInputChange={state.handleChange}
             />
+            <Spacer y={6} />
             <Show when={state.formVariant === 'advanced'}>
               <Show when={!state.isExcluded('forceAuthn')}>
-                <div class={defaultClasses.field}>
-                  <Checkbox
-                    checked={
-                      state.samlConnection.forceAuthn === 'true' || state.samlConnection.forceAuthn === true
-                    }
-                    handleChange={state.handleChange}
-                    label='Force Authentication'
-                    name='forceAuthn'
-                    id='forceAuthn'
-                  />
-                </div>
+                <Checkbox
+                  checked={
+                    state.samlConnection.forceAuthn === 'true' || state.samlConnection.forceAuthn === true
+                  }
+                  handleChange={state.handleChange}
+                  label='Force Authentication'
+                  name='forceAuthn'
+                  id='forceAuthn'
+                />
               </Show>
             </Show>
+            <Spacer y={6} />
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
@@ -329,10 +328,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                       id='tenant'
                       name='tenant'
                       placeholder='acme.com'
+                      classNames={state.classes.inputField}
                       required={true}
                       readOnly={true}
                       value={state.samlConnection.tenant!}
                     />
+                    <Spacer y={6} />
                   </Show>
                   <Show when={!state.isExcluded('product')}>
                     <InputField
@@ -340,37 +341,37 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                       id='product'
                       name='product'
                       placeholder='demo'
+                      classNames={state.classes.inputField}
                       required={true}
                       readOnly={true}
                       value={state.samlConnection.product!}
                     />
+                    <Spacer y={6} />
                   </Show>
                 </Show>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='idpMetadata' class={state.classes.label}>
-                      IdP Metadata
-                    </label>
-                  </div>
+                <div class={defaultClasses.container}>
+                  <span class={state.classes.label}>IdP Metadata</span>
+                  <Spacer y={2} />
                   <pre aria-readonly={true} class={defaultClasses.pre}>
                     {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
                   </pre>
                 </div>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='idpCertExpiry' class={state.classes.label}>
-                      IdP Certificate Validity
-                    </label>
-                  </div>
+                <Spacer y={6} />
+                <div class={defaultClasses.container}>
+                  <span class={state.classes.label}>IdP Certificate Validity</span>
+                  <Spacer y={2} />
                   <pre aria-readonly={true} class={defaultClasses.pre}>
                     {state.samlConnection.idpMetadata?.validTo}
                   </pre>
                 </div>
+                <Spacer y={6} />
                 <InputWithCopyButton
                   text={state.samlConnection.clientID || ''}
+                  classNames={state.classes.inputField}
                   label='Client ID'
                   copyDoneCallback={props.successCallback}
                 />
+                <Spacer y={6} />
                 <SecretInputFormControl
                   classNames={{ input: props.classNames?.secretInput }}
                   label='Client Secret'
@@ -381,6 +382,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   copyDoneCallback={props.successCallback}
                   handleChange={state.handleChange}
                 />
+                <Spacer y={6} />
               </div>
             </Card>
             <Spacer y={4} />

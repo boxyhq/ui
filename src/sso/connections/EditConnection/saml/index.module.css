@@ -1,4 +1,5 @@
 @import url('../../../../shared/common.module.css');
+@import url('../../../../shared/inputs/index.module.css');
 
 .formDiv {
   display: flex;
@@ -50,52 +51,6 @@
   justify-content: space-between;
 }
 
-.label {
-  display: block;
-  font-weight: 500;
-  color: var(--primary-text-color);
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  margin-bottom: 0.5rem;
-}
-
-.labelWithAction {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.input,
-.textarea {
-  width: 100%;
-  height: 3rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  border: var(--border-width) solid var(--border-color);
-  background-color: #fff;
-  border-radius: var(--border-radius);
-}
-
-.textarea {
-  width: 100%;
-  height: 6rem;
-}
-
-.input:focus,
-.textarea:focus {
-  outline: var(--ring-offset-width) solid var(--ring-offset-color);
-  outline-offset: var(--ring-offset);
-}
-
-.input:disabled,
-.textarea:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-  background-color: var(--secondary-color);
-  border: 1px solid transparent;
-}
-
 .info input,
 .info pre {
   background: var(--primary-color-50);
@@ -134,15 +89,6 @@
 .formAction {
   display: flex;
   gap: 0.5rem;
-}
-
-.checkbox {
-  flex-direction: row;
-  align-items: center;
-}
-
-.checkbox > input {
-  margin-left: 1rem;
 }
 
 .hint {
