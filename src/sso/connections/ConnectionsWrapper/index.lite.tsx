@@ -142,7 +142,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{
               delete: props.urls?.delete || '',
               patch: props.urls?.patch || '',
-              get: props.urls?.get || '',
+              get: `${props.urls?.get}?clientID=${state.connectionToEdit.clientID}` || '',
             }}
           />
         </Show>
@@ -158,7 +158,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{
               delete: props.urls?.delete || '',
               patch: props.urls?.patch || '',
-              get: props.urls?.get || '',
+              get: `${props.urls?.get}?clientID=${state.connectionToEdit.clientID}` || '',
             }}
           />
         </Show>
