@@ -1,11 +1,11 @@
 import { useStore, Show } from '@builder.io/mitosis';
 import type { Directory, DirectoriesWrapperProps } from '../types';
 import CreateDirectory from '../CreateDirectory/index.lite';
-import Spacer from '../../../shared/Spacer/index.lite';
+import Spacer from '../../shared/Spacer/index.lite';
 import EditDirectory from '../EditDirectory/index.lite';
 import DirectoryList from '../DirectoryList/index.lite';
-import Card from '../../../shared/Card/index.lite';
-import Button from '../../../shared/Button/index.lite';
+import Card from '../../shared/Card/index.lite';
+import Button from '../../shared/Button/index.lite';
 import styles from './index.module.css';
 
 const DEFAULT_VALUES = {

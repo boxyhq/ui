@@ -18,21 +18,7 @@ export default function ConnectionList(props: ConnectionListProps) {
     isConnectionListLoading: true,
     get classes() {
       return {
-        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
-        formControl: cssClassAssembler(props.classNames?.formControl, defaultClasses.formControl),
         tableContainer: cssClassAssembler(props.classNames?.tableContainer, defaultClasses.tableContainer),
-        table: cssClassAssembler(props.classNames?.table, defaultClasses.table),
-        tableCaption: cssClassAssembler(props.classNames?.tableCaption, defaultClasses.tableCaption),
-        thead: cssClassAssembler(props.classNames?.thead, defaultClasses.thead),
-        tr: cssClassAssembler(props.classNames?.tr, defaultClasses.tr),
-        th: cssClassAssembler(props.classNames?.th, defaultClasses.th),
-        connectionListContainer: cssClassAssembler(
-          props.classNames?.connectionListContainer,
-          defaultClasses.connectionListContainer
-        ),
-        td: cssClassAssembler(props.classNames?.td, defaultClasses.td),
-        spanIcon: cssClassAssembler(props.classNames?.spanIcon, defaultClasses.spanIcon),
-        icon: cssClassAssembler(props.classNames?.icon, defaultClasses.icon),
       };
     },
     get colsToDisplay() {
@@ -94,6 +80,9 @@ export default function ConnectionList(props: ConnectionListProps) {
         },
       ];
     },
+    get listFetchUrl() {
+      return props.urls.get;
+    },
   });
 
   async function getFieldsData(url: string) {
@@ -120,8 +109,8 @@ export default function ConnectionList(props: ConnectionListProps) {
   }
 
   onUpdate(() => {
-    getFieldsData(props.urls.get);
-  }, [props.urls.get]);
+    getFieldsData(state.listFetchUrl);
+  }, [state.listFetchUrl]);
 
   return (
     <LoadingContainer isBusy={state.isConnectionListLoading}>
@@ -134,7 +123,12 @@ export default function ConnectionList(props: ConnectionListProps) {
             </Show>
           }>
           <div class={state.classes.tableContainer}>
-            <Table cols={state.colsToDisplay} data={state.connectionListData} actions={state.actions} />
+            <Table
+              cols={state.colsToDisplay}
+              data={state.connectionListData}
+              actions={state.actions}
+              {...props.tableProps}
+            />
           </div>
         </Show>
       </div>

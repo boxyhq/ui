@@ -7,11 +7,11 @@ import {
   DirectorySyncProviders,
 } from '../types';
 import defaultClasses from './index.module.css';
-import cssClassAssembler from '../../utils/cssClassAssembler';
-import Button from '../../../shared/Button/index.lite';
-import Spacer from '../../../shared/Spacer/index.lite';
-import Select from '../../../shared/Select/index.lite';
-import Checkbox from '../../../shared/Checkbox/index.lite';
+import cssClassAssembler from '../../sso/utils/cssClassAssembler';
+import Button from '../../shared/Button/index.lite';
+import Spacer from '../../shared/Spacer/index.lite';
+import Select from '../../shared/Select/index.lite';
+// import Checkbox from '../../../shared/Checkbox/index.lite';
 
 const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
   name: '',
@@ -227,18 +227,18 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
             <Spacer y={6} />
           </div>
         </Show>
-        <Show when={!state.isExcluded('log_webhook_events')}>
+        {/* <Show when={!state.isExcluded('log_webhook_events')}>
           <div class={defaultClasses.checkboxFieldsDiv}>
             <Checkbox
               label='Enable Webhook events logging'
               id='log_webhook_events'
               name='log_webhook_events'
-              checked={state.directory?.log_webhook_events}
+              checked={state.directory.log_webhook_events}
               handleChange={state.handleChange}
             />
             <Spacer y={6} />
           </div>
-        </Show>
+        </Show> */}
         <div class={defaultClasses.formAction}>
           <Show when={typeof props.cancelCallback === 'function'}>
             <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />

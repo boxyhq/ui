@@ -1,12 +1,12 @@
 import { useStore, Show, onUpdate } from '@builder.io/mitosis';
 import { DirectorySyncProviders, type Directory } from '../types';
-import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
+import LoadingContainer from '../../shared/LoadingContainer/index.lite';
 import type { DirectoryListProps } from '../types';
 import defaultClasses from './index.module.css';
-import cssClassAssembler from '../../utils/cssClassAssembler';
-import Table from '../../../shared/Table/index.lite';
-import { BadgeProps, TableProps } from '../../../shared/types';
-import EmptyState from '../../../shared/EmptyState/index.lite';
+import cssClassAssembler from '../../sso/utils/cssClassAssembler';
+import Table from '../../shared/Table/index.lite';
+import { BadgeProps, TableProps } from '../../shared/types';
+import EmptyState from '../../shared/EmptyState/index.lite';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
@@ -72,6 +72,9 @@ export default function DirectoryList(props: DirectoryListProps) {
         }
       }) as TableProps['cols'];
     },
+    get listFetchUrl() {
+      return props.urls.get;
+    },
   });
 
   onUpdate(() => {
@@ -101,8 +104,8 @@ export default function DirectoryList(props: DirectoryListProps) {
         typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(listData);
       }
     }
-    getFieldsData(props.urls.get);
-  }, [props.urls.get]);
+    getFieldsData(state.listFetchUrl);
+  }, [state.listFetchUrl]);
 
   return (
     <Show

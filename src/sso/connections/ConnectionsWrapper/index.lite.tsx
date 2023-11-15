@@ -43,19 +43,42 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     },
     createSuccessCallback(info: {
       operation: 'CREATE';
-      connection?: SAMLSSOConnection | OIDCSSOConnection | undefined;
+      connection?: SAMLSSOConnection | OIDCSSOConnection;
+      connectionIsSAML?: boolean;
+      connectionIsOIDC?: boolean;
     }) {
-      // TODO handle oidc creation
-      props.componentProps.createSSOConnection.componentProps?.saml.successCallback?.(info);
+      const { operation, connection, connectionIsSAML, connectionIsOIDC } = info;
+
+      if (typeof props.successCallback === 'function') {
+        props.successCallback({
+          operation,
+          connection,
+          connectionIsSAML,
+          connectionIsOIDC,
+        });
+      }
+
       state.switchToListView();
     },
     updateSuccessCallback(info: {
-      operation: 'UPDATE' | 'DELETE';
-      connection?: SAMLSSOConnection | undefined;
+      connection: any;
+      operation: 'UPDATE' | 'DELETE' | 'COPY';
+      connectionIsSAML?: boolean;
+      connectionIsOIDC?: boolean;
     }) {
-      // TODO handle oidc updation
-      props.componentProps.editSAMLConnection.successCallback?.(info);
-      state.switchToListView();
+      const { connection, operation, connectionIsSAML = false, connectionIsOIDC = false } = info;
+
+      if (typeof props.successCallback === 'function') {
+        props.successCallback({
+          operation,
+          connection,
+          connectionIsSAML,
+          connectionIsOIDC,
+        });
+      }
+      if (operation !== 'COPY') {
+        state.switchToListView();
+      }
     },
   });
 
@@ -85,6 +108,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           </Show>
           <ConnectionList
             {...props.componentProps.connectionList}
+            urls={{ get: props.urls?.get || '' }}
             handleActionClick={state.switchToEditView}
             handleListFetchComplete={state.handleListFetchComplete}>
             <Card variant='info' title='SSO not enabled'>
@@ -109,32 +133,32 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         <Show when={state.connectionToEdit && 'oidcProvider' in state.connectionToEdit}>
           <EditOIDCConnection
             {...props.componentProps.editOIDCConnection}
+            classNames={props.classNames}
             cancelCallback={state.switchToListView}
             variant='basic'
-            errorCallback={props.componentProps.editOIDCConnection.errorCallback}
+            errorCallback={props.errorCallback}
+            // @ts-ignore
             successCallback={state.updateSuccessCallback}
-            // TODO: replace with SDK level toast
-            copyDoneCallback={props.copyDoneCallback}
             urls={{
-              delete: props.componentProps.editOIDCConnection.urls?.delete || '',
-              patch: props.componentProps.editOIDCConnection.urls?.patch || '',
-              get: props.componentProps.editOIDCConnection.urls?.get || '',
+              delete: props.urls?.delete || '',
+              patch: props.urls?.patch || '',
+              get: `${props.urls?.get}?clientID=${state.connectionToEdit.clientID}` || '',
             }}
           />
         </Show>
         <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
           <EditSAMLConnection
             {...props.componentProps.editSAMLConnection}
+            classNames={props.classNames}
             cancelCallback={state.switchToListView}
             variant='basic'
-            errorCallback={props.componentProps.editSAMLConnection.errorCallback}
+            errorCallback={props.errorCallback}
+            // @ts-ignore
             successCallback={state.updateSuccessCallback}
-            // TODO: replace with SDK level toast
-            copyDoneCallback={props.copyDoneCallback}
             urls={{
-              delete: props.componentProps.editSAMLConnection.urls?.delete || '',
-              patch: props.componentProps.editSAMLConnection.urls?.patch || '',
-              get: props.componentProps.editSAMLConnection.urls?.get || '',
+              delete: props.urls?.delete || '',
+              patch: props.urls?.patch || '',
+              get: `${props.urls?.get}?clientID=${state.connectionToEdit.clientID}` || '',
             }}
           />
         </Show>
@@ -142,13 +166,15 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <Show when={state.view === 'CREATE'}>
         <Spacer y={5} />
         <CreateSAMLConnection
-          {...props.componentProps.createSSOConnection.componentProps?.saml}
+          {...props.componentProps.createSSOConnection?.componentProps?.saml}
+          classNames={props.classNames}
           cancelCallback={state.switchToListView}
           variant='basic'
           successCallback={state.createSuccessCallback}
-          //TODO: Bring inline error message display for SAML/OIDC forms */
-          errorCallback={props.componentProps.createSSOConnection.componentProps?.saml.errorCallback}
-          urls={{ save: props.componentProps.createSSOConnection.componentProps?.saml.urls?.save || '' }}
+          errorCallback={props.errorCallback}
+          urls={{
+            post: props.urls?.post || '',
+          }}
         />
       </Show>
     </div>

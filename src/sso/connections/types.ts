@@ -1,8 +1,8 @@
-import { ConfirmationPromptProps, TableCol } from '../../shared/types';
+import { ConfirmationPromptProps, TableCol, TableProps } from '../../shared/types';
 
 export interface ConnectionListProps {
   children?: any;
-  cols: ('name' | 'provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
+  cols?: ('name' | 'provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
   tableCaption?: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
@@ -16,20 +16,9 @@ export interface ConnectionListProps {
    * Classnames for each inner components that make up the component.
    */
   classNames?: {
-    container?: string;
-    formControl?: string;
     tableContainer?: string;
-    table?: string;
-    tableCaption?: string;
-    thead?: string;
-    tr?: string;
-    th?: string;
-    connectionListContainer?: string;
-    td?: string;
-    tableData?: string;
-    spanIcon?: string;
-    icon?: string;
   };
+  tableProps?: TableProps;
 }
 
 export interface CreateConnectionProps {
@@ -37,12 +26,14 @@ export interface CreateConnectionProps {
   successCallback?: (info: {
     operation: 'CREATE';
     connection?: SAMLSSOConnection | OIDCSSOConnection;
+    connectionIsOIDC?: boolean;
+    connectionIsSAML?: boolean;
   }) => void;
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
   excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
   urls: {
-    save: string;
+    post: string;
   };
   /**
    * Classnames for each inner components that make up the component.
@@ -64,6 +55,7 @@ export interface CreateConnectionProps {
 export interface CreateSSOConnectionProps {
   setupLinkToken?: string;
   idpEntityID?: string;
+  successCallback?: (info: { operation: 'COPY' }) => void;
   /**
    * Classnames for each inner components that make up the component.
    */
@@ -220,7 +212,7 @@ export interface ToggleConnectionStatusProps {
   };
   translation?: any;
   errorCallback?: (errMsg: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' }) => void;
+  successCallback?: (info: any) => void;
   classNames?: {
     container?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
@@ -245,9 +237,12 @@ export interface EditOIDCConnectionProps {
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof OIDCSSOConnection>;
   errorCallback?: (errMessage: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: OIDCSSOConnection }) => void;
+  successCallback?: (info: {
+    operation: 'UPDATE' | 'DELETE' | 'COPY';
+    connection?: Partial<OIDCFormState>;
+    connectionIsOIDC?: true;
+  }) => void;
   cancelCallback?: () => void;
-  copyDoneCallback: () => void;
   urls: {
     delete: string;
     patch: string;
@@ -256,6 +251,7 @@ export interface EditOIDCConnectionProps {
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    fieldContainer?: string;
     secretInput?: string;
     container?: string;
     formDiv?: string;
@@ -274,9 +270,12 @@ export interface EditSAMLConnectionProps {
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection>;
   errorCallback?: (errMessage: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: SAMLSSOConnection }) => void;
+  successCallback?: (info: {
+    operation: 'UPDATE' | 'DELETE' | 'COPY';
+    connection?: Partial<SAMLFormState>;
+    connectionIsSAML?: true;
+  }) => void;
   cancelCallback?: () => void;
-  copyDoneCallback: () => void;
   urls: {
     delete: string;
     patch: string;
@@ -285,6 +284,7 @@ export interface EditSAMLConnectionProps {
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    fieldContainer?: string;
     secretInput?: string;
     formDiv?: string;
     label?: string;
@@ -297,15 +297,32 @@ export interface EditSAMLConnectionProps {
 }
 
 export interface ConnectionsWrapperProp {
-  classNames?: { button?: { ctoa?: string } };
-  copyDoneCallback: () => void;
+  classNames?: {
+    button?: { ctoa?: string; destructive?: string };
+    input?: string;
+    textarea?: string;
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    secretInput?: string;
+    section?: string;
+  };
+  successCallback?: (info: {
+    operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY';
+    connection?: Partial<SAMLSSOConnection | OIDCSSOConnection | SAMLFormState | OIDCFormState>;
+    connectionIsSAML?: boolean;
+    connectionIsOIDC?: boolean;
+  }) => void;
+  errorCallback?: (errMessage: string) => void;
   componentProps: {
-    connectionList: Omit<ConnectionListProps, 'handleActionClick'>;
-    createSSOConnection: Partial<CreateSSOConnectionProps>;
-    editOIDCConnection: Partial<EditOIDCConnectionProps>;
-    editSAMLConnection: Partial<EditSAMLConnectionProps>;
+    connectionList: Partial<Omit<ConnectionListProps, 'handleActionClick'>>;
+    createSSOConnection?: Partial<CreateSSOConnectionProps>;
+    editOIDCConnection?: Partial<EditOIDCConnectionProps>;
+    editSAMLConnection?: Partial<EditSAMLConnectionProps>;
   };
   urls?: {
     spMetadata?: string;
+    get: string;
+    post: string;
+    patch: string;
+    delete: string;
   };
 }

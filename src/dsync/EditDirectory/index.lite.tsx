@@ -2,11 +2,11 @@ import type { Directory, EditDirectoryProps, ApiResponse } from '../types';
 import { useStore, onUpdate, Show } from '@builder.io/mitosis';
 import ToggleConnectionStatus from '../ToggleConnectionStatus/index.lite';
 import defaultClasses from './index.module.css';
-import cssClassAssembler from '../../utils/cssClassAssembler';
-import Button from '../../../shared/Button/index.lite';
-import Spacer from '../../../shared/Spacer/index.lite';
-import ConfirmationPrompt from '../../../shared/ConfirmationPrompt/index.lite';
-import Checkbox from '../../../shared/Checkbox/index.lite';
+import cssClassAssembler from '../../sso/utils/cssClassAssembler';
+import Button from '../../shared/Button/index.lite';
+import Spacer from '../../shared/Spacer/index.lite';
+import ConfirmationPrompt from '../../shared/ConfirmationPrompt/index.lite';
+import Checkbox from '../../shared/Checkbox/index.lite';
 
 type FormState = Pick<Directory, 'name' | 'log_webhook_events' | 'webhook' | 'google_domain'>;
 
@@ -109,6 +109,9 @@ export default function EditDirectory(props: EditDirectoryProps) {
       }
       return true;
     },
+    get directoryFetchUrl() {
+      return props.urls.get;
+    },
   });
 
   onUpdate(() => {
@@ -132,8 +135,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
         typeof props.errorCallback === 'function' && props.errorCallback(error.message);
       }
     }
-    getDirectory(props.urls.get);
-  }, [props.urls.get]);
+    getDirectory(state.directoryFetchUrl);
+  }, [state.directoryFetchUrl]);
 
   return (
     <div>

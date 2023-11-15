@@ -4,7 +4,7 @@ import CreateSAMLConnection from './saml/index.lite';
 import type { CreateSSOConnectionProps } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
-import InputWithCopyButton from '../../../shared/InputWithCopyButton/index.lite';
+import InputWithCopyButton from '../../../shared/inputs/InputWithCopyButton/index.lite';
 
 export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
   const state = useStore({
@@ -29,9 +29,6 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
     handleNewConnectionTypeChange(event: Event) {
       state.newConnectionType = (event.target as HTMLInputElement).value;
     },
-    copyDoneCallback() {
-      console.log(`copied to clipboard`);
-    },
   });
 
   return (
@@ -42,7 +39,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             <InputWithCopyButton
               text={props.idpEntityID || ''}
               label='IdP Entity ID'
-              copyDoneCallback={state.copyDoneCallback}
+              copyDoneCallback={props.successCallback}
             />
           </div>
         </div>
@@ -85,7 +82,9 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             classNames={props.componentProps.saml.classNames}
             variant={props.componentProps.saml.variant}
             errorCallback={props.componentProps.saml.errorCallback!}
-            successCallback={props.componentProps.saml.successCallback!} displayHeader={false} />
+            successCallback={props.componentProps.saml.successCallback!}
+            displayHeader={false}
+          />
         </Show>
         <Show when={state.connectionIsOIDC}>
           <CreateOIDCConnection
@@ -94,7 +93,9 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
             classNames={props.componentProps.oidc.classNames}
             variant={props.componentProps.oidc.variant}
             errorCallback={props.componentProps.oidc.errorCallback!}
-            successCallback={props.componentProps.oidc.successCallback!} displayHeader={false} />
+            successCallback={props.componentProps.oidc.successCallback!}
+            displayHeader={false}
+          />
         </Show>
       </div>
     </div>

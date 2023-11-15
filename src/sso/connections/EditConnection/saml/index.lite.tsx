@@ -10,14 +10,16 @@ import type {
 import { saveConnection, deleteConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
-import SecretInputFormControl from '../../../../shared/SecretInputFormControl/index.lite';
+import SecretInputFormControl from '../../../../shared/inputs/SecretInputFormControl/index.lite';
 import Card from '../../../../shared/Card/index.lite';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
-import CopyToClipboardButton from '../../../../shared/ClipboardButton/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
 import ConfirmationPrompt from '../../../../shared/ConfirmationPrompt/index.lite';
 import Checkbox from '../../../../shared/Checkbox/index.lite';
+import InputField from '../../../../shared/inputs/InputField/index.lite';
+import TextArea from '../../../../shared/inputs/TextArea/index.lite';
+import { InputWithCopyButton } from '../../../../shared';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -56,8 +58,16 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       return {
         formDiv: cssClassAssembler(props.classNames?.formDiv, defaultClasses.formDiv),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
-        input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
-        textarea: cssClassAssembler(props.classNames?.textarea, defaultClasses.textarea),
+        inputField: {
+          label: props.classNames?.label,
+          input: props.classNames?.input,
+          container: props.classNames?.fieldContainer,
+        },
+        textarea: {
+          label: props.classNames?.label,
+          textarea: props.classNames?.textarea,
+          container: props.classNames?.fieldContainer,
+        },
         section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
       };
     },
@@ -76,21 +86,21 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
-
+      const payload =
+        props.variant === 'advanced'
+          ? { ...state.samlConnection }
+          : {
+              tenant: state.samlConnection.tenant,
+              product: state.samlConnection.product,
+              clientID: state.samlConnection.clientID,
+              clientSecret: state.samlConnection.clientSecret,
+              rawMetadata: state.samlConnection.rawMetadata,
+              metadataUrl: state.samlConnection.metadataUrl,
+            };
       saveConnection({
         url: props.urls.patch,
         isEditView: true,
-        formObj:
-          props.variant === 'advanced'
-            ? { ...state.samlConnection }
-            : {
-                tenant: state.samlConnection.tenant,
-                product: state.samlConnection.product,
-                clientID: state.samlConnection.clientID,
-                clientSecret: state.samlConnection.clientSecret,
-                rawMetadata: state.samlConnection.rawMetadata,
-                metadataUrl: state.samlConnection.metadataUrl,
-              },
+        formObj: payload,
         connectionIsSAML: true,
         callback: async (rawResponse: any) => {
           const response: ApiResponse = await rawResponse.json();
@@ -102,7 +112,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
 
           if (rawResponse.ok) {
             typeof props.successCallback === 'function' &&
-              props.successCallback({ operation: 'UPDATE', connection: response.data });
+              props.successCallback({ operation: 'UPDATE', connection: payload, connectionIsSAML: true });
           }
         },
       });
@@ -123,7 +133,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            typeof props.successCallback === 'function' && props.successCallback({ operation: 'DELETE' });
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'DELETE', connectionIsSAML: true });
           }
         },
       });
@@ -133,6 +144,9 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
         return props.displayHeader;
       }
       return true;
+    },
+    get connectionFetchUrl() {
+      return props.urls.get;
     },
   });
 
@@ -165,12 +179,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
         };
       }
     }
-    getConnection(props.urls.get);
-  }, [props.urls.get]);
+    getConnection(state.connectionFetchUrl);
+  }, [state.connectionFetchUrl]);
 
   return (
     <div>
-      <div class={defaultClasses.formDiv}>
+      <div class={state.classes.formDiv}>
         <div class={defaultClasses.headingContainer}>
           <Show when={state.shouldDisplayHeader}>
             <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
@@ -198,214 +212,167 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           <form onSubmit={(event) => state.saveSSOConnection(event)} method='post'>
             <Show when={state.formVariant === 'advanced'}>
               <Show when={!state.isExcluded('name')}>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='name' class={state.classes.label}>
-                      Name
-                    </label>
-                  </div>
-                  <input
-                    class={state.classes.input}
-                    type='text'
-                    name='name'
-                    id='name'
-                    placeholder='MyApp'
-                    required={false}
-                    onInput={(event) => state.handleChange(event)}
-                    value={state.samlConnection.name}
-                  />
-                </div>
+                <InputField
+                  label='Connection name (Optional)'
+                  name='name'
+                  id='name'
+                  classNames={state.classes.inputField}
+                  placeholder='MyApp'
+                  required={false}
+                  value={state.samlConnection.name!}
+                  handleInputChange={state.handleChange}
+                />
+                <Spacer y={6} />
               </Show>
               <Show when={!state.isExcluded('description')}>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='description' class={state.classes.label}>
-                      Description
-                    </label>
-                  </div>
-                  <input
-                    class={state.classes.input}
-                    type='text'
-                    name='description'
-                    id='description'
-                    placeholder='A short description not more than 100 characters'
-                    maxLength={100}
-                    required={false}
-                    onInput={(event) => state.handleChange(event)}
-                    value={state.samlConnection.description}
-                  />
-                </div>
+                <InputField
+                  label='Description (Optional)'
+                  id='description'
+                  name='description'
+                  classNames={state.classes.inputField}
+                  placeholder='A short description not more than 100 characters'
+                  required={false}
+                  maxLength={100}
+                  value={state.samlConnection.description!}
+                  handleInputChange={state.handleChange}
+                />
+                <Spacer y={6} />
               </Show>
               <Show when={!state.isExcluded('redirectUrl')}>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='redirectUrl' class={state.classes.label}>
-                      Allowed redirect URLs (newline separated)
-                    </label>
-                  </div>
-                  <textarea
-                    class={state.classes.textarea}
-                    id='redirectUrl'
-                    name='redirectUrl'
-                    required={true}
-                    rows={3}
-                    placeholder='http://localhost:3366'
-                    onInput={(event) => state.handleChange(event)}
-                    value={state.samlConnection.redirectUrl}
-                  />
+                <TextArea
+                  label='Allowed redirect URLs (newline separated)'
+                  id='redirectUrl'
+                  name='redirectUrl'
+                  classNames={state.classes.textarea}
+                  required
+                  aria-describedby='redirectUrl-hint'
+                  placeholder='http://localhost:3366'
+                  value={state.samlConnection.redirectUrl!}
+                  handleInputChange={state.handleChange}
+                />
+                <div id='redirectUrl-hint' class={defaultClasses.hint}>
+                  URL to redirect the user to after login. You can specify multiple URLs by separating them
+                  with a new line.
                 </div>
+                <Spacer y={6} />
               </Show>
               <Show when={!state.isExcluded('defaultRedirectUrl')}>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='defaultRedirectUrl' class={state.classes.label}>
-                      Default redirect URL
-                    </label>
-                  </div>
-                  <input
-                    class={state.classes.input}
-                    name='defaultRedirectUrl'
-                    id='defaultRedirectUrl'
-                    required={true}
-                    type='url'
-                    placeholder='http://localhost:3366/login/saml'
-                    onInput={(event) => state.handleChange(event)}
-                    value={state.samlConnection.defaultRedirectUrl}
-                  />
-                </div>
+                <InputField
+                  label='Default redirect URL'
+                  id='defaultRedirectUrl'
+                  name='defaultRedirectUrl'
+                  required
+                  classNames={state.classes.inputField}
+                  placeholder='http://localhost:3366/login/saml'
+                  type='url'
+                  value={state.samlConnection.defaultRedirectUrl!}
+                  handleInputChange={state.handleChange}
+                />
+                <Spacer y={6} />
               </Show>
             </Show>
-            <div class={defaultClasses.field}>
-              <div class={defaultClasses.labelWithAction}>
-                <label for='rawMetadata' class={state.classes.label}>
-                  Raw IdP XML
-                </label>
-              </div>
-              <textarea
-                class={state.classes.textarea}
-                name='rawMetadata'
-                id='rawMetadata'
-                placeholder='Paste the raw XML here'
-                rows={5}
-                required={state.samlConnection.metadataUrl === ''}
-                onChange={(event) => state.handleChange(event)}
-                value={state.samlConnection.rawMetadata}
-              />
+            <TextArea
+              label='Raw IdP XML'
+              id='rawMetadata'
+              name='rawMetadata'
+              classNames={state.classes.textarea}
+              required={state.samlConnection.metadataUrl === ''}
+              aria-describedby='xml-metadata-hint'
+              placeholder='Paste the raw XML here'
+              value={state.samlConnection.rawMetadata!}
+              handleInputChange={state.handleChange}
+            />
+            <div id='xml-metadata-hint' class={defaultClasses.hint}>
+              Paste the raw XML metadata obtained from SAML provider or enter the metadata URL below.
             </div>
+            <Spacer y={6} />
             <Separator text='OR' />
             <Spacer y={6} />
-            <div class={defaultClasses.field}>
-              <div class={defaultClasses.labelWithAction}>
-                <label for='metadataUrl' class={state.classes.label}>
-                  Metadata URL
-                </label>
-              </div>
-              <input
-                class={state.classes.input}
-                name='metadataUrl'
-                id='metadataUrl'
-                type='url'
-                placeholder='Paste the Metadata URL here'
-                required={state.samlConnection.rawMetadata === ''}
-                onChange={(event) => state.handleChange(event)}
-                value={state.samlConnection.metadataUrl}
-              />
-            </div>
+            <InputField
+              label='Metadata URL'
+              id='metadataUrl'
+              name='metadataUrl'
+              classNames={state.classes.inputField}
+              required={state.samlConnection.rawMetadata === ''}
+              type='url'
+              placeholder='Paste the Metadata URL here'
+              value={state.samlConnection.metadataUrl!}
+              handleInputChange={state.handleChange}
+            />
+            <Spacer y={6} />
             <Show when={state.formVariant === 'advanced'}>
               <Show when={!state.isExcluded('forceAuthn')}>
-                <div class={defaultClasses.field}>
-                  <Checkbox
-                    checked={
-                      state.samlConnection.forceAuthn === 'true' || state.samlConnection.forceAuthn === true
-                    }
-                    handleChange={state.handleChange}
-                    label='Force Authentication'
-                    name='forceAuthn'
-                    id='forceAuthn'
-                  />
-                </div>
+                <Checkbox
+                  checked={
+                    state.samlConnection.forceAuthn === 'true' || state.samlConnection.forceAuthn === true
+                  }
+                  handleChange={state.handleChange}
+                  label='Force Authentication'
+                  name='forceAuthn'
+                  id='forceAuthn'
+                />
               </Show>
             </Show>
+            <Spacer y={6} />
+            <div class={defaultClasses.formAction}>
+              <Show when={typeof props.cancelCallback === 'function'}>
+                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
+              </Show>
+              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
+            </div>
             <Card title='Connection info' variant='info' arrangement='vertical'>
               <div class={defaultClasses.info}>
                 <Show when={state.formVariant === 'advanced'}>
                   <Show when={!state.isExcluded('tenant')}>
-                    <div class={defaultClasses.field}>
-                      <div class={defaultClasses.labelDiv}>
-                        <label for='tenant' class={state.classes.label}>
-                          Tenant
-                        </label>
-                      </div>
-                      <input
-                        class={state.classes.input}
-                        name='tenant'
-                        id='tenant'
-                        placeholder='acme.com'
-                        required={true}
-                        readOnly={true}
-                        value={state.samlConnection.tenant}
-                      />
-                    </div>
+                    <InputField
+                      label='Tenant'
+                      id='tenant'
+                      name='tenant'
+                      placeholder='acme.com'
+                      classNames={state.classes.inputField}
+                      required={true}
+                      readOnly={true}
+                      value={state.samlConnection.tenant!}
+                    />
+                    <Spacer y={6} />
                   </Show>
                   <Show when={!state.isExcluded('product')}>
-                    <div class={defaultClasses.field}>
-                      <div class={defaultClasses.labelDiv}>
-                        <label for='product' class={state.classes.label}>
-                          Product
-                        </label>
-                      </div>
-                      <input
-                        class={state.classes.input}
-                        name='product'
-                        id='product'
-                        type='text'
-                        required={true}
-                        readOnly={true}
-                        placeholder='demo'
-                        value={state.samlConnection.product}
-                      />
-                    </div>
+                    <InputField
+                      label='Product'
+                      id='product'
+                      name='product'
+                      placeholder='demo'
+                      classNames={state.classes.inputField}
+                      required={true}
+                      readOnly={true}
+                      value={state.samlConnection.product!}
+                    />
+                    <Spacer y={6} />
                   </Show>
                 </Show>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='idpMetadata' class={state.classes.label}>
-                      IdP Metadata
-                    </label>
-                  </div>
+                <div class={defaultClasses.container}>
+                  <span class={state.classes.label}>IdP Metadata</span>
+                  <Spacer y={2} />
                   <pre aria-readonly={true} class={defaultClasses.pre}>
                     {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
                   </pre>
                 </div>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='idpCertExpiry' class={state.classes.label}>
-                      IdP Certificate Validity
-                    </label>
-                  </div>
+                <Spacer y={6} />
+                <div class={defaultClasses.container}>
+                  <span class={state.classes.label}>IdP Certificate Validity</span>
+                  <Spacer y={2} />
                   <pre aria-readonly={true} class={defaultClasses.pre}>
                     {state.samlConnection.idpMetadata?.validTo}
                   </pre>
                 </div>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='clientID' class={state.classes.label}>
-                      Client ID
-                    </label>
-                    <CopyToClipboardButton
-                      text={state.samlConnection.clientID!}
-                      copyDoneCallback={props.copyDoneCallback}
-                    />
-                  </div>
-                  <input
-                    class={state.classes.input}
-                    name='clientID'
-                    id='clientID'
-                    type='text'
-                    readOnly={true}
-                    value={state.samlConnection.clientID}
-                  />
-                </div>
+                <Spacer y={6} />
+                <InputWithCopyButton
+                  text={state.samlConnection.clientID || ''}
+                  classNames={state.classes.inputField}
+                  label='Client ID'
+                  copyDoneCallback={props.successCallback}
+                />
+                <Spacer y={6} />
                 <SecretInputFormControl
                   classNames={{ input: props.classNames?.secretInput }}
                   label='Client Secret'
@@ -413,18 +380,13 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   value={state.samlConnection.clientSecret!}
                   readOnly={true}
                   required={true}
-                  copyDoneCallback={props.copyDoneCallback}
+                  copyDoneCallback={props.successCallback}
                   handleChange={state.handleChange}
                 />
+                <Spacer y={6} />
               </div>
             </Card>
             <Spacer y={4} />
-            <div class={defaultClasses.formAction}>
-              <Show when={typeof props.cancelCallback === 'function'}>
-                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
-              </Show>
-              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
-            </div>
             <Show when={state.samlConnection?.clientID && state.samlConnection.clientSecret}>
               <section class={state.classes.section}>
                 <div class={defaultClasses.info}>

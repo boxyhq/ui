@@ -39,6 +39,11 @@
       "import": "./dist/sso.js",
       "require": "./dist/sso.cjs"
     },
+    "./dsync": {
+      "types": "./dist/dsync/index.d.ts",
+      "import": "./dist/dsync.js",
+      "require": "./dist/dsync.cjs"
+    },
     "./dist/*.css": {
       "import": "./dist/*.css",
       "require": "./dist/*.css"
