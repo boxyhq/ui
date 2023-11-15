@@ -74,8 +74,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         callback: async (rawResponse: any) => {
           state.loading = false;
 
-          state.oidcConnection = INITIAL_VALUES.oidcConnection;
-
           const response: ApiResponse = await rawResponse.json();
 
           if ('error' in response) {

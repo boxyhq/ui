@@ -64,8 +64,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         callback: async (rawResponse: any) => {
           state.loading = false;
 
-          state.samlConnection = INITIAL_VALUES.samlConnection;
-
           const response: ApiResponse = await rawResponse.json();
 
           if ('error' in response) {
