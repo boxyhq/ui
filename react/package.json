@@ -62,11 +62,11 @@
     "react-router-dom": "6.18.0"
   },
   "devDependencies": {
-    "@mdx-js/react": "2.3.0",
+    "@mdx-js/react": "3.0.0",
     "@rollup/plugin-typescript": "11.1.5",
     "@types/node": "20.9.0",
     "@types/react": "18.2.37",
-    "@vitejs/plugin-react": "4.1.0",
+    "@vitejs/plugin-react": "4.1.1",
     "rimraf": "5.0.5",
     "serve": "14.2.1",
     "vite": "4.5.0",
