@@ -48,7 +48,7 @@
     "vite": "4.4.11",
     "vite-plugin-css-injected-by-js": "3.3.0",
     "vitepress": "1.0.0-rc.20",
-    "vue": "3.3.7",
+    "vue": "3.3.8",
     "vue-tsc": "1.8.22"
   },
   "peerDependencies": {
