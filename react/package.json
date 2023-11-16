@@ -25,6 +25,7 @@
     "dist",
     "index.d.ts",
     "sso.d.ts",
+    "dsync.d.ts",
     "shared.d.ts"
   ],
   "types": "./index.d.ts",
