@@ -17,7 +17,7 @@ type TextAreaProps = {
 export default function TextArea(props: TextAreaProps) {
   const state = useStore({
     get textAreaHTMLAttributes() {
-      const { type, name, id, value, handleInputChange, ...rest } = props;
+      const { type, name, id, value, handleInputChange, classNames, ...rest } = props;
       return rest;
     },
     get cssClass() {
