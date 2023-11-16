@@ -11,7 +11,6 @@ export interface CreateDirectoryProps {
   // To handle cancel button click
   cancelCallback?: () => void;
   classNames?: {
-    container?: string;
     fieldContainer?: string;
     input?: string;
     label?: string;
