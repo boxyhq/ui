@@ -108,7 +108,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           </Show>
           <ConnectionList
             {...props.componentProps.connectionList}
-            urls={{ get: props.urls?.get || '' }}
+            urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
             handleListFetchComplete={state.handleListFetchComplete}>
             <Card variant='info' title='SSO not enabled'>
@@ -140,9 +140,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             // @ts-ignore
             successCallback={state.updateSuccessCallback}
             urls={{
-              delete: props.urls?.delete || '',
-              patch: props.urls?.patch || '',
-              get: `${props.urls?.get}?clientID=${state.connectionToEdit.clientID}` || '',
+              delete: props.urls.delete,
+              patch: props.urls.patch,
+              get: `${props.urls.get}?clientID=${state.connectionToEdit.clientID}`,
             }}
           />
         </Show>
@@ -156,9 +156,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             // @ts-ignore
             successCallback={state.updateSuccessCallback}
             urls={{
-              delete: props.urls?.delete || '',
-              patch: props.urls?.patch || '',
-              get: `${props.urls?.get}?clientID=${state.connectionToEdit.clientID}` || '',
+              delete: props.urls.delete,
+              patch: props.urls.patch,
+              get: `${props.urls.get}?clientID=${state.connectionToEdit.clientID}`,
             }}
           />
         </Show>
@@ -173,7 +173,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           successCallback={state.createSuccessCallback}
           errorCallback={props.errorCallback}
           urls={{
-            post: props.urls?.post || '',
+            post: props.urls.post,
           }}
         />
       </Show>

@@ -318,7 +318,7 @@ export interface ConnectionsWrapperProp {
     editOIDCConnection?: Partial<EditOIDCConnectionProps>;
     editSAMLConnection?: Partial<EditSAMLConnectionProps>;
   };
-  urls?: {
+  urls: {
     spMetadata?: string;
     get: string;
     post: string;
