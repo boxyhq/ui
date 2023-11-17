@@ -89,6 +89,12 @@ export interface DirectoriesWrapperProps {
     createDirectory: Partial<CreateDirectoryProps>;
     editDirectory: Partial<EditDirectoryProps>;
   };
+  urls: {
+    get: string;
+    post: string;
+    patch: string;
+    delete: string;
+  };
 }
 
 export type ApiSuccess<T> = { data: T; pageToken?: string };

@@ -66,6 +66,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           <Spacer y={4} />
           <DirectoryList
             {...props.componentProps.directoryList}
+            urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
             handleListFetchComplete={state.handleListFetchComplete}>
             <Card variant='info' title='Directories not enabled'>
@@ -80,9 +81,9 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           successCallback={state.updateSuccessCallback}
           errorCallback={props.componentProps.editDirectory.errorCallback}
           urls={{
-            patch: `${props.componentProps.editDirectory.urls?.patch}/${state.directoryToEdit.id}` || '',
-            delete: `${props.componentProps.editDirectory.urls?.delete}/${state.directoryToEdit.id}` || '',
-            get: `${props.componentProps.editDirectory.urls?.get}/${state.directoryToEdit.id}` || '',
+            patch: `${props.urls.patch}/${state.directoryToEdit.id}`,
+            delete: `${props.urls.delete}/${state.directoryToEdit.id}`,
+            get: `${props.urls.get}/${state.directoryToEdit.id}`,
           }}
         />
       </Show>
@@ -93,7 +94,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           successCallback={state.createSuccessCallback}
           errorCallback={props.componentProps.createDirectory.errorCallback}
           urls={{
-            post: props.componentProps.createDirectory.urls?.post || '',
+            post: props.urls.post,
           }}
         />
       </Show>
