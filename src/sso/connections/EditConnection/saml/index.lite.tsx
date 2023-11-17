@@ -276,7 +276,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               id='rawMetadata'
               name='rawMetadata'
               classNames={state.classes.textarea}
-              required={state.samlConnection.metadataUrl === ''}
+              required={!state.samlConnection.idpMetadata && state.samlConnection.metadataUrl === ''}
               aria-describedby='xml-metadata-hint'
               placeholder='Paste the raw XML here'
               value={state.samlConnection.rawMetadata!}
@@ -293,7 +293,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               id='metadataUrl'
               name='metadataUrl'
               classNames={state.classes.inputField}
-              required={state.samlConnection.rawMetadata === ''}
+              required={!state.samlConnection.idpMetadata && state.samlConnection.rawMetadata === ''}
               type='url'
               placeholder='Paste the Metadata URL here'
               value={state.samlConnection.metadataUrl!}
