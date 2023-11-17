@@ -38,14 +38,18 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     switchToListView() {
       state.view = 'LIST';
     },
-    createSuccessCallback(info: { operation: 'CREATE'; connection?: Directory | undefined }) {
-      props.componentProps.createDirectory.successCallback?.(info);
-      state.switchToListView();
-    },
-    updateSuccessCallback(info: { operation: 'UPDATE' | 'DELETE'; connection?: Directory | undefined }) {
-      // TODO handle oidc updation
-      props.componentProps.editDirectory.successCallback?.(info);
-      state.switchToListView();
+    successCallback(info: { connection?: Directory; operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY' }) {
+      const { connection, operation } = info;
+
+      if (typeof props.successCallback === 'function') {
+        props.successCallback({
+          operation,
+          connection,
+        });
+      }
+      if (operation !== 'COPY') {
+        state.switchToListView();
+      }
     },
   });
 
@@ -58,28 +62,39 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
               title={state.dsyncEnabled ? 'Directory Sync enabled' : 'Directory Sync disabled'}
               variant={state.dsyncEnabled ? 'success' : 'info'}>
               <div class={styles.ctoa}>
-                <Button name='Add Connection' handleClick={state.switchToCreateView} />
+                <Button
+                  name='Add Connection'
+                  handleClick={state.switchToCreateView}
+                  classNames={props.classNames?.button?.ctoa}
+                />
               </div>
             </Card>
             <Spacer y={4} />
           </Show>
-          <Spacer y={4} />
           <DirectoryList
-            {...props.componentProps.directoryList}
+            {...props.componentProps?.directoryList}
             urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
             handleListFetchComplete={state.handleListFetchComplete}>
             <Card variant='info' title='Directories not enabled'>
-              <Button name='Add Connection' handleClick={state.switchToCreateView} />
+              <div class={styles.ctoa}>
+                <Button
+                  name='Add Connection'
+                  handleClick={state.switchToCreateView}
+                  classNames={props.classNames?.button?.ctoa}
+                />
+              </div>
             </Card>
           </DirectoryList>
         </Show>
       </div>
       <Show when={state.view === 'EDIT'}>
         <EditDirectory
-          {...props.componentProps.editDirectory}
-          successCallback={state.updateSuccessCallback}
-          errorCallback={props.componentProps.editDirectory.errorCallback}
+          {...props.componentProps?.editDirectory}
+          classNames={props.classNames}
+          successCallback={state.successCallback}
+          errorCallback={props.errorCallback}
+          cancelCallback={state.switchToListView}
           urls={{
             patch: `${props.urls.patch}/${state.directoryToEdit.id}`,
             delete: `${props.urls.delete}/${state.directoryToEdit.id}`,
@@ -90,9 +105,11 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       <Show when={state.view === 'CREATE'}>
         <Spacer y={5} />
         <CreateDirectory
-          {...props.componentProps.createDirectory}
-          successCallback={state.createSuccessCallback}
-          errorCallback={props.componentProps.createDirectory.errorCallback}
+          {...props.componentProps?.createDirectory}
+          classNames={props.classNames}
+          successCallback={state.successCallback}
+          errorCallback={props.errorCallback}
+          cancelCallback={state.switchToListView}
           urls={{
             post: props.urls.post,
           }}

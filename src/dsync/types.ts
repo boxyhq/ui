@@ -1,4 +1,4 @@
-import { ConfirmationPromptProps } from '../shared/types';
+import { ConfirmationPromptProps, TableCol } from '../shared/types';
 
 export interface CreateDirectoryProps {
   excludeFields?: Array<keyof UnSavedDirectory>;
@@ -35,7 +35,7 @@ export interface DeleteDirectoryProps {
 export interface DirectoryListProps {
   children?: any;
   tableCaption?: string;
-  cols?: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
+  cols?: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
   setupLinkToken?: string;
   urls: {
     get: string;
@@ -84,11 +84,24 @@ export interface ToggleDirectoryStatusProps {
 }
 
 export interface DirectoriesWrapperProps {
-  componentProps: {
-    directoryList: Omit<DirectoryListProps, 'handleActionClick'>;
-    createDirectory: Partial<CreateDirectoryProps>;
-    editDirectory: Partial<EditDirectoryProps>;
+  classNames?: {
+    button?: { ctoa?: string; destructive?: string };
+    input?: string;
+    textarea?: string;
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    secretInput?: string;
+    section?: string;
   };
+  componentProps?: {
+    directoryList?: Omit<DirectoryListProps, 'handleActionClick'>;
+    createDirectory?: Partial<CreateDirectoryProps>;
+    editDirectory?: Partial<EditDirectoryProps>;
+  };
+  successCallback?: (info: {
+    operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY';
+    connection?: Partial<Directory | undefined>;
+  }) => void;
+  errorCallback?: (errMessage: string) => void;
   urls: {
     get: string;
     post: string;
