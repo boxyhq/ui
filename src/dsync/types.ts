@@ -35,7 +35,7 @@ export interface DeleteDirectoryProps {
 export interface DirectoryListProps {
   children?: any;
   tableCaption?: string;
-  cols: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
+  cols?: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
   setupLinkToken?: string;
   urls: {
     get: string;
