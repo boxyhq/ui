@@ -45,7 +45,7 @@ export default function DirectoryList(props: DirectoryListProps) {
       ];
     },
     get colsToDisplay() {
-      return (props.cols || ['tenant', 'name', 'type', 'status', 'actions']).map((_col) => {
+      return (props.cols || ['name', 'tenant', 'product', 'type', 'status', 'actions']).map((_col) => {
         if (_col === 'status') {
           return {
             name: 'status',
