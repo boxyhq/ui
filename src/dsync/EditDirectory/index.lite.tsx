@@ -7,6 +7,8 @@ import Button from '../../shared/Button/index.lite';
 import Spacer from '../../shared/Spacer/index.lite';
 import ConfirmationPrompt from '../../shared/ConfirmationPrompt/index.lite';
 import Checkbox from '../../shared/Checkbox/index.lite';
+import InputField from '../../shared/inputs/InputField/index.lite';
+import SecretInputFormControl from '../../shared/inputs/SecretInputFormControl/index.lite';
 
 type FormState = Pick<Directory, 'name' | 'log_webhook_events' | 'webhook' | 'google_domain'>;
 
@@ -30,11 +32,11 @@ export default function EditDirectory(props: EditDirectoryProps) {
     directoryUpdated: DEFAULT_FORM_STATE,
     get classes() {
       return {
-        label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
-        input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
-        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
-        formDiv: cssClassAssembler(props.classNames?.formDiv, defaultClasses.formDiv),
-        fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
+        inputField: {
+          label: props.classNames?.label,
+          input: props.classNames?.input,
+          container: props.classNames?.fieldContainer,
+        },
         section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
       };
     },
@@ -164,86 +166,70 @@ export default function EditDirectory(props: EditDirectoryProps) {
         />
       </div>
       <form onSubmit={(event) => state.onSubmit(event)}>
-        <div class={state.classes.formDiv}>
-          <Show when={!state.isExcluded('name')}>
-            <div class={state.classes.fieldsDiv}>
-              <label for='name' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Directory name</span>
-              </label>
-              <input
-                type='text'
-                id='name'
-                name='name'
-                class={state.classes.input}
-                required={true}
-                onChange={(event) => state.handleChange(event)}
-                value={state.directoryUpdated?.name}
-              />
-            </div>
+        <Show when={!state.isExcluded('name')}>
+          <InputField
+            label='Directory name'
+            id='name'
+            name='name'
+            value={state.directoryUpdated.name}
+            handleInputChange={state.handleChange}
+            required
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={state.directoryUpdated?.type === 'google'}>
+          <InputField
+            label='Directory domain'
+            id='google_domain'
+            name='google_domain'
+            value={state.directoryUpdated.google_domain}
+            handleInputChange={state.handleChange}
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={!state.isExcluded('webhook_url')}>
+          <InputField
+            type='url'
+            label='Webhook URL'
+            id='webhook_url'
+            name='webhook_url'
+            value={state.directoryUpdated.webhook_url}
+            handleInputChange={state.handleChange}
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={!state.isExcluded('webhook_secret')}>
+          <SecretInputFormControl
+            label='Webhook secret'
+            id='webhook_secret'
+            name='webhook_secret'
+            classNames={state.classes.inputField}
+            handleChange={state.handleChange}
+            value={state.directoryUpdated.webhook_secret}
+            copyDoneCallback={props.successCallback}
+            required={false}
+            readOnly={false}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={!state.isExcluded('log_webhook_events')}>
+          <Checkbox
+            label='Enable Webhook events logging'
+            id='log_webhook_events'
+            name='log_webhook_events'
+            checked={state.directoryUpdated?.log_webhook_events}
+            handleChange={state.handleChange}
+          />
+          <Spacer y={6} />
+        </Show>
+        <div class={defaultClasses.formAction}>
+          <Show when={typeof props.cancelCallback === 'function'}>
+            <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
           </Show>
-          <Show when={state.directoryUpdated?.type === 'google'}>
-            <div class={state.classes.fieldsDiv}>
-              <label for='google_domain' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Directory domain</span>
-              </label>
-              <input
-                type='text'
-                id='google_domain'
-                name='google_domain'
-                class={state.classes.input}
-                onChange={(event) => state.handleChange(event)}
-                value={state.directoryUpdated?.google_domain}
-              />
-            </div>
-          </Show>
-          <Show when={!state.isExcluded('webhook_url')}>
-            <div class={state.classes.fieldsDiv}>
-              <label for='webhook_url' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Webhook URL</span>
-              </label>
-              <input
-                type='url'
-                id='webhook_url'
-                name='webhook_url'
-                class={state.classes.input}
-                onChange={(event) => state.handleChange(event)}
-                value={state.directoryUpdated?.webhook_url}
-              />
-            </div>
-          </Show>
-          <Show when={!state.isExcluded('webhook_secret')}>
-            <div class={state.classes.fieldsDiv}>
-              <label for='webhook_secret' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Webhook secret</span>
-              </label>
-              <input
-                type='text'
-                id='webhook_secret'
-                name='webhook_secret'
-                class={state.classes.input}
-                onChange={(event) => state.handleChange(event)}
-                value={state.directoryUpdated?.webhook_secret}
-              />
-            </div>
-          </Show>
-          <Show when={!state.isExcluded('log_webhook_events')}>
-            <div class={defaultClasses.checkboxFieldsDiv}>
-              <Checkbox
-                label='Enable Webhook events logging'
-                id='log_webhook_events'
-                name='log_webhook_events'
-                checked={state.directoryUpdated?.log_webhook_events}
-                handleChange={state.handleChange}
-              />
-              <Spacer y={6} />
-            </div>
-          </Show>
-          <div class={defaultClasses.formAction}>
-            <Show when={typeof props.cancelCallback === 'function'}>
-              <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
-            </Show>
-            <Button type='submit' name='Save' variant='primary' classNames={props.classNames?.button?.ctoa} />
-          </div>
+          <Button type='submit' name='Save' variant='primary' classNames={props.classNames?.button?.ctoa} />
         </div>
       </form>
       <section class={state.classes.section}>

@@ -11,79 +11,17 @@
 }
 
 .heading {
-  font-size: 20px;
-  line-height: 28px;
+  margin: 0 0 1.5rem 0;
+  font-size: 1rem;
   font-weight: 700;
-  color: rgb(55 65 81);
-}
-
-.input {
-  width: 100%;
-  border: 1px solid var(--border-color);
-  border-radius: var(--border-radius);
-  padding: 8px 16px;
-  height: 48px;
-  line-height: 24px;
-  flex-shrink: 1;
-}
-
-.input:focus {
-  outline: var(--ring-offset-width) solid var(--ring-offset-color);
-  outline-offset: var(--ring-offset);
-}
-
-.input:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-.checkboxInput {
-  height: 16px;
-  width: 16px;
-  border-radius: var(--border-radius);
-  border: 1px solid rgb(209 213 219);
-  background-color: rgb(243 244 246);
-  color: rgb(37 99 235);
-}
-
-.label {
-  display: block;
-  font-weight: 500;
   color: var(--primary-text-color);
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  margin-bottom: 0.5rem;
 }
 
-.checkboxLabel {
-  margin-left: 8px;
-  font-size: 14px;
-  line-height: 20px;
-  font-weight: 500;
-  color: rgb(17 24 39);
-}
-
-.labelText {
-  font-size: 14px;
-  color: rgb(24, 26, 42);
-}
-
-.formDiv {
-  display: flex;
-  flex-direction: column;
-}
-
-.fieldsDiv {
-  width: 100%;
-  margin-top: 12px;
-  margin-bottom: 12px;
-}
-
-.checkboxFieldsDiv {
-  display: flex;
-  align-items: center;
-  padding: 8px 0px;
-  width: 100%;
-  margin-top: 12px;
+@media (min-width: 768px) {
+  .heading {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
 }
 
 .section {
@@ -109,12 +47,6 @@
 
 .sectionPara {
   font-weight: 300;
-}
-
-.confirmationDiv {
-  display: flex;
-  flex-direction: column;
-  width: 50%;
 }
 
 .formAction {
