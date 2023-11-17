@@ -22,17 +22,13 @@ export default function DirectoryList(props: DirectoryListProps) {
       }));
     },
     isDirectoryListLoading: true,
-    directoryListIsLoading: true,
-    get displayTenantProduct() {
-      return props.setupLinkToken ? false : true;
-    },
     get classes() {
       return {
-        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
-        table: cssClassAssembler(props.classNames?.table, defaultClasses.table),
-        tableHead: cssClassAssembler(props.classNames?.tableHead, defaultClasses.tableHead),
-        tableData: cssClassAssembler(props.classNames?.tableData, defaultClasses.tableData),
+        tableContainer: cssClassAssembler(props.classNames?.tableContainer, defaultClasses.tableContainer),
       };
+    },
+    get displayTenantProduct() {
+      return props.setupLinkToken ? false : true;
     },
     get actions(): TableProps['actions'] {
       return [
@@ -95,7 +91,7 @@ export default function DirectoryList(props: DirectoryListProps) {
         };
       });
 
-      state.directoryListIsLoading = false;
+      state.isDirectoryListLoading = false;
 
       if (error) {
         typeof props.errorCallback === 'function' && props.errorCallback(error.message);
@@ -109,7 +105,7 @@ export default function DirectoryList(props: DirectoryListProps) {
 
   return (
     <Show
-      when={state.directoryListIsLoading}
+      when={state.isDirectoryListLoading}
       else={
         <Show
           when={state.directoryListData.length > 0}
@@ -118,7 +114,7 @@ export default function DirectoryList(props: DirectoryListProps) {
               {props.children}
             </Show>
           }>
-          <div>
+          <div class={state.classes.tableContainer}>
             <Table cols={state.colsToDisplay} data={state.directoryListData} actions={state.actions} />
           </div>
         </Show>

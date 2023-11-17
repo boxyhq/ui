@@ -44,10 +44,7 @@ export interface DirectoryListProps {
   handleListFetchComplete?: (directories: Directory[]) => void;
   handleActionClick: (action: 'edit' | 'view', directory: any) => void;
   classNames?: {
-    container?: string;
-    table?: string;
-    tableHead?: string;
-    tableData?: string;
+    tableContainer?: string;
   };
 }
 
@@ -63,11 +60,9 @@ export interface EditDirectoryProps {
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    fieldContainer?: string;
     label?: string;
     input?: string;
-    container?: string;
-    formDiv?: string;
-    fieldsDiv?: string;
     section?: string;
   };
   excludeFields?: Array<keyof Directory>;
