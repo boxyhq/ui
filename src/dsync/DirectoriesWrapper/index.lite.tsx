@@ -38,7 +38,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     switchToListView() {
       state.view = 'LIST';
     },
-    successCallback(info: { connection?: Directory; operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY' }) {
+    successHandler(info: { connection?: Directory; operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY' }) {
       const { connection, operation } = info;
 
       if (typeof props.successCallback === 'function') {
@@ -92,7 +92,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
         <EditDirectory
           {...props.componentProps?.editDirectory}
           classNames={props.classNames}
-          successCallback={state.successCallback}
+          successCallback={state.successHandler}
           errorCallback={props.errorCallback}
           cancelCallback={state.switchToListView}
           urls={{
@@ -107,7 +107,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
         <CreateDirectory
           {...props.componentProps?.createDirectory}
           classNames={props.classNames}
-          successCallback={state.successCallback}
+          successCallback={state.successHandler}
           errorCallback={props.errorCallback}
           cancelCallback={state.switchToListView}
           urls={{
