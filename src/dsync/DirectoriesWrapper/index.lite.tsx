@@ -28,6 +28,14 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       return state.directoriesAdded && state.directories.some((directory) => directory.deactivated === false);
     },
     directoryToEdit: DEFAULT_VALUES.directoryToEdit,
+    get queryString(): string {
+      if (props.urls.queryOpts.type === 'qs') {
+        return `?${props.urls.queryOpts.name}=${state.directoryToEdit.id}`;
+      } else if (props.urls.queryOpts.type === 'slug') {
+        return `/${state.directoryToEdit.id}`;
+      }
+      return '';
+    },
     switchToCreateView() {
       state.view = 'CREATE';
     },
@@ -96,9 +104,9 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           errorCallback={props.errorCallback}
           cancelCallback={state.switchToListView}
           urls={{
-            patch: `${props.urls.patch}/${state.directoryToEdit.id}`,
-            delete: `${props.urls.delete}/${state.directoryToEdit.id}`,
-            get: `${props.urls.get}/${state.directoryToEdit.id}`,
+            patch: `${props.urls.patch}?dsyncId=${state.directoryToEdit.id}`,
+            delete: `${props.urls.delete}?dsyncId=${state.directoryToEdit.id}`,
+            get: `${props.urls.get}${state.queryString}`,
           }}
         />
       </Show>

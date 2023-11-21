@@ -65,7 +65,7 @@ export interface EditDirectoryProps {
     input?: string;
     section?: string;
   };
-  excludeFields?: Array<keyof Directory>;
+  excludeFields?: Array<keyof UnSavedDirectory>;
   /** Use this boolean to toggle the header display on/off. Useful when using the edit component standalone */
   displayHeader?: boolean;
 }
@@ -93,7 +93,7 @@ export interface DirectoriesWrapperProps {
     section?: string;
   };
   componentProps?: {
-    directoryList?: Omit<DirectoryListProps, 'handleActionClick'>;
+    directoryList?: Partial<Omit<DirectoryListProps, 'handleActionClick'>>;
     createDirectory?: Partial<CreateDirectoryProps>;
     editDirectory?: Partial<EditDirectoryProps>;
   };
@@ -103,6 +103,7 @@ export interface DirectoriesWrapperProps {
   }) => void;
   errorCallback?: (errMessage: string) => void;
   urls: {
+    queryOpts: { name: string; type: 'slug' | 'qs' };
     get: string;
     post: string;
     patch: string;
