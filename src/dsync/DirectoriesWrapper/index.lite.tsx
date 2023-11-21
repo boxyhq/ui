@@ -104,8 +104,8 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           errorCallback={props.errorCallback}
           cancelCallback={state.switchToListView}
           urls={{
-            patch: `${props.urls.patch}?dsyncId=${state.directoryToEdit.id}`,
-            delete: `${props.urls.delete}?dsyncId=${state.directoryToEdit.id}`,
+            patch: `${props.urls.patch}${state.queryString}`,
+            delete: `${props.urls.delete}${state.queryString}`,
             get: `${props.urls.get}${state.queryString}`,
           }}
         />
