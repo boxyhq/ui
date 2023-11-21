@@ -32,11 +32,11 @@ export default function DirectoryList(props: DirectoryListProps) {
     },
     get actions(): TableProps['actions'] {
       return [
-        {
-          icon: 'EyeIcon',
-          label: 'View',
-          handleClick: (directory: Directory) => props.handleActionClick('view', directory),
-        },
+        // {
+        //   icon: 'EyeIcon',
+        //   label: 'View',
+        //   handleClick: (directory: Directory) => props.handleActionClick('view', directory),
+        // },
         {
           icon: 'PencilIcon',
           label: 'Edit',
