@@ -29,9 +29,9 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     },
     directoryToEdit: DEFAULT_VALUES.directoryToEdit,
     get queryString(): string {
-      if (props.urls.queryOpts.type === 'qs') {
-        return `?${props.urls.queryOpts.name}=${state.directoryToEdit.id}`;
-      } else if (props.urls.queryOpts.type === 'slug') {
+      if (props.urls.parameters.in === 'query') {
+        return `?${props.urls.parameters.name}=${state.directoryToEdit.id}`;
+      } else if (props.urls.parameters.in === 'path') {
         return `/${state.directoryToEdit.id}`;
       }
       return '';
