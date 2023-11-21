@@ -9,6 +9,7 @@ import ConfirmationPrompt from '../../shared/ConfirmationPrompt/index.lite';
 import Checkbox from '../../shared/Checkbox/index.lite';
 import InputField from '../../shared/inputs/InputField/index.lite';
 import SecretInputFormControl from '../../shared/inputs/SecretInputFormControl/index.lite';
+import { InputWithCopyButton } from '../../shared';
 
 type FormState = Pick<Directory, 'name' | 'log_webhook_events' | 'webhook' | 'google_domain'>;
 
@@ -102,8 +103,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
 
       sendHTTPrequest(props.urls.delete);
     },
-    isExcluded(fieldName: keyof Directory) {
-      return !!(props.excludeFields as (keyof Directory)[])?.includes(fieldName);
+    isExcluded(fieldName: Exclude<EditDirectoryProps['excludeFields'], undefined>[number]) {
+      return !!props.excludeFields?.includes(fieldName);
     },
     get shouldDisplayHeader() {
       if (props.displayHeader !== undefined) {
@@ -174,6 +175,24 @@ export default function EditDirectory(props: EditDirectoryProps) {
             value={state.directoryUpdated.name}
             handleInputChange={state.handleChange}
             required
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={!state.isExcluded('scim_endpoint')}>
+          <InputWithCopyButton
+            label='SCIM Endpoint'
+            text={state.directoryUpdated.scim?.endpoint}
+            copyDoneCallback={props.successCallback}
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={!state.isExcluded('scim_token')}>
+          <InputWithCopyButton
+            label='SCIM Token'
+            text={state.directoryUpdated.scim?.secret}
+            copyDoneCallback={props.successCallback}
             classNames={state.classes.inputField}
           />
           <Spacer y={6} />

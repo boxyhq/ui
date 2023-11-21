@@ -14,7 +14,7 @@ type SecretInputFormControlProps = {
   required: boolean;
   maxLength?: string;
   readOnly: boolean;
-  copyDoneCallback?: (info: any) => void;
+  copyDoneCallback?: (info: { operation: 'COPY' }) => void;
   handleChange: (event: Event) => void;
   classNames?: { input?: string };
 } & JSX.InputHTMLAttributes<HTMLInputElement>;

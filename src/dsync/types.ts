@@ -55,7 +55,7 @@ export interface EditDirectoryProps {
     get: string;
   };
   errorCallback?: (errMessage: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Directory }) => void;
+  successCallback?: (info: { operation: 'UPDATE' | 'DELETE' | 'COPY'; connection?: Directory }) => void;
   cancelCallback?: () => void;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
@@ -65,7 +65,7 @@ export interface EditDirectoryProps {
     input?: string;
     section?: string;
   };
-  excludeFields?: Array<keyof UnSavedDirectory>;
+  excludeFields?: Array<keyof (UnSavedDirectory & { scim_endpoint: string; scim_token: string })>;
   /** Use this boolean to toggle the header display on/off. Useful when using the edit component standalone */
   displayHeader?: boolean;
 }
