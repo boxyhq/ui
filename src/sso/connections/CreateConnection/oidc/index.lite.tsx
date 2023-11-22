@@ -261,6 +261,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           label='Well-known URL of OpenID Provider'
           classNames={state.classes.inputField}
           value={state.oidcConnection.oidcDiscoveryUrl}
+          handleInputChange={state.handleChange}
           placeholder='https://example.com/.well-known/openid-configuration'
           aria-describedby='oidc-metadata-hint'
         />
