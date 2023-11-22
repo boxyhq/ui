@@ -9,6 +9,9 @@ import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
 import Card from '../../../shared/Card/index.lite';
 import Anchor from '../../../shared/Anchor/index.lite';
+import CreateOIDCConnection from '../CreateConnection/oidc/index.lite';
+import RadioGroup from '../../../shared/RadioGroup/index.lite';
+import Radio from '../../../shared/Radio/index.lite';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionData<any>[],
@@ -17,6 +20,10 @@ const DEFAULT_VALUES = {
 
 export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
   const state = useStore({
+    ssoType: 'saml',
+    handleNewConnectionTypeChange: (event: any) => {
+      state.ssoType = event.target.value;
+    },
     connections: DEFAULT_VALUES.connectionListData,
     handleListFetchComplete: (connectionsList: ConnectionData<any>[]) => {
       state.connections = connectionsList;
@@ -165,17 +172,49 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       </Show>
       <Show when={state.view === 'CREATE'}>
         <Spacer y={5} />
-        <CreateSAMLConnection
-          {...props.componentProps.createSSOConnection?.componentProps?.saml}
-          classNames={props.classNames}
-          cancelCallback={state.switchToListView}
-          variant='basic'
-          successCallback={state.createSuccessCallback}
-          errorCallback={props.errorCallback}
-          urls={{
-            post: props.urls?.post || '',
-          }}
-        />
+        <h2 class={defaultClasses.heading}>Create SSO Connection</h2>
+        <RadioGroup label='Select SSO type'>
+          <Radio
+            name='ssoType'
+            value='saml'
+            checked={state.ssoType === 'saml'}
+            handleInputChange={state.handleNewConnectionTypeChange}>
+            SAML
+          </Radio>
+          <Radio
+            name='ssoType'
+            value='oidc'
+            checked={state.ssoType === 'oidc'}
+            handleInputChange={state.handleNewConnectionTypeChange}>
+            OIDC
+          </Radio>
+        </RadioGroup>
+        <Show when={state.ssoType === 'saml'}>
+          <CreateSAMLConnection
+            {...props.componentProps.createSSOConnection?.componentProps?.saml}
+            displayHeader={false}
+            classNames={props.classNames}
+            cancelCallback={state.switchToListView}
+            successCallback={state.createSuccessCallback}
+            errorCallback={props.errorCallback}
+            urls={{
+              post: props.urls?.post || '',
+            }}
+          />
+        </Show>
+        <Show when={state.ssoType === 'oidc'}>
+          <CreateOIDCConnection
+            {...props.componentProps.createSSOConnection?.componentProps?.oidc}
+            displayHeader={false}
+            classNames={props.classNames}
+            cancelCallback={state.switchToListView}
+            successCallback={state.createSuccessCallback}
+            errorCallback={props.errorCallback}
+            urls={{
+              post: props.urls?.post || '',
+            }}
+          />
+        </Show>
       </Show>
     </div>
   );
