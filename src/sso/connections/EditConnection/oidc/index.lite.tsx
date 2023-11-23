@@ -302,6 +302,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               copyDoneCallback={props.successCallback}
               handleChange={state.handleChange}
             />
+            <Spacer y={6} />
             <InputField
               id='oidcDiscoveryUrl'
               name='oidcDiscoveryUrl'
