@@ -309,6 +309,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               label='Well-known URL of OpenID Provider'
               classNames={state.classes.inputField}
               value={state.oidcConnection.oidcDiscoveryUrl || ''}
+              handleInputChange={state.handleChange}
               placeholder='https://example.com/.well-known/openid-configuration'
               aria-describedby='oidc-metadata-hint'
             />
@@ -372,6 +373,12 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               handleInputChange={state.handleChange}
               placeholder='https://example.com/userinfo'
             />
+            <div class={defaultClasses.formAction}>
+              <Show when={typeof props.cancelCallback === 'function'}>
+                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
+              </Show>
+              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
+            </div>
             <Spacer y={6} />
             <Card title='Connection info' variant='info' arrangement='vertical'>
               <div class={defaultClasses.info}>
@@ -423,12 +430,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               </div>
             </Card>
             <Spacer y={4} />
-            <div class={defaultClasses.formAction}>
-              <Show when={typeof props.cancelCallback === 'function'}>
-                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
-              </Show>
-              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
-            </div>
             <Show when={state.oidcConnection.clientID && state.oidcConnection.clientSecret}>
               <section class={state.classes.section}>
                 <div class={defaultClasses.info}>
