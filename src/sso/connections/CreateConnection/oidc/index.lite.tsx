@@ -250,9 +250,9 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           required
           aria-describedby='oidc-clientsecret-hint'
         />
-        <span id='oidc-clientsecret-hint' class={defaultClasses.hint}>
+        <div id='oidc-clientsecret-hint' class={defaultClasses.hint}>
           ClientSecret of the app created on the OIDC Provider.
-        </span>
+        </div>
         <Spacer y={6} />
         <InputField
           id='oidcDiscoveryUrl'
