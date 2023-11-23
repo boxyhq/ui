@@ -31,7 +31,7 @@ export interface CreateConnectionProps {
   }) => void;
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
-  excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
+  excludeFields?: Array<keyof SAMLSSOConnection> | Array<keyof OIDCSSOConnection>;
   urls: {
     post: string;
   };
@@ -52,25 +52,14 @@ export interface CreateConnectionProps {
   displayHeader?: boolean;
 }
 
-export interface CreateSSOConnectionProps {
-  setupLinkToken?: string;
-  idpEntityID?: string;
-  successCallback?: (info: { operation: 'COPY' }) => void;
-  /**
-   * Classnames for each inner components that make up the component.
-   */
-  classNames?: {
-    container?: string;
-    formControl?: string;
-    selectSSO?: string;
-    idpId?: string;
-    radio?: string;
-    span?: string;
-    label?: string;
+export interface CreateSSOConnectionProps extends Omit<CreateConnectionProps, 'variant' | 'excludeFields'> {
+  variant?: {
+    saml?: 'basic' | 'advanced';
+    oidc?: 'basic' | 'advanced';
   };
-  componentProps: {
-    saml: Partial<CreateConnectionProps>;
-    oidc: Partial<CreateConnectionProps>;
+  excludeFields?: {
+    saml?: Array<keyof SAMLSSOConnection>;
+    oidc?: Array<keyof OIDCSSOConnection>;
   };
 }
 
@@ -169,7 +158,8 @@ export interface OIDCSSORecord extends SSOConnection {
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
   oidcProvider: {
-    provider?: string;
+    provider: string | 'Unknown';
+    friendlyProviderName: string | null;
     discoveryUrl?: string;
     metadata?: IssuerMetadata;
     clientId?: string;
@@ -318,7 +308,7 @@ export interface ConnectionsWrapperProp {
     editOIDCConnection?: Partial<EditOIDCConnectionProps>;
     editSAMLConnection?: Partial<EditSAMLConnectionProps>;
   };
-  urls?: {
+  urls: {
     spMetadata?: string;
     get: string;
     post: string;

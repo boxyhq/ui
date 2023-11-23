@@ -66,7 +66,7 @@ export default function ConnectionList(props: ConnectionListProps) {
       }
 
       if ('oidcProvider' in connection) {
-        return connection.oidcProvider.provider;
+        return connection.oidcProvider.friendlyProviderName || connection.oidcProvider.provider;
       }
 
       return 'Unknown';
