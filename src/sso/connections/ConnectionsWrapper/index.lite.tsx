@@ -4,14 +4,11 @@ import type { ConnectionData, ConnectionsWrapperProp, OIDCSSOConnection, SAMLSSO
 import defaultClasses from './index.module.css';
 import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
-import CreateSAMLConnection from '../CreateConnection/saml/index.lite';
 import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
 import Card from '../../../shared/Card/index.lite';
 import Anchor from '../../../shared/Anchor/index.lite';
-import CreateOIDCConnection from '../CreateConnection/oidc/index.lite';
-import RadioGroup from '../../../shared/RadioGroup/index.lite';
-import Radio from '../../../shared/Radio/index.lite';
+import CreateSSOConnection from '../CreateConnection/index.lite';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionData<any>[],
@@ -94,9 +91,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <div class={defaultClasses.listView}>
         <Show when={state.view === 'LIST'}>
           <Show when={state.connectionsAdded}>
-            <Card
-              title={state.ssoEnabled ? 'SSO Enabled' : 'SSO Disabled'}
-              variant={state.ssoEnabled ? 'success' : 'info'}>
+            <Card title='' variant={state.ssoEnabled ? 'success' : 'info'} displayIcon={false}>
               <div class={defaultClasses.ctoa}>
                 <Show when={props.urls?.spMetadata}>
                   <Anchor
@@ -139,7 +134,6 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <Show when={state.view === 'EDIT'}>
         <Show when={state.connectionToEdit && 'oidcProvider' in state.connectionToEdit}>
           <EditOIDCConnection
-            {...props.componentProps.editOIDCConnection}
             classNames={props.classNames}
             cancelCallback={state.switchToListView}
             variant='basic'
@@ -151,11 +145,11 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
               patch: props.urls?.patch || '',
               get: `${props.urls?.get}?clientID=${state.connectionToEdit.clientID}` || '',
             }}
+            {...props.componentProps.editOIDCConnection}
           />
         </Show>
         <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
           <EditSAMLConnection
-            {...props.componentProps.editSAMLConnection}
             classNames={props.classNames}
             cancelCallback={state.switchToListView}
             variant='basic'
@@ -167,54 +161,22 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
               patch: props.urls?.patch || '',
               get: `${props.urls?.get}?clientID=${state.connectionToEdit.clientID}` || '',
             }}
+            {...props.componentProps.editSAMLConnection}
           />
         </Show>
       </Show>
       <Show when={state.view === 'CREATE'}>
         <Spacer y={5} />
-        <h2 class={defaultClasses.heading}>Create SSO Connection</h2>
-        <RadioGroup label='Select SSO type'>
-          <Radio
-            name='ssoType'
-            value='saml'
-            checked={state.ssoType === 'saml'}
-            handleInputChange={state.handleNewConnectionTypeChange}>
-            SAML
-          </Radio>
-          <Radio
-            name='ssoType'
-            value='oidc'
-            checked={state.ssoType === 'oidc'}
-            handleInputChange={state.handleNewConnectionTypeChange}>
-            OIDC
-          </Radio>
-        </RadioGroup>
-        <Show when={state.ssoType === 'saml'}>
-          <CreateSAMLConnection
-            {...props.componentProps.createSSOConnection?.componentProps?.saml}
-            displayHeader={false}
-            classNames={props.classNames}
-            cancelCallback={state.switchToListView}
-            successCallback={state.createSuccessCallback}
-            errorCallback={props.errorCallback}
-            urls={{
-              post: props.urls?.post || '',
-            }}
-          />
-        </Show>
-        <Show when={state.ssoType === 'oidc'}>
-          <CreateOIDCConnection
-            {...props.componentProps.createSSOConnection?.componentProps?.oidc}
-            displayHeader={false}
-            classNames={props.classNames}
-            cancelCallback={state.switchToListView}
-            successCallback={state.createSuccessCallback}
-            errorCallback={props.errorCallback}
-            urls={{
-              post: props.urls?.post || '',
-            }}
-          />
-        </Show>
+        <CreateSSOConnection
+          classNames={props.classNames}
+          cancelCallback={state.switchToListView}
+          successCallback={state.createSuccessCallback}
+          errorCallback={props.errorCallback}
+          urls={{
+            post: props.urls.post,
+          }}
+          {...props.componentProps.createSSOConnection}
+        />
       </Show>
     </div>
   );

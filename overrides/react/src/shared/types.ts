@@ -64,6 +64,7 @@ export interface CardProps {
   arrangement?: 'horizontal' | 'vertical';
   children?: any;
   title: string;
+  displayIcon?: boolean;
   variant: 'info' | 'success';
 }
 

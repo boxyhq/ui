@@ -52,7 +52,8 @@ export interface CreateConnectionProps {
   displayHeader?: boolean;
 }
 
-export interface CreateSSOConnectionProps extends Omit<CreateConnectionProps, 'variant' | 'excludeFields'> {
+export interface CreateSSOConnectionProps
+  extends Omit<CreateConnectionProps, 'variant' | 'excludeFields' | 'displayHeader'> {
   variant?: {
     saml?: 'basic' | 'advanced';
     oidc?: 'basic' | 'advanced';
