@@ -296,7 +296,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               label='Client Secret [OIDC Provider]'
               value={state.oidcConnection.oidcClientSecret}
               id='oidcClientSecret'
-              placeholder=''
               required={true}
               readOnly={false}
               copyDoneCallback={props.successCallback}
