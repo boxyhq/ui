@@ -23,6 +23,10 @@ export interface EmptyStateProps {
   className?: string;
   description?: string;
   slotLinkPrimary?: any;
+  /** Decides which icon to show
+   * @default info
+   */
+  variant?: 'error' | 'info';
 }
 
 export interface BadgeProps {

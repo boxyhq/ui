@@ -6,6 +6,7 @@ import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
 import Table from '../../../shared/Table/index.lite';
 import { BadgeProps, TableProps } from '../../../shared/types';
+import { fetchData } from '../../../shared/fetchData';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -16,6 +17,8 @@ export default function ConnectionList(props: ConnectionListProps) {
   const state = useStore({
     connectionListData: DEFAULT_VALUES.connectionListData,
     isConnectionListLoading: true,
+    showErrorComponent: false,
+    errorMessage: '',
     get classes() {
       return {
         tableContainer: cssClassAssembler(props.classNames?.tableContainer, defaultClasses.tableContainer),
@@ -86,8 +89,7 @@ export default function ConnectionList(props: ConnectionListProps) {
   });
 
   async function getFieldsData(url: string) {
-    const response = await fetch(url);
-    const { data, error } = await response.json();
+    const { data, error } = await fetchData(url);
 
     const _connectionsListData = data?.map((connection: ConnectionData<any>) => {
       return {
@@ -101,6 +103,8 @@ export default function ConnectionList(props: ConnectionListProps) {
 
     state.isConnectionListLoading = false;
     if (error) {
+      state.showErrorComponent = true;
+      state.errorMessage = error.message;
       typeof props.errorCallback === 'function' && props.errorCallback(error.message);
     } else {
       state.connectionListData = _connectionsListData;
@@ -109,6 +113,7 @@ export default function ConnectionList(props: ConnectionListProps) {
   }
 
   onUpdate(() => {
+    state.isConnectionListLoading = true;
     getFieldsData(state.listFetchUrl);
   }, [state.listFetchUrl]);
 
@@ -118,8 +123,14 @@ export default function ConnectionList(props: ConnectionListProps) {
         <Show
           when={state.connectionListData?.length > 0}
           else={
-            <Show when={props.children} else={<EmptyState title='No connections found.' />}>
-              {props.children}
+            <Show
+              when={state.showErrorComponent}
+              else={
+                <Show when={props.children} else={<EmptyState title='No connections found.' />}>
+                  {props.children}
+                </Show>
+              }>
+              <EmptyState title={state.errorMessage} variant='error' />
             </Show>
           }>
           <div class={state.classes.tableContainer}>
