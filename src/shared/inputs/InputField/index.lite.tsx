@@ -18,7 +18,7 @@ type InputProps = {
 export default function InputField(props: InputProps) {
   const state = useStore({
     get inputHTMLAttributes() {
-      const { type, name, id, value, handleInputChange, ...rest } = props;
+      const { type, id, name, label, value, classNames, handleInputChange, ...rest } = props;
       return rest;
     },
     get cssClass() {
