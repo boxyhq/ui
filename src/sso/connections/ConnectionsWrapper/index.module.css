@@ -1,6 +1,20 @@
-.ctoa {
+.header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 42px;
+}
+
+.h5 {
+  letter-spacing: 0.025em;
+  line-height: 1.25rem;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.ctoa {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .listView {

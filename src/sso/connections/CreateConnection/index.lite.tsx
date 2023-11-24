@@ -24,7 +24,6 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
 
   return (
     <div>
-      <h2 class={styles.heading}>Create SSO Connection</h2>
       <RadioGroup label='Select SSO type:'>
         <Radio
           name='connection'

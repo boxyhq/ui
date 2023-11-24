@@ -90,18 +90,22 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <div class={defaultClasses.listView}>
         <Show when={state.view === 'LIST'}>
           <Show when={state.connectionsAdded}>
-            <div class={defaultClasses.ctoa}>
-              <Show when={props.urls?.spMetadata}>
-                <Anchor
-                  href={props.urls!.spMetadata!}
-                  linkText='Access SP Metadata'
-                  variant='button'></Anchor>
-              </Show>
-              <Button
-                name='Add Connection'
-                handleClick={state.switchToCreateView}
-                classNames={props.classNames?.button?.ctoa}
-              />
+            <div class={defaultClasses.header}>
+              <h5 class={defaultClasses.h5}>Manage SSO Connections</h5>
+              <div class={defaultClasses.ctoa}>
+                <Show when={props.urls?.spMetadata}>
+                  <Anchor
+                    href={props.urls!.spMetadata!}
+                    linkText='Access SP Metadata'
+                    variant='button'></Anchor>
+                  <Spacer x={4} />
+                </Show>
+                <Button
+                  name='Add Connection'
+                  handleClick={state.switchToCreateView}
+                  classNames={props.classNames?.button?.ctoa}
+                />
+              </div>
             </div>
             <Spacer y={8} />
           </Show>
@@ -116,6 +120,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                   href={props.urls!.spMetadata!}
                   linkText='Access SP Metadata'
                   variant='button'></Anchor>
+                <Spacer x={4} />
               </Show>
               <Button
                 name='Add Connection'
@@ -127,6 +132,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         </Show>
       </div>
       <Show when={state.view === 'EDIT'}>
+        <div class={defaultClasses.header}>
+          <h5 class={defaultClasses.h5}>Edit SSO Connection</h5>
+        </div>
         <Show when={state.connectionToEdit && 'oidcProvider' in state.connectionToEdit}>
           <EditOIDCConnection
             classNames={props.classNames}
@@ -135,6 +143,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             errorCallback={props.errorCallback}
             // @ts-ignore
             successCallback={state.updateSuccessCallback}
+            displayHeader={false}
             urls={{
               delete: props.urls?.delete || '',
               patch: props.urls?.patch || '',
@@ -151,6 +160,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             errorCallback={props.errorCallback}
             // @ts-ignore
             successCallback={state.updateSuccessCallback}
+            displayHeader={false}
             urls={{
               delete: props.urls?.delete || '',
               patch: props.urls?.patch || '',
@@ -161,7 +171,10 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         </Show>
       </Show>
       <Show when={state.view === 'CREATE'}>
-        <Spacer y={5} />
+        <div class={defaultClasses.header}>
+          <h5 class={defaultClasses.h5}>Create SSO Connection</h5>
+        </div>
+        <Spacer y={8} />
         <CreateSSOConnection
           classNames={props.classNames}
           cancelCallback={state.switchToListView}
