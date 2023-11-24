@@ -38,7 +38,7 @@ const INITIAL_VALUES = {
     rawMetadata: '',
     metadataUrl: '',
     forceAuthn: false as boolean,
-  } as Partial<SAMLFormState>,
+  } as SAMLFormState,
 };
 
 type Keys = keyof typeof INITIAL_VALUES.samlConnection;

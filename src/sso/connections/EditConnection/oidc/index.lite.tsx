@@ -36,7 +36,7 @@ const INITIAL_VALUES = {
   'oidcMetadata.token_endpoint': '',
   'oidcMetadata.jwks_uri': '',
   'oidcMetadata.userinfo_endpoint': '',
-} as Partial<OIDCFormState>;
+} as OIDCFormState;
 
 type Keys = keyof typeof INITIAL_VALUES;
 type Values = (typeof INITIAL_VALUES)[Keys];
@@ -268,6 +268,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   label='Default redirect URL'
                   id='defaultRedirectUrl'
                   name='defaultRedirectUrl'
+                  classNames={state.classes.inputField}
                   required
                   placeholder='http://localhost:3366/login/saml'
                   type='url'
