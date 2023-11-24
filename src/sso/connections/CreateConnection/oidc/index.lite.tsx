@@ -245,6 +245,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           label='Client Secret'
           id='oidcClientSecret'
           readOnly={false}
+          classNames={state.classes.inputField}
           handleChange={state.handleChange}
           value={state.oidcConnection.oidcClientSecret}
           required
