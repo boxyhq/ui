@@ -6,7 +6,6 @@ import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
 import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
-import Card from '../../../shared/Card/index.lite';
 import Anchor from '../../../shared/Anchor/index.lite';
 import CreateSSOConnection from '../CreateConnection/index.lite';
 
@@ -91,21 +90,19 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <div class={defaultClasses.listView}>
         <Show when={state.view === 'LIST'}>
           <Show when={state.connectionsAdded}>
-            <Card title='' variant={state.ssoEnabled ? 'success' : 'info'} displayIcon={false}>
-              <div class={defaultClasses.ctoa}>
-                <Show when={props.urls?.spMetadata}>
-                  <Anchor
-                    href={props.urls!.spMetadata!}
-                    linkText='Access SP Metadata'
-                    variant='button'></Anchor>
-                </Show>
-                <Button
-                  name='Add Connection'
-                  handleClick={state.switchToCreateView}
-                  classNames={props.classNames?.button?.ctoa}
-                />
-              </div>
-            </Card>
+            <div class={defaultClasses.ctoa}>
+              <Show when={props.urls?.spMetadata}>
+                <Anchor
+                  href={props.urls!.spMetadata!}
+                  linkText='Access SP Metadata'
+                  variant='button'></Anchor>
+              </Show>
+              <Button
+                name='Add Connection'
+                handleClick={state.switchToCreateView}
+                classNames={props.classNames?.button?.ctoa}
+              />
+            </div>
             <Spacer y={8} />
           </Show>
           <ConnectionList
@@ -113,21 +110,19 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{ get: props.urls?.get || '' }}
             handleActionClick={state.switchToEditView}
             handleListFetchComplete={state.handleListFetchComplete}>
-            <Card variant='info' title='SSO not enabled'>
-              <div class={defaultClasses.ctoa}>
-                <Show when={props.urls?.spMetadata}>
-                  <Anchor
-                    href={props.urls!.spMetadata!}
-                    linkText='Access SP Metadata'
-                    variant='button'></Anchor>
-                </Show>
-                <Button
-                  name='Add Connection'
-                  handleClick={state.switchToCreateView}
-                  classNames={props.classNames?.button?.ctoa}
-                />
-              </div>
-            </Card>
+            <div class={defaultClasses.ctoa}>
+              <Show when={props.urls?.spMetadata}>
+                <Anchor
+                  href={props.urls!.spMetadata!}
+                  linkText='Access SP Metadata'
+                  variant='button'></Anchor>
+              </Show>
+              <Button
+                name='Add Connection'
+                handleClick={state.switchToCreateView}
+                classNames={props.classNames?.button?.ctoa}
+              />
+            </div>
           </ConnectionList>
         </Show>
       </div>
