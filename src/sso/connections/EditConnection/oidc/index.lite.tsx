@@ -373,6 +373,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               handleInputChange={state.handleChange}
               placeholder='https://example.com/userinfo'
             />
+            <Spacer y={6} />
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
