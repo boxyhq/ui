@@ -41,6 +41,10 @@
   margin-top: 40px;
 }
 
+.info {
+  width: 100%;
+}
+
 .info input,
 .info pre {
   background: var(--primary-color-50);
