@@ -197,7 +197,7 @@ declare namespace classNames {
 export declare function classNames(...args: classNames.ArgumentArray): string;
 
 export interface ToggleConnectionStatusProps {
-  connection: Partial<SAMLFormState | OIDCSSORecord>;
+  connection: SAMLFormState | OIDCFormState;
   urls: {
     patch: string;
   };
