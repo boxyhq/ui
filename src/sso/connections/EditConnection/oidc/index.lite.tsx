@@ -147,6 +147,12 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       }
       return true;
     },
+    get shouldDisplayInfoCard() {
+      if (props.displayInfo !== undefined) {
+        return props.displayInfo;
+      }
+      return true;
+    },
     get connectionFetchUrl() {
       return props.urls.get;
     },
@@ -371,53 +377,55 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
             </div>
             <Spacer y={6} />
-            <Card title='Connection info' variant='info' arrangement='vertical'>
-              <div class={defaultClasses.info}>
-                <Show when={state.formVariant === 'advanced'}>
-                  <Show when={!state.isExcluded('tenant')}>
-                    <InputField
-                      label='Tenant'
-                      id='tenant'
-                      placeholder='acme.com'
-                      classNames={state.classes.inputField}
-                      required={true}
-                      readOnly={true}
-                      value={state.oidcConnection.tenant!}
-                    />
-                    <Spacer y={6} />
+            <Show when={state.shouldDisplayInfoCard}>
+              <Card title='Connection info' variant='info' arrangement='vertical'>
+                <div class={defaultClasses.info}>
+                  <Show when={state.formVariant === 'advanced'}>
+                    <Show when={!state.isExcluded('tenant')}>
+                      <InputField
+                        label='Tenant'
+                        id='tenant'
+                        placeholder='acme.com'
+                        classNames={state.classes.inputField}
+                        required={true}
+                        readOnly={true}
+                        value={state.oidcConnection.tenant!}
+                      />
+                      <Spacer y={6} />
+                    </Show>
+                    <Show when={!state.isExcluded('product')}>
+                      <InputField
+                        label='Product'
+                        id='product'
+                        placeholder='demo'
+                        classNames={state.classes.inputField}
+                        required={true}
+                        readOnly={true}
+                        value={state.oidcConnection.product!}
+                      />
+                      <Spacer y={6} />
+                    </Show>
                   </Show>
-                  <Show when={!state.isExcluded('product')}>
-                    <InputField
-                      label='Product'
-                      id='product'
-                      placeholder='demo'
-                      classNames={state.classes.inputField}
-                      required={true}
-                      readOnly={true}
-                      value={state.oidcConnection.product!}
-                    />
-                    <Spacer y={6} />
-                  </Show>
-                </Show>
-                <InputWithCopyButton
-                  text={state.oidcConnection.clientID || ''}
-                  classNames={state.classes.inputField}
-                  label='Client ID'
-                  copyDoneCallback={props.successCallback}
-                />
-                <Spacer y={6} />
-                <SecretInputFormControl
-                  classNames={{ input: props.classNames?.secretInput }}
-                  label='Client Secret'
-                  value={state.oidcConnection.clientSecret}
-                  id='clientSecret'
-                  required={true}
-                  readOnly={true}
-                  copyDoneCallback={props.successCallback}
-                  handleChange={state.handleChange}
-                />
-              </div>
-            </Card>
+                  <InputWithCopyButton
+                    text={state.oidcConnection.clientID || ''}
+                    classNames={state.classes.inputField}
+                    label='Client ID'
+                    copyDoneCallback={props.successCallback}
+                  />
+                  <Spacer y={6} />
+                  <SecretInputFormControl
+                    classNames={{ input: props.classNames?.secretInput }}
+                    label='Client Secret'
+                    value={state.oidcConnection.clientSecret}
+                    id='clientSecret'
+                    required={true}
+                    readOnly={true}
+                    copyDoneCallback={props.successCallback}
+                    handleChange={state.handleChange}
+                  />
+                </div>
+              </Card>
+            </Show>
             <Spacer y={4} />
             <Show when={state.oidcConnection.clientID && state.oidcConnection.clientSecret}>
               <section class={state.classes.section}>

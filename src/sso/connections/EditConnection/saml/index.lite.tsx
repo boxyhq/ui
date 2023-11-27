@@ -145,6 +145,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       }
       return true;
     },
+    get shouldDisplayInfoCard() {
+      if (props.displayInfo !== undefined) {
+        return props.displayInfo;
+      }
+      return true;
+    },
     get connectionFetchUrl() {
       return props.urls.get;
     },
@@ -314,70 +320,72 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               </Show>
               <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
             </div>
-            <Card title='Connection info' variant='info' arrangement='vertical'>
-              <div class={defaultClasses.info}>
-                <Show when={state.formVariant === 'advanced'}>
-                  <Show when={!state.isExcluded('tenant')}>
-                    <InputField
-                      label='Tenant'
-                      id='tenant'
-                      placeholder='acme.com'
-                      classNames={state.classes.inputField}
-                      required={true}
-                      readOnly={true}
-                      value={state.samlConnection.tenant!}
-                    />
-                    <Spacer y={6} />
+            <Show when={state.shouldDisplayInfoCard}>
+              <Card title='Connection info' variant='info' arrangement='vertical'>
+                <div class={defaultClasses.info}>
+                  <Show when={state.formVariant === 'advanced'}>
+                    <Show when={!state.isExcluded('tenant')}>
+                      <InputField
+                        label='Tenant'
+                        id='tenant'
+                        placeholder='acme.com'
+                        classNames={state.classes.inputField}
+                        required={true}
+                        readOnly={true}
+                        value={state.samlConnection.tenant!}
+                      />
+                      <Spacer y={6} />
+                    </Show>
+                    <Show when={!state.isExcluded('product')}>
+                      <InputField
+                        label='Product'
+                        id='product'
+                        placeholder='demo'
+                        classNames={state.classes.inputField}
+                        required={true}
+                        readOnly={true}
+                        value={state.samlConnection.product!}
+                      />
+                      <Spacer y={6} />
+                    </Show>
                   </Show>
-                  <Show when={!state.isExcluded('product')}>
-                    <InputField
-                      label='Product'
-                      id='product'
-                      placeholder='demo'
-                      classNames={state.classes.inputField}
-                      required={true}
-                      readOnly={true}
-                      value={state.samlConnection.product!}
-                    />
-                    <Spacer y={6} />
-                  </Show>
-                </Show>
-                <div class={defaultClasses.container}>
-                  <span class={state.classes.label}>IdP Metadata</span>
-                  <Spacer y={2} />
-                  <pre aria-readonly={true} class={defaultClasses.pre}>
-                    {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
-                  </pre>
+                  <div class={defaultClasses.container}>
+                    <span class={state.classes.label}>IdP Metadata</span>
+                    <Spacer y={2} />
+                    <pre aria-readonly={true} class={defaultClasses.pre}>
+                      {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
+                    </pre>
+                  </div>
+                  <Spacer y={6} />
+                  <div class={defaultClasses.container}>
+                    <span class={state.classes.label}>IdP Certificate Validity</span>
+                    <Spacer y={2} />
+                    <pre aria-readonly={true} class={defaultClasses.pre}>
+                      {state.samlConnection.idpMetadata?.validTo}
+                    </pre>
+                  </div>
+                  <Spacer y={6} />
+                  <InputWithCopyButton
+                    text={state.samlConnection.clientID || ''}
+                    classNames={state.classes.inputField}
+                    label='Client ID'
+                    copyDoneCallback={props.successCallback}
+                  />
+                  <Spacer y={6} />
+                  <SecretInputFormControl
+                    classNames={{ input: props.classNames?.secretInput }}
+                    label='Client Secret'
+                    id='clientSecret'
+                    value={state.samlConnection.clientSecret!}
+                    readOnly={true}
+                    required={true}
+                    copyDoneCallback={props.successCallback}
+                    handleChange={state.handleChange}
+                  />
+                  <Spacer y={6} />
                 </div>
-                <Spacer y={6} />
-                <div class={defaultClasses.container}>
-                  <span class={state.classes.label}>IdP Certificate Validity</span>
-                  <Spacer y={2} />
-                  <pre aria-readonly={true} class={defaultClasses.pre}>
-                    {state.samlConnection.idpMetadata?.validTo}
-                  </pre>
-                </div>
-                <Spacer y={6} />
-                <InputWithCopyButton
-                  text={state.samlConnection.clientID || ''}
-                  classNames={state.classes.inputField}
-                  label='Client ID'
-                  copyDoneCallback={props.successCallback}
-                />
-                <Spacer y={6} />
-                <SecretInputFormControl
-                  classNames={{ input: props.classNames?.secretInput }}
-                  label='Client Secret'
-                  id='clientSecret'
-                  value={state.samlConnection.clientSecret!}
-                  readOnly={true}
-                  required={true}
-                  copyDoneCallback={props.successCallback}
-                  handleChange={state.handleChange}
-                />
-                <Spacer y={6} />
-              </div>
-            </Card>
+              </Card>
+            </Show>
             <Spacer y={4} />
             <Show when={state.samlConnection?.clientID && state.samlConnection.clientSecret}>
               <section class={state.classes.section}>

@@ -257,6 +257,8 @@ export interface EditOIDCConnectionProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
+  /** Use this boolean to toggle the info card display on/off. Useful when using the connection component standalone */
+  displayInfo?: boolean;
 }
 
 export interface EditSAMLConnectionProps {
@@ -287,6 +289,8 @@ export interface EditSAMLConnectionProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
+  /** Use this boolean to toggle the info card display on/off. Useful when using the connection component standalone */
+  displayInfo?: boolean;
 }
 
 export interface ConnectionsWrapperProp {
