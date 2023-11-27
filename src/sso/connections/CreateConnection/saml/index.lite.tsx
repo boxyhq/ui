@@ -247,6 +247,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               handleChange={state.handleChange}
               label='Force Authentication'
               name='forceAuthn'
+              id='forceAuthn'
             />
           </Show>
         </Show>
