@@ -4,11 +4,10 @@ import type { ConnectionData, ConnectionsWrapperProp, OIDCSSOConnection, SAMLSSO
 import defaultClasses from './index.module.css';
 import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
-import CreateSAMLConnection from '../CreateConnection/saml/index.lite';
 import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
-import Card from '../../../shared/Card/index.lite';
 import Anchor from '../../../shared/Anchor/index.lite';
+import CreateSSOConnection from '../CreateConnection/index.lite';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionData<any>[],
@@ -17,6 +16,10 @@ const DEFAULT_VALUES = {
 
 export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
   const state = useStore({
+    ssoType: 'saml',
+    handleNewConnectionTypeChange: (event: any) => {
+      state.ssoType = event.target.value;
+    },
     connections: DEFAULT_VALUES.connectionListData,
     handleListFetchComplete: (connectionsList: ConnectionData<any>[]) => {
       state.connections = connectionsList;
@@ -86,95 +89,84 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     <div>
       <div class={defaultClasses.listView}>
         <Show when={state.view === 'LIST'}>
-          <Show when={state.connectionsAdded}>
-            <Card
-              title={state.ssoEnabled ? 'SSO Enabled' : 'SSO Disabled'}
-              variant={state.ssoEnabled ? 'success' : 'info'}>
-              <div class={defaultClasses.ctoa}>
-                <Show when={props.urls?.spMetadata}>
-                  <Anchor
-                    href={props.urls!.spMetadata!}
-                    linkText='Access SP Metadata'
-                    variant='button'></Anchor>
-                </Show>
-                <Button
-                  name='Add Connection'
-                  handleClick={state.switchToCreateView}
-                  classNames={props.classNames?.button?.ctoa}
-                />
-              </div>
-            </Card>
-            <Spacer y={8} />
-          </Show>
+          <div class={defaultClasses.header}>
+            <h5 class={defaultClasses.h5}>Manage SSO Connections</h5>
+            <div class={defaultClasses.ctoa}>
+              <Show when={props.urls?.spMetadata}>
+                <Anchor
+                  href={props.urls!.spMetadata!}
+                  linkText='Access SP Metadata'
+                  variant='button'></Anchor>
+                <Spacer x={4} />
+              </Show>
+              <Button
+                name='Add Connection'
+                handleClick={state.switchToCreateView}
+                classNames={props.classNames?.button?.ctoa}
+              />
+            </div>
+          </div>
+          <Spacer y={8} />
           <ConnectionList
             {...props.componentProps.connectionList}
             urls={{ get: props.urls?.get || '' }}
             handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}>
-            <Card variant='info' title='SSO not enabled'>
-              <div class={defaultClasses.ctoa}>
-                <Show when={props.urls?.spMetadata}>
-                  <Anchor
-                    href={props.urls!.spMetadata!}
-                    linkText='Access SP Metadata'
-                    variant='button'></Anchor>
-                </Show>
-                <Button
-                  name='Add Connection'
-                  handleClick={state.switchToCreateView}
-                  classNames={props.classNames?.button?.ctoa}
-                />
-              </div>
-            </Card>
-          </ConnectionList>
+            handleListFetchComplete={state.handleListFetchComplete}></ConnectionList>
         </Show>
       </div>
       <Show when={state.view === 'EDIT'}>
+        <div class={defaultClasses.header}>
+          <h5 class={defaultClasses.h5}>Edit SSO Connection</h5>
+        </div>
         <Show when={state.connectionToEdit && 'oidcProvider' in state.connectionToEdit}>
           <EditOIDCConnection
-            {...props.componentProps.editOIDCConnection}
             classNames={props.classNames}
             cancelCallback={state.switchToListView}
             variant='basic'
             errorCallback={props.errorCallback}
             // @ts-ignore
             successCallback={state.updateSuccessCallback}
+            displayHeader={false}
             urls={{
               delete: props.urls?.delete || '',
               patch: props.urls?.patch || '',
               get: `${props.urls?.get}?clientID=${state.connectionToEdit.clientID}` || '',
             }}
+            {...props.componentProps.editOIDCConnection}
           />
         </Show>
         <Show when={state.connectionToEdit && 'idpMetadata' in state.connectionToEdit}>
           <EditSAMLConnection
-            {...props.componentProps.editSAMLConnection}
             classNames={props.classNames}
             cancelCallback={state.switchToListView}
             variant='basic'
             errorCallback={props.errorCallback}
             // @ts-ignore
             successCallback={state.updateSuccessCallback}
+            displayHeader={false}
             urls={{
               delete: props.urls?.delete || '',
               patch: props.urls?.patch || '',
               get: `${props.urls?.get}?clientID=${state.connectionToEdit.clientID}` || '',
             }}
+            {...props.componentProps.editSAMLConnection}
           />
         </Show>
       </Show>
       <Show when={state.view === 'CREATE'}>
-        <Spacer y={5} />
-        <CreateSAMLConnection
-          {...props.componentProps.createSSOConnection?.componentProps?.saml}
+        <div class={defaultClasses.header}>
+          <h5 class={defaultClasses.h5}>Create SSO Connection</h5>
+        </div>
+        <Spacer y={8} />
+        <CreateSSOConnection
           classNames={props.classNames}
           cancelCallback={state.switchToListView}
-          variant='basic'
           successCallback={state.createSuccessCallback}
           errorCallback={props.errorCallback}
           urls={{
-            post: props.urls?.post || '',
+            post: props.urls.post,
           }}
+          {...props.componentProps.createSSOConnection}
         />
       </Show>
     </div>

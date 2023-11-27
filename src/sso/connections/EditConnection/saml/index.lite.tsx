@@ -38,7 +38,7 @@ const INITIAL_VALUES = {
     rawMetadata: '',
     metadataUrl: '',
     forceAuthn: false as boolean,
-  } as Partial<SAMLFormState>,
+  } as SAMLFormState,
 };
 
 type Keys = keyof typeof INITIAL_VALUES.samlConnection;
@@ -79,10 +79,10 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
-      const name = target.name as Keys;
-      const targetValue = name !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked;
+      const id = target.id as Keys;
+      const targetValue = id !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked;
 
-      state.samlConnection = state.updateConnection(name, targetValue);
+      state.samlConnection = state.updateConnection(id, targetValue);
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
@@ -145,6 +145,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       }
       return true;
     },
+    get shouldDisplayInfoCard() {
+      if (props.displayInfo !== undefined) {
+        return props.displayInfo;
+      }
+      return true;
+    },
     get connectionFetchUrl() {
       return props.urls.get;
     },
@@ -187,7 +193,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       <div class={state.classes.formDiv}>
         <div class={defaultClasses.headingContainer}>
           <Show when={state.shouldDisplayHeader}>
-            <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
+            <h5 className={defaultClasses.h5}>Edit SSO Connection</h5>
           </Show>
           <ToggleConnectionStatus
             connection={state.samlConnection}
@@ -214,7 +220,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               <Show when={!state.isExcluded('name')}>
                 <InputField
                   label='Connection name (Optional)'
-                  name='name'
                   id='name'
                   classNames={state.classes.inputField}
                   placeholder='MyApp'
@@ -228,7 +233,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 <InputField
                   label='Description (Optional)'
                   id='description'
-                  name='description'
                   classNames={state.classes.inputField}
                   placeholder='A short description not more than 100 characters'
                   required={false}
@@ -242,7 +246,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 <TextArea
                   label='Allowed redirect URLs (newline separated)'
                   id='redirectUrl'
-                  name='redirectUrl'
                   classNames={state.classes.textarea}
                   required
                   aria-describedby='redirectUrl-hint'
@@ -260,7 +263,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 <InputField
                   label='Default redirect URL'
                   id='defaultRedirectUrl'
-                  name='defaultRedirectUrl'
                   required
                   classNames={state.classes.inputField}
                   placeholder='http://localhost:3366/login/saml'
@@ -274,7 +276,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             <TextArea
               label='Raw IdP XML'
               id='rawMetadata'
-              name='rawMetadata'
               classNames={state.classes.textarea}
               required={!state.samlConnection.idpMetadata && state.samlConnection.metadataUrl === ''}
               aria-describedby='xml-metadata-hint'
@@ -291,7 +292,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             <InputField
               label='Metadata URL'
               id='metadataUrl'
-              name='metadataUrl'
               classNames={state.classes.inputField}
               required={!state.samlConnection.idpMetadata && state.samlConnection.rawMetadata === ''}
               type='url'
@@ -320,72 +320,72 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               </Show>
               <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
             </div>
-            <Card title='Connection info' variant='info' arrangement='vertical'>
-              <div class={defaultClasses.info}>
-                <Show when={state.formVariant === 'advanced'}>
-                  <Show when={!state.isExcluded('tenant')}>
-                    <InputField
-                      label='Tenant'
-                      id='tenant'
-                      name='tenant'
-                      placeholder='acme.com'
-                      classNames={state.classes.inputField}
-                      required={true}
-                      readOnly={true}
-                      value={state.samlConnection.tenant!}
-                    />
-                    <Spacer y={6} />
+            <Show when={state.shouldDisplayInfoCard}>
+              <Card title='Connection info' variant='info' arrangement='vertical'>
+                <div class={defaultClasses.info}>
+                  <Show when={state.formVariant === 'advanced'}>
+                    <Show when={!state.isExcluded('tenant')}>
+                      <InputField
+                        label='Tenant'
+                        id='tenant'
+                        placeholder='acme.com'
+                        classNames={state.classes.inputField}
+                        required={true}
+                        readOnly={true}
+                        value={state.samlConnection.tenant!}
+                      />
+                      <Spacer y={6} />
+                    </Show>
+                    <Show when={!state.isExcluded('product')}>
+                      <InputField
+                        label='Product'
+                        id='product'
+                        placeholder='demo'
+                        classNames={state.classes.inputField}
+                        required={true}
+                        readOnly={true}
+                        value={state.samlConnection.product!}
+                      />
+                      <Spacer y={6} />
+                    </Show>
                   </Show>
-                  <Show when={!state.isExcluded('product')}>
-                    <InputField
-                      label='Product'
-                      id='product'
-                      name='product'
-                      placeholder='demo'
-                      classNames={state.classes.inputField}
-                      required={true}
-                      readOnly={true}
-                      value={state.samlConnection.product!}
-                    />
-                    <Spacer y={6} />
-                  </Show>
-                </Show>
-                <div class={defaultClasses.container}>
-                  <span class={state.classes.label}>IdP Metadata</span>
-                  <Spacer y={2} />
-                  <pre aria-readonly={true} class={defaultClasses.pre}>
-                    {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
-                  </pre>
+                  <div class={defaultClasses.container}>
+                    <span class={state.classes.label}>IdP Metadata</span>
+                    <Spacer y={2} />
+                    <pre aria-readonly={true} class={defaultClasses.pre}>
+                      {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
+                    </pre>
+                  </div>
+                  <Spacer y={6} />
+                  <div class={defaultClasses.container}>
+                    <span class={state.classes.label}>IdP Certificate Validity</span>
+                    <Spacer y={2} />
+                    <pre aria-readonly={true} class={defaultClasses.pre}>
+                      {state.samlConnection.idpMetadata?.validTo}
+                    </pre>
+                  </div>
+                  <Spacer y={6} />
+                  <InputWithCopyButton
+                    text={state.samlConnection.clientID || ''}
+                    classNames={state.classes.inputField}
+                    label='Client ID'
+                    copyDoneCallback={props.successCallback}
+                  />
+                  <Spacer y={6} />
+                  <SecretInputFormControl
+                    classNames={{ input: props.classNames?.secretInput }}
+                    label='Client Secret'
+                    id='clientSecret'
+                    value={state.samlConnection.clientSecret!}
+                    readOnly={true}
+                    required={true}
+                    copyDoneCallback={props.successCallback}
+                    handleChange={state.handleChange}
+                  />
+                  <Spacer y={6} />
                 </div>
-                <Spacer y={6} />
-                <div class={defaultClasses.container}>
-                  <span class={state.classes.label}>IdP Certificate Validity</span>
-                  <Spacer y={2} />
-                  <pre aria-readonly={true} class={defaultClasses.pre}>
-                    {state.samlConnection.idpMetadata?.validTo}
-                  </pre>
-                </div>
-                <Spacer y={6} />
-                <InputWithCopyButton
-                  text={state.samlConnection.clientID || ''}
-                  classNames={state.classes.inputField}
-                  label='Client ID'
-                  copyDoneCallback={props.successCallback}
-                />
-                <Spacer y={6} />
-                <SecretInputFormControl
-                  classNames={{ input: props.classNames?.secretInput }}
-                  label='Client Secret'
-                  id='clientSecret'
-                  value={state.samlConnection.clientSecret!}
-                  readOnly={true}
-                  required={true}
-                  copyDoneCallback={props.successCallback}
-                  handleChange={state.handleChange}
-                />
-                <Spacer y={6} />
-              </div>
-            </Card>
+              </Card>
+            </Show>
             <Spacer y={4} />
             <Show when={state.samlConnection?.clientID && state.samlConnection.clientSecret}>
               <section class={state.classes.section}>

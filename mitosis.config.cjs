@@ -20,13 +20,7 @@ const VUE_OPTIONS = {
   api: 'composition',
 };
 
-const components = [
-  'Login',
-  'CreateOIDCConnection',
-  'CreateSAMLConnection',
-  'CreateSSOConnection',
-  'ConnectionList',
-];
+const components = ['Login', 'CreateOIDCConnection', 'CreateSAMLConnection', 'ConnectionList'];
 
 const isMitosisNode = (x) => x && x['@type'] === '@builder.io/mitosis/node';
 

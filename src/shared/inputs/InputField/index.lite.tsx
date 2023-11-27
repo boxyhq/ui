@@ -8,7 +8,6 @@ import cssClassAssembler from '../../../sso/utils/cssClassAssembler';
 type InputProps = {
   type?: 'text' | 'number' | 'email' | 'url';
   id: string;
-  name: string;
   label: string;
   value: string;
   classNames?: { input?: string; label?: string; container?: string };
@@ -18,7 +17,7 @@ type InputProps = {
 export default function InputField(props: InputProps) {
   const state = useStore({
     get inputHTMLAttributes() {
-      const { type, name, id, value, handleInputChange, ...rest } = props;
+      const { type, id, label, value, classNames, handleInputChange, ...rest } = props;
       return rest;
     },
     get cssClass() {
@@ -38,7 +37,6 @@ export default function InputField(props: InputProps) {
       <Spacer y={2} />
       <input
         type={props.type || 'text'}
-        name={props.name}
         id={props.id}
         value={props.value}
         class={state.cssClass.input}

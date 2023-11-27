@@ -31,14 +31,13 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
     },
     updateConnectionStatus(status: boolean) {
       async function sendHTTPrequest() {
-        const body = {
-          clientID: props.connection?.clientID,
-          clientSecret: props.connection?.clientSecret,
-          tenant: props.connection?.tenant,
-          product: props.connection?.product,
+        type payload = { [key: string]: string | boolean };
+        const body: payload = {
+          clientID: props.connection.clientID,
+          clientSecret: props.connection.clientSecret,
+          tenant: props.connection.tenant,
+          product: props.connection.product,
           deactivated: status,
-          isSAML: false,
-          isOIDC: false,
         };
 
         const connectionIsSAML = 'idpMetadata' in props.connection ? true : false;

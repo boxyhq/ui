@@ -31,7 +31,7 @@ export interface CreateConnectionProps {
   }) => void;
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
-  excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
+  excludeFields?: Array<keyof SAMLSSOConnection> | Array<keyof OIDCSSOConnection>;
   urls: {
     post: string;
   };
@@ -52,25 +52,15 @@ export interface CreateConnectionProps {
   displayHeader?: boolean;
 }
 
-export interface CreateSSOConnectionProps {
-  setupLinkToken?: string;
-  idpEntityID?: string;
-  successCallback?: (info: { operation: 'COPY' }) => void;
-  /**
-   * Classnames for each inner components that make up the component.
-   */
-  classNames?: {
-    container?: string;
-    formControl?: string;
-    selectSSO?: string;
-    idpId?: string;
-    radio?: string;
-    span?: string;
-    label?: string;
+export interface CreateSSOConnectionProps
+  extends Omit<CreateConnectionProps, 'variant' | 'excludeFields' | 'displayHeader'> {
+  variant?: {
+    saml?: 'basic' | 'advanced';
+    oidc?: 'basic' | 'advanced';
   };
-  componentProps: {
-    saml: Partial<CreateConnectionProps>;
-    oidc: Partial<CreateConnectionProps>;
+  excludeFields?: {
+    saml?: Array<keyof SAMLSSOConnection>;
+    oidc?: Array<keyof OIDCSSOConnection>;
   };
 }
 
@@ -118,7 +108,7 @@ export interface IssuerMetadata {
 
 interface SSOConnection {
   defaultRedirectUrl: string;
-  redirectUrl: string[];
+  redirectUrl: string;
   tenant: string;
   product: string;
   name?: string;
@@ -138,7 +128,8 @@ export interface OIDCSSOConnection extends SSOConnection {
   oidcClientSecret?: string;
 }
 
-export interface SAMLSSORecord extends SAMLSSOConnection {
+export interface SAMLSSORecord extends Omit<SAMLSSOConnection, 'redirectUrl'> {
+  redirectUrl: string[];
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
   metadataUrl?: string;
@@ -165,11 +156,13 @@ export type SAMLFormState = {
   [K in keyof SAMLSSORecord]: K extends 'redirectUrl' ? string : SAMLSSORecord[K];
 };
 
-export interface OIDCSSORecord extends SSOConnection {
+export interface OIDCSSORecord extends Omit<SSOConnection, 'redirectUrl'> {
+  redirectUrl: string[];
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
   oidcProvider: {
-    provider?: string;
+    provider: string | 'Unknown';
+    friendlyProviderName: string | null;
     discoveryUrl?: string;
     metadata?: IssuerMetadata;
     clientId?: string;
@@ -206,7 +199,7 @@ declare namespace classNames {
 export declare function classNames(...args: classNames.ArgumentArray): string;
 
 export interface ToggleConnectionStatusProps {
-  connection: Partial<SAMLFormState | OIDCSSORecord>;
+  connection: SAMLFormState | OIDCFormState;
   urls: {
     patch: string;
   };
@@ -264,6 +257,8 @@ export interface EditOIDCConnectionProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
+  /** Use this boolean to toggle the info card display on/off. Useful when using the connection component standalone */
+  displayInfo?: boolean;
 }
 
 export interface EditSAMLConnectionProps {
@@ -294,6 +289,8 @@ export interface EditSAMLConnectionProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
+  /** Use this boolean to toggle the info card display on/off. Useful when using the connection component standalone */
+  displayInfo?: boolean;
 }
 
 export interface ConnectionsWrapperProp {
@@ -318,7 +315,7 @@ export interface ConnectionsWrapperProp {
     editOIDCConnection?: Partial<EditOIDCConnectionProps>;
     editSAMLConnection?: Partial<EditSAMLConnectionProps>;
   };
-  urls?: {
+  urls: {
     spMetadata?: string;
     get: string;
     post: string;

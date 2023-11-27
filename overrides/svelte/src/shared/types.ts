@@ -21,6 +21,10 @@ export interface EmptyStateProps {
   className?: string;
   description?: string;
   slotLinkPrimary?: any;
+  /** Decides which icon to show
+   * @default info
+   */
+  variant?: 'error' | 'info';
 }
 
 export interface BadgeProps {
@@ -51,6 +55,7 @@ export interface CardProps {
   arrangement?: 'horizontal' | 'vertical';
   children?: any;
   title: string;
+  displayIcon?: boolean;
   variant: 'info' | 'success';
 }
 

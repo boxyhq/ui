@@ -23,6 +23,10 @@ export interface EmptyStateProps {
   className?: string;
   description?: string;
   slotLinkPrimary?: any;
+  /** Decides which icon to show
+   * @default info
+   */
+  variant?: 'error' | 'info';
 }
 
 export interface BadgeProps {
@@ -60,6 +64,7 @@ export interface CardProps {
   arrangement?: 'horizontal' | 'vertical';
   children?: any;
   title: string;
+  displayIcon?: boolean;
   variant: 'info' | 'success';
 }
 
@@ -68,6 +73,34 @@ export interface LinkProps {
   linkText: string;
   cssClass?: string;
   variant?: 'primary' | 'button';
+}
+
+export interface RadioGroupProps {
+  label: string;
+  children: JSX.Element;
+  /** The arrangement of radio buttons
+   * @default 'horizontal'
+   */
+  orientation?: 'horizontal' | 'vertical';
+}
+
+export interface RadioProps {
+  name: string;
+  checked: boolean;
+  handleInputChange: (e: any) => void;
+  /**
+   * The value of the radio button, used when submitting an HTML form.
+   * See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#Value).
+   */
+  value: string;
+  /**
+   * The label for the radio.
+   */
+  children: JSX.Element;
+  /**
+   * Displays the radio button but can be disabled for selection.
+   */
+  isDisabled?: boolean;
 }
 
 export interface LoadingContainerProps {
