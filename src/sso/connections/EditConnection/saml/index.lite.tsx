@@ -79,10 +79,10 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
-      const name = target.name as Keys;
-      const targetValue = name !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked;
+      const id = target.id as Keys;
+      const targetValue = id !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked;
 
-      state.samlConnection = state.updateConnection(name, targetValue);
+      state.samlConnection = state.updateConnection(id, targetValue);
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
@@ -214,7 +214,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               <Show when={!state.isExcluded('name')}>
                 <InputField
                   label='Connection name (Optional)'
-                  name='name'
                   id='name'
                   classNames={state.classes.inputField}
                   placeholder='MyApp'
@@ -228,7 +227,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 <InputField
                   label='Description (Optional)'
                   id='description'
-                  name='description'
                   classNames={state.classes.inputField}
                   placeholder='A short description not more than 100 characters'
                   required={false}
@@ -242,7 +240,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 <TextArea
                   label='Allowed redirect URLs (newline separated)'
                   id='redirectUrl'
-                  name='redirectUrl'
                   classNames={state.classes.textarea}
                   required
                   aria-describedby='redirectUrl-hint'
@@ -260,7 +257,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 <InputField
                   label='Default redirect URL'
                   id='defaultRedirectUrl'
-                  name='defaultRedirectUrl'
                   required
                   classNames={state.classes.inputField}
                   placeholder='http://localhost:3366/login/saml'
@@ -274,7 +270,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             <TextArea
               label='Raw IdP XML'
               id='rawMetadata'
-              name='rawMetadata'
               classNames={state.classes.textarea}
               required={!state.samlConnection.idpMetadata && state.samlConnection.metadataUrl === ''}
               aria-describedby='xml-metadata-hint'
@@ -291,7 +286,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             <InputField
               label='Metadata URL'
               id='metadataUrl'
-              name='metadataUrl'
               classNames={state.classes.inputField}
               required={!state.samlConnection.idpMetadata && state.samlConnection.rawMetadata === ''}
               type='url'
@@ -327,7 +321,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                     <InputField
                       label='Tenant'
                       id='tenant'
-                      name='tenant'
                       placeholder='acme.com'
                       classNames={state.classes.inputField}
                       required={true}
@@ -340,7 +333,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                     <InputField
                       label='Product'
                       id='product'
-                      name='product'
                       placeholder='demo'
                       classNames={state.classes.inputField}
                       required={true}

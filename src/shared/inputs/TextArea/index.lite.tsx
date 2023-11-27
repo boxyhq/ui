@@ -7,7 +7,6 @@ import cssClassAssembler from '../../../sso/utils/cssClassAssembler';
 
 type TextAreaProps = {
   id: string;
-  name: string;
   label: string;
   value: string;
   classNames?: { textarea?: string; label?: string; container?: string };
@@ -17,7 +16,7 @@ type TextAreaProps = {
 export default function TextArea(props: TextAreaProps) {
   const state = useStore({
     get textAreaHTMLAttributes() {
-      const { type, name, id, value, handleInputChange, ...rest } = props;
+      const { type, id, value, handleInputChange, ...rest } = props;
       return rest;
     },
     get cssClass() {
@@ -35,7 +34,6 @@ export default function TextArea(props: TextAreaProps) {
       </label>
       <Spacer y={2} />
       <textarea
-        name={props.name}
         id={props.id}
         value={props.value}
         class={state.cssClass.textarea}

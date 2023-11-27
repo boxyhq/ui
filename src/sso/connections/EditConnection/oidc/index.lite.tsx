@@ -80,10 +80,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
-      const name = target.name as Keys;
+      const id = target.id as Keys;
       const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
 
-      state.oidcConnection = state.updateConnection(name, targetValue);
+      state.oidcConnection = state.updateConnection(id, targetValue);
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
@@ -222,7 +222,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 <InputField
                   label='Connection name (Optional)'
                   id='name'
-                  name='name'
                   classNames={state.classes.inputField}
                   placeholder='MyApp'
                   required={false}
@@ -235,7 +234,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 <InputField
                   label='Description (Optional)'
                   id='description'
-                  name='description'
                   classNames={state.classes.inputField}
                   placeholder='A short description not more than 100 characters'
                   required={false}
@@ -249,7 +247,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 <TextArea
                   label='Allowed redirect URLs (newline separated)'
                   id='redirectUrl'
-                  name='redirectUrl'
                   classNames={state.classes.textarea}
                   required
                   aria-describedby='redirectUrl-hint'
@@ -267,7 +264,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 <InputField
                   label='Default redirect URL'
                   id='defaultRedirectUrl'
-                  name='defaultRedirectUrl'
                   classNames={state.classes.inputField}
                   required
                   placeholder='http://localhost:3366/login/saml'
@@ -281,7 +277,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             <InputField
               label='Client ID [OIDC Provider]'
               id='oidcClientId'
-              name='oidcClientId'
               required={true}
               classNames={state.classes.inputField}
               value={state.oidcConnection.oidcClientId || ''}
@@ -305,7 +300,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             <Spacer y={6} />
             <InputField
               id='oidcDiscoveryUrl'
-              name='oidcDiscoveryUrl'
               type='url'
               label='Well-known URL of OpenID Provider'
               classNames={state.classes.inputField}
@@ -322,8 +316,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             <Separator text='OR' />
             <Spacer y={6} />
             <InputField
-              id='issuer'
-              name='oidcMetadata.issuer'
+              id='oidcMetadata.issuer'
               label='Issuer'
               classNames={state.classes.inputField}
               value={state.oidcConnection['oidcMetadata.issuer']!}
@@ -332,8 +325,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             />
             <Spacer y={6} />
             <InputField
-              id='authorization_endpoint'
-              name='oidcMetadata.authorization_endpoint'
+              id='oidcMetadata.authorization_endpoint'
               type='url'
               label='Authorization Endpoint'
               classNames={state.classes.inputField}
@@ -343,8 +335,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             />
             <Spacer y={6} />
             <InputField
-              id='token_endpoint'
-              name='oidcMetadata.token_endpoint'
+              id='oidcMetadata.token_endpoint'
               type='url'
               label='Token endpoint'
               classNames={state.classes.inputField}
@@ -354,8 +345,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             />
             <Spacer y={6} />
             <InputField
-              id='jwks_uri'
-              name='oidcMetadata.jwks_uri'
+              id='oidcMetadata.jwks_uri'
               type='url'
               label='JWKS URI'
               classNames={state.classes.inputField}
@@ -365,8 +355,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             />
             <Spacer y={6} />
             <InputField
-              id='userinfo_endpoint'
-              name='oidcMetadata.userinfo_endpoint'
+              id='oidcMetadata.userinfo_endpoint'
               type='url'
               label='UserInfo endpoint'
               classNames={state.classes.inputField}
@@ -389,7 +378,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     <InputField
                       label='Tenant'
                       id='tenant'
-                      name='tenant'
                       placeholder='acme.com'
                       classNames={state.classes.inputField}
                       required={true}
@@ -402,7 +390,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     <InputField
                       label='Product'
                       id='product'
-                      name='product'
                       placeholder='demo'
                       classNames={state.classes.inputField}
                       required={true}

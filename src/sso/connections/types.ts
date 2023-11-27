@@ -108,7 +108,7 @@ export interface IssuerMetadata {
 
 interface SSOConnection {
   defaultRedirectUrl: string;
-  redirectUrl: string[];
+  redirectUrl: string;
   tenant: string;
   product: string;
   name?: string;
@@ -128,7 +128,8 @@ export interface OIDCSSOConnection extends SSOConnection {
   oidcClientSecret?: string;
 }
 
-export interface SAMLSSORecord extends SAMLSSOConnection {
+export interface SAMLSSORecord extends Omit<SAMLSSOConnection, 'redirectUrl'> {
+  redirectUrl: string[];
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
   metadataUrl?: string;
@@ -155,7 +156,8 @@ export type SAMLFormState = {
   [K in keyof SAMLSSORecord]: K extends 'redirectUrl' ? string : SAMLSSORecord[K];
 };
 
-export interface OIDCSSORecord extends SSOConnection {
+export interface OIDCSSORecord extends Omit<SSOConnection, 'redirectUrl'> {
+  redirectUrl: string[];
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
   oidcProvider: {

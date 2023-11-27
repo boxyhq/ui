@@ -46,22 +46,22 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
-      const name = target.name as Keys;
+      const id = target.id as Keys;
       const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
-      state.oidcConnection = state.updateConnection(name, targetValue);
+      state.oidcConnection = state.updateConnection(id, targetValue);
     },
     save(event: Event) {
       event.preventDefault();
 
       state.loading = true;
 
-      const formObj: Partial<OIDCSSOConnection> = {};
+      const formObj = {} as Partial<OIDCSSOConnection>;
       Object.entries(state.oidcConnection).map(([key, val]) => {
         if (key.startsWith('oidcMetadata.')) {
           if (formObj.oidcMetadata === undefined) {
-            formObj.oidcMetadata = {} as OIDCSSOConnection['oidcMetadata'];
+            formObj.oidcMetadata = {} as Exclude<OIDCSSOConnection['oidcMetadata'], undefined>;
           }
-          formObj.oidcMetadata![key.replace('oidcMetadata.', '')] = val;
+          formObj.oidcMetadata[key.replace('oidcMetadata.', '')] = val;
         } else {
           formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val;
         }
@@ -132,7 +132,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <InputField
               label='Connection name (Optional)'
               id='name'
-              name='name'
               classNames={state.classes.inputField}
               placeholder='MyApp'
               required={false}
@@ -145,7 +144,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <InputField
               label='Description (Optional)'
               id='description'
-              name='description'
               classNames={state.classes.inputField}
               placeholder='A short description not more than 100 characters'
               required={false}
@@ -159,7 +157,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <InputField
               label='Tenant'
               id='tenant'
-              name='tenant'
               classNames={state.classes.inputField}
               required
               placeholder='acme.com'
@@ -181,7 +178,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <InputField
               label='Product'
               id='product'
-              name='product'
               classNames={state.classes.inputField}
               required
               placeholder='demo'
@@ -198,7 +194,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <TextArea
               label='Allowed redirect URLs (newline separated)'
               id='redirectUrl'
-              name='redirectUrl'
               classNames={state.classes.textarea}
               required
               aria-describedby='redirectUrl-hint'
@@ -216,7 +211,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <InputField
               label='Default redirect URL'
               id='defaultRedirectUrl'
-              name='defaultRedirectUrl'
               required
               placeholder='http://localhost:3366/login/saml'
               type='url'
@@ -231,7 +225,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <InputField
           label='Client ID'
           id='oidcClientId'
-          name='oidcClientId'
           classNames={state.classes.inputField}
           value={state.oidcConnection.oidcClientId}
           handleInputChange={state.handleChange}
@@ -257,7 +250,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <Spacer y={6} />
         <InputField
           id='oidcDiscoveryUrl'
-          name='oidcDiscoveryUrl'
           type='url'
           label='Well-known URL of OpenID Provider'
           classNames={state.classes.inputField}
@@ -274,8 +266,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         <Separator text='OR' />
         <Spacer y={6} />
         <InputField
-          id='issuer'
-          name='oidcMetadata.issuer'
+          id='oidcMetadata.issuer'
           label='Issuer'
           classNames={state.classes.inputField}
           value={state.oidcConnection['oidcMetadata.issuer']}
@@ -284,8 +275,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         />
         <Spacer y={6} />
         <InputField
-          id='authorization_endpoint'
-          name='oidcMetadata.authorization_endpoint'
+          id='oidcMetadata.authorization_endpoint'
           type='url'
           label='Authorization Endpoint'
           classNames={state.classes.inputField}
@@ -295,8 +285,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         />
         <Spacer y={6} />
         <InputField
-          id='token_endpoint'
-          name='oidcMetadata.token_endpoint'
+          id='oidcMetadata.token_endpoint'
           type='url'
           label='Token endpoint'
           classNames={state.classes.inputField}
@@ -306,8 +295,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         />
         <Spacer y={6} />
         <InputField
-          id='jwks_uri'
-          name='oidcMetadata.jwks_uri'
+          id='oidcMetadata.jwks_uri'
           type='url'
           label='JWKS URI'
           classNames={state.classes.inputField}
@@ -317,14 +305,14 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         />
         <Spacer y={6} />
         <InputField
-          id='userinfo_endpoint'
-          name='oidcMetadata.userinfo_endpoint'
+          id='oidcMetadata.userinfo_endpoint'
           type='url'
           label='UserInfo endpoint'
           classNames={state.classes.inputField}
           value={state.oidcConnection['oidcMetadata.userinfo_endpoint']}
           handleInputChange={state.handleChange}
           placeholder='https://example.com/userinfo'
+          autocomplete='one-time-code'
         />
         <Spacer y={6} />
         {/* TODO: bring loading state */}
