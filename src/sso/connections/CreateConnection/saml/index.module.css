@@ -1,17 +1,10 @@
 @import url('../../../../shared/common.module.css');
 
-.heading {
-  margin: 0 0 1.5rem 0;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--primary-text-color);
-}
-
-@media (min-width: 768px) {
-  .heading {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-  }
+.h5 {
+  letter-spacing: -0.025em;
+  line-height: 1;
+  font-weight: 500;
+  font-size: 1.25rem;
 }
 
 .hint {

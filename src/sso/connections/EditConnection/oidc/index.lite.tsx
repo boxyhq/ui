@@ -200,7 +200,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       <div class={state.classes.formDiv}>
         <div class={defaultClasses.headingContainer}>
           <Show when={state.shouldDisplayHeader}>
-            <h5 className={defaultClasses.heading}>Edit SSO Connection</h5>
+            <h5 className={defaultClasses.h5}>Edit SSO Connection</h5>
           </Show>
           <ToggleConnectionStatus
             connection={state.oidcConnection}

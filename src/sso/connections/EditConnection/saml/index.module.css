@@ -17,11 +17,11 @@
   margin-left: auto;
 }
 
-.heading {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-weight: 700;
-  color: rgb(55 65 81);
+.h5 {
+  letter-spacing: -0.025em;
+  line-height: 1;
+  font-weight: 500;
+  font-size: 1.25rem;
 }
 
 .fieldsContainer {

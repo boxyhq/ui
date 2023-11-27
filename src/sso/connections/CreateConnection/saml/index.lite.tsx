@@ -114,7 +114,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
   return (
     <div>
       <Show when={state.shouldDisplayHeader}>
-        <h5 class={defaultClasses.heading}>Create SSO Connection</h5>
+        <h5 class={defaultClasses.h5}>Create SSO Connection</h5>
       </Show>
       <form onSubmit={(event) => state.save(event)} method='post' class={state.classes.form}>
         <Show when={state.formVariant === 'advanced'}>
