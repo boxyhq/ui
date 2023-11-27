@@ -89,31 +89,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     <div>
       <div class={defaultClasses.listView}>
         <Show when={state.view === 'LIST'}>
-          <Show when={state.connectionsAdded}>
-            <div class={defaultClasses.header}>
-              <h5 class={defaultClasses.h5}>Manage SSO Connections</h5>
-              <div class={defaultClasses.ctoa}>
-                <Show when={props.urls?.spMetadata}>
-                  <Anchor
-                    href={props.urls!.spMetadata!}
-                    linkText='Access SP Metadata'
-                    variant='button'></Anchor>
-                  <Spacer x={4} />
-                </Show>
-                <Button
-                  name='Add Connection'
-                  handleClick={state.switchToCreateView}
-                  classNames={props.classNames?.button?.ctoa}
-                />
-              </div>
-            </div>
-            <Spacer y={8} />
-          </Show>
-          <ConnectionList
-            {...props.componentProps.connectionList}
-            urls={{ get: props.urls?.get || '' }}
-            handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}>
+          <div class={defaultClasses.header}>
+            <h5 class={defaultClasses.h5}>Manage SSO Connections</h5>
             <div class={defaultClasses.ctoa}>
               <Show when={props.urls?.spMetadata}>
                 <Anchor
@@ -128,7 +105,13 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                 classNames={props.classNames?.button?.ctoa}
               />
             </div>
-          </ConnectionList>
+          </div>
+          <Spacer y={8} />
+          <ConnectionList
+            {...props.componentProps.connectionList}
+            urls={{ get: props.urls?.get || '' }}
+            handleActionClick={state.switchToEditView}
+            handleListFetchComplete={state.handleListFetchComplete}></ConnectionList>
         </Show>
       </div>
       <Show when={state.view === 'EDIT'}>
