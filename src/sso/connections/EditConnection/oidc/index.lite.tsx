@@ -20,6 +20,7 @@ import TextArea from '../../../../shared/inputs/TextArea/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
 import Card from '../../../../shared/Card/index.lite';
 import { InputWithCopyButton } from '../../../../shared';
+import LoadingContainer from '../../../../shared/LoadingContainer/index.lite';
 
 const INITIAL_VALUES = {
   name: '',
@@ -44,6 +45,7 @@ type Values = (typeof INITIAL_VALUES)[Keys];
 export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
   const state = useStore({
     oidcConnection: INITIAL_VALUES,
+    isConnectionLoading: true,
     showDelConfirmation: false,
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
@@ -163,6 +165,8 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       const response = await fetch(url);
       const apiResponse: ApiResponse<OIDCSSORecord[]> = await response.json();
 
+      state.isConnectionLoading = false;
+
       if ('error' in apiResponse) {
         typeof props.errorCallback === 'function' && props.errorCallback(apiResponse.error.message);
         return;
@@ -196,7 +200,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
   }, [state.connectionFetchUrl]);
 
   return (
-    <div>
+    <LoadingContainer isBusy={state.isConnectionLoading}>
       <div class={state.classes.formDiv}>
         <div class={defaultClasses.headingContainer}>
           <Show when={state.shouldDisplayHeader}>
@@ -463,6 +467,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           </form>
         </div>
       </div>
-    </div>
+    </LoadingContainer>
   );
 }
