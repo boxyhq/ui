@@ -20,6 +20,7 @@ import Checkbox from '../../../../shared/Checkbox/index.lite';
 import InputField from '../../../../shared/inputs/InputField/index.lite';
 import TextArea from '../../../../shared/inputs/TextArea/index.lite';
 import { InputWithCopyButton } from '../../../../shared';
+import LoadingContainer from '../../../../shared/LoadingContainer/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -47,6 +48,7 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   const state = useStore({
     samlConnection: INITIAL_VALUES.samlConnection,
+    isConnectionLoading: true,
     showDelConfirmation: false,
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
@@ -161,6 +163,8 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       const response = await fetch(url);
       const apiResponse: ApiResponse<SAMLSSORecord[]> = await response.json();
 
+      state.isConnectionLoading = false;
+
       if ('error' in apiResponse) {
         typeof props.errorCallback === 'function' && props.errorCallback(apiResponse.error.message);
         return;
@@ -189,7 +193,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   }, [state.connectionFetchUrl]);
 
   return (
-    <div>
+    <LoadingContainer isBusy={state.isConnectionLoading}>
       <div class={state.classes.formDiv}>
         <div class={defaultClasses.headingContainer}>
           <Show when={state.shouldDisplayHeader}>
@@ -423,6 +427,6 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
           </form>
         </div>
       </div>
-    </div>
+    </LoadingContainer>
   );
 }

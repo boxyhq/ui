@@ -211,6 +211,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <InputField
               label='Default redirect URL'
               id='defaultRedirectUrl'
+              classNames={state.classes.inputField}
               required
               placeholder='http://localhost:3366/login/saml'
               type='url'
