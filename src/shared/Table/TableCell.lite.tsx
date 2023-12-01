@@ -10,11 +10,13 @@ export default function TableCell(props: TableCellProps) {
     },
     get cellValue() {
       const _col = props.col;
+      let value = '-';
       if (state.isStringColumn) {
-        return props.rowData[_col as string];
+        value = props.rowData[_col as string];
       } else if (state.isAdvancedColumnType) {
-        return props.rowData[(_col as TableCol).name];
+        value = props.rowData[(_col as TableCol).name];
       }
+      return value;
     },
     get isStringColumn() {
       return typeof props.col === 'string';

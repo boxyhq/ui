@@ -1,4 +1,4 @@
-import SecretInputFormControl from '../../../../shared/SecretInputFormControl/index.lite';
+import SecretInputFormControl from '../../../../shared/inputs/SecretInputFormControl/index.lite';
 import ToggleConnectionStatus from '../../ToggleConnectionStatus/index.lite';
 import { Show, useStore, onUpdate } from '@builder.io/mitosis';
 import type {
@@ -15,6 +15,12 @@ import cssClassAssembler from '../../../utils/cssClassAssembler';
 import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
 import ConfirmationPrompt from '../../../../shared/ConfirmationPrompt/index.lite';
+import InputField from '../../../../shared/inputs/InputField/index.lite';
+import TextArea from '../../../../shared/inputs/TextArea/index.lite';
+import Separator from '../../../../shared/Separator/index.lite';
+import Card from '../../../../shared/Card/index.lite';
+import { InputWithCopyButton } from '../../../../shared';
+import LoadingContainer from '../../../../shared/LoadingContainer/index.lite';
 
 const INITIAL_VALUES = {
   name: '',
@@ -31,7 +37,7 @@ const INITIAL_VALUES = {
   'oidcMetadata.token_endpoint': '',
   'oidcMetadata.jwks_uri': '',
   'oidcMetadata.userinfo_endpoint': '',
-} as Partial<OIDCFormState>;
+} as OIDCFormState;
 
 type Keys = keyof typeof INITIAL_VALUES;
 type Values = (typeof INITIAL_VALUES)[Keys];
@@ -39,6 +45,7 @@ type Values = (typeof INITIAL_VALUES)[Keys];
 export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
   const state = useStore({
     oidcConnection: INITIAL_VALUES,
+    isConnectionLoading: true,
     showDelConfirmation: false,
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
@@ -50,11 +57,17 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     get classes() {
       return {
         formDiv: cssClassAssembler(props.classNames?.formDiv, defaultClasses.formDiv),
-        fieldsContainer: cssClassAssembler(props.classNames?.fieldsContainer, defaultClasses.fieldsContainer),
-        fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
-        input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
-        textarea: cssClassAssembler(props.classNames?.textarea, defaultClasses.textarea),
+        inputField: {
+          label: props.classNames?.label,
+          input: props.classNames?.input,
+          container: props.classNames?.fieldContainer,
+        },
+        textarea: {
+          label: props.classNames?.label,
+          textarea: props.classNames?.textarea,
+          container: props.classNames?.fieldContainer,
+        },
         section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
       };
     },
@@ -69,15 +82,15 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
-      const name = target.name as Keys;
+      const id = target.id as Keys;
       const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
 
-      state.oidcConnection = state.updateConnection(name, targetValue);
+      state.oidcConnection = state.updateConnection(id, targetValue);
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
 
-      const formObj: any = {};
+      const formObj: any = { connectionIsOIDC: true };
       Object.entries(state.oidcConnection).map(([key, val]) => {
         if (key.startsWith('oidcMetadata.')) {
           if (formObj.oidcMetadata === undefined) {
@@ -103,7 +116,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           }
 
           if (rawResponse.ok) {
-            typeof props.successCallback === 'function' && props.successCallback(response.data);
+            typeof props.successCallback === 'function' && props.successCallback(formObj);
           }
         },
       });
@@ -125,7 +138,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
 
           if (rawResponse.ok) {
             typeof props.successCallback === 'function' &&
-              props.successCallback({ operation: 'UPDATE', connection: response.data });
+              props.successCallback({ operation: 'DELETE', connectionIsOIDC: true });
           }
         },
       });
@@ -136,12 +149,23 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       }
       return true;
     },
+    get shouldDisplayInfoCard() {
+      if (props.displayInfo !== undefined) {
+        return props.displayInfo;
+      }
+      return true;
+    },
+    get connectionFetchUrl() {
+      return props.urls.get;
+    },
   });
 
   onUpdate(() => {
     async function getConnection(url: string) {
       const response = await fetch(url);
       const apiResponse: ApiResponse<OIDCSSORecord[]> = await response.json();
+
+      state.isConnectionLoading = false;
 
       if ('error' in apiResponse) {
         typeof props.errorCallback === 'function' && props.errorCallback(apiResponse.error.message);
@@ -172,15 +196,15 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       }
       state.hasDiscoveryUrl = _connection.oidcProvider.discoveryUrl ? true : false;
     }
-    getConnection(props.urls.get);
-  }, [props.urls.get]);
+    getConnection(state.connectionFetchUrl);
+  }, [state.connectionFetchUrl]);
 
   return (
-    <div>
-      <div class={defaultClasses.formDiv}>
+    <LoadingContainer isBusy={state.isConnectionLoading}>
+      <div class={state.classes.formDiv}>
         <div class={defaultClasses.headingContainer}>
           <Show when={state.shouldDisplayHeader}>
-            <h2 className={defaultClasses.heading}>Edit SSO Connection</h2>
+            <h5 className={defaultClasses.h5}>Edit SSO Connection</h5>
           </Show>
           <ToggleConnectionStatus
             connection={state.oidcConnection}
@@ -203,299 +227,210 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
         </div>
         <div>
           <form onSubmit={(event) => state.saveSSOConnection(event)} method='post'>
-            <div class={state.classes.fieldsContainer}>
-              <div class={state.classes.fieldsDiv}>
-                <Show when={state.formVariant === 'advanced'}>
-                  <Show when={!state.isExcluded('name')}>
-                    <div class={defaultClasses.field}>
-                      <div class={defaultClasses.labelDiv}>
-                        <label for='name' class={state.classes.label}>
-                          Name
-                        </label>
-                      </div>
-                      <input
-                        class={state.classes.input}
-                        name='name'
-                        id='name'
-                        type='text'
-                        placeholder='MyApp'
-                        onInput={(event) => state.handleChange(event)}
-                        value={state.oidcConnection.name}
-                      />
-                    </div>
-                  </Show>
-                  <Show when={!state.isExcluded('description')}>
-                    <div class={defaultClasses.field}>
-                      <div class={defaultClasses.labelDiv}>
-                        <label for='description' class={state.classes.label}>
-                          Description
-                        </label>
-                      </div>
-                      <input
-                        class={state.classes.input}
-                        name='description'
-                        id='description'
-                        type='text'
-                        placeholder='A short description not more than 100 characters'
-                        maxLength={100}
-                        required={false}
-                        onInput={(event) => state.handleChange(event)}
-                        value={state.oidcConnection.description}
-                      />
-                    </div>
-                  </Show>
-                  <Show when={!state.isExcluded('redirectUrl')}>
-                    <div class={defaultClasses.field}>
-                      <div class={defaultClasses.labelDiv}>
-                        <label for='redirectUrl' class={state.classes.label}>
-                          Allowed redirect URLs (newline separated)
-                        </label>
-                      </div>
-                      <textarea
-                        class={state.classes.textarea}
-                        id='redirectUrl'
-                        name='redirectUrl'
-                        required={true}
-                        rows={3}
-                        placeholder='http://localhost:3366'
-                        onInput={(event) => state.handleChange(event)}
-                        value={state.oidcConnection.redirectUrl}
-                      />
-                    </div>
-                  </Show>
-                  <Show when={!state.isExcluded('defaultRedirectUrl')}>
-                    <div class={defaultClasses.field}>
-                      <div class={defaultClasses.labelDiv}>
-                        <label for='defaultRedirectUrl' class={state.classes.label}>
-                          Default redirect URL
-                        </label>
-                      </div>
-                      <input
-                        class={state.classes.input}
-                        name='defaultRedirectUrl'
-                        id='defaultRedirectUrl'
-                        required={true}
-                        type='url'
-                        placeholder='http://localhost:3366/login/saml'
-                        onInput={(event) => state.handleChange(event)}
-                        value={state.oidcConnection.defaultRedirectUrl}
-                      />
-                    </div>
-                  </Show>
-                </Show>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='oidcClientId' class={state.classes.label}>
-                      Client ID [OIDC Provider]
-                    </label>
-                  </div>
-                  <input
-                    class={state.classes.input}
-                    name='oidcClientId'
-                    id='oidcClientId'
-                    required={true}
-                    type='text'
-                    placeholder=''
-                    onInput={(event) => state.handleChange(event)}
-                    value={state.oidcConnection.oidcClientId}
-                  />
-                </div>
-                <SecretInputFormControl
-                  classNames={{ input: props.classNames?.secretInput }}
-                  label='Client Secret [OIDC Provider]'
-                  value={state.oidcConnection.oidcClientSecret}
-                  id='oidcClientSecret'
-                  placeholder=''
-                  required={true}
-                  readOnly={false}
-                  copyDoneCallback={props.copyDoneCallback}
-                  handleChange={state.handleChange}
+            <Show when={state.formVariant === 'advanced'}>
+              <Show when={!state.isExcluded('name')}>
+                <InputField
+                  label='Connection name (Optional)'
+                  id='name'
+                  classNames={state.classes.inputField}
+                  placeholder='MyApp'
+                  required={false}
+                  value={state.oidcConnection.name || ''}
+                  handleInputChange={state.handleChange}
                 />
-                <Show when={state.hasDiscoveryUrl}>
-                  <div class={defaultClasses.field}>
-                    <div class={defaultClasses.labelDiv}>
-                      <label for='oidcDiscoveryUrl' class={state.classes.label}>
-                        Well-known URL of OpenID Provider
-                      </label>
-                      <button
-                        type='button'
-                        class={defaultClasses.hint}
-                        onClick={() => state.toggleHasDiscoveryUrl()}>
-                        Missing the discovery URL? Click here to set the individual attributes
-                      </button>
-                    </div>
-                    <input
-                      class={state.classes.input}
-                      name='oidcDiscoveryUrl'
-                      id='oidcDiscoveryUrl'
-                      required={true}
-                      type='url'
-                      placeholder='https://example.com/.well-known/openid-configuration'
-                      onInput={(event) => state.handleChange(event)}
-                      value={state.oidcConnection.oidcDiscoveryUrl}
-                    />
-                  </div>
-                </Show>
-                <Show when={!state.hasDiscoveryUrl}>
-                  <div class={defaultClasses.field}>
-                    <div class={defaultClasses.labelDiv}>
-                      <label for='issuer' class={state.classes.label}>
-                        Issuer
-                      </label>
-                      <button
-                        type='button'
-                        class={defaultClasses.hint}
-                        onClick={() => state.toggleHasDiscoveryUrl()}>
-                        Have a discovery URL? Click here to set it
-                      </button>
-                    </div>
-                    <input
-                      class={state.classes.input}
-                      name='oidcMetadata.issuer'
-                      id='issuer'
-                      type='url'
-                      onInput={(event) => state.handleChange(event)}
-                      value={state.oidcConnection['oidcMetadata.issuer']}
-                    />
-                  </div>
-                  <div class={defaultClasses.field}>
-                    <div class={defaultClasses.labelDiv}>
-                      <label for='authorization_endpoint' class={state.classes.label}>
-                        Authorization Endpoint
-                      </label>
-                    </div>
-                    <input
-                      class={state.classes.input}
-                      id='authorization_endpoint'
-                      name='oidcMetadata.authorization_endpoint'
-                      type='url'
-                      onInput={(event) => state.handleChange(event)}
-                      value={state.oidcConnection['oidcMetadata.authorization_endpoint']}
-                    />
-                  </div>
-                  <div class={defaultClasses.field}>
-                    <div class={defaultClasses.labelDiv}>
-                      <label for='token_endpoint' class={state.classes.label}>
-                        Token endpoint
-                      </label>
-                    </div>
-                    <input
-                      class={state.classes.input}
-                      id='token_endpoint'
-                      name='oidcMetadata.token_endpoint'
-                      type='url'
-                      onInput={(event) => state.handleChange(event)}
-                      value={state.oidcConnection['oidcMetadata.token_endpoint']}
-                    />
-                  </div>
-                  <div class={defaultClasses.field}>
-                    <div class={defaultClasses.labelDiv}>
-                      <label for='jwks_uri' class={state.classes.label}>
-                        JWKS URI
-                      </label>
-                    </div>
-                    <input
-                      class={state.classes.input}
-                      id='jwks_uri'
-                      name='oidcMetadata.jwks_uri'
-                      type='url'
-                      onInput={(event) => state.handleChange(event)}
-                      value={state.oidcConnection['oidcMetadata.jwks_uri']}
-                    />
-                  </div>
-                  <div class={defaultClasses.field}>
-                    <div class={defaultClasses.labelDiv}>
-                      <label for='userinfo_endpoint' class={state.classes.label}>
-                        UserInfo endpoint
-                      </label>
-                    </div>
-                    <input
-                      class={state.classes.input}
-                      id='userinfo_endpoint'
-                      name='oidcMetadata.userinfo_endpoint'
-                      type='url'
-                      onInput={(event) => state.handleChange(event)}
-                      value={state.oidcConnection['oidcMetadata.userinfo_endpoint']}
-                    />
-                  </div>
-                </Show>
-              </div>
-              <div class={state.classes.fieldsDiv}>
-                <Show when={state.formVariant === 'advanced'}>
-                  <Show when={!state.isExcluded('tenant')}>
-                    <div class={defaultClasses.field}>
-                      <div class={defaultClasses.labelDiv}>
-                        <label for='tenant' class={state.classes.label}>
-                          Tenant
-                        </label>
-                      </div>
-                      <input
-                        class={state.classes.input}
-                        name='tenant'
-                        id='tenant'
-                        placeholder='acme.com'
-                        type='text'
-                        required={true}
-                        disabled={true}
-                        value={state.oidcConnection.tenant}
-                      />
-                    </div>
-                  </Show>
-                  <Show when={!state.isExcluded('product')}>
-                    <div class={defaultClasses.field}>
-                      <div class={defaultClasses.labelDiv}>
-                        <label for='product' class={state.classes.label}>
-                          Product
-                        </label>
-                      </div>
-                      <input
-                        class={state.classes.input}
-                        name='product'
-                        id='product'
-                        type='text'
-                        required={true}
-                        disabled={true}
-                        placeholder='demo'
-                        value={state.oidcConnection.product}
-                      />
-                    </div>
-                  </Show>
-                </Show>
-                <div class={defaultClasses.field}>
-                  <div class={defaultClasses.labelDiv}>
-                    <label for='clientID' class={state.classes.label}>
-                      Client ID
-                    </label>
-                  </div>
-                  <input
-                    class={state.classes.input}
-                    name='clientID'
-                    id='clientID'
-                    type='text'
-                    required={true}
-                    disabled={true}
-                    value={state.oidcConnection.clientID}
-                  />
-                </div>
-                <SecretInputFormControl
-                  classNames={{ input: props.classNames?.secretInput }}
-                  label='Client Secret'
-                  value={state.oidcConnection.clientSecret}
-                  id='clientSecret'
-                  required={true}
-                  readOnly={true}
-                  copyDoneCallback={props.copyDoneCallback}
-                  handleChange={state.handleChange}
+                <Spacer y={6} />
+              </Show>
+              <Show when={!state.isExcluded('description')}>
+                <InputField
+                  label='Description (Optional)'
+                  id='description'
+                  classNames={state.classes.inputField}
+                  placeholder='A short description not more than 100 characters'
+                  required={false}
+                  maxLength={100}
+                  value={state.oidcConnection.description || ''}
+                  handleInputChange={state.handleChange}
                 />
-              </div>
+                <Spacer y={6} />
+              </Show>
+              <Show when={!state.isExcluded('redirectUrl')}>
+                <TextArea
+                  label='Allowed redirect URLs (newline separated)'
+                  id='redirectUrl'
+                  classNames={state.classes.textarea}
+                  required
+                  aria-describedby='redirectUrl-hint'
+                  placeholder='http://localhost:3366'
+                  value={state.oidcConnection.redirectUrl || ''}
+                  handleInputChange={state.handleChange}
+                />
+                <div id='redirectUrl-hint' class={defaultClasses.hint}>
+                  URL to redirect the user to after login. You can specify multiple URLs by separating them
+                  with a new line.
+                </div>
+                <Spacer y={6} />
+              </Show>
+              <Show when={!state.isExcluded('defaultRedirectUrl')}>
+                <InputField
+                  label='Default redirect URL'
+                  id='defaultRedirectUrl'
+                  classNames={state.classes.inputField}
+                  required
+                  placeholder='http://localhost:3366/login/saml'
+                  type='url'
+                  value={state.oidcConnection.defaultRedirectUrl || ''}
+                  handleInputChange={state.handleChange}
+                />
+                <Spacer y={6} />
+              </Show>
+            </Show>
+            <InputField
+              label='Client ID [OIDC Provider]'
+              id='oidcClientId'
+              required={true}
+              classNames={state.classes.inputField}
+              value={state.oidcConnection.oidcClientId || ''}
+              handleInputChange={state.handleChange}
+              aria-describedby='oidc-clientid-hint'
+            />
+            <div id='oidc-clientid-hint' class={defaultClasses.hint}>
+              ClientId of the app created on the OIDC Provider.
             </div>
-            <Spacer y={4} />
+            <Spacer y={6} />
+            <SecretInputFormControl
+              classNames={{ input: props.classNames?.secretInput }}
+              label='Client Secret [OIDC Provider]'
+              value={state.oidcConnection.oidcClientSecret}
+              id='oidcClientSecret'
+              required={true}
+              readOnly={false}
+              copyDoneCallback={props.successCallback}
+              handleChange={state.handleChange}
+            />
+            <Spacer y={6} />
+            <InputField
+              id='oidcDiscoveryUrl'
+              type='url'
+              label='Well-known URL of OpenID Provider'
+              classNames={state.classes.inputField}
+              value={state.oidcConnection.oidcDiscoveryUrl || ''}
+              handleInputChange={state.handleChange}
+              placeholder='https://example.com/.well-known/openid-configuration'
+              aria-describedby='oidc-metadata-hint'
+            />
+            <div id='oidc-metadata-hint' class={defaultClasses.hint}>
+              Enter the well known discovery path of OpenID provider or manually enter the OpenId provider
+              metadata below.
+            </div>
+            <Spacer y={6} />
+            <Separator text='OR' />
+            <Spacer y={6} />
+            <InputField
+              id='oidcMetadata.issuer'
+              label='Issuer'
+              classNames={state.classes.inputField}
+              value={state.oidcConnection['oidcMetadata.issuer']!}
+              handleInputChange={state.handleChange}
+              placeholder='https://example.com'
+            />
+            <Spacer y={6} />
+            <InputField
+              id='oidcMetadata.authorization_endpoint'
+              type='url'
+              label='Authorization Endpoint'
+              classNames={state.classes.inputField}
+              value={state.oidcConnection['oidcMetadata.authorization_endpoint']!}
+              handleInputChange={state.handleChange}
+              placeholder='https://example.com/oauth/authorize'
+            />
+            <Spacer y={6} />
+            <InputField
+              id='oidcMetadata.token_endpoint'
+              type='url'
+              label='Token endpoint'
+              classNames={state.classes.inputField}
+              value={state.oidcConnection['oidcMetadata.token_endpoint']!}
+              handleInputChange={state.handleChange}
+              placeholder='https://example.com/oauth/token'
+            />
+            <Spacer y={6} />
+            <InputField
+              id='oidcMetadata.jwks_uri'
+              type='url'
+              label='JWKS URI'
+              classNames={state.classes.inputField}
+              value={state.oidcConnection['oidcMetadata.jwks_uri']!}
+              handleInputChange={state.handleChange}
+              placeholder='https://example.com/.well-known/jwks.json'
+            />
+            <Spacer y={6} />
+            <InputField
+              id='oidcMetadata.userinfo_endpoint'
+              type='url'
+              label='UserInfo endpoint'
+              classNames={state.classes.inputField}
+              value={state.oidcConnection['oidcMetadata.userinfo_endpoint']!}
+              handleInputChange={state.handleChange}
+              placeholder='https://example.com/userinfo'
+            />
+            <Spacer y={6} />
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
               </Show>
               <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
             </div>
+            <Spacer y={6} />
+            <Show when={state.shouldDisplayInfoCard}>
+              <Card title='Connection info' variant='info' arrangement='vertical'>
+                <div class={defaultClasses.info}>
+                  <Show when={state.formVariant === 'advanced'}>
+                    <Show when={!state.isExcluded('tenant')}>
+                      <InputField
+                        label='Tenant'
+                        id='tenant'
+                        placeholder='acme.com'
+                        classNames={state.classes.inputField}
+                        required={true}
+                        readOnly={true}
+                        value={state.oidcConnection.tenant!}
+                      />
+                      <Spacer y={6} />
+                    </Show>
+                    <Show when={!state.isExcluded('product')}>
+                      <InputField
+                        label='Product'
+                        id='product'
+                        placeholder='demo'
+                        classNames={state.classes.inputField}
+                        required={true}
+                        readOnly={true}
+                        value={state.oidcConnection.product!}
+                      />
+                      <Spacer y={6} />
+                    </Show>
+                  </Show>
+                  <InputWithCopyButton
+                    text={state.oidcConnection.clientID || ''}
+                    classNames={state.classes.inputField}
+                    label='Client ID'
+                    copyDoneCallback={props.successCallback}
+                  />
+                  <Spacer y={6} />
+                  <SecretInputFormControl
+                    classNames={{ input: props.classNames?.secretInput }}
+                    label='Client Secret'
+                    value={state.oidcConnection.clientSecret}
+                    id='clientSecret'
+                    required={true}
+                    readOnly={true}
+                    copyDoneCallback={props.successCallback}
+                    handleChange={state.handleChange}
+                  />
+                </div>
+              </Card>
+            </Show>
+            <Spacer y={4} />
             <Show when={state.oidcConnection.clientID && state.oidcConnection.clientSecret}>
               <section class={state.classes.section}>
                 <div class={defaultClasses.info}>
@@ -532,6 +467,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           </form>
         </div>
       </div>
-    </div>
+    </LoadingContainer>
   );
 }

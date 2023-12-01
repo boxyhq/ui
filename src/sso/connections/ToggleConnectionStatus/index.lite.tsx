@@ -31,19 +31,21 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
     },
     updateConnectionStatus(status: boolean) {
       async function sendHTTPrequest() {
-        const body = {
-          clientID: props.connection?.clientID,
-          clientSecret: props.connection?.clientSecret,
-          tenant: props.connection?.tenant,
-          product: props.connection?.product,
+        type payload = { [key: string]: string | boolean };
+        const body: payload = {
+          clientID: props.connection.clientID,
+          clientSecret: props.connection.clientSecret,
+          tenant: props.connection.tenant,
+          product: props.connection.product,
           deactivated: status,
-          isSAML: false,
-          isOIDC: false,
         };
 
-        if ('idpMetadata' in props.connection) {
+        const connectionIsSAML = 'idpMetadata' in props.connection ? true : false;
+        const connectionIsOIDC = 'oidcProvider' in props.connection ? true : false;
+
+        if (connectionIsSAML) {
           body['isSAML'] = true;
-        } else {
+        } else if (connectionIsOIDC) {
           body['isOIDC'] = true;
         }
 
@@ -62,7 +64,8 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
           return;
         }
 
-        typeof props.successCallback === 'function' && props.successCallback({ operation: 'UPDATE' });
+        typeof props.successCallback === 'function' &&
+          props.successCallback({ operation: 'UPDATE', connectionIsSAML, connectionIsOIDC });
       }
       sendHTTPrequest();
     },

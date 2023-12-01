@@ -1,4 +1,4 @@
-import { ConfirmationPromptProps } from '../../shared/types';
+import { ConfirmationPromptProps } from '../shared/types';
 
 export interface CreateDirectoryProps {
   excludeFields?: Array<keyof UnSavedDirectory>;

@@ -30,17 +30,22 @@
 		"./shared": {
 			"types": "./dist/shared/index.d.ts",
 			"svelte": "./dist/shared/index.js"
-		  },
+		},
 		"./sso": {
 			"types": "./dist/sso/index.d.ts",
 			"svelte": "./dist/sso/index.js"
+		},
+		"./dsync": {
+			"types": "./dist/dsync/index.d.ts",
+			"svelte": "./dist/dsync/index.js"
 		}
 	},
 	"files": [
 		"dist",
 		"index.d.ts",
 		"sso.d.ts",
-        "shared.d.ts",
+		"dsync.d.ts",
+		"shared.d.ts",
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*"
 	],
