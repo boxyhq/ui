@@ -24,12 +24,6 @@
   font-size: 1.25rem;
 }
 
-@media (min-width: 768px) {
-  .heading {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-  }
-}
 .fieldsContainer {
   display: flex;
   gap: 16px;
