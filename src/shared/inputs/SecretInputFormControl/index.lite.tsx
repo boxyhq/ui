@@ -11,7 +11,7 @@ type SecretInputFormControlProps = {
   value?: string;
   id: string;
   placeholder?: string;
-  required: boolean;
+  required?: boolean;
   maxLength?: string;
   readOnly: boolean;
   copyDoneCallback?: (info: { operation: 'COPY' }) => void;
@@ -56,7 +56,6 @@ export default function SecretInputFormControl(props: SecretInputFormControlProp
         placeholder={props.placeholder}
         value={props.value || ''}
         id={props.id}
-        name={props.id}
         required={props.required}
         maxLength={props.maxLength}
         readOnly={props.readOnly}
