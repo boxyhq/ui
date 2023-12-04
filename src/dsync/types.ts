@@ -103,7 +103,6 @@ export interface DirectoriesWrapperProps {
   }) => void;
   errorCallback?: (errMessage: string) => void;
   urls: {
-    parameters: { name: string; in: 'path' | 'query' };
     get: string;
     post: string;
     patch: string;

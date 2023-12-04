@@ -27,14 +27,6 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       return state.directoriesAdded && state.directories.some((directory) => directory.deactivated === false);
     },
     directoryToEdit: DEFAULT_VALUES.directoryToEdit,
-    get queryString(): string {
-      if (props.urls.parameters.in === 'query') {
-        return `?${props.urls.parameters.name}=${state.directoryToEdit.id}`;
-      } else if (props.urls.parameters.in === 'path') {
-        return `/${state.directoryToEdit.id}`;
-      }
-      return '';
-    },
     switchToCreateView() {
       state.view = 'CREATE';
     },
@@ -65,7 +57,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       <div class={styles.listview}>
         <Show when={state.view === 'LIST'}>
           <div class={styles.header}>
-            <h5 class={styles.h5}>Manage DSync Connections</h5>
+            <h5 class={styles.h5}>Manage Dsync Connections</h5>
             <div class={styles.ctoa}>
               <Button
                 name='Add Connection'
@@ -90,9 +82,9 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           errorCallback={props.errorCallback}
           cancelCallback={state.switchToListView}
           urls={{
-            patch: `${props.urls.patch}${state.queryString}`,
-            delete: `${props.urls.delete}${state.queryString}`,
-            get: `${props.urls.get}${state.queryString}`,
+            patch: `${props.urls.patch}/${state.directoryToEdit.id}`,
+            delete: `${props.urls.delete}/${state.directoryToEdit.id}`,
+            get: `${props.urls.get}/${state.directoryToEdit.id}`,
           }}
         />
       </Show>
