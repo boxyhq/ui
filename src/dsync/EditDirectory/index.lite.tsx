@@ -1,4 +1,4 @@
-import type { Directory, EditDirectoryProps, ApiResponse } from '../types';
+import type { Directory, EditDirectoryProps, ApiResponse, UnSavedDirectory } from '../types';
 import { useStore, onUpdate, Show } from '@builder.io/mitosis';
 import ToggleConnectionStatus from '../ToggleConnectionStatus/index.lite';
 import defaultClasses from './index.module.css';
@@ -11,15 +11,16 @@ import InputField from '../../shared/inputs/InputField/index.lite';
 import SecretInputFormControl from '../../shared/inputs/SecretInputFormControl/index.lite';
 import { InputWithCopyButton } from '../../shared';
 
-type FormState = Pick<Directory, 'name' | 'log_webhook_events' | 'webhook' | 'google_domain'>;
+type FormState = Pick<
+  UnSavedDirectory,
+  'name' | 'log_webhook_events' | 'webhook_url' | 'webhook_secret' | 'google_domain'
+>;
 
 const DEFAULT_FORM_STATE: FormState = {
   name: '',
   log_webhook_events: false,
-  webhook: {
-    endpoint: '',
-    secret: '',
-  },
+  webhook_url: '',
+  webhook_secret: '',
   google_domain: '',
 };
 
