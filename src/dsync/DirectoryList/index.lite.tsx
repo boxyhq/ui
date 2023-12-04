@@ -22,6 +22,8 @@ export default function DirectoryList(props: DirectoryListProps) {
       }));
     },
     isDirectoryListLoading: true,
+    showErrorComponent: false,
+    errorMessage: '',
     get classes() {
       return {
         tableContainer: cssClassAssembler(props.classNames?.tableContainer, defaultClasses.tableContainer),
@@ -32,11 +34,6 @@ export default function DirectoryList(props: DirectoryListProps) {
     },
     get actions(): TableProps['actions'] {
       return [
-        // {
-        //   icon: 'EyeIcon',
-        //   label: 'View',
-        //   handleClick: (directory: Directory) => props.handleActionClick('view', directory),
-        // },
         {
           icon: 'PencilIcon',
           label: 'Edit',
@@ -94,6 +91,8 @@ export default function DirectoryList(props: DirectoryListProps) {
       state.isDirectoryListLoading = false;
 
       if (error) {
+        state.showErrorComponent = true;
+        state.errorMessage = error.message;
         typeof props.errorCallback === 'function' && props.errorCallback(error.message);
       } else {
         state.directoryListData = directoriesListData;
@@ -104,22 +103,24 @@ export default function DirectoryList(props: DirectoryListProps) {
   }, [state.listFetchUrl]);
 
   return (
-    <Show
-      when={state.isDirectoryListLoading}
-      else={
-        <Show
-          when={state.directoryListData.length > 0}
-          else={
-            <Show when={props.children} else={<EmptyState title='No directories found.' />}>
-              {props.children}
-            </Show>
-          }>
-          <div class={state.classes.tableContainer}>
-            <Table cols={state.colsToDisplay} data={state.directoryListData} actions={state.actions} />
-          </div>
-        </Show>
-      }>
-      <LoadingContainer isBusy={state.isDirectoryListLoading} />
-    </Show>
+    <LoadingContainer isBusy={state.isDirectoryListLoading}>
+      <Show
+        when={state.directoryListData.length > 0}
+        else={
+          <Show
+            when={state.showErrorComponent}
+            else={
+              <Show when={props.children} else={<EmptyState title='No directories found.' />}>
+                {props.children}
+              </Show>
+            }>
+            <EmptyState title={state.errorMessage} variant='error' />
+          </Show>
+        }>
+        <div class={state.classes.tableContainer}>
+          <Table cols={state.colsToDisplay} data={state.directoryListData} actions={state.actions} />
+        </div>
+      </Show>
+    </LoadingContainer>
   );
 }
