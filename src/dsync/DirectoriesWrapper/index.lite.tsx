@@ -4,7 +4,6 @@ import CreateDirectory from '../CreateDirectory/index.lite';
 import Spacer from '../../shared/Spacer/index.lite';
 import EditDirectory from '../EditDirectory/index.lite';
 import DirectoryList from '../DirectoryList/index.lite';
-import Card from '../../shared/Card/index.lite';
 import Button from '../../shared/Button/index.lite';
 import styles from './index.module.css';
 
@@ -65,35 +64,22 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     <div>
       <div class={styles.listview}>
         <Show when={state.view === 'LIST'}>
-          <Show when={state.directoriesAdded}>
-            <Card
-              title={state.dsyncEnabled ? 'Directory Sync enabled' : 'Directory Sync disabled'}
-              variant={state.dsyncEnabled ? 'success' : 'info'}>
-              <div class={styles.ctoa}>
-                <Button
-                  name='Add Connection'
-                  handleClick={state.switchToCreateView}
-                  classNames={props.classNames?.button?.ctoa}
-                />
-              </div>
-            </Card>
-            <Spacer y={4} />
-          </Show>
+          <div class={styles.header}>
+            <h5 class={styles.h5}>Manage DSync Connections</h5>
+            <div class={styles.ctoa}>
+              <Button
+                name='Add Connection'
+                handleClick={state.switchToCreateView}
+                classNames={props.classNames?.button?.ctoa}
+              />
+            </div>
+          </div>
+          <Spacer y={8} />
           <DirectoryList
             {...props.componentProps?.directoryList}
             urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}>
-            <Card variant='info' title='Directories not enabled'>
-              <div class={styles.ctoa}>
-                <Button
-                  name='Add Connection'
-                  handleClick={state.switchToCreateView}
-                  classNames={props.classNames?.button?.ctoa}
-                />
-              </div>
-            </Card>
-          </DirectoryList>
+            handleListFetchComplete={state.handleListFetchComplete}></DirectoryList>
         </Show>
       </div>
       <Show when={state.view === 'EDIT'}>
