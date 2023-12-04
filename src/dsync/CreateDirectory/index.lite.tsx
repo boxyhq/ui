@@ -12,6 +12,7 @@ import Button from '../../shared/Button/index.lite';
 import Spacer from '../../shared/Spacer/index.lite';
 import Select from '../../shared/Select/index.lite';
 import InputField from '../../shared/inputs/InputField/index.lite';
+import SecretInputFormControl from '../../shared/inputs/SecretInputFormControl/index.lite';
 // import Checkbox from '../../../shared/Checkbox/index.lite';
 
 const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
@@ -186,13 +187,15 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
           <Spacer y={6} />
         </Show>
         <Show when={!state.isExcluded('webhook_secret')}>
-          <InputField
+          <SecretInputFormControl
             label='Webhook secret'
             id='webhook_secret'
             name='webhook_secret'
             value={state.directory.webhook_secret}
-            handleInputChange={state.handleChange}
+            handleChange={state.handleChange}
             classNames={state.classes.inputField}
+            required={false}
+            readOnly={false}
           />
           <Spacer y={6} />
         </Show>
