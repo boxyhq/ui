@@ -50,10 +50,10 @@ export default function EditDirectory(props: EditDirectoryProps) {
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement;
-      const name = target.name;
+      const id = target.id;
       const value = target.type === 'checkbox' ? target.checked : target.value;
 
-      state.directoryUpdated = state.updateFormState(name, value);
+      state.directoryUpdated = state.updateFormState(id, value);
     },
     onSubmit(event: Event) {
       event.preventDefault();
@@ -128,9 +128,9 @@ export default function EditDirectory(props: EditDirectoryProps) {
           ...directoryData,
           name: directoryData.name,
           log_webhook_events: directoryData.log_webhook_events,
-          webhook_url: directoryData.webhook?.endpoint,
-          webhook_secret: directoryData.webhook?.secret,
-          google_domain: directoryData.google_domain,
+          webhook_url: directoryData.webhook.endpoint || '',
+          webhook_secret: directoryData.webhook.secret || '',
+          google_domain: directoryData.google_domain || '',
           deactivated: directoryData.deactivated,
         };
       }
@@ -172,7 +172,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
           <InputField
             label='Directory name'
             id='name'
-            name='name'
             value={state.directoryUpdated.name}
             handleInputChange={state.handleChange}
             required
@@ -202,7 +201,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
           <InputField
             label='Directory domain'
             id='google_domain'
-            name='google_domain'
             value={state.directoryUpdated.google_domain}
             handleInputChange={state.handleChange}
             classNames={state.classes.inputField}
@@ -214,7 +212,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
             type='url'
             label='Webhook URL'
             id='webhook_url'
-            name='webhook_url'
             value={state.directoryUpdated.webhook_url}
             handleInputChange={state.handleChange}
             classNames={state.classes.inputField}
@@ -225,7 +222,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
           <SecretInputFormControl
             label='Webhook secret'
             id='webhook_secret'
-            name='webhook_secret'
             classNames={state.classes.inputField}
             handleChange={state.handleChange}
             value={state.directoryUpdated.webhook_secret}
