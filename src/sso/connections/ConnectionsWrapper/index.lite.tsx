@@ -87,8 +87,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
 
   return (
     <div>
-      <div class={defaultClasses.listView}>
-        <Show when={state.view === 'LIST'}>
+      <Show when={state.view === 'LIST'}>
+        <div class={defaultClasses.listView}>
           <div class={defaultClasses.header}>
             <h5 class={defaultClasses.h5}>Manage SSO Connections</h5>
             <div class={defaultClasses.ctoa}>
@@ -112,8 +112,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
             handleListFetchComplete={state.handleListFetchComplete}></ConnectionList>
-        </Show>
-      </div>
+        </div>
+      </Show>
       <Show when={state.view === 'EDIT'}>
         <div class={defaultClasses.header}>
           <h5 class={defaultClasses.h5}>Edit SSO Connection</h5>
