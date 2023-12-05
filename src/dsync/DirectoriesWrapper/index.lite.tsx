@@ -75,12 +75,16 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
         </Show>
       </div>
       <Show when={state.view === 'EDIT'}>
+        <div class={styles.header}>
+          <h5 class={styles.h5}>Edit Dsync Connection</h5>
+        </div>
         <EditDirectory
           {...props.componentProps?.editDirectory}
           classNames={props.classNames}
           successCallback={state.successHandler}
           errorCallback={props.errorCallback}
           cancelCallback={state.switchToListView}
+          displayHeader={false}
           urls={{
             patch: `${props.urls.patch}/${state.directoryToEdit.id}`,
             delete: `${props.urls.delete}/${state.directoryToEdit.id}`,
@@ -89,6 +93,9 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
         />
       </Show>
       <Show when={state.view === 'CREATE'}>
+        <div class={styles.header}>
+          <h5 class={styles.h5}>Create Dsync Connection</h5>
+        </div>
         <Spacer y={5} />
         <CreateDirectory
           {...props.componentProps?.createDirectory}
@@ -96,6 +103,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           successCallback={state.successHandler}
           errorCallback={props.errorCallback}
           cancelCallback={state.switchToListView}
+          displayHeader={false}
           urls={{
             post: props.urls.post,
           }}
