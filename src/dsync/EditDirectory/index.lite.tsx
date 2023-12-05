@@ -10,6 +10,7 @@ import Checkbox from '../../shared/Checkbox/index.lite';
 import InputField from '../../shared/inputs/InputField/index.lite';
 import SecretInputFormControl from '../../shared/inputs/SecretInputFormControl/index.lite';
 import { InputWithCopyButton } from '../../shared';
+import LoadingContainer from '../../shared/LoadingContainer/index.lite';
 
 type FormState = Pick<
   UnSavedDirectory,
@@ -26,11 +27,11 @@ const DEFAULT_FORM_STATE: FormState = {
 
 export default function EditDirectory(props: EditDirectoryProps) {
   const state: any = useStore({
-    loading: true,
     showDelConfirmation: false,
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
     },
+    isDirectoryLoading: true,
     directoryUpdated: DEFAULT_FORM_STATE,
     get classes() {
       return {
@@ -58,7 +59,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
     onSubmit(event: Event) {
       event.preventDefault();
 
-      state.loading = true;
       async function sendHttpRequest(url: string) {
         const rawResponse = await fetch(url, {
           method: 'PATCH',
@@ -67,8 +67,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
           },
           body: JSON.stringify(state.directoryUpdated),
         });
-
-        state.loading = false;
 
         const response: ApiResponse<Directory> = await rawResponse.json();
 
@@ -123,6 +121,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
       const response = await fetch(url);
       const { data: directoryData, error } = await response.json();
 
+      state.isDirectoryLoading = false;
       if (directoryData) {
         state.directoryUpdated = {
           ...directoryData,
@@ -143,7 +142,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
   }, [state.directoryFetchUrl]);
 
   return (
-    <div>
+    <LoadingContainer isBusy={state.isDirectoryLoading}>
       <div class={defaultClasses.headingContainer}>
         <Show when={state.shouldDisplayHeader}>
           <h2 className={defaultClasses.heading}>Update Directory</h2>
@@ -278,6 +277,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
         </Show>
       </section>
-    </div>
+    </LoadingContainer>
   );
 }
