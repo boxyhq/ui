@@ -54,8 +54,8 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
 
   return (
     <div>
-      <div class={styles.listview}>
-        <Show when={state.view === 'LIST'}>
+      <Show when={state.view === 'LIST'}>
+        <div class={styles.listview}>
           <div class={styles.header}>
             <h5 class={styles.h5}>Manage Dsync Connections</h5>
             <div class={styles.ctoa}>
@@ -72,8 +72,8 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
             urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
             handleListFetchComplete={state.handleListFetchComplete}></DirectoryList>
-        </Show>
-      </div>
+        </div>
+      </Show>
       <Show when={state.view === 'EDIT'}>
         <div class={styles.header}>
           <h5 class={styles.h5}>Edit Dsync Connection</h5>
