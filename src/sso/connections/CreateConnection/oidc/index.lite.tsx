@@ -213,11 +213,15 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='defaultRedirectUrl'
               classNames={state.classes.inputField}
               required
-              placeholder='http://localhost:3366/login/saml'
+              aria-describedby='defaultRedirectUrl-hint'
+              placeholder='http://localhost:3366'
               type='url'
               value={state.oidcConnection.defaultRedirectUrl}
               handleInputChange={state.handleChange}
             />
+            <div id='defaultRedirectUrl-hint' class={defaultClasses.hint}>
+              URL to redirect to in case a valid redirect_uri is not found.
+            </div>
             <Spacer y={6} />
           </Show>
           <Separator text='OIDC Provider Metadata' />

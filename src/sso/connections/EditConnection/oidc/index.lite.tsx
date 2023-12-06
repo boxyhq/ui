@@ -276,11 +276,15 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   id='defaultRedirectUrl'
                   classNames={state.classes.inputField}
                   required
+                  aria-describedby='defaultRedirectUrl-hint'
                   placeholder='http://localhost:3366/login/saml'
                   type='url'
                   value={state.oidcConnection.defaultRedirectUrl || ''}
                   handleInputChange={state.handleChange}
                 />
+                <div id='defaultRedirectUrl-hint' class={defaultClasses.hint}>
+                  URL to redirect to in case a valid redirect_uri is not found.
+                </div>
                 <Spacer y={6} />
               </Show>
             </Show>
