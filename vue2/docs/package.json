@@ -9,7 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "3.33.0",
+    "core-js": "3.34.0",
     "prismjs": "1.29.0",
     "vue": "2.7.14",
     "vue-router": "3.6.5"
