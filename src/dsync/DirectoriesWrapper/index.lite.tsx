@@ -4,7 +4,6 @@ import CreateDirectory from '../CreateDirectory/index.lite';
 import Spacer from '../../shared/Spacer/index.lite';
 import EditDirectory from '../EditDirectory/index.lite';
 import DirectoryList from '../DirectoryList/index.lite';
-import Card from '../../shared/Card/index.lite';
 import Button from '../../shared/Button/index.lite';
 import styles from './index.module.css';
 
@@ -38,62 +37,75 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     switchToListView() {
       state.view = 'LIST';
     },
-    createSuccessCallback(info: { operation: 'CREATE'; connection?: Directory | undefined }) {
-      props.componentProps.createDirectory.successCallback?.(info);
-      state.switchToListView();
-    },
-    updateSuccessCallback(info: { operation: 'UPDATE' | 'DELETE'; connection?: Directory | undefined }) {
-      // TODO handle oidc updation
-      props.componentProps.editDirectory.successCallback?.(info);
-      state.switchToListView();
+    successHandler(info: { connection?: Directory; operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY' }) {
+      const { connection, operation } = info;
+
+      if (typeof props.successCallback === 'function') {
+        props.successCallback({
+          operation,
+          connection,
+        });
+      }
+      if (operation !== 'COPY') {
+        state.switchToListView();
+      }
     },
   });
 
   return (
     <div>
-      <div class={styles.listview}>
-        <Show when={state.view === 'LIST'}>
-          <Show when={state.directoriesAdded}>
-            <Card
-              title={state.dsyncEnabled ? 'Directory Sync enabled' : 'Directory Sync disabled'}
-              variant={state.dsyncEnabled ? 'success' : 'info'}>
-              <div class={styles.ctoa}>
-                <Button name='Add Connection' handleClick={state.switchToCreateView} />
-              </div>
-            </Card>
-            <Spacer y={4} />
-          </Show>
-          <Spacer y={4} />
+      <Show when={state.view === 'LIST'}>
+        <div class={styles.listview}>
+          <div class={styles.header}>
+            <h5 class={styles.h5}>Manage Dsync Connections</h5>
+            <div class={styles.ctoa}>
+              <Button
+                name='Add Connection'
+                handleClick={state.switchToCreateView}
+                classNames={props.classNames?.button?.ctoa}
+              />
+            </div>
+          </div>
+          <Spacer y={8} />
           <DirectoryList
-            {...props.componentProps.directoryList}
+            {...props.componentProps?.directoryList}
+            urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}>
-            <Card variant='info' title='Directories not enabled'>
-              <Button name='Add Connection' handleClick={state.switchToCreateView} />
-            </Card>
-          </DirectoryList>
-        </Show>
-      </div>
+            handleListFetchComplete={state.handleListFetchComplete}></DirectoryList>
+        </div>
+      </Show>
       <Show when={state.view === 'EDIT'}>
+        <div class={styles.header}>
+          <h5 class={styles.h5}>Edit Dsync Connection</h5>
+        </div>
         <EditDirectory
-          {...props.componentProps.editDirectory}
-          successCallback={state.updateSuccessCallback}
-          errorCallback={props.componentProps.editDirectory.errorCallback}
+          {...props.componentProps?.editDirectory}
+          classNames={props.classNames}
+          successCallback={state.successHandler}
+          errorCallback={props.errorCallback}
+          cancelCallback={state.switchToListView}
+          displayHeader={false}
           urls={{
-            patch: `${props.componentProps.editDirectory.urls?.patch}/${state.directoryToEdit.id}` || '',
-            delete: `${props.componentProps.editDirectory.urls?.delete}/${state.directoryToEdit.id}` || '',
-            get: `${props.componentProps.editDirectory.urls?.get}/${state.directoryToEdit.id}` || '',
+            patch: `${props.urls.patch}/${state.directoryToEdit.id}`,
+            delete: `${props.urls.delete}/${state.directoryToEdit.id}`,
+            get: `${props.urls.get}/${state.directoryToEdit.id}`,
           }}
         />
       </Show>
       <Show when={state.view === 'CREATE'}>
+        <div class={styles.header}>
+          <h5 class={styles.h5}>Create Dsync Connection</h5>
+        </div>
         <Spacer y={5} />
         <CreateDirectory
-          {...props.componentProps.createDirectory}
-          successCallback={state.createSuccessCallback}
-          errorCallback={props.componentProps.createDirectory.errorCallback}
+          {...props.componentProps?.createDirectory}
+          classNames={props.classNames}
+          successCallback={state.successHandler}
+          errorCallback={props.errorCallback}
+          cancelCallback={state.switchToListView}
+          displayHeader={false}
           urls={{
-            post: props.componentProps.createDirectory.urls?.post || '',
+            post: props.urls.post,
           }}
         />
       </Show>

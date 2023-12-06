@@ -11,6 +11,8 @@ import cssClassAssembler from '../../sso/utils/cssClassAssembler';
 import Button from '../../shared/Button/index.lite';
 import Spacer from '../../shared/Spacer/index.lite';
 import Select from '../../shared/Select/index.lite';
+import InputField from '../../shared/inputs/InputField/index.lite';
+import SecretInputFormControl from '../../shared/inputs/SecretInputFormControl/index.lite';
 // import Checkbox from '../../../shared/Checkbox/index.lite';
 
 const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
@@ -45,10 +47,13 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     },
     get classes() {
       return {
-        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
         fieldContainer: cssClassAssembler(props.classNames?.fieldContainer, defaultClasses.fieldContainer),
         label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
-        input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
+        inputField: {
+          label: props.classNames?.label,
+          input: props.classNames?.input,
+          container: props.classNames?.fieldContainer,
+        },
       };
     },
     get shouldDisplayHeader() {
@@ -108,22 +113,16 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
       </Show>
       <form onSubmit={(event) => state.onSubmit(event)}>
         <Show when={!state.isExcluded('name')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='name' class={state.classes.label}>
-              <span class={defaultClasses.labelText}>Directory name</span>
-            </label>
-            <Spacer y={2} />
-            <input
-              type='text'
-              id='name'
-              name='name'
-              class={state.classes.input}
-              required={true}
-              onChange={(event) => state.handleChange(event)}
-              value={state.directory.name}
-            />
-            <Spacer y={6} />
-          </div>
+          <InputField
+            label='Directory name'
+            id='name'
+            name='name'
+            value={state.directory.name}
+            handleInputChange={state.handleChange}
+            required
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
         </Show>
         <Show when={!state.isExcluded('type')}>
           <div class={state.classes.fieldContainer}>
@@ -139,93 +138,66 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
           </div>
         </Show>
         <Show when={state.showDomain}>
-          <div class={state.classes.fieldContainer}>
-            <label for='google_domain' class={state.classes.label}>
-              Directory domain
-            </label>
-            <Spacer y={2} />
-            <input
-              type='text'
-              id='google_domain'
-              name='google_domain'
-              class={state.classes.input}
-              onChange={(event) => state.handleChange(event)}
-              value={state.directory.google_domain}
-              pattern={`^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$`}
-              title='Please enter a valid domain (e.g: boxyhq.com)'
-            />
-            <Spacer y={6} />
-          </div>
+          <InputField
+            label='Directory domain'
+            id='google_domain'
+            name='google_domain'
+            value={state.directory.google_domain || ''}
+            handleInputChange={state.handleChange}
+            pattern={`^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$`}
+            title='Please enter a valid domain (e.g: boxyhq.com)'
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
         </Show>
         <Show when={!state.isExcluded('tenant')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='tenant' class={state.classes.label}>
-              Tenant
-            </label>
-            <Spacer y={2} />
-            <input
-              type='text'
-              id='tenant'
-              name='tenant'
-              class={state.classes.input}
-              required={true}
-              onChange={(event) => state.handleChange(event)}
-              value={state.directory.tenant}
-            />
-            <Spacer y={6} />
-          </div>
+          <InputField
+            label='Tenant'
+            id='tenant'
+            name='tenant'
+            value={state.directory.tenant}
+            handleInputChange={state.handleChange}
+            required
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
         </Show>
         <Show when={!state.isExcluded('product')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='product' class={state.classes.label}>
-              Product
-            </label>
-            <Spacer y={2} />
-            <input
-              type='text'
-              id='product'
-              name='product'
-              class={state.classes.input}
-              required={true}
-              onChange={(event) => state.handleChange(event)}
-              value={state.directory.product}
-            />
-            <Spacer y={6} />
-          </div>
+          <InputField
+            label='Product'
+            id='product'
+            name='product'
+            value={state.directory.product}
+            handleInputChange={state.handleChange}
+            required
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
         </Show>
         <Show when={!state.isExcluded('webhook_url')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='webhook_url' class={state.classes.label}>
-              Webhook URL
-            </label>
-            <Spacer y={2} />
-            <input
-              type='url'
-              id='webhook_url'
-              name='webhook_url'
-              class={state.classes.input}
-              onChange={(event) => state.handleChange(event)}
-              value={state.directory.webhook_url}
-            />
-            <Spacer y={6} />
-          </div>
+          <InputField
+            type='url'
+            label='Webhook URL'
+            id='webhook_url'
+            name='webhook_url'
+            value={state.directory.webhook_url}
+            handleInputChange={state.handleChange}
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
         </Show>
         <Show when={!state.isExcluded('webhook_secret')}>
-          <div class={state.classes.fieldContainer}>
-            <label for='webhook_secret' class={state.classes.label}>
-              Webhook secret
-            </label>
-            <Spacer y={2} />
-            <input
-              type='text'
-              id='webhook_secret'
-              name='webhook_secret'
-              class={state.classes.input}
-              onChange={(event) => state.handleChange(event)}
-              value={state.directory.webhook_secret}
-            />
-            <Spacer y={6} />
-          </div>
+          <SecretInputFormControl
+            label='Webhook secret'
+            id='webhook_secret'
+            name='webhook_secret'
+            value={state.directory.webhook_secret}
+            handleChange={state.handleChange}
+            classNames={state.classes.inputField}
+            required={false}
+            readOnly={false}
+          />
+          <Spacer y={6} />
         </Show>
         {/* <Show when={!state.isExcluded('log_webhook_events')}>
           <div class={defaultClasses.checkboxFieldsDiv}>

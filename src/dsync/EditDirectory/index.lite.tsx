@@ -1,4 +1,4 @@
-import type { Directory, EditDirectoryProps, ApiResponse } from '../types';
+import type { Directory, EditDirectoryProps, ApiResponse, UnSavedDirectory } from '../types';
 import { useStore, onUpdate, Show } from '@builder.io/mitosis';
 import ToggleConnectionStatus from '../ToggleConnectionStatus/index.lite';
 import defaultClasses from './index.module.css';
@@ -7,34 +7,39 @@ import Button from '../../shared/Button/index.lite';
 import Spacer from '../../shared/Spacer/index.lite';
 import ConfirmationPrompt from '../../shared/ConfirmationPrompt/index.lite';
 import Checkbox from '../../shared/Checkbox/index.lite';
+import InputField from '../../shared/inputs/InputField/index.lite';
+import SecretInputFormControl from '../../shared/inputs/SecretInputFormControl/index.lite';
+import { InputWithCopyButton } from '../../shared';
+import LoadingContainer from '../../shared/LoadingContainer/index.lite';
 
-type FormState = Pick<Directory, 'name' | 'log_webhook_events' | 'webhook' | 'google_domain'>;
+type FormState = Pick<
+  UnSavedDirectory,
+  'name' | 'log_webhook_events' | 'webhook_url' | 'webhook_secret' | 'google_domain'
+>;
 
 const DEFAULT_FORM_STATE: FormState = {
   name: '',
   log_webhook_events: false,
-  webhook: {
-    endpoint: '',
-    secret: '',
-  },
+  webhook_url: '',
+  webhook_secret: '',
   google_domain: '',
 };
 
 export default function EditDirectory(props: EditDirectoryProps) {
   const state: any = useStore({
-    loading: true,
     showDelConfirmation: false,
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
     },
+    isDirectoryLoading: true,
     directoryUpdated: DEFAULT_FORM_STATE,
     get classes() {
       return {
-        label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
-        input: cssClassAssembler(props.classNames?.input, defaultClasses.input),
-        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
-        formDiv: cssClassAssembler(props.classNames?.formDiv, defaultClasses.formDiv),
-        fieldsDiv: cssClassAssembler(props.classNames?.fieldsDiv, defaultClasses.fieldsDiv),
+        inputField: {
+          label: props.classNames?.label,
+          input: props.classNames?.input,
+          container: props.classNames?.fieldContainer,
+        },
         section: cssClassAssembler(props.classNames?.section, defaultClasses.section),
       };
     },
@@ -46,15 +51,14 @@ export default function EditDirectory(props: EditDirectoryProps) {
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement;
-      const name = target.name;
+      const id = target.id;
       const value = target.type === 'checkbox' ? target.checked : target.value;
 
-      state.directoryUpdated = state.updateFormState(name, value);
+      state.directoryUpdated = state.updateFormState(id, value);
     },
     onSubmit(event: Event) {
       event.preventDefault();
 
-      state.loading = true;
       async function sendHttpRequest(url: string) {
         const rawResponse = await fetch(url, {
           method: 'PATCH',
@@ -63,8 +67,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
           },
           body: JSON.stringify(state.directoryUpdated),
         });
-
-        state.loading = false;
 
         const response: ApiResponse<Directory> = await rawResponse.json();
 
@@ -100,8 +102,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
 
       sendHTTPrequest(props.urls.delete);
     },
-    isExcluded(fieldName: keyof Directory) {
-      return !!(props.excludeFields as (keyof Directory)[])?.includes(fieldName);
+    isExcluded(fieldName: Exclude<EditDirectoryProps['excludeFields'], undefined>[number]) {
+      return !!props.excludeFields?.includes(fieldName);
     },
     get shouldDisplayHeader() {
       if (props.displayHeader !== undefined) {
@@ -119,14 +121,15 @@ export default function EditDirectory(props: EditDirectoryProps) {
       const response = await fetch(url);
       const { data: directoryData, error } = await response.json();
 
+      state.isDirectoryLoading = false;
       if (directoryData) {
         state.directoryUpdated = {
           ...directoryData,
           name: directoryData.name,
           log_webhook_events: directoryData.log_webhook_events,
-          webhook_url: directoryData.webhook?.endpoint,
-          webhook_secret: directoryData.webhook?.secret,
-          google_domain: directoryData.google_domain,
+          webhook_url: directoryData.webhook.endpoint || '',
+          webhook_secret: directoryData.webhook.secret || '',
+          google_domain: directoryData.google_domain || '',
           deactivated: directoryData.deactivated,
         };
       }
@@ -139,7 +142,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
   }, [state.directoryFetchUrl]);
 
   return (
-    <div>
+    <LoadingContainer isBusy={state.isDirectoryLoading}>
       <div class={defaultClasses.headingContainer}>
         <Show when={state.shouldDisplayHeader}>
           <h2 className={defaultClasses.heading}>Update Directory</h2>
@@ -164,86 +167,84 @@ export default function EditDirectory(props: EditDirectoryProps) {
         />
       </div>
       <form onSubmit={(event) => state.onSubmit(event)}>
-        <div class={state.classes.formDiv}>
-          <Show when={!state.isExcluded('name')}>
-            <div class={state.classes.fieldsDiv}>
-              <label for='name' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Directory name</span>
-              </label>
-              <input
-                type='text'
-                id='name'
-                name='name'
-                class={state.classes.input}
-                required={true}
-                onChange={(event) => state.handleChange(event)}
-                value={state.directoryUpdated?.name}
-              />
-            </div>
+        <Show when={!state.isExcluded('name')}>
+          <InputField
+            label='Directory name'
+            id='name'
+            value={state.directoryUpdated.name}
+            handleInputChange={state.handleChange}
+            required
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={!state.isExcluded('scim_endpoint')}>
+          <InputWithCopyButton
+            label='SCIM Endpoint'
+            text={state.directoryUpdated.scim?.endpoint}
+            copyDoneCallback={props.successCallback}
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={!state.isExcluded('scim_token')}>
+          <InputWithCopyButton
+            label='SCIM Token'
+            text={state.directoryUpdated.scim?.secret}
+            copyDoneCallback={props.successCallback}
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={state.directoryUpdated?.type === 'google'}>
+          <InputField
+            label='Directory domain'
+            id='google_domain'
+            value={state.directoryUpdated.google_domain}
+            handleInputChange={state.handleChange}
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={!state.isExcluded('webhook_url')}>
+          <InputField
+            type='url'
+            label='Webhook URL'
+            id='webhook_url'
+            value={state.directoryUpdated.webhook_url}
+            handleInputChange={state.handleChange}
+            classNames={state.classes.inputField}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={!state.isExcluded('webhook_secret')}>
+          <SecretInputFormControl
+            label='Webhook secret'
+            id='webhook_secret'
+            classNames={state.classes.inputField}
+            handleChange={state.handleChange}
+            value={state.directoryUpdated.webhook_secret}
+            copyDoneCallback={props.successCallback}
+            required={false}
+            readOnly={false}
+          />
+          <Spacer y={6} />
+        </Show>
+        <Show when={!state.isExcluded('log_webhook_events')}>
+          <Checkbox
+            label='Enable Webhook events logging'
+            id='log_webhook_events'
+            name='log_webhook_events'
+            checked={state.directoryUpdated?.log_webhook_events}
+            handleChange={state.handleChange}
+          />
+          <Spacer y={6} />
+        </Show>
+        <div class={defaultClasses.formAction}>
+          <Show when={typeof props.cancelCallback === 'function'}>
+            <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
           </Show>
-          <Show when={state.directoryUpdated?.type === 'google'}>
-            <div class={state.classes.fieldsDiv}>
-              <label for='google_domain' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Directory domain</span>
-              </label>
-              <input
-                type='text'
-                id='google_domain'
-                name='google_domain'
-                class={state.classes.input}
-                onChange={(event) => state.handleChange(event)}
-                value={state.directoryUpdated?.google_domain}
-              />
-            </div>
-          </Show>
-          <Show when={!state.isExcluded('webhook_url')}>
-            <div class={state.classes.fieldsDiv}>
-              <label for='webhook_url' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Webhook URL</span>
-              </label>
-              <input
-                type='url'
-                id='webhook_url'
-                name='webhook_url'
-                class={state.classes.input}
-                onChange={(event) => state.handleChange(event)}
-                value={state.directoryUpdated?.webhook_url}
-              />
-            </div>
-          </Show>
-          <Show when={!state.isExcluded('webhook_secret')}>
-            <div class={state.classes.fieldsDiv}>
-              <label for='webhook_secret' class={state.classes.label}>
-                <span class={defaultClasses.labelText}>Webhook secret</span>
-              </label>
-              <input
-                type='text'
-                id='webhook_secret'
-                name='webhook_secret'
-                class={state.classes.input}
-                onChange={(event) => state.handleChange(event)}
-                value={state.directoryUpdated?.webhook_secret}
-              />
-            </div>
-          </Show>
-          <Show when={!state.isExcluded('log_webhook_events')}>
-            <div class={defaultClasses.checkboxFieldsDiv}>
-              <Checkbox
-                label='Enable Webhook events logging'
-                id='log_webhook_events'
-                name='log_webhook_events'
-                checked={state.directoryUpdated?.log_webhook_events}
-                handleChange={state.handleChange}
-              />
-              <Spacer y={6} />
-            </div>
-          </Show>
-          <div class={defaultClasses.formAction}>
-            <Show when={typeof props.cancelCallback === 'function'}>
-              <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
-            </Show>
-            <Button type='submit' name='Save' variant='primary' classNames={props.classNames?.button?.ctoa} />
-          </div>
+          <Button type='submit' name='Save' variant='primary' classNames={props.classNames?.button?.ctoa} />
         </div>
       </form>
       <section class={state.classes.section}>
@@ -276,6 +277,6 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
         </Show>
       </section>
-    </div>
+    </LoadingContainer>
   );
 }
