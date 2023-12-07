@@ -283,7 +283,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   handleInputChange={state.handleChange}
                 />
                 <div id='defaultRedirectUrl-hint' class={defaultClasses.hint}>
-                  URL to redirect to in case a valid redirect_uri is not found.
+                  URL to redirect the user to after an IdP initiated login.
                 </div>
                 <Spacer y={6} />
               </Show>
