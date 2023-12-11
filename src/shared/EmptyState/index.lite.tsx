@@ -1,6 +1,8 @@
-import { useStore } from '@builder.io/mitosis';
+import { Show, useStore } from '@builder.io/mitosis';
 import type { EmptyStateProps } from '../types';
 import defaultStyles from './index.module.css';
+import ExclamationTriangle from '../icons/ExclamationTriangle.lite';
+import InfoIcon from '../icons/InfoIcon.lite';
 
 export default function EmptyState(props: EmptyStateProps) {
   const state = useStore({
@@ -9,22 +11,18 @@ export default function EmptyState(props: EmptyStateProps) {
         container: defaultStyles.container + (props.className ? ` ${props.className}` : ''),
       };
     },
+    get variantValue() {
+      return props.variant || 'info';
+    },
   });
+
   return (
     <div class={state.classes.container}>
-      <svg
-        xmlns='http://www.w3.org/2000/svg'
-        fill='none'
-        viewBox='0 0 24 24'
-        stroke-width='1.5'
-        stroke='currentColor'
-        class={defaultStyles.svg}>
-        <path
-          stroke-linecap='round'
-          stroke-linejoin='round'
-          d='M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z'
-        />
-      </svg>
+      <Show
+        when={state.variantValue === 'info'}
+        else={<ExclamationTriangle svgAttrs={{ class: defaultStyles.svg }} />}>
+        <InfoIcon svgAttrs={{ class: defaultStyles.svg }} />
+      </Show>
       <h4>{props.title}</h4>
       {props.description && <p class={defaultStyles.description}>{props.description}</p>}
       {/* TODO: Add slot for LinkPrimary */}

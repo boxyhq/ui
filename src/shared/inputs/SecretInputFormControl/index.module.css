@@ -1,0 +1,17 @@
+@import url('../../common.module.css');
+@import url('../index.module.css');
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toolbar > div {
+  display: flex;
+}

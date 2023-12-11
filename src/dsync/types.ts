@@ -1,4 +1,4 @@
-import { ConfirmationPromptProps } from '../../shared/types';
+import { ConfirmationPromptProps, TableCol } from '../shared/types';
 
 export interface CreateDirectoryProps {
   excludeFields?: Array<keyof UnSavedDirectory>;
@@ -11,7 +11,6 @@ export interface CreateDirectoryProps {
   // To handle cancel button click
   cancelCallback?: () => void;
   classNames?: {
-    container?: string;
     fieldContainer?: string;
     input?: string;
     label?: string;
@@ -36,7 +35,7 @@ export interface DeleteDirectoryProps {
 export interface DirectoryListProps {
   children?: any;
   tableCaption?: string;
-  cols: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions')[];
+  cols?: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
   setupLinkToken?: string;
   urls: {
     get: string;
@@ -45,10 +44,7 @@ export interface DirectoryListProps {
   handleListFetchComplete?: (directories: Directory[]) => void;
   handleActionClick: (action: 'edit' | 'view', directory: any) => void;
   classNames?: {
-    container?: string;
-    table?: string;
-    tableHead?: string;
-    tableData?: string;
+    tableContainer?: string;
   };
 }
 
@@ -59,19 +55,17 @@ export interface EditDirectoryProps {
     get: string;
   };
   errorCallback?: (errMessage: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' | 'DELETE'; connection?: Directory }) => void;
+  successCallback?: (info: { operation: 'UPDATE' | 'DELETE' | 'COPY'; connection?: Directory }) => void;
   cancelCallback?: () => void;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    fieldContainer?: string;
     label?: string;
     input?: string;
-    container?: string;
-    formDiv?: string;
-    fieldsDiv?: string;
     section?: string;
   };
-  excludeFields?: Array<keyof Directory>;
+  excludeFields?: Array<keyof (UnSavedDirectory & { scim_endpoint: string; scim_token: string })>;
   /** Use this boolean to toggle the header display on/off. Useful when using the edit component standalone */
   displayHeader?: boolean;
 }
@@ -90,10 +84,29 @@ export interface ToggleDirectoryStatusProps {
 }
 
 export interface DirectoriesWrapperProps {
-  componentProps: {
-    directoryList: Omit<DirectoryListProps, 'handleActionClick'>;
-    createDirectory: Partial<CreateDirectoryProps>;
-    editDirectory: Partial<EditDirectoryProps>;
+  classNames?: {
+    button?: { ctoa?: string; destructive?: string };
+    input?: string;
+    textarea?: string;
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    secretInput?: string;
+    section?: string;
+  };
+  componentProps?: {
+    directoryList?: Partial<Omit<DirectoryListProps, 'handleActionClick'>>;
+    createDirectory?: Partial<CreateDirectoryProps>;
+    editDirectory?: Partial<EditDirectoryProps>;
+  };
+  successCallback?: (info: {
+    operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY';
+    connection?: Partial<Directory | undefined>;
+  }) => void;
+  errorCallback?: (errMessage: string) => void;
+  urls: {
+    get: string;
+    post: string;
+    patch: string;
+    delete: string;
   };
 }
 

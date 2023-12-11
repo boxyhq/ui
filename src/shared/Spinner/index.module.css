@@ -19,7 +19,6 @@
   border: 0.3rem solid var(--primary-color);
   border-left-color: transparent;
   border-radius: 50%;
-  opacity: 0;
   transition: opacity 0.1s;
   pointer-events: none;
   animation: loading-circle 1s ease-in-out infinite;
@@ -29,8 +28,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.spinner[aria-hidden='false']::after {
-  opacity: 1;
 }

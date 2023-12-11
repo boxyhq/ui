@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.inputs {
+  display: flex;
+}
+
+[aria-orientation='vertical'] .inputs {
+  flex-direction: column;
+}
