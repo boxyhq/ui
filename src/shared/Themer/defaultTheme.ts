@@ -14,9 +14,9 @@ export const THEME = {
   '--primary-color-800': '#105f53',
   '--primary-color-900': '#124f45',
   '--primary-color-950': '#03302b',
-  '--secondary-color': '#e5e7eb',
+  '--secondary-color': '#f4f4f5',
   /* --secondary-color: "#27272a",  dark mode */
-  '--primary-text-color': '#18181b',
+  '--primary-text-color': '#111827',
   /* --primary-text-color: #fafafa, dark mode */
   '--primary-text-color-500': '#737584',
   '--ring-offset': '2px',
@@ -28,4 +28,7 @@ export const THEME = {
   '--border-color': '#e5e7eb',
   '--border-width': '1px',
   '--border-radius': '0.375rem',
+  '--alert-color-success': '#36d399',
+  '--alert-color-info': '#3abff8',
+  '--alert-color-warning': '#fbbd23',
 };

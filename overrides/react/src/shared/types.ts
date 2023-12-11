@@ -1,4 +1,4 @@
-import type { SVGAttributes, ComponentPropsWithRef } from 'react';
+import type { SVGAttributes, ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
 
 export type SVGProps = SVGAttributes<SVGSVGElement>;
 
@@ -23,6 +23,10 @@ export interface EmptyStateProps {
   className?: string;
   description?: string;
   slotLinkPrimary?: any;
+  /** Decides which icon to show
+   * @default info
+   */
+  variant?: 'error' | 'info';
 }
 
 export interface BadgeProps {
@@ -46,19 +50,7 @@ export interface ButtonProps extends ComponentPropsWithRef<'button'> {
   handleClick?: (event: any) => void;
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
-}
-
-export interface SecretInputFormControlProps {
-  label: string;
-  value?: string;
-  id: string;
-  placeholder?: string;
-  required: boolean;
-  maxLength?: string;
-  readOnly: boolean;
-  copyDoneCallback: () => void;
-  handleChange: (event: Event) => void;
-  classNames?: { input?: string };
+  isLoading?: boolean;
 }
 
 export interface ToggleSwitchProps {
@@ -72,6 +64,7 @@ export interface CardProps {
   arrangement?: 'horizontal' | 'vertical';
   children?: any;
   title: string;
+  displayIcon?: boolean;
   variant: 'info' | 'success';
 }
 
@@ -80,6 +73,34 @@ export interface LinkProps {
   linkText: string;
   cssClass?: string;
   variant?: 'primary' | 'button';
+}
+
+export interface RadioGroupProps {
+  label: string;
+  children: ReactElement<RadioProps> | ReactElement<RadioProps>[];
+  /** The arrangement of radio buttons
+   * @default 'horizontal'
+   */
+  orientation?: 'horizontal' | 'vertical';
+}
+
+export interface RadioProps {
+  name: string;
+  checked: boolean;
+  handleInputChange: (e: any) => void;
+  /**
+   * The value of the radio button, used when submitting an HTML form.
+   * See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#Value).
+   */
+  value: string;
+  /**
+   * The label for the radio.
+   */
+  children: ReactNode;
+  /**
+   * Displays the radio button but can be disabled for selection.
+   */
+  isDisabled?: boolean;
 }
 
 export interface LoadingContainerProps {

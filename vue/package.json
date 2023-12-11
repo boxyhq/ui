@@ -23,6 +23,7 @@
     "dist",
     "index.d.ts",
     "sso.d.ts",
+    "dsync.d.ts",
     "shared.d.ts"
   ],
   "types": "./index.d.ts",
@@ -36,6 +37,15 @@
       "types": "./dist/sso/index.d.ts",
       "import": "./dist/sso.js",
       "require": "./dist/sso.cjs"
+    },
+    "./dsync": {
+      "types": "./dist/dsync/index.d.ts",
+      "import": "./dist/dsync.js",
+      "require": "./dist/dsync.cjs"
+    },
+    "./dist/*.css": {
+      "import": "./dist/*.css",
+      "require": "./dist/*.css"
     }
   },
   "devDependencies": {
@@ -48,7 +58,7 @@
     "vite": "4.5.0",
     "vite-plugin-css-injected-by-js": "3.3.0",
     "vitepress": "1.0.0-rc.20",
-    "vue": "3.3.7",
+    "vue": "3.3.11",
     "vue-tsc": "1.8.22"
   },
   "peerDependencies": {

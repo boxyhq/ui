@@ -1,9 +1,9 @@
 import { useStore, Show } from '@builder.io/mitosis';
 import type { ToggleDirectoryStatusProps, ApiResponse } from '../types';
-import ToggleSwitch from '../../../shared/ToggleSwitch/index.lite';
+import ToggleSwitch from '../../shared/ToggleSwitch/index.lite';
 import defaultClasses from './index.module.css';
-import cssClassAssembler from '../../utils/cssClassAssembler';
-import ConfirmationPrompt from '../../../shared/ConfirmationPrompt/index.lite';
+import cssClassAssembler from '../../sso/utils/cssClassAssembler';
+import ConfirmationPrompt from '../../shared/ConfirmationPrompt/index.lite';
 
 export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps) {
   const state = useStore({
