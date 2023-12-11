@@ -30,17 +30,22 @@
 		"./shared": {
 			"types": "./dist/shared/index.d.ts",
 			"svelte": "./dist/shared/index.js"
-		  },
+		},
 		"./sso": {
 			"types": "./dist/sso/index.d.ts",
 			"svelte": "./dist/sso/index.js"
+		},
+		"./dsync": {
+			"types": "./dist/dsync/index.d.ts",
+			"svelte": "./dist/dsync/index.js"
 		}
 	},
 	"files": [
 		"dist",
 		"index.d.ts",
 		"sso.d.ts",
-        "shared.d.ts",
+		"dsync.d.ts",
+		"shared.d.ts",
 		"!dist/**/*.test.*",
 		"!dist/**/*.spec.*"
 	],
@@ -49,10 +54,10 @@
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "2.1.0",
-		"@sveltejs/kit": "1.25.1",
+		"@sveltejs/kit": "1.27.5",
 		"@sveltejs/package": "2.2.2",
-		"@typescript-eslint/eslint-plugin": "6.7.4",
-		"@typescript-eslint/parser": "6.7.4",
+		"@typescript-eslint/eslint-plugin": "6.13.2",
+		"@typescript-eslint/parser": "6.13.2",
 		"eslint": "8.50.0",
 		"eslint-config-prettier": "9.0.0",
 		"eslint-plugin-svelte": "2.34.0",
@@ -60,7 +65,7 @@
 		"prettier-plugin-svelte": "3.0.3",
 		"prismjs": "1.29.0",
 		"publint": "0.2.3",
-		"svelte": "4.2.1",
+		"svelte": "4.2.8",
 		"svelte-check": "3.5.2",
 		"tslib": "2.6.2",
 		"typescript": "5.2.2",

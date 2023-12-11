@@ -13,6 +13,7 @@ export default defineConfig({
     lib: {
       entry: {
         sso: resolve(__dirname, 'src/sso/index.ts'),
+        dsync: resolve(__dirname, 'src/dsync/index.ts'),
         shared: resolve(__dirname, 'src/shared/index.ts'),
       },
       name: 'BoxyHQUI',

@@ -23,6 +23,10 @@ export interface EmptyStateProps {
   className?: string;
   description?: string;
   slotLinkPrimary?: any;
+  /** Decides which icon to show
+   * @default info
+   */
+  variant?: 'error' | 'info';
 }
 
 export interface BadgeProps {
@@ -46,19 +50,7 @@ export interface ButtonProps {
   handleClick?: (event: any) => void;
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
-}
-
-export interface SecretInputFormControlProps {
-  label: string;
-  value: string;
-  id: string;
-  placeholder?: string;
-  required: boolean;
-  maxLength?: string;
-  readOnly: boolean;
-  copyDoneCallback: () => void;
-  handleChange: (event: Event) => void;
-  classNames?: { input?: string };
+  isLoading?: boolean;
 }
 
 export interface ToggleSwitchProps {

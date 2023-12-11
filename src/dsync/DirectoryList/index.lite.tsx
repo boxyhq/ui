@@ -1,12 +1,12 @@
 import { useStore, Show, onUpdate } from '@builder.io/mitosis';
 import { DirectorySyncProviders, type Directory } from '../types';
-import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
+import LoadingContainer from '../../shared/LoadingContainer/index.lite';
 import type { DirectoryListProps } from '../types';
 import defaultClasses from './index.module.css';
-import cssClassAssembler from '../../utils/cssClassAssembler';
-import Table from '../../../shared/Table/index.lite';
-import { BadgeProps, TableProps } from '../../../shared/types';
-import EmptyState from '../../../shared/EmptyState/index.lite';
+import cssClassAssembler from '../../sso/utils/cssClassAssembler';
+import Table from '../../shared/Table/index.lite';
+import { BadgeProps, TableProps } from '../../shared/types';
+import EmptyState from '../../shared/EmptyState/index.lite';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
@@ -22,25 +22,18 @@ export default function DirectoryList(props: DirectoryListProps) {
       }));
     },
     isDirectoryListLoading: true,
-    directoryListIsLoading: true,
+    showErrorComponent: false,
+    errorMessage: '',
+    get classes() {
+      return {
+        tableContainer: cssClassAssembler(props.classNames?.tableContainer, defaultClasses.tableContainer),
+      };
+    },
     get displayTenantProduct() {
       return props.setupLinkToken ? false : true;
     },
-    get classes() {
-      return {
-        container: cssClassAssembler(props.classNames?.container, defaultClasses.container),
-        table: cssClassAssembler(props.classNames?.table, defaultClasses.table),
-        tableHead: cssClassAssembler(props.classNames?.tableHead, defaultClasses.tableHead),
-        tableData: cssClassAssembler(props.classNames?.tableData, defaultClasses.tableData),
-      };
-    },
     get actions(): TableProps['actions'] {
       return [
-        {
-          icon: 'EyeIcon',
-          label: 'View',
-          handleClick: (directory: Directory) => props.handleActionClick('view', directory),
-        },
         {
           icon: 'PencilIcon',
           label: 'Edit',
@@ -49,7 +42,7 @@ export default function DirectoryList(props: DirectoryListProps) {
       ];
     },
     get colsToDisplay() {
-      return (props.cols || ['tenant', 'name', 'type', 'status', 'actions']).map((_col) => {
+      return (props.cols || ['name', 'tenant', 'product', 'type', 'status', 'actions']).map((_col) => {
         if (_col === 'status') {
           return {
             name: 'status',
@@ -72,6 +65,9 @@ export default function DirectoryList(props: DirectoryListProps) {
         }
       }) as TableProps['cols'];
     },
+    get listFetchUrl() {
+      return props.urls.get;
+    },
   });
 
   onUpdate(() => {
@@ -92,35 +88,39 @@ export default function DirectoryList(props: DirectoryListProps) {
         };
       });
 
-      state.directoryListIsLoading = false;
+      state.isDirectoryListLoading = false;
 
       if (error) {
+        state.showErrorComponent = true;
+        state.errorMessage = error.message;
         typeof props.errorCallback === 'function' && props.errorCallback(error.message);
       } else {
         state.directoryListData = directoriesListData;
         typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(listData);
       }
     }
-    getFieldsData(props.urls.get);
-  }, [props.urls.get]);
+    getFieldsData(state.listFetchUrl);
+  }, [state.listFetchUrl]);
 
   return (
-    <Show
-      when={state.directoryListIsLoading}
-      else={
-        <Show
-          when={state.directoryListData.length > 0}
-          else={
-            <Show when={props.children} else={<EmptyState title='No directories found.' />}>
-              {props.children}
-            </Show>
-          }>
-          <div>
-            <Table cols={state.colsToDisplay} data={state.directoryListData} actions={state.actions} />
-          </div>
-        </Show>
-      }>
-      <LoadingContainer isBusy={state.isDirectoryListLoading} />
-    </Show>
+    <LoadingContainer isBusy={state.isDirectoryListLoading}>
+      <Show
+        when={state.directoryListData.length > 0}
+        else={
+          <Show
+            when={state.showErrorComponent}
+            else={
+              <Show when={props.children} else={<EmptyState title='No directories found.' />}>
+                {props.children}
+              </Show>
+            }>
+            <EmptyState title={state.errorMessage} variant='error' />
+          </Show>
+        }>
+        <div class={state.classes.tableContainer}>
+          <Table cols={state.colsToDisplay} data={state.directoryListData} actions={state.actions} />
+        </div>
+      </Show>
+    </LoadingContainer>
   );
 }
