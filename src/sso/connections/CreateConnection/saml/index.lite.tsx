@@ -203,11 +203,15 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               id='defaultRedirectUrl'
               classNames={state.classes.inputField}
               required
+              aria-describedby='defaultRedirectUrl-hint'
               placeholder='http://localhost:3366/login/saml'
               type='url'
               value={state.samlConnection.defaultRedirectUrl}
               handleInputChange={state.handleChange}
             />
+            <div id='defaultRedirectUrl-hint' class={defaultClasses.hint}>
+              URL to redirect the user to after an IdP initiated SAML login.
+            </div>
           </Show>
           <Spacer y={6} />
           <Separator text='SAML Provider Metadata' />

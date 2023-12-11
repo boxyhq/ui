@@ -276,11 +276,15 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   id='defaultRedirectUrl'
                   classNames={state.classes.inputField}
                   required
+                  aria-describedby='defaultRedirectUrl-hint'
                   placeholder='http://localhost:3366/login/saml'
                   type='url'
                   value={state.oidcConnection.defaultRedirectUrl || ''}
                   handleInputChange={state.handleChange}
                 />
+                <div id='defaultRedirectUrl-hint' class={defaultClasses.hint}>
+                  URL to redirect the user to after an IdP initiated login.
+                </div>
                 <Spacer y={6} />
               </Show>
             </Show>
