@@ -1,6 +1,6 @@
 import type { JSX } from '@builder.io/mitosis/jsx-runtime';
 import { useStore } from '@builder.io/mitosis';
-import CopyToClipboardButton from '../../ClipboardButton/index.lite';
+import CopyToClipboardButton from '@/shared/CopyToClipboardButton/index.lite';
 import IconButton from '../../IconButton/index.lite';
 import defaultStyles from './index.module.css';
 import Spacer from '../../Spacer/index.lite';
