@@ -12,19 +12,26 @@ export default function Card(props: CardProps) {
     get flexCss() {
       return props.arrangement === 'vertical' ? ' ' + styles['vertical'] : '';
     },
+    get shouldDisplayIcon() {
+      return typeof props.displayIcon === 'boolean' ? props.displayIcon : true;
+    },
   });
 
   return (
     <article class={`${styles.container}${state.variantCss}${state.flexCss}`}>
-      <h3 class={styles.title}>
-        <Show when={props.variant === 'success'}>
-          <CheckMarkIcon />
-        </Show>
-        <Show when={props.variant === 'info'}>
-          <InfoIcon />
-        </Show>
-        {props.title}
-      </h3>
+      <Show when={props.title}>
+        <h3 class={styles.title}>
+          <Show when={state.shouldDisplayIcon}>
+            <Show when={props.variant === 'success'}>
+              <CheckMarkIcon svgAttrs={{ class: styles.svg }} />
+            </Show>
+            <Show when={props.variant === 'info'}>
+              <InfoIcon svgAttrs={{ class: styles.svg }} />
+            </Show>
+          </Show>
+          {props.title}
+        </h3>
+      </Show>
       <div class={styles.body}>{props.children}</div>
     </article>
   );

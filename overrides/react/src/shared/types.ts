@@ -1,12 +1,20 @@
-import type { SVGAttributes, JSX } from 'react';
+import type { SVGAttributes, ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
 
 export type SVGProps = SVGAttributes<SVGSVGElement>;
 
 export interface IconButtonProps {
-  Icon: (props: { svgElmtProps: SVGProps; classNames: string }) => JSX.Element;
+  classNames?: { button?: string };
   label?: string;
-  onClick: (event: any) => void;
-  iconClasses: string;
+  handleClick: (event: any) => void;
+  icon:
+    | 'PencilIcon'
+    | 'CopytoClipboardIcon'
+    | 'EyeIcon'
+    | 'EyeSlashIcon'
+    | 'InfoIcon'
+    | 'LinkIcon'
+    | 'PlusIcon'
+    | 'CheckMarkIcon';
 }
 
 export interface EmptyStateProps {
@@ -15,14 +23,17 @@ export interface EmptyStateProps {
   className?: string;
   description?: string;
   slotLinkPrimary?: any;
+  /** Decides which icon to show
+   * @default info
+   */
+  variant?: 'error' | 'info';
 }
 
 export interface BadgeProps {
-  children?: any;
-  className?: string;
-  color?: string;
-  size?: string;
+  badgeText: string;
+  // badgeText will be the label if ariaLabel is not set
   ariaLabel?: string;
+  variant?: 'success' | 'info' | 'warning';
 }
 
 export interface ModalProps {
@@ -32,46 +43,109 @@ export interface ModalProps {
   children?: any;
 }
 
-export interface ButtonProps {
+export interface ButtonProps extends ComponentPropsWithRef<'button'> {
+  buttonRef?: HTMLButtonElement;
   name: string;
-  onClick?: (event: any) => void;
   type?: 'submit' | 'reset' | 'button';
+  handleClick?: (event: any) => void;
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
-}
-
-export interface SecretInputFormControlProps {
-  label: string;
-  value: string;
-  id: string;
-  placeholder?: string;
-  required: boolean;
-  maxLength?: string;
-  readOnly: boolean;
-  copyDoneCallback: () => void;
-  handleChange: (event: Event) => void;
+  classNames?: string;
+  isLoading?: boolean;
 }
 
 export interface ToggleSwitchProps {
   label: string;
   checked: boolean;
   disabled: boolean;
-  onChange: (event: Event) => void;
+  handleChange: (event: Event) => void;
 }
 
 export interface CardProps {
   arrangement?: 'horizontal' | 'vertical';
   children?: any;
   title: string;
+  displayIcon?: boolean;
   variant: 'info' | 'success';
 }
 
 export interface LinkProps {
   href: string;
   linkText: string;
+  cssClass?: string;
   variant?: 'primary' | 'button';
+}
+
+export interface RadioGroupProps {
+  label: string;
+  children: ReactElement<RadioProps> | ReactElement<RadioProps>[];
+  /** The arrangement of radio buttons
+   * @default 'horizontal'
+   */
+  orientation?: 'horizontal' | 'vertical';
+}
+
+export interface RadioProps {
+  name: string;
+  checked: boolean;
+  handleInputChange: (e: any) => void;
+  /**
+   * The value of the radio button, used when submitting an HTML form.
+   * See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio#Value).
+   */
+  value: string;
+  /**
+   * The label for the radio.
+   */
+  children: ReactNode;
+  /**
+   * Displays the radio button but can be disabled for selection.
+   */
+  isDisabled?: boolean;
 }
 
 export interface LoadingContainerProps {
   children?: any;
   isBusy: boolean;
+}
+// Used for advanced customisation of Table column cells such as displaying a badge
+export interface TableCol {
+  name: string;
+  badge?: {
+    position?: 'left' | 'right' | 'surround';
+    variantSelector?: (rowData: TableCellProps['rowData']) => BadgeProps['variant'];
+    shouldDisplayBadge?: (rowData: TableCellProps['rowData']) => boolean;
+  } & BadgeProps;
+}
+
+export interface TableCellProps {
+  col: TableProps['cols'][number];
+  rowData: TableProps['data'][number];
+  actions: TableProps['actions'];
+  classNames: TableProps['classNames'];
+}
+
+export interface TableProps {
+  cols: (string | 'actions' | TableCol)[];
+  data: Record<string, any>[];
+  actions: { icon: IconButtonProps['icon']; handleClick: (item: any) => void; label?: string }[];
+  tableCaption?: string;
+  classNames?: {
+    table?: string;
+    caption?: string;
+    thead?: string;
+    tr?: string;
+    th?: string;
+    td?: string;
+    icon?: string;
+    iconSpan?: string;
+  };
+}
+
+export interface ConfirmationPromptProps {
+  buttonNames?: { ctoa?: string; cancel?: string };
+  classNames?: { button?: { ctoa?: string; cancel?: string } };
+  ctoaVariant: ButtonProps['variant'];
+  promptMessage: string;
+  confirmationCallback: (event: Event) => void;
+  cancelCallback: (event: Event) => void;
 }

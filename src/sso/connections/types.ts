@@ -1,41 +1,39 @@
+import { ConfirmationPromptProps, TableCol, TableProps } from '../../shared/types';
+
 export interface ConnectionListProps {
   children?: any;
+  cols?: ('name' | 'provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
   tableCaption?: string;
-  hideCols?: ('provider' | 'tenant' | 'product' | 'idp_type' | 'status' | 'actions')[];
   idpEntityID?: string;
   isSettingsView?: boolean;
-  getConnectionsUrl: string;
-  onListFetchComplete?: (connections: ConnectionData<any>[]) => void;
-  onActionClick: (e: ConnectionData<any>) => void;
+  urls: {
+    get: string;
+  };
+  errorCallback?: (errMessage: string) => void;
+  handleListFetchComplete?: (connections: ConnectionData<any>[]) => void;
+  handleActionClick: (action: 'edit', connection: ConnectionData<any>) => void;
   /**
    * Classnames for each inner components that make up the component.
    */
   classNames?: {
-    container?: string;
-    formControl?: string;
     tableContainer?: string;
-    table?: string;
-    tableCaption?: string;
-    thead?: string;
-    tr?: string;
-    th?: string;
-    connectionListContainer?: string;
-    td?: string;
-    badgeClass?: string;
-    tableData?: string;
-    spanIcon?: string;
-    icon?: string;
   };
+  tableProps?: TableProps;
 }
 
 export interface CreateConnectionProps {
-  errorCallback: (errMessage: string) => void;
-  successCallback: () => void;
+  errorCallback?: (errMessage: string) => void;
+  successCallback?: (info: {
+    operation: 'CREATE';
+    connection?: SAMLSSOConnection | OIDCSSOConnection;
+    connectionIsOIDC?: boolean;
+    connectionIsSAML?: boolean;
+  }) => void;
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
-  excludeFields?: Array<keyof (SAMLSSOConnection | OIDCSSOConnection)>;
+  excludeFields?: Array<keyof SAMLSSOConnection> | Array<keyof OIDCSSOConnection>;
   urls: {
-    save: string;
+    post: string;
   };
   /**
    * Classnames for each inner components that make up the component.
@@ -43,32 +41,26 @@ export interface CreateConnectionProps {
   classNames?: {
     form?: string;
     container?: string;
-    button?: string;
     input?: string;
+    textarea?: string;
     radioContainer?: string;
     label?: string;
     fieldContainer?: string;
+    button?: { ctoa?: string };
   };
+  /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
+  displayHeader?: boolean;
 }
 
-export interface CreateSSOConnectionProps {
-  setupLinkToken?: string;
-  idpEntityID?: string;
-  /**
-   * Classnames for each inner components that make up the component.
-   */
-  classNames?: {
-    container?: string;
-    formControl?: string;
-    selectSSO?: string;
-    idpId?: string;
-    radio?: string;
-    span?: string;
-    label?: string;
+export interface CreateSSOConnectionProps
+  extends Omit<CreateConnectionProps, 'variant' | 'excludeFields' | 'displayHeader'> {
+  variant?: {
+    saml?: 'basic' | 'advanced';
+    oidc?: 'basic' | 'advanced';
   };
-  componentProps: {
-    saml: Partial<CreateConnectionProps>;
-    oidc: Partial<CreateConnectionProps>;
+  excludeFields?: {
+    saml?: Array<keyof SAMLSSOConnection>;
+    oidc?: Array<keyof OIDCSSOConnection>;
   };
 }
 
@@ -81,9 +73,9 @@ export interface ApiError extends Error {
 
 export type ApiResponse<T = any> = ApiSuccess<T> | { error: ApiError };
 
-type FormObjValues = string | boolean | string[];
+type FormObjValues = string | boolean | string[] | undefined;
 
-export type FormObj = Record<string, FormObjValues | Record<string, FormObjValues>>;
+export type FormObj = Record<string, FormObjValues | Record<string, any>>;
 
 export interface MtlsEndpointAliases {
   token_endpoint?: string;
@@ -116,7 +108,7 @@ export interface IssuerMetadata {
 
 interface SSOConnection {
   defaultRedirectUrl: string;
-  redirectUrl: string[] | string;
+  redirectUrl: string;
   tenant: string;
   product: string;
   name?: string;
@@ -136,11 +128,11 @@ export interface OIDCSSOConnection extends SSOConnection {
   oidcClientSecret?: string;
 }
 
-export interface SAMLSSORecord extends SAMLSSOConnection {
+export interface SAMLSSORecord extends Omit<SAMLSSOConnection, 'redirectUrl'> {
+  redirectUrl: string[];
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
   metadataUrl?: string;
-  redirectUrl: string[];
   idpMetadata: {
     entityID: string;
     loginType?: string;
@@ -160,12 +152,17 @@ export interface SAMLSSORecord extends SAMLSSOConnection {
   deactivated?: boolean;
 }
 
-export interface OIDCSSORecord extends SSOConnection {
+export type SAMLFormState = {
+  [K in keyof SAMLSSORecord]: K extends 'redirectUrl' ? string : SAMLSSORecord[K];
+};
+
+export interface OIDCSSORecord extends Omit<SSOConnection, 'redirectUrl'> {
+  redirectUrl: string[];
   clientID: string; // set by Jackson
   clientSecret: string; // set by Jackson
-  redirectUrl: string[];
   oidcProvider: {
-    provider?: string;
+    provider: string | 'Unknown';
+    friendlyProviderName: string | null;
     discoveryUrl?: string;
     metadata?: IssuerMetadata;
     clientId?: string;
@@ -173,6 +170,19 @@ export interface OIDCSSORecord extends SSOConnection {
   };
   deactivated?: boolean;
 }
+
+export type OIDCFormState = {
+  [K in keyof OIDCSSORecord]: K extends 'redirectUrl' ? string : OIDCSSORecord[K];
+} & {
+  oidcClientSecret: string;
+  oidcClientId: string;
+  oidcDiscoveryUrl: string;
+  'oidcMetadata.issuer': string;
+  'oidcMetadata.authorization_endpoint': string;
+  'oidcMetadata.token_endpoint': string;
+  'oidcMetadata.jwks_uri': string;
+  'oidcMetadata.userinfo_endpoint': string;
+};
 
 export type ConnectionData<T extends SAMLSSORecord | OIDCSSORecord> = T & { isSystemSSO?: boolean };
 
@@ -189,21 +199,16 @@ declare namespace classNames {
 export declare function classNames(...args: classNames.ArgumentArray): string;
 
 export interface ToggleConnectionStatusProps {
-  connection: SAMLSSORecord | OIDCSSORecord;
+  connection: SAMLFormState | OIDCFormState;
   urls: {
     patch: string;
   };
   translation?: any;
-  errorCallback: (errMsg: string) => void;
-  successCallback: (successMsg: string) => void;
+  errorCallback?: (errMsg: string) => void;
+  successCallback?: (info: any) => void;
   classNames?: {
     container?: string;
-    heading?: string;
-    toggle?: string;
-    toggleTransition?: string;
-    displayMessage?: string;
-    confirmBtn?: string;
-    cancelBtn?: string;
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
   };
 }
 
@@ -222,61 +227,99 @@ export interface EditConnectionProps {
 }
 
 export interface EditOIDCConnectionProps {
-  connection: OIDCSSORecord;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof OIDCSSOConnection>;
-  errorCallback: (errMessage: string) => void;
-  successCallback: () => void;
+  errorCallback?: (errMessage: string) => void;
+  successCallback?: (info: {
+    operation: 'UPDATE' | 'DELETE' | 'COPY';
+    connection?: Partial<OIDCFormState>;
+    connectionIsOIDC?: true;
+  }) => void;
   cancelCallback?: () => void;
-  copyDoneCallback: () => void;
   urls: {
     delete: string;
     patch: string;
+    get: string;
   };
   classNames?: {
+    button?: { ctoa?: string; destructive?: string };
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    fieldContainer?: string;
+    secretInput?: string;
     container?: string;
     formDiv?: string;
     fieldsContainer?: string;
     fieldsDiv?: string;
     label?: string;
     input?: string;
+    textarea?: string;
     section?: string;
   };
+  /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
+  displayHeader?: boolean;
+  /** Use this boolean to toggle the info card display on/off. Useful when using the connection component standalone */
+  displayInfo?: boolean;
 }
 
 export interface EditSAMLConnectionProps {
-  connection: SAMLSSORecord;
   variant: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection>;
-  errorCallback: (errMessage: string) => void;
-  successCallback: () => void;
+  errorCallback?: (errMessage: string) => void;
+  successCallback?: (info: {
+    operation: 'UPDATE' | 'DELETE' | 'COPY';
+    connection?: Partial<SAMLFormState>;
+    connectionIsSAML?: true;
+  }) => void;
   cancelCallback?: () => void;
-  copyDoneCallback: () => void;
   urls: {
     delete: string;
     patch: string;
+    get: string;
   };
   classNames?: {
-    container?: string;
+    button?: { ctoa?: string; destructive?: string };
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    fieldContainer?: string;
+    secretInput?: string;
     formDiv?: string;
-    fieldsContainer?: string;
-    fieldsDiv?: string;
     label?: string;
     input?: string;
+    textarea?: string;
     section?: string;
   };
+  /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
+  displayHeader?: boolean;
+  /** Use this boolean to toggle the info card display on/off. Useful when using the connection component standalone */
+  displayInfo?: boolean;
 }
 
 export interface ConnectionsWrapperProp {
-  classNames?: { button?: string };
-  copyDoneCallback: () => void;
-  componentProps: {
-    connectionList: Omit<ConnectionListProps, 'onActionClick'>;
-    createSSOConnection: Partial<CreateSSOConnectionProps>;
-    editOIDCConnection: Partial<EditOIDCConnectionProps>;
-    editSAMLConnection: Partial<EditSAMLConnectionProps>;
+  classNames?: {
+    button?: { ctoa?: string; destructive?: string };
+    input?: string;
+    textarea?: string;
+    confirmationPrompt?: ConfirmationPromptProps['classNames'];
+    secretInput?: string;
+    section?: string;
   };
-  urls?: {
+  successCallback?: (info: {
+    operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY';
+    connection?: Partial<SAMLSSOConnection | OIDCSSOConnection | SAMLFormState | OIDCFormState>;
+    connectionIsSAML?: boolean;
+    connectionIsOIDC?: boolean;
+  }) => void;
+  errorCallback?: (errMessage: string) => void;
+  componentProps: {
+    connectionList: Partial<Omit<ConnectionListProps, 'handleActionClick'>>;
+    createSSOConnection?: Partial<CreateSSOConnectionProps>;
+    editOIDCConnection?: Partial<EditOIDCConnectionProps>;
+    editSAMLConnection?: Partial<EditSAMLConnectionProps>;
+  };
+  urls: {
     spMetadata?: string;
+    get: string;
+    post: string;
+    patch: string;
+    delete: string;
   };
 }

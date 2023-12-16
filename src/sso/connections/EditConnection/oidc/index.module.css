@@ -1,4 +1,5 @@
 @import url('../../../../shared/common.module.css');
+@import url('../../../../shared/inputs/index.module.css');
 .container {
   min-width: 448px;
   background-color: white;
@@ -10,78 +11,28 @@
   gap: 0;
 }
 
-.heading {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-weight: 700;
-  color: rgb(55 65 81);
-}
-
-.fieldsContainer {
+.headingContainer {
+  margin: 20px 0px;
   display: flex;
-  flex-direction: row;
-  gap: 16px;
-  width: 100%;
-}
-
-.fieldsDiv {
-  width: 100%;
-  border: 1.5px solid rgb(229 231 235);
-  border-radius: 4px;
-  padding: 24px 16px;
-}
-
-.field {
-  margin-bottom: 24px;
-}
-
-.label {
-  display: block;
-  font-weight: 500;
-  color: rgb(17 24 39);
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-}
-
-.labelDiv {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
-  margin-bottom: 0.5rem;
+  align-items: center;
 }
 
-.input {
-  width: 100%;
-  height: 3rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  line-height: 2;
-  line-height: 1.5rem;
-  border: 1px solid var(--secondary-foreground-color);
-  background-color: #fff;
-  border-radius: var(--border-radius);
+.headingContainer > :last-child {
+  margin-left: auto;
 }
 
-.input:focus-visible {
-  border-color: var(--secondary-color);
-  outline: 2px solid var(--primary-color-700);
-  outline-offset: 2px;
-}
-
-.textarea {
-  width: 100%;
-  height: 96px;
-  border: 1px solid var(--secondary-foreground-color);
-  min-height: 48px;
-  padding: 8px 16px;
-  white-space: pre;
-  border-radius: 0.5rem;
+.h5 {
+  letter-spacing: -0.025em;
+  line-height: 1;
+  font-weight: 500;
+  font-size: 1.25rem;
 }
 
 .section {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
+  justify-content: space-between;
   border-radius: 4px;
   padding: 24px;
   color: rgb(127 29 29);
@@ -90,13 +41,19 @@
   margin-top: 40px;
 }
 
+.info {
+  width: 100%;
+}
+
+.info input,
+.info pre {
+  background: var(--primary-color-50);
+  color: var(--primary-color-800);
+}
+
 .sectionHeading {
   margin-bottom: 4px;
   font-weight: 500;
-}
-
-.sectionDiv {
-  flex: 1 1 0%;
 }
 
 .sectionPara {
@@ -105,6 +62,11 @@
 
 .confirmationDiv {
   width: 50%;
+}
+
+.formAction {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .hint {

@@ -20,13 +20,7 @@ const VUE_OPTIONS = {
   api: 'composition',
 };
 
-const components = [
-  'Login',
-  'CreateOIDCConnection',
-  'CreateSAMLConnection',
-  'CreateSSOConnection',
-  'ConnectionList',
-];
+const components = ['Login', 'CreateOIDCConnection', 'CreateSAMLConnection', 'ConnectionList'];
 
 const isMitosisNode = (x) => x && x['@type'] === '@builder.io/mitosis/node';
 
@@ -36,7 +30,28 @@ module.exports = {
   dest: '.',
   getTargetPath,
   options: {
-    react: { typescript: true },
+    react: {
+      typescript: true,
+      plugins: [
+        () => ({
+          // Mitosis right now passes Ref.current instead of the ref itself. Here we simply replace '..Ref.current' with ''
+          code: {
+            pre: (code, json) => {
+              const fixRefProp = json.meta.useMetadata?.fixRefProp;
+              if (fixRefProp) {
+                traverse(json).forEach((node) => {
+                  if (isMitosisNode(node) && 'buttonRef' in node.bindings) {
+                    // console.log(node.bindings, code);
+                    code = code.replaceAll(/\.current\}/g, '}');
+                  }
+                });
+              }
+              return code;
+            },
+          },
+        }),
+      ],
+    },
     angular: {
       standalone: true,
       typescript: true,

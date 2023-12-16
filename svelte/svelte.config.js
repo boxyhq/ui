@@ -14,7 +14,7 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			'@boxyhq/svelte-ui/sso': 'dist/sso/index.js',
-			'@/shared/*': 'dist/shared/*'
+			'@boxyhq/svelte-ui/dsync': 'dist/dsync/index.js'
 		}
 	}
 };

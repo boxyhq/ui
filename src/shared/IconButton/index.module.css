@@ -1,16 +1,21 @@
 @import url('../common.module.css');
 
 .btn {
-  /* TODO */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+  width: 1.5rem;
+  color: var(--primary-foreground-color);
 }
 
-.icon {
-  --s: 218 19% 23%;
-  height: 1.25rem;
-  width: 1.25rem;
-  color: hsl(var(--s));
-}
-.icon:hover {
+.btn:hover {
   --tw-scale: 1.15;
   transform: scale(var(--tw-scale));
+  color: var(--primary-hover);
+}
+
+.svg {
+  height: 1.25rem;
+  width: 1.25rem;
 }

@@ -4,7 +4,6 @@
 import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import typescript from '@rollup/plugin-typescript';
-import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 
 export default defineConfig({
   build: {
@@ -14,6 +13,7 @@ export default defineConfig({
     lib: {
       entry: {
         sso: resolve(__dirname, 'src/sso/index.ts'),
+        dsync: resolve(__dirname, 'src/dsync/index.ts'),
         shared: resolve(__dirname, 'src/shared/index.ts'),
       },
       name: 'BoxyHQUI',
@@ -32,14 +32,6 @@ export default defineConfig({
     },
   },
   plugins: [
-    cssInjectedByJsPlugin({
-      jsAssetsFilterFunction: function customJsAssetsfilterFunction(outputChunk) {
-        // console.log(outputChunk.fileName, outputChunk.name);
-        const entryPoints = ['sso', 'shared', 'index'];
-        // TODO: at the moment this plugin injects all styles into every file instead of splitting by entry point, also look into styles not being injected into sso.cjs
-        return entryPoints.includes(outputChunk.name);
-      },
-    }),
     // use @rollup/plugin-typescript to generate .d.ts files
     typescript({
       declaration: true,

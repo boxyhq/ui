@@ -1,9 +1,12 @@
 @import url('../common.module.css');
 
 .btn {
-  display: inline-block;
+  display: inline-flex;
   padding: 0.5rem 1rem;
   margin: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   border-radius: var(--border-radius);
   text-decoration: none;
   background: var(--primary-color);
@@ -18,8 +21,8 @@
   appearance: none;
 }
 
-.btn.primary:hover,
-.btn.primary:focus-visible {
+.primary:hover,
+.primary:focus-visible {
   background: var(--primary-hover);
 }
 
@@ -38,10 +41,13 @@
   background: var(--primary-active);
   transform: scale(0.99);
 }
+.btn:disabled {
+  opacity: 50%;
+}
 
 .secondary {
   background: var(--secondary-color);
-  color: var(--secondary-foreground-color);
+  color: var(--primary-text-color);
 }
 .outline {
   background: transparent;
@@ -50,4 +56,17 @@
 }
 .destructive {
   background: #ef4444;
+}
+
+.loading {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

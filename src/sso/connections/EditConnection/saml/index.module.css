@@ -1,20 +1,27 @@
 @import url('../../../../shared/common.module.css');
-.container {
-  min-width: 448px;
-  background-color: white;
-}
+@import url('../../../../shared/inputs/index.module.css');
 
 .formDiv {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
 
-.heading {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  font-weight: 700;
-  color: rgb(55 65 81);
+.headingContainer {
+  margin: 20px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headingContainer > :last-child {
+  margin-left: auto;
+}
+
+.h5 {
+  letter-spacing: -0.025em;
+  line-height: 1;
+  font-weight: 500;
+  font-size: 1.25rem;
 }
 
 .fieldsContainer {
@@ -23,21 +30,11 @@
   width: 100%;
 }
 
-.fieldsDiv {
-  flex: 1;
-  padding: 24px 16px;
-}
-
-.readOnlyFieldsDiv {
-  flex: 1;
-  padding: 24px 16px;
-}
-
 .pre {
   overflow-x: auto;
   word-wrap: break-word;
   white-space: pre-wrap;
-  border: 1px solid var(--secondary-foreground-color);
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   padding: 1rem;
 }
@@ -45,63 +42,6 @@
 .field {
   width: 100%;
   margin-bottom: 24px;
-}
-
-.labelDiv {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.label {
-  display: block;
-  font-weight: 500;
-  color: rgb(17 24 39);
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  padding: 0.5rem 0;
-}
-
-.labelWithAction {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.input {
-  width: 100%;
-  height: 3rem;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  line-height: 2;
-  line-height: 1.5rem;
-  border: 1px solid var(--secondary-foreground-color);
-  background-color: #fff;
-  border-radius: var(--border-radius);
-}
-
-.input:focus-visible {
-  border-color: var(--secondary-color);
-  outline: 2px solid var(--primary-color-700);
-  outline-offset: 2px;
-}
-
-.input:disabled,
-.disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.input:disabled {
-  background-color: var(--secondary-color);
-  border: 1px solid transparent;
-}
-
-.textarea {
-  width: 100%;
-  height: 6rem;
 }
 
 .info input,
@@ -112,7 +52,8 @@
 
 .section {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
+  justify-content: space-between;
   border-radius: 4px;
   padding: 24px;
   color: rgb(127 29 29);
@@ -121,13 +62,13 @@
   margin-top: 40px;
 }
 
+.info {
+  width: 100%;
+}
+
 .sectionHeading {
   margin-bottom: 4px;
   font-weight: 500;
-}
-
-.sectionDiv {
-  flex: 1 1 0%;
 }
 
 .sectionPara {
@@ -141,15 +82,6 @@
 .formAction {
   display: flex;
   gap: 0.5rem;
-}
-
-.checkbox {
-  flex-direction: row;
-  align-items: center;
-}
-
-.checkbox > input {
-  margin-left: 1rem;
 }
 
 .hint {

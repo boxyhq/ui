@@ -1,0 +1,55 @@
+@import url('../common.module.css');
+/* https://moderncss.dev/pure-css-custom-checkbox-style/ */
+.label {
+  font-family: system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.1;
+  display: grid;
+  grid-template-columns: 1rem auto;
+  gap: 0.5rem;
+}
+
+.checkbox {
+  --border-width: 0.15em;
+  appearance: none;
+  /* For iOS < 15 to remove gradient background */
+  background-color: #fff;
+  /* Not removed via appearance */
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: var(--border-width) solid currentColor;
+  border-radius: var(--border-width);
+  transform: translateY(calc(var(--border-width) / 2 * -1));
+
+  display: grid;
+  place-content: center;
+}
+
+.checkbox::before {
+  content: '';
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--primary-color-700);
+  transform-origin: bottom left;
+  /* tick mark */
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.checkbox:checked::before {
+  transform: scale(1);
+}
+
+.checkbox:focus {
+  outline: max(2px, 0.15em) solid currentColor;
+  outline-offset: max(2px, 0.15em);
+}
+
+.checkbox:disabled {
+  color: var(--secondary-color);
+  cursor: not-allowed;
+}
