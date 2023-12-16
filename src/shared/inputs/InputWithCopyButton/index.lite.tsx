@@ -1,6 +1,6 @@
 import { useStore } from '@builder.io/mitosis';
 import styles from '../index.module.css';
-import CopyToClipboardButton from '../../ClipboardButton/index.lite';
+import CopyToClipboardButton from '@/shared/CopyToClipboardButton/index.lite';
 import cssClassAssembler from '../../../sso/utils/cssClassAssembler';
 import Spacer from '../../Spacer/index.lite';
 
