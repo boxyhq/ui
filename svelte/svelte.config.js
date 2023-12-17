@@ -1,5 +1,5 @@
 import adapter from '@sveltejs/adapter-auto';
-import { vitePreprocess } from '@sveltejs/kit/vite';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -14,7 +14,8 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			'@boxyhq/svelte-ui/sso': 'dist/sso/index.js',
-			'@boxyhq/svelte-ui/dsync': 'dist/dsync/index.js'
+			'@boxyhq/svelte-ui/dsync': 'dist/dsync/index.js',
+			'@/shared/*': 'src/lib/shared'
 		}
 	}
 };
