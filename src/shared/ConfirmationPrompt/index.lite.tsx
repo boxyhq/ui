@@ -1,6 +1,6 @@
 import { useRef, onMount, useMetadata } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
-import { ConfirmationPromptProps } from '../types';
+import type { ConfirmationPromptProps } from '../types';
 import defaultClasses from './index.module.css';
 
 useMetadata({ fixRefProp: true });
