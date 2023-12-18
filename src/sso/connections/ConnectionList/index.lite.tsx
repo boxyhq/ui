@@ -89,17 +89,8 @@ export default function ConnectionList(props: ConnectionListProps) {
   });
 
   async function getFieldsData(url: string) {
-    const { data, error } = await fetchData(url);
-
-    const _connectionsListData = data?.map((connection: ConnectionData<any>) => {
-      return {
-        ...connection,
-        provider: state.connectionProviderName(connection),
-        type: 'oidcProvider' in connection ? 'OIDC' : 'SAML',
-        status: connection.deactivated ? 'Inactive' : 'Active',
-        isSystemSSO: connection.isSystemSSO,
-      };
-    });
+    const data = await fetchData(url);
+    const { error } = data;
 
     state.isConnectionListLoading = false;
     if (error) {
@@ -107,8 +98,18 @@ export default function ConnectionList(props: ConnectionListProps) {
       state.errorMessage = error.message;
       typeof props.errorCallback === 'function' && props.errorCallback(error.message);
     } else {
+      const _connectionsListData = data?.map((connection: ConnectionData<any>) => {
+        return {
+          ...connection,
+          provider: state.connectionProviderName(connection),
+          type: 'oidcProvider' in connection ? 'OIDC' : 'SAML',
+          status: connection.deactivated ? 'Inactive' : 'Active',
+          isSystemSSO: connection.isSystemSSO,
+        };
+      });
       state.connectionListData = _connectionsListData;
-      typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(data);
+      typeof props.handleListFetchComplete === 'function' &&
+        props.handleListFetchComplete(_connectionsListData);
     }
   }
 
