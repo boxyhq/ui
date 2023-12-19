@@ -1,6 +1,6 @@
 import { Show, useStore } from '@builder.io/mitosis';
 import ConnectionList from '../ConnectionList/index.lite';
-import type { ConnectionData, ConnectionsWrapperProp, OIDCSSOConnection, SAMLSSOConnection } from '../types';
+import type { ConnectionData, ConnectionsWrapperProp, OIDCSSORecord, SAMLSSORecord } from '../types';
 import defaultClasses from './index.module.css';
 import EditOIDCConnection from '../EditConnection/oidc/index.lite';
 import EditSAMLConnection from '../EditConnection/saml/index.lite';
@@ -46,7 +46,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     },
     createSuccessCallback(info: {
       operation: 'CREATE';
-      connection?: SAMLSSOConnection | OIDCSSOConnection;
+      connection?: SAMLSSORecord | OIDCSSORecord;
       connectionIsSAML?: boolean;
       connectionIsOIDC?: boolean;
     }) {
