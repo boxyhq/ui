@@ -6,7 +6,7 @@ import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
 import Table from '../../../shared/Table/index.lite';
 import { BadgeProps, TableProps } from '../../../shared/types';
-import { sendHTTPRequest } from '../../../shared/fetchData';
+import { sendHTTPRequest } from '../../../shared/http';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,

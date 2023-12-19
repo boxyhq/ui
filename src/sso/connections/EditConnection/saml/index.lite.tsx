@@ -15,7 +15,7 @@ import InputField from '../../../../shared/inputs/InputField/index.lite';
 import TextArea from '../../../../shared/inputs/TextArea/index.lite';
 import { InputWithCopyButton } from '../../../../shared';
 import LoadingContainer from '../../../../shared/LoadingContainer/index.lite';
-import { ApiResponse, sendHTTPRequest } from '../../../../shared/fetchData';
+import { ApiResponse, sendHTTPRequest } from '../../../../shared/http';
 
 const DEFAULT_VALUES = {
   variant: 'basic',

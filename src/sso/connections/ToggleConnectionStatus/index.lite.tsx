@@ -4,7 +4,7 @@ import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import ToggleSwitch from '../../../shared/ToggleSwitch/index.lite';
 import ConfirmationPrompt from '../../../shared/ConfirmationPrompt/index.lite';
-import { sendHTTPRequest } from '../../../shared/fetchData';
+import { sendHTTPRequest } from '../../../shared/http';
 
 export default function ToggleConnectionStatus(props: ToggleConnectionStatusProps) {
   const state: any = useStore({

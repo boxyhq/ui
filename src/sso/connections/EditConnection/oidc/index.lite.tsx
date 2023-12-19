@@ -20,7 +20,7 @@ import Separator from '../../../../shared/Separator/index.lite';
 import Card from '../../../../shared/Card/index.lite';
 import { InputWithCopyButton } from '../../../../shared';
 import LoadingContainer from '../../../../shared/LoadingContainer/index.lite';
-import { ApiResponse, sendHTTPRequest } from '../../../../shared/fetchData';
+import { ApiResponse, sendHTTPRequest } from '../../../../shared/http';
 
 const INITIAL_VALUES = {
   name: '',

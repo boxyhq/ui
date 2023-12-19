@@ -1,4 +1,4 @@
-import { sendHTTPRequest, ApiResponse } from '../../shared/fetchData';
+import { sendHTTPRequest, ApiResponse } from '../../shared/http';
 import type { FormObj, OIDCSSORecord, SAMLSSORecord } from './types';
 
 export const saveConnection = async <T = SAMLSSORecord | OIDCSSORecord>({
