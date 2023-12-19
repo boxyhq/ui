@@ -6,7 +6,7 @@ import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
 import Table from '../../../shared/Table/index.lite';
 import { BadgeProps, TableProps } from '../../../shared/types';
-import { fetchData } from '../../../shared/fetchData';
+import { sendHTTPRequest } from '../../../shared/fetchData';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -89,27 +89,28 @@ export default function ConnectionList(props: ConnectionListProps) {
   });
 
   async function getFieldsData(url: string) {
-    const data = await fetchData(url);
-    const { error } = data;
+    const data = await sendHTTPRequest<ConnectionData<SAMLSSORecord | OIDCSSORecord>[]>(url);
 
     state.isConnectionListLoading = false;
-    if (error) {
-      state.showErrorComponent = true;
-      state.errorMessage = error.message;
-      typeof props.errorCallback === 'function' && props.errorCallback(error.message);
-    } else {
-      const _connectionsListData = data?.map((connection: ConnectionData<any>) => {
-        return {
-          ...connection,
-          provider: state.connectionProviderName(connection),
-          type: 'oidcProvider' in connection ? 'OIDC' : 'SAML',
-          status: connection.deactivated ? 'Inactive' : 'Active',
-          isSystemSSO: connection.isSystemSSO,
-        };
-      });
-      state.connectionListData = _connectionsListData;
-      typeof props.handleListFetchComplete === 'function' &&
-        props.handleListFetchComplete(_connectionsListData);
+    if (data) {
+      if ('error' in data) {
+        state.showErrorComponent = true;
+        state.errorMessage = data.error.message;
+        typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+      } else {
+        const _connectionsListData = data.map((connection: ConnectionData<any>) => {
+          return {
+            ...connection,
+            provider: state.connectionProviderName(connection),
+            type: 'oidcProvider' in connection ? 'OIDC' : 'SAML',
+            status: connection.deactivated ? 'Inactive' : 'Active',
+            isSystemSSO: connection.isSystemSSO,
+          };
+        });
+        state.connectionListData = _connectionsListData;
+        typeof props.handleListFetchComplete === 'function' &&
+          props.handleListFetchComplete(_connectionsListData);
+      }
     }
   }
 

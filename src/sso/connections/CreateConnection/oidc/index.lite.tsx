@@ -1,5 +1,5 @@
 import { useStore, Show } from '@builder.io/mitosis';
-import type { CreateConnectionProps, FormObj, OIDCSSOConnection, ApiResponse } from '../../types';
+import type { CreateConnectionProps, FormObj, OIDCSSOConnection } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
@@ -39,7 +39,6 @@ type Values = (typeof INITIAL_VALUES.oidcConnection)[Keys];
 
 export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
-    loading: false,
     oidcConnection: INITIAL_VALUES.oidcConnection,
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.oidcConnection, [key]: newValue };
@@ -52,8 +51,6 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
     },
     save(event: Event) {
       event.preventDefault();
-
-      state.loading = true;
 
       const formObj = {} as Partial<OIDCSSOConnection>;
       Object.entries(state.oidcConnection).map(([key, val]) => {
@@ -71,23 +68,14 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         url: props.urls.post,
         formObj: formObj as FormObj,
         connectionIsOIDC: true,
-        callback: async (rawResponse: any) => {
-          state.loading = false;
-
-          const response: ApiResponse = await rawResponse.json();
-
-          if ('error' in response) {
-            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-            return;
-          }
-
-          if (rawResponse.ok) {
-            typeof props.successCallback === 'function' &&
-              props.successCallback({
-                operation: 'CREATE',
-                connection: response.data,
-                connectionIsOIDC: true,
-              });
+        callback: async (data) => {
+          if (data) {
+            if ('error' in data) {
+              typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+            } else {
+              typeof props.successCallback === 'function' &&
+                props.successCallback({ operation: 'CREATE', connection: data, connectionIsOIDC: true });
+            }
           }
         },
       });

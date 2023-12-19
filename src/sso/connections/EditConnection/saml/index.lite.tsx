@@ -1,12 +1,6 @@
 import ToggleConnectionStatus from '../../ToggleConnectionStatus/index.lite';
 import { Show, onUpdate, useStore } from '@builder.io/mitosis';
-import type {
-  EditSAMLConnectionProps,
-  ApiResponse,
-  SAMLSSOConnection,
-  SAMLSSORecord,
-  SAMLFormState,
-} from '../../types';
+import type { EditSAMLConnectionProps, SAMLSSOConnection, SAMLSSORecord, SAMLFormState } from '../../types';
 import { saveConnection, deleteConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
@@ -21,6 +15,7 @@ import InputField from '../../../../shared/inputs/InputField/index.lite';
 import TextArea from '../../../../shared/inputs/TextArea/index.lite';
 import { InputWithCopyButton } from '../../../../shared';
 import LoadingContainer from '../../../../shared/LoadingContainer/index.lite';
+import { ApiResponse, sendHTTPRequest } from '../../../../shared/fetchData';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -99,20 +94,17 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               rawMetadata: state.samlConnection.rawMetadata,
               metadataUrl: state.samlConnection.metadataUrl,
             };
-      saveConnection({
+      saveConnection<undefined>({
         url: props.urls.patch,
         isEditView: true,
         formObj: payload,
         connectionIsSAML: true,
-        callback: async (rawResponse: Response) => {
-          if (rawResponse.ok) {
+        callback: async (data) => {
+          if (data && 'error' in data) {
+            typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+          } else {
             typeof props.successCallback === 'function' &&
               props.successCallback({ operation: 'UPDATE', connection: payload, connectionIsSAML: true });
-          } else {
-            const response: ApiResponse = await rawResponse.json();
-            if ('error' in response) {
-              typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-            }
           }
         },
       });
@@ -124,15 +116,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
         url: props.urls.delete,
         clientId: state.samlConnection.clientID!,
         clientSecret: state.samlConnection.clientSecret!,
-        callback: async (rawResponse: Response) => {
-          if (rawResponse.ok) {
+        callback: async (data: ApiResponse<undefined>) => {
+          if (data && 'error' in data) {
+            typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+          } else {
             typeof props.successCallback === 'function' &&
               props.successCallback({ operation: 'DELETE', connectionIsSAML: true });
-          } else {
-            const response: ApiResponse = await rawResponse.json();
-            if ('error' in response) {
-              typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-            }
           }
         },
       });
@@ -156,30 +145,30 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
 
   onUpdate(() => {
     async function getConnection(url: string) {
-      const response = await fetch(url);
-      const apiResponse: ApiResponse<SAMLSSORecord[]> = await response.json();
-
+      const data = await sendHTTPRequest<SAMLSSORecord[]>(url);
       state.isConnectionLoading = false;
 
-      if ('error' in apiResponse) {
-        typeof props.errorCallback === 'function' && props.errorCallback(apiResponse.error.message);
-      } else {
-        const _connection = apiResponse[0];
-        if (_connection) {
-          state.samlConnection = {
-            ..._connection,
-            name: _connection.name || '',
-            tenant: _connection.tenant || '',
-            product: _connection.product || '',
-            clientID: _connection.clientID,
-            clientSecret: _connection.clientSecret,
-            description: _connection.description || '',
-            redirectUrl: _connection.redirectUrl.join(`\r\n`),
-            defaultRedirectUrl: _connection.defaultRedirectUrl,
-            rawMetadata: _connection.rawMetadata || '',
-            metadataUrl: _connection.metadataUrl || '',
-            forceAuthn: _connection.forceAuthn === true || _connection.forceAuthn === 'true',
-          };
+      if (data) {
+        if ('error' in data) {
+          typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+        } else {
+          const _connection = data[0];
+          if (_connection) {
+            state.samlConnection = {
+              ..._connection,
+              name: _connection.name || '',
+              tenant: _connection.tenant || '',
+              product: _connection.product || '',
+              clientID: _connection.clientID,
+              clientSecret: _connection.clientSecret,
+              description: _connection.description || '',
+              redirectUrl: _connection.redirectUrl.join(`\r\n`),
+              defaultRedirectUrl: _connection.defaultRedirectUrl,
+              rawMetadata: _connection.rawMetadata || '',
+              metadataUrl: _connection.metadataUrl || '',
+              forceAuthn: _connection.forceAuthn === true || _connection.forceAuthn === 'true',
+            };
+          }
         }
       }
     }
