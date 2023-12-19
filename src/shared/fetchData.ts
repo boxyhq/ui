@@ -9,11 +9,11 @@ async function parseResponseContent(response: Response) {
 }
 
 /** undefined for 204 No content */
-type ApiSuccess<T> = (T & { pageToken?: string }) | undefined;
+type ApiSuccess<T> = T | undefined;
 
 export type ApiResponse<T = any> = ApiSuccess<T> | { error: { message: string } };
 
-export async function fetchData<T = any>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
+export async function sendHTTPRequest<U = any>(url: string, options?: RequestInit): Promise<ApiResponse<U>> {
   try {
     const response = await fetch(url, options);
     if (response.status === 204) {
