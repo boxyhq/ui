@@ -104,17 +104,15 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
         isEditView: true,
         formObj: payload,
         connectionIsSAML: true,
-        callback: async (rawResponse: any) => {
-          const response: ApiResponse = await rawResponse.json();
-
-          if ('error' in response) {
-            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-            return;
-          }
-
+        callback: async (rawResponse: Response) => {
           if (rawResponse.ok) {
             typeof props.successCallback === 'function' &&
               props.successCallback({ operation: 'UPDATE', connection: payload, connectionIsSAML: true });
+          } else {
+            const response: ApiResponse = await rawResponse.json();
+            if ('error' in response) {
+              typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
+            }
           }
         },
       });
@@ -126,17 +124,15 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
         url: props.urls.delete,
         clientId: state.samlConnection.clientID!,
         clientSecret: state.samlConnection.clientSecret!,
-        callback: async (rawResponse: any) => {
-          const response: ApiResponse = await rawResponse.json();
-
-          if ('error' in response) {
-            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-            return;
-          }
-
+        callback: async (rawResponse: Response) => {
           if (rawResponse.ok) {
             typeof props.successCallback === 'function' &&
               props.successCallback({ operation: 'DELETE', connectionIsSAML: true });
+          } else {
+            const response: ApiResponse = await rawResponse.json();
+            if ('error' in response) {
+              typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
+            }
           }
         },
       });
@@ -167,26 +163,24 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
 
       if ('error' in apiResponse) {
         typeof props.errorCallback === 'function' && props.errorCallback(apiResponse.error.message);
-        return;
-      }
-
-      const _connection = apiResponse.data[0];
-
-      if (_connection) {
-        state.samlConnection = {
-          ..._connection,
-          name: _connection.name || '',
-          tenant: _connection.tenant || '',
-          product: _connection.product || '',
-          clientID: _connection.clientID,
-          clientSecret: _connection.clientSecret,
-          description: _connection.description || '',
-          redirectUrl: _connection.redirectUrl.join(`\r\n`),
-          defaultRedirectUrl: _connection.defaultRedirectUrl,
-          rawMetadata: _connection.rawMetadata || '',
-          metadataUrl: _connection.metadataUrl || '',
-          forceAuthn: _connection.forceAuthn === true || _connection.forceAuthn === 'true',
-        };
+      } else {
+        const _connection = apiResponse[0];
+        if (_connection) {
+          state.samlConnection = {
+            ..._connection,
+            name: _connection.name || '',
+            tenant: _connection.tenant || '',
+            product: _connection.product || '',
+            clientID: _connection.clientID,
+            clientSecret: _connection.clientSecret,
+            description: _connection.description || '',
+            redirectUrl: _connection.redirectUrl.join(`\r\n`),
+            defaultRedirectUrl: _connection.defaultRedirectUrl,
+            rawMetadata: _connection.rawMetadata || '',
+            metadataUrl: _connection.metadataUrl || '',
+            forceAuthn: _connection.forceAuthn === true || _connection.forceAuthn === 'true',
+          };
+        }
       }
     }
     getConnection(state.connectionFetchUrl);

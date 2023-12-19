@@ -64,14 +64,9 @@ export interface CreateSSOConnectionProps
   };
 }
 
-export type ApiSuccess<T> = { data: T; pageToken?: string };
+export type ApiSuccess<T> = T & { pageToken?: string };
 
-export interface ApiError extends Error {
-  info?: string;
-  status: number;
-}
-
-export type ApiResponse<T = any> = ApiSuccess<T> | { error: ApiError };
+export type ApiResponse<T = any> = ApiSuccess<T> | { error: { message: string } };
 
 type FormObjValues = string | boolean | string[] | undefined;
 
