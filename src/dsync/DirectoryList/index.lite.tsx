@@ -1,12 +1,13 @@
 import { useStore, Show, onUpdate } from '@builder.io/mitosis';
 import { DirectorySyncProviders, type Directory } from '../types';
 import LoadingContainer from '../../shared/LoadingContainer/index.lite';
-import type { DirectoryListProps } from '../types';
+import type { DirectoryListProps, DirectoryType } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../sso/utils/cssClassAssembler';
 import Table from '../../shared/Table/index.lite';
 import { BadgeProps, TableProps } from '../../shared/types';
 import EmptyState from '../../shared/EmptyState/index.lite';
+import { sendHTTPRequest } from '../../shared/http';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
@@ -73,30 +74,28 @@ export default function DirectoryList(props: DirectoryListProps) {
   onUpdate(() => {
     async function getFieldsData(directoryListUrl: string) {
       // fetch request for obtaining directory lists data
-      const directoryListResponse = await fetch(directoryListUrl);
-      const { data: listData, error } = await directoryListResponse.json();
-
-      const directoriesListData = listData?.map((directory: Directory) => {
-        return {
-          ...directory,
-          id: directory.id,
-          name: directory.name,
-          tenant: directory.tenant,
-          product: directory.product,
-          type: state.providers.find(({ value }) => value === directory.type)?.text,
-          status: directory.deactivated ? 'Inactive' : 'Active',
-        };
-      });
-
+      const response = await sendHTTPRequest<{ data: Directory[] }>(directoryListUrl);
       state.isDirectoryListLoading = false;
-
-      if (error) {
-        state.showErrorComponent = true;
-        state.errorMessage = error.message;
-        typeof props.errorCallback === 'function' && props.errorCallback(error.message);
-      } else {
-        state.directoryListData = directoriesListData;
-        typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(listData);
+      if (response) {
+        if ('error' in response && response.error) {
+          state.showErrorComponent = true;
+          state.errorMessage = response.error.message;
+          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
+        } else if ('data' in response) {
+          const directoriesListData = response.data.map((directory: Directory) => {
+            return {
+              ...directory,
+              id: directory.id,
+              name: directory.name,
+              tenant: directory.tenant,
+              product: directory.product,
+              type: state.providers.find(({ value }) => value === directory.type)?.text as DirectoryType,
+              status: directory.deactivated ? 'Inactive' : 'Active',
+            };
+          });
+          state.directoryListData = directoriesListData;
+          typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(response.data);
+        }
       }
     }
     getFieldsData(state.listFetchUrl);

@@ -1,4 +1,4 @@
-import type { Directory, EditDirectoryProps, ApiResponse, UnSavedDirectory } from '../types';
+import type { Directory, EditDirectoryProps, UnSavedDirectory } from '../types';
 import { useStore, onUpdate, Show } from '@builder.io/mitosis';
 import ToggleConnectionStatus from '../ToggleConnectionStatus/index.lite';
 import defaultClasses from './index.module.css';
@@ -11,6 +11,7 @@ import InputField from '../../shared/inputs/InputField/index.lite';
 import SecretInputFormControl from '../../shared/inputs/SecretInputFormControl/index.lite';
 import { InputWithCopyButton } from '../../shared';
 import LoadingContainer from '../../shared/LoadingContainer/index.lite';
+import { sendHTTPRequest } from '../../shared/http';
 
 type FormState = Pick<
   UnSavedDirectory,
@@ -59,8 +60,8 @@ export default function EditDirectory(props: EditDirectoryProps) {
     onSubmit(event: Event) {
       event.preventDefault();
 
-      async function sendHttpRequest(url: string) {
-        const rawResponse = await fetch(url, {
+      async function saveDirectory(url: string) {
+        const response = await sendHTTPRequest<{ data: Directory }>(url, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -68,39 +69,31 @@ export default function EditDirectory(props: EditDirectoryProps) {
           body: JSON.stringify(state.directoryUpdated),
         });
 
-        const response: ApiResponse<Directory> = await rawResponse.json();
-
-        if ('error' in response) {
-          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-          return;
-        }
-
-        if (rawResponse.ok) {
-          typeof props.successCallback === 'function' &&
-            props.successCallback({ operation: 'UPDATE', connection: response.data });
+        if (response) {
+          if ('error' in response && response.error) {
+            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
+          } else if ('data' in response) {
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'UPDATE', connection: response.data });
+          }
         }
       }
-      sendHttpRequest(props.urls.patch);
+      saveDirectory(props.urls.patch);
     },
     deleteDirectory() {
-      async function sendHTTPrequest(url: string) {
-        const rawResponse = await fetch(url, {
+      async function deleteConnection(url: string) {
+        const response = await sendHTTPRequest<null>(url, {
           method: 'DELETE',
         });
 
-        const response: ApiResponse<unknown> = await rawResponse.json();
-
-        if ('error' in response) {
+        if (response && 'error' in response && response.error) {
           typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-          return;
-        }
-
-        if ('data' in response) {
+        } else {
           typeof props.successCallback === 'function' && props.successCallback({ operation: 'DELETE' });
         }
       }
 
-      sendHTTPrequest(props.urls.delete);
+      deleteConnection(props.urls.delete);
     },
     isExcluded(fieldName: Exclude<EditDirectoryProps['excludeFields'], undefined>[number]) {
       return !!props.excludeFields?.includes(fieldName);
@@ -118,24 +111,24 @@ export default function EditDirectory(props: EditDirectoryProps) {
 
   onUpdate(() => {
     async function getDirectory(url: string) {
-      const response = await fetch(url);
-      const { data: directoryData, error } = await response.json();
+      const response = await sendHTTPRequest<{ data: Directory }>(url);
 
       state.isDirectoryLoading = false;
-      if (directoryData) {
-        state.directoryUpdated = {
-          ...directoryData,
-          name: directoryData.name,
-          log_webhook_events: directoryData.log_webhook_events,
-          webhook_url: directoryData.webhook.endpoint || '',
-          webhook_secret: directoryData.webhook.secret || '',
-          google_domain: directoryData.google_domain || '',
-          deactivated: directoryData.deactivated,
-        };
-      }
-
-      if (error) {
-        typeof props.errorCallback === 'function' && props.errorCallback(error.message);
+      if (response) {
+        if ('error' in response && response.error) {
+          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
+        } else if ('data' in response) {
+          const directoryData = response.data;
+          state.directoryUpdated = {
+            ...directoryData,
+            name: directoryData.name,
+            log_webhook_events: directoryData.log_webhook_events,
+            webhook_url: directoryData.webhook.endpoint || '',
+            webhook_secret: directoryData.webhook.secret || '',
+            google_domain: directoryData.google_domain || '',
+            deactivated: directoryData.deactivated,
+          };
+        }
       }
     }
     getDirectory(state.directoryFetchUrl);
