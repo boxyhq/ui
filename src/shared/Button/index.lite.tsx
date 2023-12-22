@@ -18,7 +18,7 @@ export default function Button(props: ButtonProps) {
       disabled={props.isLoading}
       onClick={(event) => props.handleClick?.(event)}>
       <Show when={props.isLoading}>
-        <Spinner />
+        <Spinner variant='small' color='currentColor' />
       </Show>
       {props.name}
     </button>

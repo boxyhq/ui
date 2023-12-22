@@ -40,6 +40,7 @@ type Values = (typeof INITIAL_VALUES.oidcConnection)[Keys];
 export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
     oidcConnection: INITIAL_VALUES.oidcConnection,
+    isSaving: false,
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.oidcConnection, [key]: newValue };
     },
@@ -63,12 +64,13 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val;
         }
       });
-
+      state.isSaving = true;
       saveConnection({
         url: props.urls.post,
         formObj: formObj as FormObj,
         connectionIsOIDC: true,
         callback: async (data) => {
+          state.isSaving = false;
           if (data) {
             if ('error' in data) {
               typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
@@ -314,7 +316,12 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           <Show when={typeof props.cancelCallback === 'function'}>
             <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
           </Show>
-          <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
+          <Button
+            type='submit'
+            name='Save'
+            classNames={props.classNames?.button?.ctoa}
+            isLoading={state.isSaving}
+          />
         </div>
       </form>
     </div>
