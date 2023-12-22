@@ -24,6 +24,18 @@
   animation: loading-circle 1s ease-in-out infinite;
 }
 
+.small::after {
+  margin: 0;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-width: 0.2rem;
+}
+
+.currentColor::after {
+  border-color: currentColor;
+  border-left-color: transparent;
+}
+
 @keyframes loading-circle {
   to {
     transform: rotate(360deg);
