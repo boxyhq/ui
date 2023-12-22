@@ -32,6 +32,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
     },
+    isSaving: false,
     isDirectoryLoading: true,
     directoryUpdated: DEFAULT_FORM_STATE,
     get classes() {
@@ -59,7 +60,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
     },
     onSubmit(event: Event) {
       event.preventDefault();
-
+      state.isSaving = true;
       async function saveDirectory(url: string) {
         const response = await sendHTTPRequest<{ data: Directory }>(url, {
           method: 'PATCH',
@@ -68,7 +69,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           },
           body: JSON.stringify(state.directoryUpdated),
         });
-
+        state.isSaving = false;
         if (response) {
           if ('error' in response && response.error) {
             typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
@@ -237,7 +238,13 @@ export default function EditDirectory(props: EditDirectoryProps) {
           <Show when={typeof props.cancelCallback === 'function'}>
             <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
           </Show>
-          <Button type='submit' name='Save' variant='primary' classNames={props.classNames?.button?.ctoa} />
+          <Button
+            type='submit'
+            name='Save'
+            variant='primary'
+            classNames={props.classNames?.button?.ctoa}
+            isLoading={state.isSaving}
+          />
         </div>
       </form>
       <section class={state.classes.section}>

@@ -30,6 +30,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
   const state = useStore({
     directory: DEFAULT_DIRECTORY_VALUES,
     showDomain: false,
+    isSaving: false,
     get providers() {
       return Object.entries<string>(DirectorySyncProviders)?.map(([value, text]) => ({
         value,
@@ -73,8 +74,8 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     },
     onSubmit(event: Event) {
       event.preventDefault();
-
       async function saveDirectory(body: any, url: string) {
+        state.isSaving = true;
         const response = await sendHTTPRequest<{ data: Directory }>(url, {
           method: 'POST',
           headers: {
@@ -82,7 +83,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
           },
           body: JSON.stringify(body),
         });
-
+        state.isSaving = false;
         if (response) {
           if ('error' in response && response.error) {
             typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
@@ -217,6 +218,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
             type='submit'
             name='Create Directory'
             classNames={props.classNames?.button?.ctoa}
+            isLoading={state.isSaving}
           />
         </div>
       </form>
