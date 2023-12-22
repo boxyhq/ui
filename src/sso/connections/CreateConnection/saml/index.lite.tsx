@@ -38,6 +38,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.samlConnection, [key]: newValue };
     },
+    isSaving: false,
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
       const id = target.id as Keys;
@@ -47,7 +48,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
     },
     save(event: Event) {
       event.preventDefault();
-
+      state.isSaving = true;
       saveConnection<SAMLSSORecord>({
         url: props.urls.post,
         formObj:
@@ -59,6 +60,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               },
         connectionIsSAML: true,
         callback: async (data) => {
+          state.isSaving = false;
           if (data) {
             if ('error' in data) {
               typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
@@ -250,7 +252,12 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           <Show when={typeof props.cancelCallback === 'function'}>
             <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
           </Show>
-          <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
+          <Button
+            type='submit'
+            name='Save'
+            classNames={props.classNames?.button?.ctoa}
+            isLoading={state.isSaving}
+          />
         </div>
       </form>
     </div>

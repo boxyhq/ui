@@ -44,6 +44,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
   const state = useStore({
     samlConnection: INITIAL_VALUES.samlConnection,
     isConnectionLoading: true,
+    isSaving: false,
     showDelConfirmation: false,
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
@@ -94,12 +95,14 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               rawMetadata: state.samlConnection.rawMetadata,
               metadataUrl: state.samlConnection.metadataUrl,
             };
+      state.isSaving = true;
       saveConnection<undefined>({
         url: props.urls.patch,
         isEditView: true,
         formObj: payload,
         connectionIsSAML: true,
         callback: async (data) => {
+          state.isSaving = false;
           if (data && 'error' in data) {
             typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
           } else {
@@ -309,7 +312,12 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
               </Show>
-              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
+              <Button
+                type='submit'
+                name='Save'
+                classNames={props.classNames?.button?.ctoa}
+                isLoading={state.isSaving}
+              />
             </div>
             <Show when={state.shouldDisplayInfoCard}>
               <Card title='Connection info' variant='info' arrangement='vertical'>

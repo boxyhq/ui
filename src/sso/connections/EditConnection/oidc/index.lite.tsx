@@ -46,6 +46,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
   const state = useStore({
     oidcConnection: INITIAL_VALUES,
     isConnectionLoading: true,
+    isSaving: false,
     showDelConfirmation: false,
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
@@ -101,13 +102,14 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val;
         }
       });
-
+      state.isSaving = true;
       saveConnection<undefined>({
         url: props.urls.patch,
         isEditView: true,
         formObj: formObj as FormObj,
         connectionIsOIDC: true,
         callback: async (data) => {
+          state.isSaving = false;
           if (data && 'error' in data) {
             typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
           } else {
@@ -372,7 +374,12 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
               </Show>
-              <Button type='submit' name='Save' classNames={props.classNames?.button?.ctoa} />
+              <Button
+                type='submit'
+                name='Save'
+                classNames={props.classNames?.button?.ctoa}
+                isLoading={state.isSaving}
+              />
             </div>
             <Spacer y={6} />
             <Show when={state.shouldDisplayInfoCard}>
