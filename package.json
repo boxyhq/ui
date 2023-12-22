@@ -1,6 +1,6 @@
 {
   "name": "ui",
-  "version": "3.3.23",
+  "version": "3.3.24",
   "description": "UI toolkit to ease BoxyHQ integration",
   "main": "index.js",
   "scripts": {
