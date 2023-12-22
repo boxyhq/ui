@@ -13,7 +13,7 @@ import Select from '../../shared/Select/index.lite';
 import InputField from '../../shared/inputs/InputField/index.lite';
 import SecretInputFormControl from '../../shared/inputs/SecretInputFormControl/index.lite';
 import { sendHTTPRequest } from '../../shared/http';
-// import Checkbox from '../../../shared/Checkbox/index.lite';
+import Checkbox from '../../shared/Checkbox/index.lite';
 
 const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
   name: '',
@@ -197,7 +197,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
-        {/* <Show when={!state.isExcluded('log_webhook_events')}>
+        <Show when={!state.isExcluded('log_webhook_events')}>
           <div class={defaultClasses.checkboxFieldsDiv}>
             <Checkbox
               label='Enable Webhook events logging'
@@ -208,7 +208,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
             />
             <Spacer y={6} />
           </div>
-        </Show> */}
+        </Show>
         <div class={defaultClasses.formAction}>
           <Show when={typeof props.cancelCallback === 'function'}>
             <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
