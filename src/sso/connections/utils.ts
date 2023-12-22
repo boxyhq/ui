@@ -1,6 +1,7 @@
-import type { FormObj } from './types';
+import { sendHTTPRequest, ApiResponse } from '../../shared/http';
+import type { FormObj, OIDCSSORecord, SAMLSSORecord } from './types';
 
-export const saveConnection = async ({
+export const saveConnection = async <T = SAMLSSORecord | OIDCSSORecord>({
   formObj,
   isEditView,
   connectionIsSAML,
@@ -12,7 +13,7 @@ export const saveConnection = async ({
   isEditView?: boolean;
   connectionIsSAML?: boolean;
   connectionIsOIDC?: boolean;
-  callback: (res: Response) => Promise<void>;
+  callback: (res: ApiResponse<T>) => Promise<void>;
   url: string;
 }) => {
   const {
@@ -29,7 +30,7 @@ export const saveConnection = async ({
   const encodedRawMetadata = window.btoa((rawMetadata as string) || '');
   const redirectUrlList = (redirectUrl as string)?.split(/\r\n|\r|\n/);
 
-  const res = await fetch(url, {
+  const res = await sendHTTPRequest<T>(url, {
     method: isEditView ? 'PATCH' : 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -57,13 +58,13 @@ export const deleteConnection = async ({
   url: string;
   clientId: string;
   clientSecret: string;
-  callback: (res: Response) => Promise<void>;
+  callback: (res: ApiResponse<undefined>) => Promise<void>;
 }) => {
   const queryParams = new URLSearchParams({
     clientID: clientId,
     clientSecret,
   });
-  const res = await fetch(`${url}?${queryParams}`, {
+  const res = await sendHTTPRequest<undefined>(`${url}?${queryParams}`, {
     method: 'DELETE',
   });
   callback(res);

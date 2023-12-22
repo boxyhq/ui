@@ -1,7 +1,6 @@
 import { Show, onMount, useStore } from '@builder.io/mitosis';
 import {
   type CreateDirectoryProps,
-  type ApiResponse,
   type Directory,
   type UnSavedDirectory,
   DirectorySyncProviders,
@@ -13,6 +12,7 @@ import Spacer from '../../shared/Spacer/index.lite';
 import Select from '../../shared/Select/index.lite';
 import InputField from '../../shared/inputs/InputField/index.lite';
 import SecretInputFormControl from '../../shared/inputs/SecretInputFormControl/index.lite';
+import { sendHTTPRequest } from '../../shared/http';
 // import Checkbox from '../../../shared/Checkbox/index.lite';
 
 const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
@@ -74,8 +74,8 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     onSubmit(event: Event) {
       event.preventDefault();
 
-      async function sendHTTPrequest(body: any, url: string) {
-        const rawResponse = await fetch(url, {
+      async function saveDirectory(body: any, url: string) {
+        const response = await sendHTTPRequest<{ data: Directory }>(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -83,19 +83,16 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
           body: JSON.stringify(body),
         });
 
-        const response: ApiResponse<Directory> = await rawResponse.json();
-
-        if ('error' in response) {
-          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-          return;
-        }
-
-        if (rawResponse.ok) {
-          typeof props.successCallback === 'function' &&
-            props.successCallback({ operation: 'CREATE', connection: response.data });
+        if (response) {
+          if ('error' in response && response.error) {
+            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
+          } else if ('data' in response) {
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'CREATE', connection: response.data });
+          }
         }
       }
-      sendHTTPrequest(state.directory, props.urls.post);
+      saveDirectory(state.directory, props.urls.post);
     },
     isExcluded(fieldName: keyof UnSavedDirectory) {
       return !!(props.excludeFields as (keyof UnSavedDirectory)[])?.includes(fieldName);

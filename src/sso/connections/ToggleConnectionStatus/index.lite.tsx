@@ -1,10 +1,10 @@
 import { useStore, Show } from '@builder.io/mitosis';
 import type { ToggleConnectionStatusProps } from '../types';
-import { ApiResponse } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import ToggleSwitch from '../../../shared/ToggleSwitch/index.lite';
 import ConfirmationPrompt from '../../../shared/ConfirmationPrompt/index.lite';
+import { sendHTTPRequest } from '../../../shared/http';
 
 export default function ToggleConnectionStatus(props: ToggleConnectionStatusProps) {
   const state: any = useStore({
@@ -30,7 +30,7 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
       };
     },
     updateConnectionStatus(status: boolean) {
-      async function sendHTTPrequest() {
+      async function updateConnection() {
         type payload = { [key: string]: string | boolean };
         const body: payload = {
           clientID: props.connection.clientID,
@@ -49,25 +49,23 @@ export default function ToggleConnectionStatus(props: ToggleConnectionStatusProp
           body['isOIDC'] = true;
         }
 
-        const res = await fetch(props.urls.patch, {
+        const data = await sendHTTPRequest<undefined>(props.urls.patch, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(body),
         });
-        const response: ApiResponse = await res.json();
         state.displayPrompt = false;
 
-        if ('error' in response) {
-          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-          return;
+        if (data?.error) {
+          typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+        } else {
+          typeof props.successCallback === 'function' &&
+            props.successCallback({ operation: 'UPDATE', connectionIsSAML, connectionIsOIDC });
         }
-
-        typeof props.successCallback === 'function' &&
-          props.successCallback({ operation: 'UPDATE', connectionIsSAML, connectionIsOIDC });
       }
-      sendHTTPrequest();
+      updateConnection();
     },
   });
 

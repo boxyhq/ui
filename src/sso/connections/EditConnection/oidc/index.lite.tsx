@@ -5,7 +5,6 @@ import type {
   EditOIDCConnectionProps,
   FormObj,
   OIDCSSOConnection,
-  ApiResponse,
   OIDCSSORecord,
   OIDCFormState,
 } from '../../types';
@@ -21,6 +20,7 @@ import Separator from '../../../../shared/Separator/index.lite';
 import Card from '../../../../shared/Card/index.lite';
 import { InputWithCopyButton } from '../../../../shared';
 import LoadingContainer from '../../../../shared/LoadingContainer/index.lite';
+import { ApiResponse, sendHTTPRequest } from '../../../../shared/http';
 
 const INITIAL_VALUES = {
   name: '',
@@ -102,21 +102,17 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
         }
       });
 
-      saveConnection({
+      saveConnection<undefined>({
         url: props.urls.patch,
         isEditView: true,
         formObj: formObj as FormObj,
         connectionIsOIDC: true,
-        callback: async (rawResponse: any) => {
-          const response: ApiResponse = await rawResponse.json();
-
-          if ('error' in response) {
-            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-            return;
-          }
-
-          if (rawResponse.ok) {
-            typeof props.successCallback === 'function' && props.successCallback(formObj);
+        callback: async (data) => {
+          if (data && 'error' in data) {
+            typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+          } else {
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'UPDATE', connection: formObj, connectionIsOIDC: true });
           }
         },
       });
@@ -128,15 +124,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
         url: props.urls.delete,
         clientId: state.oidcConnection.clientID!,
         clientSecret: state.oidcConnection.clientSecret!,
-        callback: async (rawResponse: any) => {
-          const response: ApiResponse = await rawResponse.json();
-
-          if ('error' in response) {
-            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-            return;
-          }
-
-          if (rawResponse.ok) {
+        callback: async (data: ApiResponse<undefined>) => {
+          if (data && 'error' in data) {
+            typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+          } else {
             typeof props.successCallback === 'function' &&
               props.successCallback({ operation: 'DELETE', connectionIsOIDC: true });
           }
@@ -162,39 +153,38 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
 
   onUpdate(() => {
     async function getConnection(url: string) {
-      const response = await fetch(url);
-      const apiResponse: ApiResponse<OIDCSSORecord[]> = await response.json();
+      const data = await sendHTTPRequest<OIDCSSORecord[]>(url);
 
       state.isConnectionLoading = false;
 
-      if ('error' in apiResponse) {
-        typeof props.errorCallback === 'function' && props.errorCallback(apiResponse.error.message);
-        return;
+      if (data) {
+        if ('error' in data) {
+          typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+        } else {
+          const _connection = data[0];
+          if (_connection) {
+            state.oidcConnection = {
+              ..._connection,
+              name: _connection.name || '',
+              tenant: _connection.tenant || '',
+              product: _connection.product || '',
+              description: _connection.description || '',
+              redirectUrl: _connection.redirectUrl.join(`\r\n`),
+              defaultRedirectUrl: _connection.defaultRedirectUrl,
+              oidcClientId: _connection.oidcProvider.clientId || '',
+              oidcClientSecret: _connection.oidcProvider.clientSecret || '',
+              oidcDiscoveryUrl: _connection.oidcProvider.discoveryUrl || '',
+              'oidcMetadata.issuer': _connection.oidcProvider.metadata?.issuer || '',
+              'oidcMetadata.authorization_endpoint':
+                _connection.oidcProvider.metadata?.authorization_endpoint || '',
+              'oidcMetadata.token_endpoint': _connection.oidcProvider.metadata?.token_endpoint || '',
+              'oidcMetadata.jwks_uri': _connection.oidcProvider.metadata?.jwks_uri || '',
+              'oidcMetadata.userinfo_endpoint': _connection.oidcProvider.metadata?.userinfo_endpoint || '',
+            };
+          }
+          state.hasDiscoveryUrl = _connection.oidcProvider.discoveryUrl ? true : false;
+        }
       }
-
-      const _connection = apiResponse.data[0];
-
-      if (_connection) {
-        state.oidcConnection = {
-          ..._connection,
-          name: _connection.name || '',
-          tenant: _connection.tenant || '',
-          product: _connection.product || '',
-          description: _connection.description || '',
-          redirectUrl: _connection.redirectUrl.join(`\r\n`),
-          defaultRedirectUrl: _connection.defaultRedirectUrl,
-          oidcClientId: _connection.oidcProvider.clientId || '',
-          oidcClientSecret: _connection.oidcProvider.clientSecret || '',
-          oidcDiscoveryUrl: _connection.oidcProvider.discoveryUrl || '',
-          'oidcMetadata.issuer': _connection.oidcProvider.metadata?.issuer || '',
-          'oidcMetadata.authorization_endpoint':
-            _connection.oidcProvider.metadata?.authorization_endpoint || '',
-          'oidcMetadata.token_endpoint': _connection.oidcProvider.metadata?.token_endpoint || '',
-          'oidcMetadata.jwks_uri': _connection.oidcProvider.metadata?.jwks_uri || '',
-          'oidcMetadata.userinfo_endpoint': _connection.oidcProvider.metadata?.userinfo_endpoint || '',
-        };
-      }
-      state.hasDiscoveryUrl = _connection.oidcProvider.discoveryUrl ? true : false;
     }
     getConnection(state.connectionFetchUrl);
   }, [state.connectionFetchUrl]);

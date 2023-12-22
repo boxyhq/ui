@@ -1,5 +1,5 @@
 import { Show, useStore } from '@builder.io/mitosis';
-import type { CreateConnectionProps, SAMLSSOConnection, ApiResponse } from '../../types';
+import type { CreateConnectionProps, SAMLSSOConnection, SAMLSSORecord } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../../utils/cssClassAssembler';
@@ -34,7 +34,6 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
-    loading: false,
     samlConnection: INITIAL_VALUES.samlConnection,
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.samlConnection, [key]: newValue };
@@ -49,9 +48,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
     save(event: Event) {
       event.preventDefault();
 
-      state.loading = true;
-
-      saveConnection({
+      saveConnection<SAMLSSORecord>({
         url: props.urls.post,
         formObj:
           props.variant === 'advanced'
@@ -61,23 +58,14 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
                 metadataUrl: state.samlConnection.metadataUrl,
               },
         connectionIsSAML: true,
-        callback: async (rawResponse: any) => {
-          state.loading = false;
-
-          const response: ApiResponse = await rawResponse.json();
-
-          if ('error' in response) {
-            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-            return;
-          }
-
-          if (rawResponse.ok) {
-            typeof props.successCallback === 'function' &&
-              props.successCallback({
-                operation: 'CREATE',
-                connection: response.data,
-                connectionIsSAML: true,
-              });
+        callback: async (data) => {
+          if (data) {
+            if ('error' in data) {
+              typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+            } else {
+              typeof props.successCallback === 'function' &&
+                props.successCallback({ operation: 'CREATE', connection: data, connectionIsSAML: true });
+            }
           }
         },
       });

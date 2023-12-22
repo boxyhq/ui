@@ -25,7 +25,7 @@ export interface CreateConnectionProps {
   errorCallback?: (errMessage: string) => void;
   successCallback?: (info: {
     operation: 'CREATE';
-    connection?: SAMLSSOConnection | OIDCSSOConnection;
+    connection?: SAMLSSORecord | OIDCSSORecord;
     connectionIsOIDC?: boolean;
     connectionIsSAML?: boolean;
   }) => void;
@@ -63,15 +63,6 @@ export interface CreateSSOConnectionProps
     oidc?: Array<keyof OIDCSSOConnection>;
   };
 }
-
-export type ApiSuccess<T> = { data: T; pageToken?: string };
-
-export interface ApiError extends Error {
-  info?: string;
-  status: number;
-}
-
-export type ApiResponse<T = any> = ApiSuccess<T> | { error: ApiError };
 
 type FormObjValues = string | boolean | string[] | undefined;
 
@@ -304,7 +295,7 @@ export interface ConnectionsWrapperProp {
   };
   successCallback?: (info: {
     operation: 'CREATE' | 'UPDATE' | 'DELETE' | 'COPY';
-    connection?: Partial<SAMLSSOConnection | OIDCSSOConnection | SAMLFormState | OIDCFormState>;
+    connection?: Partial<SAMLSSORecord | OIDCSSORecord | SAMLFormState | OIDCFormState>;
     connectionIsSAML?: boolean;
     connectionIsOIDC?: boolean;
   }) => void;

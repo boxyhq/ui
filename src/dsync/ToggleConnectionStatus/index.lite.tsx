@@ -1,9 +1,10 @@
 import { useStore, Show } from '@builder.io/mitosis';
-import type { ToggleDirectoryStatusProps, ApiResponse } from '../types';
+import type { ToggleDirectoryStatusProps, Directory } from '../types';
 import ToggleSwitch from '../../shared/ToggleSwitch/index.lite';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../sso/utils/cssClassAssembler';
 import ConfirmationPrompt from '../../shared/ConfirmationPrompt/index.lite';
+import { sendHTTPRequest } from '../../shared/http';
 
 export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps) {
   const state = useStore({
@@ -29,13 +30,13 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
       };
     },
     updateConnectionStatus(status: boolean) {
-      async function sendHTTPrequest() {
+      async function toggle() {
         const body = {
           directoryId: props.connection?.id,
           deactivated: status,
         };
 
-        const res = await fetch(props.urls.patch, {
+        const response = await sendHTTPRequest<Directory>(props.urls.patch, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -43,18 +44,15 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
           body: JSON.stringify(body),
         });
 
-        const response: ApiResponse = await res.json();
-
         state.displayPrompt = false;
 
-        if ('error' in response) {
+        if (response && 'error' in response && response.error) {
           typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-          return;
+        } else {
+          typeof props.successCallback === 'function' && props.successCallback({ operation: 'UPDATE' });
         }
-
-        typeof props.successCallback === 'function' && props.successCallback({ operation: 'UPDATE' });
       }
-      sendHTTPrequest();
+      toggle();
     },
   });
 
