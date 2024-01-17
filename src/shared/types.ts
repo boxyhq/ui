@@ -43,7 +43,7 @@ export interface ModalProps {
   children?: any;
 }
 
-export interface ButtonProps {
+export type ButtonProps = {
   buttonRef?: any;
   name: string;
   handleClick?: (event: any) => void;
@@ -51,7 +51,7 @@ export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
   isLoading?: boolean;
-}
+} & JSX.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export interface ToggleSwitchProps {
   label: string;
@@ -148,4 +148,11 @@ export interface ConfirmationPromptProps {
   promptMessage: string;
   confirmationCallback: (event: Event) => void;
   cancelCallback: (event: Event) => void;
+}
+
+export interface PaginateProps {
+  handlePreviousClick: (event: Event) => void;
+  handleNextClick: (event: Event) => void;
+  itemsPerPage: number;
+  currentPageItemsCount: number;
 }
