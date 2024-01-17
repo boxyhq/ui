@@ -1,4 +1,10 @@
-import type { SVGAttributes, ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
+import type {
+  SVGAttributes,
+  ComponentPropsWithRef,
+  ReactElement,
+  ReactNode,
+  ButtonHTMLAttributes,
+} from 'react';
 
 export type SVGProps = SVGAttributes<SVGSVGElement>;
 
@@ -43,7 +49,9 @@ export interface ModalProps {
   children?: any;
 }
 
-export interface ButtonProps extends ComponentPropsWithRef<'button'> {
+export interface ButtonProps
+  extends ComponentPropsWithRef<'button'>,
+    ButtonHTMLAttributes<HTMLButtonElement> {
   buttonRef?: HTMLButtonElement;
   name: string;
   type?: 'submit' | 'reset' | 'button';
@@ -148,4 +156,10 @@ export interface ConfirmationPromptProps {
   promptMessage: string;
   confirmationCallback: (event: Event) => void;
   cancelCallback: (event: Event) => void;
+}
+
+export interface PaginateProps {
+  handlePreviousClick: (event: Event) => void;
+  handleNextClick: (event: Event) => void;
+  itemsPerPage: number;
 }
