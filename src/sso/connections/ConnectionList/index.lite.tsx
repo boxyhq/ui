@@ -7,6 +7,7 @@ import defaultClasses from './index.module.css';
 import Table from '../../../shared/Table/index.lite';
 import { BadgeProps, TableProps } from '../../../shared/types';
 import { sendHTTPRequest } from '../../../shared/http';
+import Paginate from '../../../shared/Paginate/index.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -141,6 +142,11 @@ export default function ConnectionList(props: ConnectionListProps) {
               data={state.connectionListData}
               actions={state.actions}
               {...props.tableProps}
+            />
+            <Paginate
+              itemsPerPage={15}
+              currentPageItemsCount={state.connectionListData.length}
+              handlePageChange={(payload) => props.handleActionClick('pageChange', payload)}
             />
           </div>
         </Show>
