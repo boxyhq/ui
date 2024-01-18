@@ -6,10 +6,16 @@ export default function Paginate(props: PaginateProps) {
   const state = useStore({
     itemOffset: 0,
     get isPreviousDisabled() {
-      return state.itemOffset === 0;
+      return this.itemOffset === 0;
     },
     get isNextDisabled() {
       return props.currentPageItemsCount < props.itemsPerPage;
+    },
+    handlePreviousClick() {
+      props.handlePageChange({ offset: this.itemOffset - props.itemsPerPage });
+    },
+    handleNextClick() {
+      props.handlePageChange({ offset: this.itemOffset + props.itemsPerPage });
     },
   });
 
@@ -20,7 +26,7 @@ export default function Paginate(props: PaginateProps) {
           <Button
             name='Prev'
             variant='outline'
-            handleClick={props.handlePreviousClick}
+            handleClick={state.handlePreviousClick}
             disabled={state.isPreviousDisabled}
             aria-label='Goto Previous Page'></Button>
         </li>
@@ -28,7 +34,7 @@ export default function Paginate(props: PaginateProps) {
           <Button
             name='Next'
             variant='outline'
-            handleClick={props.handleNextClick}
+            handleClick={state.handleNextClick}
             disabled={state.isNextDisabled}
             aria-label='Goto Next Page'></Button>
         </li>
