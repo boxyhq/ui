@@ -34,11 +34,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         state.connectionsAdded && state.connections.some((connection) => connection.deactivated === false)
       );
     },
-    get connectionFetchURL() {
-      const url = new URL(props.urls.get);
-      const urlParams = url.searchParams;
-      urlParams.set('clientID', state.connectionToEdit.clientID);
-      return url.toString();
+    get connectionFetchURL(): string {
+      const [urlPath, _] = props.urls.get.split('?');
+      return urlPath + `?clientID=${state.connectionToEdit.clientID}`;
     },
     switchToCreateView() {
       state.view = 'CREATE';
