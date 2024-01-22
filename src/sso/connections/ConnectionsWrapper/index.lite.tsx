@@ -96,7 +96,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <Show when={state.view === 'LIST'}>
         <div class={defaultClasses.listView}>
           <div class={defaultClasses.header}>
-            <h5 class={defaultClasses.h5}>Manage SSO Connections</h5>
+            <h5 class={defaultClasses.h5}>{props.title || 'Manage SSO Connections'}</h5>
             <div class={defaultClasses.ctoa}>
               <Show when={props.urls?.spMetadata}>
                 <Anchor

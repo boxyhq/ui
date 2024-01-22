@@ -285,6 +285,7 @@ export interface EditSAMLConnectionProps {
 }
 
 export interface ConnectionsWrapperProp {
+  title?: string;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     input?: string;
