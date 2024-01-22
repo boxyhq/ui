@@ -34,6 +34,12 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         state.connectionsAdded && state.connections.some((connection) => connection.deactivated === false)
       );
     },
+    get connectionFetchURL() {
+      const url = new URL(props.urls.get);
+      const urlParams = url.searchParams;
+      urlParams.set('clientID', state.connectionToEdit.clientID);
+      return url.toString();
+    },
     switchToCreateView() {
       state.view = 'CREATE';
     },
@@ -130,7 +136,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{
               delete: props.urls.delete,
               patch: props.urls.patch,
-              get: `${props.urls.get}?clientID=${state.connectionToEdit.clientID}`,
+              get: state.connectionFetchURL,
             }}
             {...props.componentProps.editOIDCConnection}
           />
@@ -147,7 +153,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{
               delete: props.urls.delete,
               patch: props.urls.patch,
-              get: `${props.urls.get}?clientID=${state.connectionToEdit.clientID}`,
+              get: state.connectionFetchURL,
             }}
             {...props.componentProps.editSAMLConnection}
           />
