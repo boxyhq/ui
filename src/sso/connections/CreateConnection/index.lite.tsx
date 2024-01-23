@@ -2,8 +2,6 @@ import { useStore, Show } from '@builder.io/mitosis';
 import CreateOIDCConnection from './oidc/index.lite';
 import CreateSAMLConnection from './saml/index.lite';
 import type { CreateSSOConnectionProps } from '../types';
-import styles from './index.module.css';
-
 import RadioGroup from '../../../shared/RadioGroup/index.lite';
 import Radio from '../../../shared/Radio/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
