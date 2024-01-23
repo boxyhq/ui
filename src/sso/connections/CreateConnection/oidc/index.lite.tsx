@@ -1,4 +1,4 @@
-import { useStore, Show } from '@builder.io/mitosis';
+import { useStore, Show, onUpdate } from '@builder.io/mitosis';
 import type { CreateConnectionProps, FormObj, OIDCSSOConnection } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -39,11 +39,7 @@ type Values = (typeof INITIAL_VALUES.oidcConnection)[Keys];
 
 export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
-    oidcConnection: {
-      ...INITIAL_VALUES.oidcConnection,
-      tenant: props.tenant ?? INITIAL_VALUES.oidcConnection.tenant,
-      product: props.product ?? INITIAL_VALUES.oidcConnection.product,
-    },
+    oidcConnection: INITIAL_VALUES.oidcConnection,
     isSaving: false,
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.oidcConnection, [key]: newValue };
@@ -114,6 +110,15 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       return true;
     },
   });
+
+  onUpdate(() => {
+    if (props.tenant) {
+      state.oidcConnection = state.updateConnection('tenant', props.tenant);
+    }
+    if (props.product) {
+      state.oidcConnection = state.updateConnection('product', props.product);
+    }
+  }, [props.tenant, props.product]);
 
   return (
     <div>

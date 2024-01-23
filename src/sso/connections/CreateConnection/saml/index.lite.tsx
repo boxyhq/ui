@@ -1,4 +1,4 @@
-import { Show, useStore } from '@builder.io/mitosis';
+import { Show, onUpdate, useStore } from '@builder.io/mitosis';
 import type { CreateConnectionProps, SAMLSSOConnection, SAMLSSORecord } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -34,11 +34,7 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
-    samlConnection: {
-      ...INITIAL_VALUES.samlConnection,
-      tenant: props.tenant ?? INITIAL_VALUES.samlConnection.tenant,
-      product: props.product ?? INITIAL_VALUES.samlConnection.product,
-    },
+    samlConnection: INITIAL_VALUES.samlConnection,
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.samlConnection, [key]: newValue };
     },
@@ -104,6 +100,15 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       return true;
     },
   });
+
+  onUpdate(() => {
+    if (props.tenant) {
+      state.samlConnection = state.updateConnection('tenant', props.tenant);
+    }
+    if (props.product) {
+      state.samlConnection = state.updateConnection('product', props.product);
+    }
+  }, [props.tenant, props.product]);
 
   return (
     <div>

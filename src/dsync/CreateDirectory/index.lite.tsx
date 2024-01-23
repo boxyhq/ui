@@ -1,4 +1,4 @@
-import { Show, onMount, useStore } from '@builder.io/mitosis';
+import { Show, onUpdate, useStore } from '@builder.io/mitosis';
 import {
   type CreateDirectoryProps,
   type Directory,
@@ -26,13 +26,12 @@ const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
   log_webhook_events: false,
 };
 
+type Keys = keyof typeof DEFAULT_DIRECTORY_VALUES;
+type Values = (typeof DEFAULT_DIRECTORY_VALUES)[Keys];
+
 export default function CreateDirectory(props: CreateDirectoryProps) {
   const state = useStore({
-    directory: {
-      ...DEFAULT_DIRECTORY_VALUES,
-      tenant: props.tenant ?? DEFAULT_DIRECTORY_VALUES.tenant,
-      product: props.product ?? DEFAULT_DIRECTORY_VALUES.product,
-    },
+    directory: DEFAULT_DIRECTORY_VALUES,
     showDomain: false,
     isSaving: false,
     get providers() {
@@ -67,14 +66,14 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
       }
       return true;
     },
+    updateDirectory(key: Keys, newValue: Values) {
+      return { ...state.directory, [key]: newValue };
+    },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement;
       const value = target.type === 'checkbox' ? target.checked : target.value;
 
-      state.directory = {
-        ...state.directory,
-        [target.id]: value,
-      };
+      state.directory = state.updateDirectory(target.id as Keys, value);
     },
     onSubmit(event: Event) {
       event.preventDefault();
@@ -104,9 +103,17 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     },
   });
 
-  onMount(() => {
-    state.directory.webhook_url = props.defaultWebhookEndpoint || '';
-  });
+  onUpdate(() => {
+    if (props.tenant) {
+      state.directory = state.updateDirectory('tenant', props.tenant);
+    }
+    if (props.product) {
+      state.directory = state.updateDirectory('product', props.product);
+    }
+    if (props.defaultWebhookEndpoint) {
+      state.directory = state.updateDirectory('webhook_url', props.defaultWebhookEndpoint);
+    }
+  }, [props.tenant, props.product, props.defaultWebhookEndpoint]);
 
   return (
     <div>
