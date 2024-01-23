@@ -66,14 +66,14 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
       }
       return true;
     },
-    updateDirectory(key: Keys, newValue: Values) {
-      return { ...state.directory, [key]: newValue };
+    updateDirectory(data: Partial<typeof DEFAULT_DIRECTORY_VALUES>) {
+      return { ...state.directory, ...data };
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement;
       const value = target.type === 'checkbox' ? target.checked : target.value;
 
-      state.directory = state.updateDirectory(target.id as Keys, value);
+      state.directory = state.updateDirectory({ [target.id as Keys]: value });
     },
     onSubmit(event: Event) {
       event.preventDefault();
@@ -104,15 +104,11 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
   });
 
   onUpdate(() => {
-    if (props.tenant) {
-      state.directory = state.updateDirectory('tenant', props.tenant);
-    }
-    if (props.product) {
-      state.directory = state.updateDirectory('product', props.product);
-    }
-    if (props.defaultWebhookEndpoint) {
-      state.directory = state.updateDirectory('webhook_url', props.defaultWebhookEndpoint);
-    }
+    state.directory = state.updateDirectory({
+      tenant: props.tenant ?? state.directory.tenant,
+      product: props.product ?? state.directory.product,
+      webhook_url: props.defaultWebhookEndpoint ?? state.directory.webhook_url,
+    });
   }, [props.tenant, props.product, props.defaultWebhookEndpoint]);
 
   return (
