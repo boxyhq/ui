@@ -34,6 +34,10 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         state.connectionsAdded && state.connections.some((connection) => connection.deactivated === false)
       );
     },
+    get connectionFetchURL(): string {
+      const [urlPath, _] = props.urls.get.split('?');
+      return urlPath + `?clientID=${state.connectionToEdit.clientID}`;
+    },
     switchToCreateView() {
       state.view = 'CREATE';
     },
@@ -90,7 +94,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <Show when={state.view === 'LIST'}>
         <div class={defaultClasses.listView}>
           <div class={defaultClasses.header}>
-            <h5 class={defaultClasses.h5}>Manage SSO Connections</h5>
+            <h5 class={defaultClasses.h5}>{props.title || 'Manage SSO Connections'}</h5>
             <div class={defaultClasses.ctoa}>
               <Show when={props.urls?.spMetadata}>
                 <Anchor
@@ -130,7 +134,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{
               delete: props.urls.delete,
               patch: props.urls.patch,
-              get: `${props.urls.get}?clientID=${state.connectionToEdit.clientID}`,
+              get: state.connectionFetchURL,
             }}
             {...props.componentProps.editOIDCConnection}
           />
@@ -147,7 +151,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{
               delete: props.urls.delete,
               patch: props.urls.patch,
-              get: `${props.urls.get}?clientID=${state.connectionToEdit.clientID}`,
+              get: state.connectionFetchURL,
             }}
             {...props.componentProps.editSAMLConnection}
           />
@@ -163,6 +167,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           cancelCallback={state.switchToListView}
           successCallback={state.createSuccessCallback}
           errorCallback={props.errorCallback}
+          tenant={props.tenant}
+          product={props.product}
           urls={{
             post: props.urls.post,
           }}

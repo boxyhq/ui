@@ -1,4 +1,4 @@
-import { Show, useStore } from '@builder.io/mitosis';
+import { Show, onUpdate, useStore } from '@builder.io/mitosis';
 import type { CreateConnectionProps, SAMLSSOConnection, SAMLSSORecord } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -51,13 +51,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       state.isSaving = true;
       saveConnection<SAMLSSORecord>({
         url: props.urls.post,
-        formObj:
-          props.variant === 'advanced'
-            ? { ...state.samlConnection }
-            : {
-                rawMetadata: state.samlConnection.rawMetadata,
-                metadataUrl: state.samlConnection.metadataUrl,
-              },
+        formObj: state.samlConnection,
         connectionIsSAML: true,
         callback: async (data) => {
           state.isSaving = false;
@@ -100,6 +94,15 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       return true;
     },
   });
+
+  onUpdate(() => {
+    if (props.tenant) {
+      state.samlConnection = state.updateConnection('tenant', props.tenant);
+    }
+    if (props.product) {
+      state.samlConnection = state.updateConnection('product', props.product);
+    }
+  }, [props.tenant, props.product]);
 
   return (
     <div>
