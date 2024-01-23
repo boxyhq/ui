@@ -50,6 +50,8 @@ export interface CreateConnectionProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
+  tenant?: string;
+  product?: string;
 }
 
 export interface CreateSSOConnectionProps
@@ -62,6 +64,8 @@ export interface CreateSSOConnectionProps
     saml?: Array<keyof SAMLSSOConnection>;
     oidc?: Array<keyof OIDCSSOConnection>;
   };
+  tenant?: string;
+  product?: string;
 }
 
 type FormObjValues = string | boolean | string[] | undefined;
@@ -286,6 +290,8 @@ export interface EditSAMLConnectionProps {
 
 export interface ConnectionsWrapperProp {
   title?: string;
+  tenant?: string;
+  product?: string;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     input?: string;

@@ -167,6 +167,8 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           cancelCallback={state.switchToListView}
           successCallback={state.createSuccessCallback}
           errorCallback={props.errorCallback}
+          tenant={props.tenant}
+          product={props.product}
           urls={{
             post: props.urls.post,
           }}

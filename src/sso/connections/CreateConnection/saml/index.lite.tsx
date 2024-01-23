@@ -34,7 +34,11 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
-    samlConnection: INITIAL_VALUES.samlConnection,
+    samlConnection: {
+      ...INITIAL_VALUES.samlConnection,
+      tenant: props.tenant ?? INITIAL_VALUES.samlConnection.tenant,
+      product: props.product ?? INITIAL_VALUES.samlConnection.product,
+    },
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.samlConnection, [key]: newValue };
     },

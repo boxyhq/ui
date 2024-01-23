@@ -39,7 +39,11 @@ type Values = (typeof INITIAL_VALUES.oidcConnection)[Keys];
 
 export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
-    oidcConnection: INITIAL_VALUES.oidcConnection,
+    oidcConnection: {
+      ...INITIAL_VALUES.oidcConnection,
+      tenant: props.tenant ?? INITIAL_VALUES.oidcConnection.tenant,
+      product: props.product ?? INITIAL_VALUES.oidcConnection.product,
+    },
     isSaving: false,
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.oidcConnection, [key]: newValue };
