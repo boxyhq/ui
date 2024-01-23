@@ -107,6 +107,8 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           urls={{
             post: props.urls.post,
           }}
+          tenant={props.tenant}
+          product={props.product}
         />
       </Show>
     </div>

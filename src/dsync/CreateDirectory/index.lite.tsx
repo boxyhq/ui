@@ -28,7 +28,11 @@ const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
 
 export default function CreateDirectory(props: CreateDirectoryProps) {
   const state = useStore({
-    directory: DEFAULT_DIRECTORY_VALUES,
+    directory: {
+      ...DEFAULT_DIRECTORY_VALUES,
+      tenant: props.tenant ?? DEFAULT_DIRECTORY_VALUES.tenant,
+      product: props.product ?? DEFAULT_DIRECTORY_VALUES.product,
+    },
     showDomain: false,
     isSaving: false,
     get providers() {
