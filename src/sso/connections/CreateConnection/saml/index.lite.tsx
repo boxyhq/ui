@@ -51,13 +51,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       state.isSaving = true;
       saveConnection<SAMLSSORecord>({
         url: props.urls.post,
-        formObj:
-          props.variant === 'advanced'
-            ? { ...state.samlConnection }
-            : {
-                rawMetadata: state.samlConnection.rawMetadata,
-                metadataUrl: state.samlConnection.metadataUrl,
-              },
+        formObj: state.samlConnection,
         connectionIsSAML: true,
         callback: async (data) => {
           state.isSaving = false;
