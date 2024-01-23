@@ -35,16 +35,18 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
     samlConnection: INITIAL_VALUES.samlConnection,
-    updateConnection(key: Keys, newValue: Values) {
-      return { ...state.samlConnection, [key]: newValue };
+    updateConnection(data: Partial<typeof INITIAL_VALUES.samlConnection>) {
+      return { ...state.samlConnection, ...data };
     },
     isSaving: false,
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
       const id = target.id as Keys;
-      const targetValue = id !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked;
+      const targetValue = (
+        id !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked
+      ) as Values;
 
-      state.samlConnection = state.updateConnection(id, targetValue);
+      state.samlConnection = state.updateConnection({ [id]: targetValue });
     },
     save(event: Event) {
       event.preventDefault();
@@ -96,12 +98,10 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
   });
 
   onUpdate(() => {
-    if (props.tenant) {
-      state.samlConnection = state.updateConnection('tenant', props.tenant);
-    }
-    if (props.product) {
-      state.samlConnection = state.updateConnection('product', props.product);
-    }
+    state.samlConnection = state.updateConnection({
+      tenant: props.tenant ?? state.samlConnection.tenant,
+      product: props.product ?? state.samlConnection.product,
+    });
   }, [props.tenant, props.product]);
 
   return (

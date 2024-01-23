@@ -41,14 +41,14 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
     oidcConnection: INITIAL_VALUES.oidcConnection,
     isSaving: false,
-    updateConnection(key: Keys, newValue: Values) {
-      return { ...state.oidcConnection, [key]: newValue };
+    updateConnection(data: Partial<typeof INITIAL_VALUES.oidcConnection>) {
+      return { ...state.oidcConnection, ...data };
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
       const id = target.id as Keys;
-      const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
-      state.oidcConnection = state.updateConnection(id, targetValue);
+      const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value as Values;
+      state.oidcConnection = state.updateConnection({ [id]: targetValue });
     },
     save(event: Event) {
       event.preventDefault();
@@ -112,12 +112,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   });
 
   onUpdate(() => {
-    if (props.tenant) {
-      state.oidcConnection = state.updateConnection('tenant', props.tenant);
-    }
-    if (props.product) {
-      state.oidcConnection = state.updateConnection('product', props.product);
-    }
+    state.oidcConnection = state.updateConnection({
+      tenant: props.tenant ?? state.oidcConnection.tenant,
+      product: props.product ?? state.oidcConnection.product,
+    });
   }, [props.tenant, props.product]);
 
   return (
