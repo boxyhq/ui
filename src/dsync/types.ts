@@ -110,6 +110,7 @@ export interface DirectoriesWrapperProps {
     patch: string;
     delete: string;
   };
+  title?: string;
   tenant?: string;
   product?: string;
 }
