@@ -1,4 +1,4 @@
-import { useStore, Show } from '@builder.io/mitosis';
+import { useStore, Show, onUpdate } from '@builder.io/mitosis';
 import type { CreateConnectionProps, FormObj, OIDCSSOConnection } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -110,6 +110,15 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       return true;
     },
   });
+
+  onUpdate(() => {
+    if (props.tenant) {
+      state.oidcConnection = state.updateConnection('tenant', props.tenant);
+    }
+    if (props.product) {
+      state.oidcConnection = state.updateConnection('product', props.product);
+    }
+  }, [props.tenant, props.product]);
 
   return (
     <div>
