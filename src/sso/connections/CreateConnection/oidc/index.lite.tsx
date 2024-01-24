@@ -112,11 +112,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   });
 
   onUpdate(() => {
-    state.oidcConnection = state.updateConnection({
-      tenant: props.tenant ?? state.oidcConnection.tenant,
-      product: props.product ?? state.oidcConnection.product,
-    });
-  }, [props.tenant, props.product]);
+    if (props.defaults) {
+      state.oidcConnection = state.updateConnection(props.defaults);
+    }
+  }, [props.defaults]);
 
   return (
     <div>

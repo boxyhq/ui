@@ -50,8 +50,7 @@ export interface CreateConnectionProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
-  tenant?: string;
-  product?: string;
+  defaults?: Partial<SSOConnection>;
 }
 
 export interface CreateSSOConnectionProps
@@ -290,8 +289,7 @@ export interface EditSAMLConnectionProps {
 
 export interface ConnectionsWrapperProp {
   title?: string;
-  tenant?: string;
-  product?: string;
+  defaults?: Partial<SSOConnection>;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     input?: string;

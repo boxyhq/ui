@@ -49,8 +49,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
           successCallback={props.successCallback}
           cancelCallback={props.cancelCallback}
           displayHeader={false}
-          tenant={props.tenant}
-          product={props.product}
+          defaults={props.defaults}
         />
       </Show>
       <Show when={state.connectionIsOIDC}>
@@ -63,8 +62,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
           successCallback={props.successCallback}
           cancelCallback={props.cancelCallback}
           displayHeader={false}
-          tenant={props.tenant}
-          product={props.product}
+          defaults={props.defaults}
         />
       </Show>
     </div>

@@ -98,11 +98,10 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
   });
 
   onUpdate(() => {
-    state.samlConnection = state.updateConnection({
-      tenant: props.tenant ?? state.samlConnection.tenant,
-      product: props.product ?? state.samlConnection.product,
-    });
-  }, [props.tenant, props.product]);
+    if (props.defaults) {
+      state.samlConnection = state.updateConnection(props.defaults);
+    }
+  }, [props.defaults]);
 
   return (
     <div>
