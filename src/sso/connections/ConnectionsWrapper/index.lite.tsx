@@ -115,7 +115,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             {...props.componentProps.connectionList}
             urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}></ConnectionList>
+            handleListFetchComplete={state.handleListFetchComplete}
+            tenant={props.tenant}
+            product={props.product}></ConnectionList>
         </div>
       </Show>
       <Show when={state.view === 'EDIT'}>

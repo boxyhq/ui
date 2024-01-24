@@ -19,6 +19,8 @@ export interface ConnectionListProps {
     tableContainer?: string;
   };
   tableProps?: TableProps;
+  tenant?: string;
+  product?: string;
 }
 
 export interface CreateConnectionProps {
