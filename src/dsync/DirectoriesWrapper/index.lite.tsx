@@ -71,7 +71,9 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
             {...props.componentProps?.directoryList}
             urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}></DirectoryList>
+            handleListFetchComplete={state.handleListFetchComplete}
+            tenant={props.tenant}
+            product={props.product}></DirectoryList>
         </div>
       </Show>
       <Show when={state.view === 'EDIT'}>
