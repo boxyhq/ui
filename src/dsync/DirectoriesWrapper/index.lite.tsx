@@ -27,6 +27,15 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       return state.directoriesAdded && state.directories.some((directory) => directory.deactivated === false);
     },
     directoryToEdit: DEFAULT_VALUES.directoryToEdit,
+    get directoryFetchURL(): string {
+      let _url = props.urls.get;
+      const [urlPath, qs] = _url.split('?');
+      const urlParams = new URLSearchParams(qs);
+      if (urlParams.toString()) {
+        return `${urlPath}/${state.directoryToEdit.id}?${urlParams}`;
+      }
+      return `${urlPath}/${state.directoryToEdit.id}`;
+    },
     switchToCreateView() {
       state.view = 'CREATE';
     },
@@ -90,7 +99,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           urls={{
             patch: `${props.urls.patch}/${state.directoryToEdit.id}`,
             delete: `${props.urls.delete}/${state.directoryToEdit.id}`,
-            get: `${props.urls.get}/${state.directoryToEdit.id}`,
+            get: state.directoryFetchURL,
           }}
         />
       </Show>
