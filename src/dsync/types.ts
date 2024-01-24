@@ -48,6 +48,8 @@ export interface DirectoryListProps {
   classNames?: {
     tableContainer?: string;
   };
+  tenant?: string;
+  product?: string;
 }
 
 export interface EditDirectoryProps {
