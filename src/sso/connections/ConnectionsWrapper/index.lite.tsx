@@ -35,8 +35,11 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       );
     },
     get connectionFetchURL(): string {
-      const [urlPath, _] = props.urls.get.split('?');
-      return urlPath + `?clientID=${state.connectionToEdit.clientID}`;
+      let _url = props.urls.get;
+      const [urlPath, qs] = _url.split('?');
+      const urlParams = new URLSearchParams(qs);
+      urlParams.set('clientID', state.connectionToEdit.clientID);
+      return `${urlPath}?${urlParams}`;
     },
     switchToCreateView() {
       state.view = 'CREATE';
@@ -115,7 +118,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             {...props.componentProps.connectionList}
             urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}></ConnectionList>
+            handleListFetchComplete={state.handleListFetchComplete}
+            tenant={props.tenant}
+            product={props.product}></ConnectionList>
         </div>
       </Show>
       <Show when={state.view === 'EDIT'}>
