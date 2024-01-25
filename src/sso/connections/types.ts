@@ -115,7 +115,7 @@ interface SSOConnection {
 }
 
 export interface SAMLSSOConnection extends SSOConnection {
-  forceAuthn?: boolean | string;
+  forceAuthn?: boolean;
   rawMetadata?: string;
   metadataUrl?: string;
 }
