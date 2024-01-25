@@ -103,6 +103,9 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
     isExcluded(fieldName: keyof OIDCSSOConnection) {
       return !!(props.excludeFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
     },
+    isReadOnly(fieldName: keyof OIDCSSOConnection) {
+      return !!(props.readOnlyFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
+    },
     get shouldDisplayHeader() {
       if (props.displayHeader !== undefined) {
         return props.displayHeader;
@@ -131,6 +134,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               classNames={state.classes.inputField}
               placeholder='MyApp'
               required={false}
+              readOnly={state.isReadOnly('name')}
               value={state.oidcConnection.name}
               handleInputChange={state.handleChange}
             />
@@ -143,6 +147,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               classNames={state.classes.inputField}
               placeholder='A short description not more than 100 characters'
               required={false}
+              readOnly={state.isReadOnly('description')}
               maxLength={100}
               value={state.oidcConnection.description}
               handleInputChange={state.handleChange}
@@ -155,6 +160,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='tenant'
               classNames={state.classes.inputField}
               required
+              readOnly={state.isReadOnly('tenant')}
               placeholder='acme.com'
               aria-describedby='tenant-hint'
               value={state.oidcConnection.tenant}
@@ -176,6 +182,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='product'
               classNames={state.classes.inputField}
               required
+              readOnly={state.isReadOnly('product')}
               placeholder='demo'
               aria-describedby='product-hint'
               value={state.oidcConnection.product}
@@ -192,6 +199,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='redirectUrl'
               classNames={state.classes.textarea}
               required
+              readOnly={state.isReadOnly('redirectUrl')}
               aria-describedby='redirectUrl-hint'
               placeholder='http://localhost:3366'
               value={state.oidcConnection.redirectUrl}
@@ -209,6 +217,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='defaultRedirectUrl'
               classNames={state.classes.inputField}
               required
+              readOnly={state.isReadOnly('defaultRedirectUrl')}
               aria-describedby='defaultRedirectUrl-hint'
               placeholder='http://localhost:3366'
               type='url'

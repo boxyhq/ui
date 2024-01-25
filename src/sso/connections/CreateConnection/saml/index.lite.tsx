@@ -89,6 +89,9 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
     isExcluded(fieldName: keyof SAMLSSOConnection) {
       return !!(props.excludeFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
     },
+    isReadOnly(fieldName: keyof SAMLSSOConnection) {
+      return !!(props.readOnlyFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
+    },
     get shouldDisplayHeader() {
       if (props.displayHeader !== undefined) {
         return props.displayHeader;
@@ -117,6 +120,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               classNames={state.classes.inputField}
               placeholder='MyApp'
               required={false}
+              readOnly={state.isReadOnly('name')}
               value={state.samlConnection.name}
               handleInputChange={state.handleChange}
             />
@@ -129,6 +133,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               classNames={state.classes.inputField}
               placeholder='A short description not more than 100 characters'
               required={false}
+              readOnly={state.isReadOnly('description')}
               maxLength={100}
               value={state.samlConnection.description}
               handleInputChange={state.handleChange}
@@ -141,6 +146,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               id='tenant'
               classNames={state.classes.inputField}
               required
+              readOnly={state.isReadOnly('tenant')}
               placeholder='acme.com'
               aria-describedby='tenant-hint'
               value={state.samlConnection.tenant}
@@ -162,6 +168,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               id='product'
               classNames={state.classes.inputField}
               required
+              readOnly={state.isReadOnly('product')}
               placeholder='demo'
               aria-describedby='product-hint'
               value={state.samlConnection.product}
@@ -178,6 +185,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               id='redirectUrl'
               classNames={state.classes.textarea}
               required
+              readOnly={state.isReadOnly('redirectUrl')}
               aria-describedby='redirectUrl-hint'
               placeholder='http://localhost:3366'
               value={state.samlConnection.redirectUrl}
@@ -195,6 +203,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               id='defaultRedirectUrl'
               classNames={state.classes.inputField}
               required
+              readOnly={state.isReadOnly('defaultRedirectUrl')}
               aria-describedby='defaultRedirectUrl-hint'
               placeholder='http://localhost:3366/login/saml'
               type='url'
@@ -214,6 +223,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           id='rawMetadata'
           classNames={state.classes.textarea}
           required={state.samlConnection.metadataUrl === ''}
+          readOnly={state.isReadOnly('rawMetadata')}
           aria-describedby='xml-metadata-hint'
           placeholder='Paste the raw XML here'
           value={state.samlConnection.rawMetadata}
@@ -230,6 +240,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           id='metadataUrl'
           classNames={state.classes.inputField}
           required={state.samlConnection.rawMetadata === ''}
+          readOnly={state.isReadOnly('metadataUrl')}
           type='url'
           placeholder='Paste the Metadata URL here'
           value={state.samlConnection.metadataUrl}

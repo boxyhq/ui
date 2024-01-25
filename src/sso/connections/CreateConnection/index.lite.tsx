@@ -43,6 +43,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         <CreateSAMLConnection
           urls={props.urls}
           excludeFields={props.excludeFields?.saml}
+          readOnlyFields={props.readOnlyFields?.saml}
           classNames={props.classNames}
           variant={props.variant?.saml}
           errorCallback={props.errorCallback}
@@ -56,6 +57,7 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         <CreateOIDCConnection
           urls={props.urls}
           excludeFields={props.excludeFields?.oidc}
+          readOnlyFields={props.readOnlyFields?.oidc}
           classNames={props.classNames}
           variant={props.variant?.oidc}
           errorCallback={props.errorCallback}

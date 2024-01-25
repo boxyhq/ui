@@ -34,6 +34,7 @@ export interface CreateConnectionProps {
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection> | Array<keyof OIDCSSOConnection>;
+  readOnlyFields?: Array<keyof SAMLSSOConnection> | Array<keyof OIDCSSOConnection>;
   urls: {
     post: string;
   };
@@ -56,7 +57,7 @@ export interface CreateConnectionProps {
 }
 
 export interface CreateSSOConnectionProps
-  extends Omit<CreateConnectionProps, 'variant' | 'excludeFields' | 'displayHeader'> {
+  extends Omit<CreateConnectionProps, 'variant' | 'excludeFields' | 'displayHeader' | 'readOnlyFields'> {
   variant?: {
     saml?: 'basic' | 'advanced';
     oidc?: 'basic' | 'advanced';
@@ -65,8 +66,10 @@ export interface CreateSSOConnectionProps
     saml?: Array<keyof SAMLSSOConnection>;
     oidc?: Array<keyof OIDCSSOConnection>;
   };
-  tenant?: string;
-  product?: string;
+  readOnlyFields?: {
+    saml?: Array<keyof SAMLSSOConnection>;
+    oidc?: Array<keyof OIDCSSOConnection>;
+  };
 }
 
 type FormObjValues = string | boolean | string[] | undefined;
