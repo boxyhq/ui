@@ -34,7 +34,7 @@ export interface CreateConnectionProps {
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection> | Array<keyof OIDCSSOConnection>;
-  readOnlyFields?: Array<keyof SAMLSSOConnection> | Array<keyof OIDCSSOConnection>;
+  readOnlyFields?: Array<keyof SSOConnection>;
   urls: {
     post: string;
   };
@@ -67,8 +67,8 @@ export interface CreateSSOConnectionProps
     oidc?: Array<keyof OIDCSSOConnection>;
   };
   readOnlyFields?: {
-    saml?: Array<keyof SAMLSSOConnection>;
-    oidc?: Array<keyof OIDCSSOConnection>;
+    saml?: Array<keyof SSOConnection>;
+    oidc?: Array<keyof SSOConnection>;
   };
 }
 
