@@ -116,7 +116,9 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
 
   onUpdate(() => {
     if (props.defaults) {
-      state.oidcConnection = state.updateConnection(props.defaults);
+      // Remove SAML only setting
+      const { forceAuthn, ...rest } = props.defaults;
+      state.oidcConnection = state.updateConnection(rest);
     }
   }, [props.defaults]);
 
