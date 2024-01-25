@@ -34,6 +34,7 @@ export interface CreateConnectionProps {
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection> | Array<keyof OIDCSSOConnection>;
+  readOnlyFields?: Array<keyof SSOConnection>;
   urls: {
     post: string;
   };
@@ -52,12 +53,11 @@ export interface CreateConnectionProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
-  tenant?: string;
-  product?: string;
+  defaults?: Partial<SSOConnection & Pick<SAMLSSOConnection, 'forceAuthn'>>;
 }
 
 export interface CreateSSOConnectionProps
-  extends Omit<CreateConnectionProps, 'variant' | 'excludeFields' | 'displayHeader'> {
+  extends Omit<CreateConnectionProps, 'variant' | 'excludeFields' | 'displayHeader' | 'readOnlyFields'> {
   variant?: {
     saml?: 'basic' | 'advanced';
     oidc?: 'basic' | 'advanced';
@@ -66,8 +66,10 @@ export interface CreateSSOConnectionProps
     saml?: Array<keyof SAMLSSOConnection>;
     oidc?: Array<keyof OIDCSSOConnection>;
   };
-  tenant?: string;
-  product?: string;
+  readOnlyFields?: {
+    saml?: Array<keyof SSOConnection>;
+    oidc?: Array<keyof SSOConnection>;
+  };
 }
 
 type FormObjValues = string | boolean | string[] | undefined;
@@ -113,7 +115,7 @@ interface SSOConnection {
 }
 
 export interface SAMLSSOConnection extends SSOConnection {
-  forceAuthn?: boolean | string;
+  forceAuthn?: boolean;
   rawMetadata?: string;
   metadataUrl?: string;
 }
@@ -292,8 +294,7 @@ export interface EditSAMLConnectionProps {
 
 export interface ConnectionsWrapperProp {
   title?: string;
-  tenant?: string;
-  product?: string;
+  defaults?: Partial<SSOConnection & Pick<SAMLSSOConnection, 'forceAuthn'>>;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     input?: string;

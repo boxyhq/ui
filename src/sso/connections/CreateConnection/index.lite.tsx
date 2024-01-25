@@ -43,28 +43,28 @@ export default function CreateSSOConnection(props: CreateSSOConnectionProps) {
         <CreateSAMLConnection
           urls={props.urls}
           excludeFields={props.excludeFields?.saml}
+          readOnlyFields={props.readOnlyFields?.saml}
           classNames={props.classNames}
           variant={props.variant?.saml}
           errorCallback={props.errorCallback}
           successCallback={props.successCallback}
           cancelCallback={props.cancelCallback}
           displayHeader={false}
-          tenant={props.tenant}
-          product={props.product}
+          defaults={props.defaults}
         />
       </Show>
       <Show when={state.connectionIsOIDC}>
         <CreateOIDCConnection
           urls={props.urls}
           excludeFields={props.excludeFields?.oidc}
+          readOnlyFields={props.readOnlyFields?.oidc}
           classNames={props.classNames}
           variant={props.variant?.oidc}
           errorCallback={props.errorCallback}
           successCallback={props.successCallback}
           cancelCallback={props.cancelCallback}
           displayHeader={false}
-          tenant={props.tenant}
-          product={props.product}
+          defaults={props.defaults}
         />
       </Show>
     </div>
