@@ -223,7 +223,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           id='rawMetadata'
           classNames={state.classes.textarea}
           required={state.samlConnection.metadataUrl === ''}
-          readOnly={state.isReadOnly('rawMetadata')}
           aria-describedby='xml-metadata-hint'
           placeholder='Paste the raw XML here'
           value={state.samlConnection.rawMetadata}
@@ -240,7 +239,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           id='metadataUrl'
           classNames={state.classes.inputField}
           required={state.samlConnection.rawMetadata === ''}
-          readOnly={state.isReadOnly('metadataUrl')}
           type='url'
           placeholder='Paste the Metadata URL here'
           value={state.samlConnection.metadataUrl}
