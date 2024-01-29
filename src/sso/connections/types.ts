@@ -19,7 +19,7 @@ export interface ConnectionListProps {
     tableContainer?: string;
   };
   tableProps?: TableProps;
-  tenant?: string;
+  tenant?: string | string[];
   product?: string;
 }
 
