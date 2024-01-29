@@ -294,7 +294,7 @@ export interface EditSAMLConnectionProps {
 
 export interface ConnectionsWrapperProp {
   title?: string;
-  defaults?: Partial<SSOConnection & Pick<SAMLSSOConnection, 'forceAuthn'>>;
+  defaults?: Partial<SSOConnection & Pick<SAMLSSOConnection, 'forceAuthn'> & { tenants: string[] }>;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     input?: string;
