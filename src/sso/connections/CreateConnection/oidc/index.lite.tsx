@@ -10,6 +10,7 @@ import Anchor from '../../../../shared/Anchor/index.lite';
 import InputField from '../../../../shared/inputs/InputField/index.lite';
 import TextArea from '../../../../shared/inputs/TextArea/index.lite';
 import SecretInputFormControl from '../../../../shared/inputs/SecretInputFormControl/index.lite';
+import Select from '../../../../shared/Select/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -91,6 +92,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           input: props.classNames?.input,
           container: props.classNames?.fieldContainer,
         },
+        select: {
+          label: props.classNames?.label,
+          select: props.classNames?.select,
+        },
         textarea: {
           label: props.classNames?.label,
           textarea: props.classNames?.textarea,
@@ -105,7 +110,25 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       return !!(props.excludeFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
     },
     isReadOnly(fieldName: keyof OIDCSSOConnection) {
+      if (
+        fieldName === 'tenant' &&
+        Array.isArray(props.defaults?.tenant) &&
+        props.defaults.tenant.length === 1
+      ) {
+        return true;
+      }
       return !!(props.readOnlyFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
+    },
+    isTenantADropdown() {
+      return Array.isArray(props.defaults?.tenant) && props.defaults.tenant.length > 1;
+    },
+    get tenantOptions() {
+      return Array.isArray(props.defaults?.tenant)
+        ? props.defaults?.tenant.map((tenant: string) => ({
+            value: tenant,
+            text: tenant,
+          }))
+        : [];
     },
     get shouldDisplayHeader() {
       if (props.displayHeader !== undefined) {
@@ -118,8 +141,9 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   onUpdate(() => {
     if (props.defaults) {
       // Remove SAML only setting
-      const { forceAuthn, ...rest } = props.defaults;
-      state.oidcConnection = state.updateConnection(rest);
+      const { forceAuthn, tenant, ...rest } = props.defaults;
+      const _tenant = Array.isArray(tenant) ? tenant[0] : tenant;
+      state.oidcConnection = state.updateConnection({ ...rest, tenant: _tenant });
     }
   }, [props.defaults]);
 
@@ -171,17 +195,32 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <Spacer y={6} />
           </Show>
           <Show when={!state.isExcluded('tenant')}>
-            <InputField
-              label='Tenant'
-              id='tenant'
-              classNames={state.classes.inputField}
-              required
-              readOnly={state.isReadOnly('tenant')}
-              placeholder='acme.com'
-              aria-describedby='tenant-hint'
-              value={state.oidcConnection.tenant}
-              handleInputChange={state.handleChange}
-            />
+            <Show when={!state.isTenantADropdown()}>
+              <InputField
+                label='Tenant'
+                id='tenant'
+                classNames={state.classes.inputField}
+                required
+                readOnly={state.isReadOnly('tenant')}
+                placeholder='acme.com'
+                aria-describedby='tenant-hint'
+                value={state.oidcConnection.tenant}
+                handleInputChange={state.handleChange}
+              />
+            </Show>
+            <Show when={state.isTenantADropdown()}>
+              <div className={defaultClasses.selectContainer}>
+                <Select
+                  label='Tenant'
+                  options={state.tenantOptions}
+                  classNames={state.classes.select}
+                  selectedValue={state.oidcConnection.tenant}
+                  handleChange={state.handleChange}
+                  name='tenant'
+                  id='tenant'
+                />
+              </div>
+            </Show>
             <div id='tenant-hint' class={defaultClasses.hint}>
               Unique identifier for the tenant to which this SSO connection is linked.See
               <Spacer x={1} />

@@ -54,7 +54,9 @@ export interface CreateConnectionProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
-  defaults?: Partial<SSOConnection & Pick<SAMLSSOConnection, 'forceAuthn'>>;
+  defaults?: Partial<
+    Omit<SSOConnection, 'tenant'> & Pick<SAMLSSOConnection, 'forceAuthn'> & { tenant: string[] | string }
+  >;
 }
 
 export interface CreateSSOConnectionProps
@@ -71,6 +73,7 @@ export interface CreateSSOConnectionProps
     saml?: Array<keyof SSOConnection>;
     oidc?: Array<keyof SSOConnection>;
   };
+  defaults?: ConnectionsWrapperProp['defaults'];
 }
 
 type FormObjValues = string | boolean | string[] | undefined;
