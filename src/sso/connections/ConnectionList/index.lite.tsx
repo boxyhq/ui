@@ -90,7 +90,7 @@ export default function ConnectionList(props: ConnectionListProps) {
       if (props.tenant) {
         if (Array.isArray(props.tenant)) {
           for (const _tenant of props.tenant) {
-            urlParams.set('tenant', _tenant);
+            urlParams.append('tenant', _tenant);
           }
         } else {
           urlParams.set('tenant', props.tenant);
