@@ -45,6 +45,7 @@ export interface CreateConnectionProps {
     form?: string;
     container?: string;
     input?: string;
+    select?: string;
     textarea?: string;
     radioContainer?: string;
     label?: string;
@@ -299,6 +300,7 @@ export interface ConnectionsWrapperProp {
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     input?: string;
+    select?: string;
     textarea?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
     secretInput?: string;
