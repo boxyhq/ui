@@ -111,6 +111,7 @@ interface SSOConnection {
   tenant: string;
   product: string;
   name?: string;
+  label?: string;
   description?: string;
 }
 

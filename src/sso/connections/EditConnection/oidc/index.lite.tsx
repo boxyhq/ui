@@ -232,6 +232,18 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 />
                 <Spacer y={6} />
               </Show>
+              <Show when={!state.isExcluded('label')}>
+                <InputField
+                  label='Connection label (Optional)'
+                  id='label'
+                  classNames={state.classes.inputField}
+                  placeholder=''
+                  required={false}
+                  value={state.oidcConnection.label!}
+                  handleInputChange={state.handleChange}
+                />
+                <Spacer y={6} />
+              </Show>
               <Show when={!state.isExcluded('description')}>
                 <InputField
                   label='Description (Optional)'

@@ -18,6 +18,7 @@ const DEFAULT_VALUES = {
 const INITIAL_VALUES = {
   samlConnection: {
     name: '',
+    label: '',
     description: '',
     tenant: '',
     product: '',
@@ -122,6 +123,19 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               required={false}
               readOnly={state.isReadOnly('name')}
               value={state.samlConnection.name}
+              handleInputChange={state.handleChange}
+            />
+            <Spacer y={6} />
+          </Show>
+          <Show when={!state.isExcluded('label')}>
+            <InputField
+              label='Connection label (Optional)'
+              id='label'
+              classNames={state.classes.inputField}
+              placeholder=''
+              required={false}
+              readOnly={state.isReadOnly('label')}
+              value={state.samlConnection.label}
               handleInputChange={state.handleChange}
             />
             <Spacer y={6} />
