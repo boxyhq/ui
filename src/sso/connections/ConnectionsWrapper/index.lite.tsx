@@ -119,7 +119,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
             handleListFetchComplete={state.handleListFetchComplete}
-            tenant={props.defaults?.tenant}
+            tenant={props.defaults?.tenants || props.defaults?.tenant}
             product={props.defaults?.product}></ConnectionList>
         </div>
       </Show>

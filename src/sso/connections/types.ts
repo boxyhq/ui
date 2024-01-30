@@ -19,7 +19,7 @@ export interface ConnectionListProps {
     tableContainer?: string;
   };
   tableProps?: TableProps;
-  tenant?: string;
+  tenant?: string | string[];
   product?: string;
 }
 
@@ -111,6 +111,7 @@ interface SSOConnection {
   tenant: string;
   product: string;
   name?: string;
+  label?: string;
   description?: string;
 }
 
@@ -294,7 +295,7 @@ export interface EditSAMLConnectionProps {
 
 export interface ConnectionsWrapperProp {
   title?: string;
-  defaults?: Partial<SSOConnection & Pick<SAMLSSOConnection, 'forceAuthn'>>;
+  defaults?: Partial<SSOConnection & Pick<SAMLSSOConnection, 'forceAuthn'> & { tenants: string[] }>;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     input?: string;

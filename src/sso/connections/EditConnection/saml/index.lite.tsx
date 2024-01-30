@@ -24,6 +24,7 @@ const DEFAULT_VALUES = {
 const INITIAL_VALUES = {
   samlConnection: {
     name: '',
+    label: '',
     tenant: '',
     product: '',
     clientID: '',
@@ -169,7 +170,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               defaultRedirectUrl: _connection.defaultRedirectUrl,
               rawMetadata: _connection.rawMetadata || '',
               metadataUrl: _connection.metadataUrl || '',
-              forceAuthn: _connection.forceAuthn === true || _connection.forceAuthn === 'true',
+              forceAuthn: _connection.forceAuthn === true,
             };
           }
         }
@@ -215,6 +216,18 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   placeholder='MyApp'
                   required={false}
                   value={state.samlConnection.name!}
+                  handleInputChange={state.handleChange}
+                />
+                <Spacer y={6} />
+              </Show>
+              <Show when={!state.isExcluded('label')}>
+                <InputField
+                  label='Connection label (Optional)'
+                  id='label'
+                  classNames={state.classes.inputField}
+                  placeholder=''
+                  required={false}
+                  value={state.samlConnection.label!}
                   handleInputChange={state.handleChange}
                 />
                 <Spacer y={6} />
@@ -297,9 +310,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             <Show when={state.formVariant === 'advanced'}>
               <Show when={!state.isExcluded('forceAuthn')}>
                 <Checkbox
-                  checked={
-                    state.samlConnection.forceAuthn === 'true' || state.samlConnection.forceAuthn === true
-                  }
+                  checked={state.samlConnection.forceAuthn === true}
                   handleChange={state.handleChange}
                   label='Force Authentication'
                   name='forceAuthn'

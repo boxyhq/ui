@@ -88,7 +88,13 @@ export default function ConnectionList(props: ConnectionListProps) {
       const [urlPath, qs] = _url.split('?');
       const urlParams = new URLSearchParams(qs);
       if (props.tenant) {
-        urlParams.set('tenant', props.tenant);
+        if (Array.isArray(props.tenant)) {
+          for (const _tenant of props.tenant) {
+            urlParams.append('tenant', _tenant);
+          }
+        } else {
+          urlParams.set('tenant', props.tenant);
+        }
       }
       if (props.product) {
         urlParams.set('product', props.product);
