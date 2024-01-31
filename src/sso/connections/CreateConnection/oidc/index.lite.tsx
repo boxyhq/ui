@@ -1,4 +1,4 @@
-import { useStore, Show } from '@builder.io/mitosis';
+import { useStore, Show, onUpdate } from '@builder.io/mitosis';
 import type { CreateConnectionProps, FormObj, OIDCSSOConnection } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -10,6 +10,7 @@ import Anchor from '../../../../shared/Anchor/index.lite';
 import InputField from '../../../../shared/inputs/InputField/index.lite';
 import TextArea from '../../../../shared/inputs/TextArea/index.lite';
 import SecretInputFormControl from '../../../../shared/inputs/SecretInputFormControl/index.lite';
+import Select from '../../../../shared/Select/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -18,6 +19,7 @@ const DEFAULT_VALUES = {
 const INITIAL_VALUES = {
   oidcConnection: {
     name: '',
+    label: '',
     description: '',
     tenant: '',
     product: '',
@@ -41,14 +43,14 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
     oidcConnection: INITIAL_VALUES.oidcConnection,
     isSaving: false,
-    updateConnection(key: Keys, newValue: Values) {
-      return { ...state.oidcConnection, [key]: newValue };
+    updateConnection(data: Partial<typeof INITIAL_VALUES.oidcConnection>) {
+      return { ...state.oidcConnection, ...data };
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
       const id = target.id as Keys;
-      const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
-      state.oidcConnection = state.updateConnection(id, targetValue);
+      const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value as Values;
+      state.oidcConnection = state.updateConnection({ [id]: targetValue });
     },
     save(event: Event) {
       event.preventDefault();
@@ -90,6 +92,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           input: props.classNames?.input,
           container: props.classNames?.fieldContainer,
         },
+        select: {
+          label: props.classNames?.label,
+          select: props.classNames?.select,
+        },
         textarea: {
           label: props.classNames?.label,
           textarea: props.classNames?.textarea,
@@ -103,6 +109,27 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
     isExcluded(fieldName: keyof OIDCSSOConnection) {
       return !!(props.excludeFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
     },
+    isReadOnly(fieldName: keyof OIDCSSOConnection) {
+      if (
+        fieldName === 'tenant' &&
+        Array.isArray(props.defaults?.tenant) &&
+        props.defaults.tenant.length === 1
+      ) {
+        return true;
+      }
+      return !!(props.readOnlyFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
+    },
+    isTenantADropdown() {
+      return Array.isArray(props.defaults?.tenant) && props.defaults.tenant.length > 1;
+    },
+    get tenantOptions() {
+      return Array.isArray(props.defaults?.tenant)
+        ? props.defaults?.tenant.map((tenant: string) => ({
+            value: tenant,
+            text: tenant,
+          }))
+        : [];
+    },
     get shouldDisplayHeader() {
       if (props.displayHeader !== undefined) {
         return props.displayHeader;
@@ -110,6 +137,15 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       return true;
     },
   });
+
+  onUpdate(() => {
+    if (props.defaults) {
+      // Remove SAML only setting
+      const { forceAuthn, tenant, ...rest } = props.defaults;
+      const _tenant = Array.isArray(tenant) ? tenant[0] : tenant;
+      state.oidcConnection = state.updateConnection({ ...rest, tenant: _tenant });
+    }
+  }, [props.defaults]);
 
   return (
     <div>
@@ -125,7 +161,21 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               classNames={state.classes.inputField}
               placeholder='MyApp'
               required={false}
+              readOnly={state.isReadOnly('name')}
               value={state.oidcConnection.name}
+              handleInputChange={state.handleChange}
+            />
+            <Spacer y={6} />
+          </Show>
+          <Show when={!state.isExcluded('label')}>
+            <InputField
+              label='Connection label (Optional)'
+              id='label'
+              classNames={state.classes.inputField}
+              placeholder='An internal label to identify the connection'
+              required={false}
+              readOnly={state.isReadOnly('label')}
+              value={state.oidcConnection.label}
               handleInputChange={state.handleChange}
             />
             <Spacer y={6} />
@@ -137,6 +187,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               classNames={state.classes.inputField}
               placeholder='A short description not more than 100 characters'
               required={false}
+              readOnly={state.isReadOnly('description')}
               maxLength={100}
               value={state.oidcConnection.description}
               handleInputChange={state.handleChange}
@@ -144,16 +195,32 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <Spacer y={6} />
           </Show>
           <Show when={!state.isExcluded('tenant')}>
-            <InputField
-              label='Tenant'
-              id='tenant'
-              classNames={state.classes.inputField}
-              required
-              placeholder='acme.com'
-              aria-describedby='tenant-hint'
-              value={state.oidcConnection.tenant}
-              handleInputChange={state.handleChange}
-            />
+            <Show when={!state.isTenantADropdown()}>
+              <InputField
+                label='Tenant'
+                id='tenant'
+                classNames={state.classes.inputField}
+                required
+                readOnly={state.isReadOnly('tenant')}
+                placeholder='acme.com'
+                aria-describedby='tenant-hint'
+                value={state.oidcConnection.tenant}
+                handleInputChange={state.handleChange}
+              />
+            </Show>
+            <Show when={state.isTenantADropdown()}>
+              <div className={defaultClasses.selectContainer}>
+                <Select
+                  label='Tenant'
+                  options={state.tenantOptions}
+                  classNames={state.classes.select}
+                  selectedValue={state.oidcConnection.tenant}
+                  handleChange={state.handleChange}
+                  name='tenant'
+                  id='tenant'
+                />
+              </div>
+            </Show>
             <div id='tenant-hint' class={defaultClasses.hint}>
               Unique identifier for the tenant to which this SSO connection is linked.See
               <Spacer x={1} />
@@ -170,6 +237,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='product'
               classNames={state.classes.inputField}
               required
+              readOnly={state.isReadOnly('product')}
               placeholder='demo'
               aria-describedby='product-hint'
               value={state.oidcConnection.product}
@@ -186,6 +254,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='redirectUrl'
               classNames={state.classes.textarea}
               required
+              readOnly={state.isReadOnly('redirectUrl')}
               aria-describedby='redirectUrl-hint'
               placeholder='http://localhost:3366'
               value={state.oidcConnection.redirectUrl}
@@ -203,6 +272,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               id='defaultRedirectUrl'
               classNames={state.classes.inputField}
               required
+              readOnly={state.isReadOnly('defaultRedirectUrl')}
               aria-describedby='defaultRedirectUrl-hint'
               placeholder='http://localhost:3366'
               type='url'

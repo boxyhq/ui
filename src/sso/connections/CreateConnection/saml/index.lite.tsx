@@ -1,4 +1,4 @@
-import { Show, useStore } from '@builder.io/mitosis';
+import { Show, onUpdate, useStore } from '@builder.io/mitosis';
 import type { CreateConnectionProps, SAMLSSOConnection, SAMLSSORecord } from '../../types';
 import { saveConnection } from '../../utils';
 import defaultClasses from './index.module.css';
@@ -10,6 +10,7 @@ import Anchor from '../../../../shared/Anchor/index.lite';
 import Checkbox from '../../../../shared/Checkbox/index.lite';
 import InputField from '../../../../shared/inputs/InputField/index.lite';
 import TextArea from '../../../../shared/inputs/TextArea/index.lite';
+import Select from '../../../../shared/Select/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -18,6 +19,7 @@ const DEFAULT_VALUES = {
 const INITIAL_VALUES = {
   samlConnection: {
     name: '',
+    label: '',
     description: '',
     tenant: '',
     product: '',
@@ -35,29 +37,25 @@ type Values = (typeof INITIAL_VALUES.samlConnection)[Keys];
 export default function CreateSAMLConnection(props: CreateConnectionProps) {
   const state = useStore({
     samlConnection: INITIAL_VALUES.samlConnection,
-    updateConnection(key: Keys, newValue: Values) {
-      return { ...state.samlConnection, [key]: newValue };
+    updateConnection(data: Partial<SAMLSSOConnection>) {
+      return { ...state.samlConnection, ...data };
     },
     isSaving: false,
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
       const id = target.id as Keys;
-      const targetValue = id !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked;
+      const targetValue = (
+        id !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked
+      ) as Values;
 
-      state.samlConnection = state.updateConnection(id, targetValue);
+      state.samlConnection = state.updateConnection({ [id]: targetValue });
     },
     save(event: Event) {
       event.preventDefault();
       state.isSaving = true;
       saveConnection<SAMLSSORecord>({
         url: props.urls.post,
-        formObj:
-          props.variant === 'advanced'
-            ? { ...state.samlConnection }
-            : {
-                rawMetadata: state.samlConnection.rawMetadata,
-                metadataUrl: state.samlConnection.metadataUrl,
-              },
+        formObj: state.samlConnection,
         connectionIsSAML: true,
         callback: async (data) => {
           state.isSaving = false;
@@ -83,6 +81,10 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           input: props.classNames?.input,
           container: props.classNames?.fieldContainer,
         },
+        select: {
+          label: props.classNames?.label,
+          select: props.classNames?.select,
+        },
         textarea: {
           label: props.classNames?.label,
           textarea: props.classNames?.textarea,
@@ -93,6 +95,27 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
     isExcluded(fieldName: keyof SAMLSSOConnection) {
       return !!(props.excludeFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
     },
+    isReadOnly(fieldName: keyof SAMLSSOConnection) {
+      if (
+        fieldName === 'tenant' &&
+        Array.isArray(props.defaults?.tenant) &&
+        props.defaults.tenant.length === 1
+      ) {
+        return true;
+      }
+      return !!(props.readOnlyFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
+    },
+    isTenantADropdown() {
+      return Array.isArray(props.defaults?.tenant) && props.defaults.tenant.length > 1;
+    },
+    get tenantOptions() {
+      return Array.isArray(props.defaults?.tenant)
+        ? props.defaults?.tenant.map((tenant: string) => ({
+            value: tenant,
+            text: tenant,
+          }))
+        : [];
+    },
     get shouldDisplayHeader() {
       if (props.displayHeader !== undefined) {
         return props.displayHeader;
@@ -100,6 +123,13 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       return true;
     },
   });
+
+  onUpdate(() => {
+    if (props.defaults) {
+      const _tenant = Array.isArray(props.defaults.tenant) ? props.defaults.tenant[0] : props.defaults.tenant;
+      state.samlConnection = state.updateConnection({ ...props.defaults, tenant: _tenant });
+    }
+  }, [props.defaults]);
 
   return (
     <div>
@@ -115,7 +145,21 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               classNames={state.classes.inputField}
               placeholder='MyApp'
               required={false}
+              readOnly={state.isReadOnly('name')}
               value={state.samlConnection.name}
+              handleInputChange={state.handleChange}
+            />
+            <Spacer y={6} />
+          </Show>
+          <Show when={!state.isExcluded('label')}>
+            <InputField
+              label='Connection label (Optional)'
+              id='label'
+              classNames={state.classes.inputField}
+              placeholder='An internal label to identify the connection'
+              required={false}
+              readOnly={state.isReadOnly('label')}
+              value={state.samlConnection.label}
               handleInputChange={state.handleChange}
             />
             <Spacer y={6} />
@@ -127,6 +171,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               classNames={state.classes.inputField}
               placeholder='A short description not more than 100 characters'
               required={false}
+              readOnly={state.isReadOnly('description')}
               maxLength={100}
               value={state.samlConnection.description}
               handleInputChange={state.handleChange}
@@ -134,16 +179,32 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             <Spacer y={6} />
           </Show>
           <Show when={!state.isExcluded('tenant')}>
-            <InputField
-              label='Tenant'
-              id='tenant'
-              classNames={state.classes.inputField}
-              required
-              placeholder='acme.com'
-              aria-describedby='tenant-hint'
-              value={state.samlConnection.tenant}
-              handleInputChange={state.handleChange}
-            />
+            <Show when={!state.isTenantADropdown()}>
+              <InputField
+                label='Tenant'
+                id='tenant'
+                classNames={state.classes.inputField}
+                required
+                readOnly={state.isReadOnly('tenant')}
+                placeholder='acme.com'
+                aria-describedby='tenant-hint'
+                value={state.samlConnection.tenant}
+                handleInputChange={state.handleChange}
+              />
+            </Show>
+            <Show when={state.isTenantADropdown()}>
+              <div className={defaultClasses.selectContainer}>
+                <Select
+                  label='Tenant'
+                  options={state.tenantOptions}
+                  classNames={state.classes.select}
+                  selectedValue={state.samlConnection.tenant}
+                  handleChange={state.handleChange}
+                  name='tenant'
+                  id='tenant'
+                />
+              </div>
+            </Show>
             <div id='tenant-hint' class={defaultClasses.hint}>
               Unique identifier for the tenant to which this SSO connection is linked.See
               <Spacer x={1} />
@@ -160,6 +221,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               id='product'
               classNames={state.classes.inputField}
               required
+              readOnly={state.isReadOnly('product')}
               placeholder='demo'
               aria-describedby='product-hint'
               value={state.samlConnection.product}
@@ -176,6 +238,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               id='redirectUrl'
               classNames={state.classes.textarea}
               required
+              readOnly={state.isReadOnly('redirectUrl')}
               aria-describedby='redirectUrl-hint'
               placeholder='http://localhost:3366'
               value={state.samlConnection.redirectUrl}
@@ -193,6 +256,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               id='defaultRedirectUrl'
               classNames={state.classes.inputField}
               required
+              readOnly={state.isReadOnly('defaultRedirectUrl')}
               aria-describedby='defaultRedirectUrl-hint'
               placeholder='http://localhost:3366/login/saml'
               type='url'

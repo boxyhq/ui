@@ -18,6 +18,8 @@ export interface CreateDirectoryProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the create component standalone */
   displayHeader?: boolean;
+  tenant?: string;
+  product?: string;
 }
 
 export interface DeleteDirectoryProps {
@@ -46,6 +48,8 @@ export interface DirectoryListProps {
   classNames?: {
     tableContainer?: string;
   };
+  tenant?: string;
+  product?: string;
 }
 
 export interface EditDirectoryProps {
@@ -108,6 +112,9 @@ export interface DirectoriesWrapperProps {
     patch: string;
     delete: string;
   };
+  title?: string;
+  tenant?: string;
+  product?: string;
 }
 
 export type ApiSuccess<T> = { data: T; pageToken?: string };

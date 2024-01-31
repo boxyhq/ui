@@ -2,7 +2,7 @@ import { ConfirmationPromptProps, TableCol, TableProps, PaginatePayload } from '
 
 export interface ConnectionListProps {
   children?: any;
-  cols?: ('name' | 'provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
+  cols?: ('name' | 'label' | 'provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
   tableCaption?: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
@@ -19,6 +19,8 @@ export interface ConnectionListProps {
     tableContainer?: string;
   };
   tableProps?: TableProps;
+  tenant?: string | string[];
+  product?: string;
 }
 
 export interface CreateConnectionProps {
@@ -32,6 +34,7 @@ export interface CreateConnectionProps {
   cancelCallback?: () => void;
   variant?: 'basic' | 'advanced';
   excludeFields?: Array<keyof SAMLSSOConnection> | Array<keyof OIDCSSOConnection>;
+  readOnlyFields?: Array<keyof SSOConnection>;
   urls: {
     post: string;
   };
@@ -42,6 +45,7 @@ export interface CreateConnectionProps {
     form?: string;
     container?: string;
     input?: string;
+    select?: string;
     textarea?: string;
     radioContainer?: string;
     label?: string;
@@ -50,10 +54,13 @@ export interface CreateConnectionProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
+  defaults?: Partial<
+    Omit<SSOConnection, 'tenant'> & Pick<SAMLSSOConnection, 'forceAuthn'> & { tenant: string[] | string }
+  >;
 }
 
 export interface CreateSSOConnectionProps
-  extends Omit<CreateConnectionProps, 'variant' | 'excludeFields' | 'displayHeader'> {
+  extends Omit<CreateConnectionProps, 'variant' | 'excludeFields' | 'displayHeader' | 'readOnlyFields'> {
   variant?: {
     saml?: 'basic' | 'advanced';
     oidc?: 'basic' | 'advanced';
@@ -62,6 +69,11 @@ export interface CreateSSOConnectionProps
     saml?: Array<keyof SAMLSSOConnection>;
     oidc?: Array<keyof OIDCSSOConnection>;
   };
+  readOnlyFields?: {
+    saml?: Array<keyof SSOConnection>;
+    oidc?: Array<keyof SSOConnection>;
+  };
+  defaults?: ConnectionsWrapperProp['defaults'];
 }
 
 type FormObjValues = string | boolean | string[] | undefined;
@@ -103,11 +115,12 @@ interface SSOConnection {
   tenant: string;
   product: string;
   name?: string;
+  label?: string;
   description?: string;
 }
 
 export interface SAMLSSOConnection extends SSOConnection {
-  forceAuthn?: boolean | string;
+  forceAuthn?: boolean;
   rawMetadata?: string;
   metadataUrl?: string;
 }
@@ -285,9 +298,12 @@ export interface EditSAMLConnectionProps {
 }
 
 export interface ConnectionsWrapperProp {
+  title?: string;
+  defaults?: Partial<SSOConnection & Pick<SAMLSSOConnection, 'forceAuthn'> & { tenants: string[] }>;
   classNames?: {
     button?: { ctoa?: string; destructive?: string };
     input?: string;
+    select?: string;
     textarea?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
     secretInput?: string;
