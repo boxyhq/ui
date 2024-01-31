@@ -156,7 +156,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               label='Connection label (Optional)'
               id='label'
               classNames={state.classes.inputField}
-              placeholder=''
+              placeholder='An internal label to identify the connection'
               required={false}
               readOnly={state.isReadOnly('label')}
               value={state.samlConnection.label}

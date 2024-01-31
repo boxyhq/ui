@@ -161,6 +161,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             state.samlConnection = {
               ..._connection,
               name: _connection.name || '',
+              label: _connection.label || '',
               tenant: _connection.tenant || '',
               product: _connection.product || '',
               clientID: _connection.clientID,
@@ -225,7 +226,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   label='Connection label (Optional)'
                   id='label'
                   classNames={state.classes.inputField}
-                  placeholder=''
+                  placeholder='An internal label to identify the connection'
                   required={false}
                   value={state.samlConnection.label!}
                   handleInputChange={state.handleChange}

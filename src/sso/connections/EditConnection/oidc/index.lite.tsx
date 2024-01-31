@@ -168,6 +168,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             state.oidcConnection = {
               ..._connection,
               name: _connection.name || '',
+              label: _connection.label || '',
               tenant: _connection.tenant || '',
               product: _connection.product || '',
               description: _connection.description || '',
@@ -237,7 +238,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   label='Connection label (Optional)'
                   id='label'
                   classNames={state.classes.inputField}
-                  placeholder=''
+                  placeholder='An internal label to identify the connection'
                   required={false}
                   value={state.oidcConnection.label!}
                   handleInputChange={state.handleChange}
