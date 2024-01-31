@@ -168,6 +168,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             state.oidcConnection = {
               ..._connection,
               name: _connection.name || '',
+              label: _connection.label || '',
               tenant: _connection.tenant || '',
               product: _connection.product || '',
               description: _connection.description || '',

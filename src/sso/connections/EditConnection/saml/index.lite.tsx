@@ -161,6 +161,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             state.samlConnection = {
               ..._connection,
               name: _connection.name || '',
+              label: _connection.label || '',
               tenant: _connection.tenant || '',
               product: _connection.product || '',
               clientID: _connection.clientID,
