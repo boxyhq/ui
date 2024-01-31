@@ -2,7 +2,7 @@ import { ConfirmationPromptProps, TableCol, TableProps } from '../../shared/type
 
 export interface ConnectionListProps {
   children?: any;
-  cols?: ('name' | 'provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
+  cols?: ('name' | 'label' | 'provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
   tableCaption?: string;
   idpEntityID?: string;
   isSettingsView?: boolean;
