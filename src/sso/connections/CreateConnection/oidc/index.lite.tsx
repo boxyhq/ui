@@ -33,6 +33,7 @@ const INITIAL_VALUES = {
     'oidcMetadata.token_endpoint': '',
     'oidcMetadata.jwks_uri': '',
     'oidcMetadata.userinfo_endpoint': '',
+    sortOrder: '' as unknown as string | number,
   },
 };
 
@@ -43,7 +44,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
   const state = useStore({
     oidcConnection: INITIAL_VALUES.oidcConnection,
     isSaving: false,
-    updateConnection(data: Partial<typeof INITIAL_VALUES.oidcConnection>) {
+    updateConnection(data: Partial<OIDCSSOConnection>) {
       return { ...state.oidcConnection, ...data };
     },
     handleChange(event: Event) {
@@ -62,8 +63,11 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             formObj.oidcMetadata = {} as Exclude<OIDCSSOConnection['oidcMetadata'], undefined>;
           }
           formObj.oidcMetadata[key.replace('oidcMetadata.', '')] = val;
+        } else if (key === 'sortOrder') {
+          // pass sortOrder only if set to non-empty string
+          val! == '' && (formObj[key] = +val); // convert sortOrder into number
         } else {
-          formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val;
+          formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val as string;
         }
       });
       state.isSaving = true;
@@ -140,7 +144,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
 
   onUpdate(() => {
     if (props.defaults) {
-      // Remove SAML only setting
+      // forceAuthn is a SAML only setting, remove it
       const { forceAuthn, tenant, ...rest } = props.defaults;
       const _tenant = Array.isArray(tenant) ? tenant[0] : tenant;
       state.oidcConnection = state.updateConnection({ ...rest, tenant: _tenant });
@@ -379,6 +383,21 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           placeholder='https://example.com/userinfo'
           autocomplete='one-time-code'
         />
+        <Spacer y={6} />
+        <Show when={state.formVariant === 'advanced'}>
+          <Show when={!state.isExcluded('sortOrder')}>
+            <InputField
+              label='Sort Order'
+              id='sortOrder'
+              classNames={state.classes.inputField}
+              type='number'
+              placeholder='10'
+              readOnly={state.isReadOnly('sortOrder')}
+              value={state.oidcConnection.sortOrder as string}
+              handleInputChange={state.handleChange}
+            />
+          </Show>
+        </Show>
         <Spacer y={6} />
         {/* TODO: bring loading state */}
         {/* TODO: bring translation support */}

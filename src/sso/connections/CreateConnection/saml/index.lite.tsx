@@ -27,6 +27,7 @@ const INITIAL_VALUES = {
     defaultRedirectUrl: '',
     rawMetadata: '',
     metadataUrl: '',
+    sortOrder: '' as unknown as string | number,
     forceAuthn: false as boolean,
   },
 };
@@ -53,9 +54,12 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
     save(event: Event) {
       event.preventDefault();
       state.isSaving = true;
+      const { sortOrder, ...rest } = state.samlConnection;
+      // pass sortOrder only if set to non-empty string
+      const payload = sortOrder === '' ? rest : { ...state.samlConnection, sortOrder: +sortOrder };
       saveConnection<SAMLSSORecord>({
         url: props.urls.post,
-        formObj: state.samlConnection,
+        formObj: payload,
         connectionIsSAML: true,
         callback: async (data) => {
           state.isSaving = false;
@@ -297,6 +301,21 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
           value={state.samlConnection.metadataUrl}
           handleInputChange={state.handleChange}
         />
+        <Spacer y={6} />
+        <Show when={state.formVariant === 'advanced'}>
+          <Show when={!state.isExcluded('sortOrder')}>
+            <InputField
+              label='Sort Order'
+              id='sortOrder'
+              classNames={state.classes.inputField}
+              type='number'
+              placeholder='10'
+              readOnly={state.isReadOnly('sortOrder')}
+              value={state.samlConnection.sortOrder as string}
+              handleInputChange={state.handleChange}
+            />
+          </Show>
+        </Show>
         <Spacer y={6} />
         <Show when={state.formVariant === 'advanced'}>
           <Show when={!state.isExcluded('forceAuthn')}>
