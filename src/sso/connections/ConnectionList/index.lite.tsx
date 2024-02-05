@@ -99,6 +99,9 @@ export default function ConnectionList(props: ConnectionListProps) {
       if (props.product) {
         urlParams.set('product', props.product);
       }
+      if (props.displaySorted) {
+        urlParams.set('sort', 'true');
+      }
       if (urlParams.toString()) {
         return `${urlPath}?${urlParams}`;
       }
@@ -125,17 +128,7 @@ export default function ConnectionList(props: ConnectionListProps) {
             isSystemSSO: connection.isSystemSSO,
           };
         });
-        state.connectionListData = props.displaySorted
-          ? _connectionsListData.sort((a, b) => {
-              if (a.sortOrder === null || a.sortOrder === undefined) {
-                return 1;
-              }
-              if (b.sortOrder === null || b.sortOrder === undefined) {
-                return -1;
-              }
-              return b.sortOrder - a.sortOrder;
-            })
-          : _connectionsListData;
+        state.connectionListData = _connectionsListData;
         typeof props.handleListFetchComplete === 'function' &&
           props.handleListFetchComplete(_connectionsListData);
       }
