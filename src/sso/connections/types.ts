@@ -21,6 +21,8 @@ export interface ConnectionListProps {
   tableProps?: TableProps;
   tenant?: string | string[];
   product?: string;
+  // If true will sort the list display based on sortOrder of the connection
+  displaySorted?: boolean;
 }
 
 export interface CreateConnectionProps {
