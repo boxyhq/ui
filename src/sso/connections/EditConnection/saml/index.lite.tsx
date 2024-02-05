@@ -35,6 +35,7 @@ const INITIAL_VALUES = {
     rawMetadata: '',
     metadataUrl: '',
     forceAuthn: false as boolean,
+    sortOrder: '' as unknown as string | number,
   } as SAMLFormState,
 };
 
@@ -85,17 +86,9 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
-      const payload =
-        props.variant === 'advanced'
-          ? { ...state.samlConnection }
-          : {
-              tenant: state.samlConnection.tenant,
-              product: state.samlConnection.product,
-              clientID: state.samlConnection.clientID,
-              clientSecret: state.samlConnection.clientSecret,
-              rawMetadata: state.samlConnection.rawMetadata,
-              metadataUrl: state.samlConnection.metadataUrl,
-            };
+      const { sortOrder, ...rest } = state.samlConnection;
+      // pass sortOrder only if set to non-empty string
+      const payload = sortOrder === '' ? rest : { ...state.samlConnection, sortOrder: +sortOrder! };
       state.isSaving = true;
       saveConnection<undefined>({
         url: props.urls.patch,
@@ -172,6 +165,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               rawMetadata: _connection.rawMetadata || '',
               metadataUrl: _connection.metadataUrl || '',
               forceAuthn: _connection.forceAuthn === true,
+              sortOrder: _connection.sortOrder || '',
             };
           }
         }
@@ -320,6 +314,24 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               </Show>
             </Show>
             <Spacer y={6} />
+            <Show when={state.formVariant === 'advanced'}>
+              <Show when={!state.isExcluded('sortOrder')}>
+                <InputField
+                  label='Sort Order'
+                  id='sortOrder'
+                  classNames={state.classes.inputField}
+                  type='number'
+                  min='0'
+                  placeholder='10'
+                  value={state.samlConnection.sortOrder as string}
+                  handleInputChange={state.handleChange}
+                />
+                <div id='sortOrder-hint' class={defaultClasses.hint}>
+                  Connections will be sorted (in a listing view like IdP Selection) using this setting. Higher
+                  values will be displayed first.
+                </div>
+              </Show>
+            </Show>
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />

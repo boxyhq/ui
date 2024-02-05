@@ -65,7 +65,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           formObj.oidcMetadata[key.replace('oidcMetadata.', '')] = val;
         } else if (key === 'sortOrder') {
           // pass sortOrder only if set to non-empty string
-          val! == '' && (formObj[key] = +val); // convert sortOrder into number
+          val !== '' && (formObj[key] = +val); // convert sortOrder into number
         } else {
           formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val as string;
         }
