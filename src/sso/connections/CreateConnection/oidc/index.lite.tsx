@@ -397,6 +397,10 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
               value={state.oidcConnection.sortOrder as string}
               handleInputChange={state.handleChange}
             />
+            <div id='sortOrder-hint' class={defaultClasses.hint}>
+              Connections will be sorted (in a listing view like IdP Selection) using this setting. Higher
+              values will be displayed first.
+            </div>
           </Show>
         </Show>
         <Spacer y={6} />
