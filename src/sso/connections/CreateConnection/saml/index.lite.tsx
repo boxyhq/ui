@@ -309,6 +309,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               id='sortOrder'
               classNames={state.classes.inputField}
               type='number'
+              min='0'
               placeholder='10'
               readOnly={state.isReadOnly('sortOrder')}
               value={state.samlConnection.sortOrder as string}
