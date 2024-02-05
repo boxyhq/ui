@@ -186,6 +186,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               'oidcMetadata.token_endpoint': _connection.oidcProvider.metadata?.token_endpoint || '',
               'oidcMetadata.jwks_uri': _connection.oidcProvider.metadata?.jwks_uri || '',
               'oidcMetadata.userinfo_endpoint': _connection.oidcProvider.metadata?.userinfo_endpoint || '',
+              sortOrder: _connection.sortOrder ?? '',
             };
           }
           state.hasDiscoveryUrl = _connection.oidcProvider.discoveryUrl ? true : false;

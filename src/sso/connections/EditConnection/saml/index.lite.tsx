@@ -165,7 +165,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               rawMetadata: _connection.rawMetadata || '',
               metadataUrl: _connection.metadataUrl || '',
               forceAuthn: _connection.forceAuthn === true,
-              sortOrder: _connection.sortOrder || '',
+              sortOrder: _connection.sortOrder ?? '',
             };
           }
         }
