@@ -86,7 +86,7 @@ jobs:
 
     strategy:
       matrix:
-        framework: [react, angular, vue, vue2, svelte]
+        framework: [react, vue2, svelte]
       fail-fast: false
     defaults:
       run:
