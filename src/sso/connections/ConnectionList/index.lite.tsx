@@ -99,6 +99,9 @@ export default function ConnectionList(props: ConnectionListProps) {
       if (props.product) {
         urlParams.set('product', props.product);
       }
+      if (props.displaySorted) {
+        urlParams.set('sort', 'true');
+      }
       if (urlParams.toString()) {
         return `${urlPath}?${urlParams}`;
       }

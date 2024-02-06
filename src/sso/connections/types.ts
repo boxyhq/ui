@@ -21,6 +21,8 @@ export interface ConnectionListProps {
   tableProps?: TableProps;
   tenant?: string | string[];
   product?: string;
+  // If true will sort the list display based on sortOrder of the connection
+  displaySorted?: boolean;
 }
 
 export interface CreateConnectionProps {
@@ -55,7 +57,8 @@ export interface CreateConnectionProps {
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
   defaults?: Partial<
-    Omit<SSOConnection, 'tenant'> & Pick<SAMLSSOConnection, 'forceAuthn'> & { tenant: string[] | string }
+    Omit<SSOConnection, 'tenant' | 'sortOrder'> &
+      Pick<SAMLSSOConnection, 'forceAuthn'> & { tenant: string[] | string }
   >;
 }
 
@@ -76,7 +79,7 @@ export interface CreateSSOConnectionProps
   defaults?: ConnectionsWrapperProp['defaults'];
 }
 
-type FormObjValues = string | boolean | string[] | undefined;
+type FormObjValues = string | boolean | string[] | undefined | number;
 
 export type FormObj = Record<string, FormObjValues | Record<string, any>>;
 
@@ -117,6 +120,8 @@ interface SSOConnection {
   name?: string;
   label?: string;
   description?: string;
+  // to support null values use empty string ''
+  sortOrder?: string | number;
 }
 
 export interface SAMLSSOConnection extends SSOConnection {
