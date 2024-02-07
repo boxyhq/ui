@@ -11,11 +11,25 @@ export default function Paginate(props: PaginateProps) {
     get isNextDisabled() {
       return props.currentPageItemsCount < props.itemsPerPage;
     },
+    updateURLOffset(newOffset: number) {
+      // Get the current URL
+      var url = new URL(window.location.toString());
+
+      // Set or update the query string parameter
+      url.searchParams.set('offset', `${newOffset}`);
+
+      // Push the updated URL to the browser history
+      window.history.pushState({}, '', url);
+    },
     handlePreviousClick() {
-      props.handlePageChange({ offset: this.itemOffset - props.itemsPerPage });
+      const newOffset = this.itemOffset - props.itemsPerPage;
+      state.updateURLOffset(newOffset);
+      props.handlePageChange({ offset: newOffset });
     },
     handleNextClick() {
-      props.handlePageChange({ offset: this.itemOffset + props.itemsPerPage });
+      const newOffset = this.itemOffset + props.itemsPerPage;
+      state.updateURLOffset(newOffset);
+      props.handlePageChange({ offset: newOffset });
     },
   });
 
