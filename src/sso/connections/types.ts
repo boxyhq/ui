@@ -23,6 +23,7 @@ export interface ConnectionListProps {
   product?: string;
   // If true will sort the list display based on sortOrder of the connection
   displaySorted?: boolean;
+  displayPaginated?: boolean;
 }
 
 export interface CreateConnectionProps {

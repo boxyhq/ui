@@ -1,4 +1,4 @@
-import { useStore, onUpdate, Show } from '@builder.io/mitosis';
+import { useStore, onUpdate, Show, useDefaultProps } from '@builder.io/mitosis';
 import type { ConnectionData, ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';
@@ -156,6 +156,10 @@ export default function ConnectionList(props: ConnectionListProps) {
     getFieldsData(state.listFetchUrl);
   }, [state.listFetchUrl]);
 
+  useDefaultProps<Partial<ConnectionListProps>>({
+    displayPaginated: false,
+  });
+
   return (
     <LoadingContainer isBusy={state.isConnectionListLoading}>
       <div>
@@ -179,11 +183,13 @@ export default function ConnectionList(props: ConnectionListProps) {
               actions={state.actions}
               {...props.tableProps}
             />
-            <Paginate
-              itemsPerPage={3}
-              currentPageItemsCount={state.connectionListData.length}
-              handlePageChange={reFetch}
-            />
+            <Show when={props.displayPaginated}>
+              <Paginate
+                itemsPerPage={3}
+                currentPageItemsCount={state.connectionListData.length}
+                handlePageChange={reFetch}
+              />
+            </Show>
           </div>
         </Show>
       </div>
