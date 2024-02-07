@@ -97,12 +97,21 @@ export default function ConnectionList(props: ConnectionListProps) {
           urlParams.set('tenant', props.tenant);
         }
       }
+
       if (props.product) {
         urlParams.set('product', props.product);
       }
+
       if (props.displaySorted) {
         urlParams.set('sort', 'true');
       }
+
+      const currentSearchParams = new URLSearchParams(window.location.search);
+      const pageOffset = currentSearchParams.get('offset');
+      if (pageOffset) {
+        urlParams.set('offset', pageOffset);
+      }
+
       if (urlParams.toString()) {
         return `${urlPath}?${urlParams}`;
       }
@@ -111,6 +120,7 @@ export default function ConnectionList(props: ConnectionListProps) {
   });
 
   async function getFieldsData(url: string) {
+    state.isConnectionListLoading = true;
     const data = await sendHTTPRequest<ConnectionData<SAMLSSORecord | OIDCSSORecord>[]>(url);
 
     state.isConnectionListLoading = false;
@@ -136,8 +146,11 @@ export default function ConnectionList(props: ConnectionListProps) {
     }
   }
 
+  function reFetch() {
+    getFieldsData(state.listFetchUrl);
+  }
+
   onUpdate(() => {
-    state.isConnectionListLoading = true;
     getFieldsData(state.listFetchUrl);
   }, [state.listFetchUrl]);
 
@@ -165,9 +178,9 @@ export default function ConnectionList(props: ConnectionListProps) {
               {...props.tableProps}
             />
             <Paginate
-              itemsPerPage={15}
+              itemsPerPage={3}
               currentPageItemsCount={state.connectionListData.length}
-              handlePageChange={(payload) => props.handleActionClick('pageChange', payload)}
+              handlePageChange={reFetch}
             />
           </div>
         </Show>

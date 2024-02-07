@@ -1,4 +1,4 @@
-import { ConfirmationPromptProps, TableCol, TableProps, PaginatePayload } from '../../shared/types';
+import { ConfirmationPromptProps, TableCol, TableProps } from '../../shared/types';
 
 export interface ConnectionListProps {
   children?: any;
@@ -11,7 +11,7 @@ export interface ConnectionListProps {
   };
   errorCallback?: (errMessage: string) => void;
   handleListFetchComplete?: (connections: ConnectionData<any>[]) => void;
-  handleActionClick: (action: 'edit' | 'pageChange', payload: ConnectionData<any> | PaginatePayload) => void;
+  handleActionClick: (action: 'edit', payload: ConnectionData<any>) => void;
   /**
    * Classnames for each inner components that make up the component.
    */
