@@ -19,26 +19,34 @@ export default function Paginate(props: PaginateProps) {
       url.searchParams.set('offset', `${newOffset}`);
 
       // Push the updated URL to the browser history
-      window.history.pushState({}, '', url);
+      window.history.pushState({ ...window.history.state, as: url.toString(), url: url.toString() }, '', url);
 
       state.itemOffset = newOffset;
     },
     handlePreviousClick() {
       const newOffset = this.itemOffset - props.itemsPerPage;
+      // update browser url
       state.updateURLOffset(newOffset);
+      // call back to trigger refetch
       props.handlePageChange({ offset: newOffset });
     },
     handleNextClick() {
       const newOffset = this.itemOffset + props.itemsPerPage;
+      // update browser url
       state.updateURLOffset(newOffset);
+      // call back to trigger refetch
       props.handlePageChange({ offset: newOffset });
     },
   });
 
   onMount(() => {
-    const _itemOffset = new URLSearchParams(window.location.search).get('offset');
-    if (_itemOffset) {
-      state.itemOffset = +_itemOffset || 0;
+    const _offsetFromUrl = new URLSearchParams(window.location.search).get('offset');
+    if (_offsetFromUrl) {
+      console.log(`_offsetFromUrl`, _offsetFromUrl);
+      state.itemOffset = +_offsetFromUrl;
+    } else {
+      console.log(`updating offset to 0`);
+      state.updateURLOffset(0);
     }
   });
 
