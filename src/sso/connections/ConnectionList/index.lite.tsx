@@ -107,9 +107,9 @@ export default function ConnectionList(props: ConnectionListProps) {
       }
 
       const currentSearchParams = new URLSearchParams(window.location.search);
-      const pageOffset = currentSearchParams.get('offset');
-      if (pageOffset) {
-        urlParams.set('offset', pageOffset);
+      const itemOffset = currentSearchParams.get('offset');
+      if (itemOffset) {
+        urlParams.set('offset', itemOffset);
       }
 
       if (urlParams.toString()) {
