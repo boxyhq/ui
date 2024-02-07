@@ -12,6 +12,7 @@ import Paginate from '../../../shared/Paginate/index.lite';
 const DEFAULT_VALUES = {
   isSettingsView: false,
   connectionListData: [] as ConnectionData<any>[],
+  pageLimit: 3,
 };
 
 export default function ConnectionList(props: ConnectionListProps) {
@@ -109,7 +110,8 @@ export default function ConnectionList(props: ConnectionListProps) {
       const currentSearchParams = new URLSearchParams(window.location.search);
       const itemOffset = currentSearchParams.get('offset');
       if (itemOffset) {
-        urlParams.set('offset', itemOffset);
+        urlParams.set('pageOffset', itemOffset);
+        urlParams.set('pageLimit', `${DEFAULT_VALUES.pageLimit}`);
       }
 
       if (urlParams.toString()) {
