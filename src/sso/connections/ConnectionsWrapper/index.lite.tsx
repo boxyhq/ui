@@ -107,7 +107,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                 <Spacer x={4} />
               </Show>
               <Button
-                name='Add Connection'
+                name='New Connection'
                 handleClick={state.switchToCreateView}
                 classNames={props.classNames?.button?.ctoa}
               />
