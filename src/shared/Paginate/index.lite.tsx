@@ -1,4 +1,4 @@
-import { useStore } from '@builder.io/mitosis';
+import { onMount, useStore } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
 import { PaginateProps } from '../types';
 
@@ -31,6 +31,14 @@ export default function Paginate(props: PaginateProps) {
       state.updateURLOffset(newOffset);
       props.handlePageChange({ offset: newOffset });
     },
+  });
+
+  onMount(() => {
+    const currentSearchParams = new URLSearchParams(window.location.search);
+    const itemOffset = currentSearchParams.get('offset');
+    if (itemOffset) {
+      state.itemOffset = +itemOffset || 0;
+    }
   });
 
   return (
