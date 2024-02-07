@@ -34,10 +34,9 @@ export default function Paginate(props: PaginateProps) {
   });
 
   onMount(() => {
-    const currentSearchParams = new URLSearchParams(window.location.search);
-    const itemOffset = currentSearchParams.get('offset');
-    if (itemOffset) {
-      state.itemOffset = +itemOffset || 0;
+    const _itemOffset = new URLSearchParams(window.location.search).get('offset');
+    if (_itemOffset) {
+      state.itemOffset = +_itemOffset || 0;
     }
   });
 
