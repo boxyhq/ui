@@ -69,7 +69,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
             <h5 class={styles.h5}>{props.title || 'Manage Dsync Connections'}</h5>
             <div class={styles.ctoa}>
               <Button
-                name='Add Connection'
+                name='New Directory'
                 handleClick={state.switchToCreateView}
                 classNames={props.classNames?.button?.ctoa}
               />
