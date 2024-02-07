@@ -20,6 +20,8 @@ export default function Paginate(props: PaginateProps) {
 
       // Push the updated URL to the browser history
       window.history.pushState({}, '', url);
+
+      state.itemOffset = newOffset;
     },
     handlePreviousClick() {
       const newOffset = this.itemOffset - props.itemsPerPage;
