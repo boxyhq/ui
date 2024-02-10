@@ -1,11 +1,11 @@
-import { useStore, onUpdate, Show, useDefaultProps } from '@builder.io/mitosis';
+import { useStore, onUpdate, Show } from '@builder.io/mitosis';
 import type { ConnectionData, ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
 import EmptyState from '../../../shared/EmptyState/index.lite';
 import cssClassAssembler from '../../utils/cssClassAssembler';
 import defaultClasses from './index.module.css';
 import Table from '../../../shared/Table/index.lite';
-import { BadgeProps, TableProps } from '../../../shared/types';
+import { BadgeProps, PaginatePayload, TableProps } from '../../../shared/types';
 import { sendHTTPRequest } from '../../../shared/http';
 import Paginate from '../../../shared/Paginate/index.lite';
 
@@ -85,33 +85,34 @@ export default function ConnectionList(props: ConnectionListProps) {
         },
       ];
     },
-    get listFetchUrl() {
-      let _url = props.urls.get;
+    listFetchUrl(
+      params: Partial<PaginatePayload> &
+        Pick<ConnectionListProps, 'tenant' | 'product' | 'displaySorted'> & { getUrl: string }
+    ) {
+      let _url = params.getUrl;
       const [urlPath, qs] = _url.split('?');
       const urlParams = new URLSearchParams(qs);
-      if (props.tenant) {
-        if (Array.isArray(props.tenant)) {
-          for (const _tenant of props.tenant) {
+      if (params.tenant) {
+        if (Array.isArray(params.tenant)) {
+          for (const _tenant of params.tenant) {
             urlParams.append('tenant', _tenant);
           }
         } else {
-          urlParams.set('tenant', props.tenant);
+          urlParams.set('tenant', params.tenant);
         }
       }
 
-      if (props.product) {
-        urlParams.set('product', props.product);
+      if (params.product) {
+        urlParams.set('product', params.product);
       }
 
-      if (props.displaySorted) {
+      if (params.displaySorted) {
         urlParams.set('sort', 'true');
       }
 
-      const currentSearchParams = new URLSearchParams(window.location.search);
-      const itemOffset = currentSearchParams.get('offset');
-      if (itemOffset) {
-        urlParams.set('pageOffset', itemOffset);
-        urlParams.set('pageLimit', `${DEFAULT_VALUES.pageLimit}`);
+      if (params?.offset !== undefined) {
+        urlParams.set('pageOffset', `${params.offset}`);
+        urlParams.set('pageLimit', `${props.paginate?.itemsPerPage ?? DEFAULT_VALUES.pageLimit}`);
       }
 
       if (urlParams.toString()) {
@@ -148,17 +149,30 @@ export default function ConnectionList(props: ConnectionListProps) {
     }
   }
 
-  function reFetch() {
-    getFieldsData(state.listFetchUrl);
+  function handlePageChange(payload: PaginatePayload) {
+    getFieldsData(
+      state.listFetchUrl({
+        getUrl: props.urls.get,
+        tenant: props.tenant,
+        product: props.product,
+        displaySorted: props.displaySorted,
+        ...payload,
+      })
+    );
+    typeof props.paginate?.handlePageChange === 'function' && props.paginate.handlePageChange(payload);
   }
 
   onUpdate(() => {
-    getFieldsData(state.listFetchUrl);
-  }, [state.listFetchUrl]);
-
-  useDefaultProps<Partial<ConnectionListProps>>({
-    displayPaginated: false,
-  });
+    getFieldsData(
+      state.listFetchUrl({
+        getUrl: props.urls.get,
+        tenant: props.tenant,
+        product: props.product,
+        displaySorted: props.displaySorted,
+        offset: props.paginate ? 0 : undefined,
+      })
+    );
+  }, [props.urls.get, props.tenant, props.product, props.displaySorted]);
 
   return (
     <LoadingContainer isBusy={state.isConnectionListLoading}>
@@ -183,11 +197,11 @@ export default function ConnectionList(props: ConnectionListProps) {
               actions={state.actions}
               {...props.tableProps}
             />
-            <Show when={props.displayPaginated}>
+            <Show when={props.paginate !== undefined}>
               <Paginate
-                itemsPerPage={3}
+                itemsPerPage={props.paginate?.itemsPerPage || DEFAULT_VALUES.pageLimit}
                 currentPageItemsCount={state.connectionListData.length}
-                handlePageChange={reFetch}
+                handlePageChange={handlePageChange}
               />
             </Show>
           </div>

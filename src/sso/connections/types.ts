@@ -1,4 +1,4 @@
-import { ConfirmationPromptProps, TableCol, TableProps } from '../../shared/types';
+import { ConfirmationPromptProps, PaginateProps, TableCol, TableProps } from '../../shared/types';
 
 export interface ConnectionListProps {
   children?: any;
@@ -23,7 +23,7 @@ export interface ConnectionListProps {
   product?: string;
   // If true will sort the list display based on sortOrder of the connection
   displaySorted?: boolean;
-  displayPaginated?: boolean;
+  paginate?: Partial<Omit<PaginateProps, 'currentPageItemsCount'>>;
 }
 
 export interface CreateConnectionProps {
