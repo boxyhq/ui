@@ -1,41 +1,21 @@
-import { onMount, useStore } from '@builder.io/mitosis';
+import { onMount, onUpdate, useStore } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
 import { PaginateProps } from '../types';
 
 export default function Paginate(props: PaginateProps) {
   const state = useStore({
-    itemOffset: 0,
-    get isPreviousDisabled() {
-      return this.itemOffset === 0;
+    offset: 0,
+    get isPreviousDisabled(): boolean {
+      return state.offset === 0;
     },
     get isNextDisabled() {
       return props.currentPageItemsCount < props.itemsPerPage;
     },
-    updateURLOffset(newOffset: number) {
-      // Get the current URL
-      var url = new URL(window.location.toString());
-
-      // Set or update the query string parameter
-      url.searchParams.set('offset', `${newOffset}`);
-
-      // Push the updated URL to the browser history
-      window.history.pushState({ ...window.history.state, as: url.toString(), url: url.toString() }, '', url);
-
-      state.itemOffset = newOffset;
-    },
     handlePreviousClick() {
-      const newOffset = this.itemOffset - props.itemsPerPage;
-      // update browser url
-      state.updateURLOffset(newOffset);
-      // call back to trigger refetch
-      props.handlePageChange({ offset: newOffset });
+      state.offset = state.offset - props.itemsPerPage;
     },
     handleNextClick() {
-      const newOffset = this.itemOffset + props.itemsPerPage;
-      // update browser url
-      state.updateURLOffset(newOffset);
-      // call back to trigger refetch
-      props.handlePageChange({ offset: newOffset });
+      state.offset = state.offset + props.itemsPerPage;
     },
   });
 
