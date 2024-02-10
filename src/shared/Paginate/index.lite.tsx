@@ -40,11 +40,11 @@ export default function Paginate(props: PaginateProps) {
   });
 
   onMount(() => {
-    const _offsetFromUrl = new URLSearchParams(window.location.search).get('offset');
-    if (_offsetFromUrl) {
-      console.log(`_offsetFromUrl`, _offsetFromUrl);
-      state.itemOffset = +_offsetFromUrl;
-    } else {
+    const offsetFromQueryParams = new URLSearchParams(window.location.search).get('offset');
+    if (offsetFromQueryParams && Number.isFinite(+offsetFromQueryParams)) {
+      state.offset = Math.abs(+offsetFromQueryParams);
+    }
+  });
       console.log(`updating offset to 0`);
       state.updateURLOffset(0);
     }
