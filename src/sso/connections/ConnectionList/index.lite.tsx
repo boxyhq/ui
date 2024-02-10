@@ -8,11 +8,11 @@ import Table from '../../../shared/Table/index.lite';
 import { BadgeProps, PaginatePayload, TableProps } from '../../../shared/types';
 import { sendHTTPRequest } from '../../../shared/http';
 import Paginate from '../../../shared/Paginate/index.lite';
+import { ITEMS_PER_PAGE_DEFAULT } from '../../../shared/Paginate/utils';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
   connectionListData: [] as ConnectionData<any>[],
-  pageLimit: 3,
 };
 
 export default function ConnectionList(props: ConnectionListProps) {
@@ -21,6 +21,15 @@ export default function ConnectionList(props: ConnectionListProps) {
     isConnectionListLoading: true,
     showErrorComponent: false,
     errorMessage: '',
+    get getUrl() {
+      return props.urls.get;
+    },
+    get isPaginated() {
+      return props.paginate !== undefined;
+    },
+    get itemsPerPage() {
+      return props.paginate?.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT;
+    },
     get classes() {
       return {
         tableContainer: cssClassAssembler(props.classNames?.tableContainer, defaultClasses.tableContainer),
@@ -112,7 +121,7 @@ export default function ConnectionList(props: ConnectionListProps) {
 
       if (params?.offset !== undefined) {
         urlParams.set('pageOffset', `${params.offset}`);
-        urlParams.set('pageLimit', `${props.paginate?.itemsPerPage ?? DEFAULT_VALUES.pageLimit}`);
+        urlParams.set('pageLimit', `${params.limit}`);
       }
 
       if (urlParams.toString()) {
@@ -149,30 +158,30 @@ export default function ConnectionList(props: ConnectionListProps) {
     }
   }
 
-  function handlePageChange(payload: PaginatePayload) {
+  function reFetch(payload: PaginatePayload) {
     getFieldsData(
       state.listFetchUrl({
-        getUrl: props.urls.get,
+        getUrl: state.getUrl,
         tenant: props.tenant,
         product: props.product,
         displaySorted: props.displaySorted,
         ...payload,
       })
     );
-    typeof props.paginate?.handlePageChange === 'function' && props.paginate.handlePageChange(payload);
   }
 
   onUpdate(() => {
     getFieldsData(
       state.listFetchUrl({
-        getUrl: props.urls.get,
+        getUrl: state.getUrl,
         tenant: props.tenant,
         product: props.product,
         displaySorted: props.displaySorted,
-        offset: props.paginate ? 0 : undefined,
+        offset: state.isPaginated ? 0 : undefined,
+        limit: state.isPaginated ? state.itemsPerPage : undefined,
       })
     );
-  }, [props.urls.get, props.tenant, props.product, props.displaySorted]);
+  }, [state.getUrl, props.tenant, props.product, props.displaySorted, state.isPaginated, state.itemsPerPage]);
 
   return (
     <LoadingContainer isBusy={state.isConnectionListLoading}>
@@ -197,11 +206,12 @@ export default function ConnectionList(props: ConnectionListProps) {
               actions={state.actions}
               {...props.tableProps}
             />
-            <Show when={props.paginate !== undefined}>
+            <Show when={state.isPaginated}>
               <Paginate
-                itemsPerPage={props.paginate?.itemsPerPage || DEFAULT_VALUES.pageLimit}
+                itemsPerPage={props.paginate?.itemsPerPage}
                 currentPageItemsCount={state.connectionListData.length}
-                handlePageChange={handlePageChange}
+                handlePageChange={props.paginate?.handlePageChange}
+                reFetch={reFetch}
               />
             </Show>
           </div>

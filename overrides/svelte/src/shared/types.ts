@@ -113,10 +113,11 @@ export interface ConfirmationPromptProps {
   cancelCallback: (event: Event) => void;
 }
 
-export type PaginatePayload = { offset: number };
+export type PaginatePayload = { offset: number; limit: number };
 
 export interface PaginateProps {
-  handlePageChange: (payload: PaginatePayload) => void;
-  itemsPerPage: number;
+  handlePageChange?: (payload: Partial<PaginatePayload>) => void;
+  reFetch: (payload: PaginatePayload) => any;
+  itemsPerPage?: number;
   currentPageItemsCount: number;
 }

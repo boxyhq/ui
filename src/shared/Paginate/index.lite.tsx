@@ -1,6 +1,7 @@
-import { onMount, onUpdate, useStore } from '@builder.io/mitosis';
+import { onMount, useStore } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
 import { PaginateProps } from '../types';
+import { ITEMS_PER_PAGE_DEFAULT } from './utils';
 
 export default function Paginate(props: PaginateProps) {
   const state = useStore({
@@ -9,17 +10,25 @@ export default function Paginate(props: PaginateProps) {
       return state.offset === 0;
     },
     get isNextDisabled() {
-      return props.currentPageItemsCount < props.itemsPerPage;
+      return props.currentPageItemsCount < props.itemsPerPage!;
     },
     handlePreviousClick() {
-      state.offset = state.offset - props.itemsPerPage;
+      const newOffset = state.offset - props.itemsPerPage!;
+      state.offset = newOffset;
+      typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: newOffset });
+      typeof props.reFetch === 'function' &&
+        props.reFetch({ offset: newOffset, limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT });
     },
     handleNextClick() {
-      state.offset = state.offset + props.itemsPerPage;
+      const newOffset = state.offset + props.itemsPerPage!;
+      state.offset = newOffset;
+      typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: newOffset });
+      typeof props.reFetch === 'function' &&
+        props.reFetch({ offset: newOffset, limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT });
     },
   });
 
-  function offsetInBrowserQS() {
+  function offsetFromBrowserQS() {
     const offsetFromQueryParams = new URLSearchParams(window.location.search).get('offset');
     if (offsetFromQueryParams && Number.isFinite(+offsetFromQueryParams)) {
       return Math.abs(+offsetFromQueryParams);
@@ -28,15 +37,16 @@ export default function Paginate(props: PaginateProps) {
   }
 
   onMount(() => {
-    const _offsetInBrowserQS = offsetInBrowserQS();
-    if (typeof _offsetInBrowserQS === 'number' && state.offset !== _offsetInBrowserQS) {
-      state.offset = _offsetInBrowserQS;
+    const _offsetFromBrowserQS = offsetFromBrowserQS();
+    if (typeof _offsetFromBrowserQS === 'number' && state.offset !== _offsetFromBrowserQS) {
+      state.offset = _offsetFromBrowserQS;
+      typeof props.reFetch === 'function' &&
+        props.reFetch({ offset: _offsetFromBrowserQS, limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT });
+    } else {
+      // set offset to 0 in qs
+      typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: 0 });
     }
   });
-
-  onUpdate(() => {
-    typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: state.offset });
-  }, [state.offset]);
 
   return (
     <nav aria-label='Pagination Navigation'>
