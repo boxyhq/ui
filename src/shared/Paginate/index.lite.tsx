@@ -45,10 +45,10 @@ export default function Paginate(props: PaginateProps) {
       state.offset = Math.abs(+offsetFromQueryParams);
     }
   });
-      console.log(`updating offset to 0`);
-      state.updateURLOffset(0);
-    }
-  });
+
+  onUpdate(() => {
+    typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: state.offset });
+  }, [state.offset]);
 
   return (
     <nav aria-label='Pagination Navigation'>
