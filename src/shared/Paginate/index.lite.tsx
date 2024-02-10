@@ -19,10 +19,18 @@ export default function Paginate(props: PaginateProps) {
     },
   });
 
-  onMount(() => {
+  function offsetInBrowserQS() {
     const offsetFromQueryParams = new URLSearchParams(window.location.search).get('offset');
     if (offsetFromQueryParams && Number.isFinite(+offsetFromQueryParams)) {
-      state.offset = Math.abs(+offsetFromQueryParams);
+      return Math.abs(+offsetFromQueryParams);
+    }
+    return null;
+  }
+
+  onMount(() => {
+    const _offsetInBrowserQS = offsetInBrowserQS();
+    if (typeof _offsetInBrowserQS === 'number' && state.offset !== _offsetInBrowserQS) {
+      state.offset = _offsetInBrowserQS;
     }
   });
 
