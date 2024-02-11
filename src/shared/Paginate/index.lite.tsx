@@ -5,24 +5,28 @@ import { ITEMS_PER_PAGE_DEFAULT } from './utils';
 
 export default function Paginate(props: PaginateProps) {
   const state = useStore({
-    offset: 0,
+    _offset: 0,
     get isPreviousDisabled(): boolean {
-      return state.offset === 0;
+      return state._offset === 0;
     },
     get isNextDisabled() {
       return props.currentPageItemsCount < props.itemsPerPage!;
     },
     handlePreviousClick() {
-      const newOffset = state.offset - props.itemsPerPage!;
-      state.offset = newOffset;
+      const newOffset = state._offset - props.itemsPerPage!;
+      state._offset = newOffset;
+      // Update query string in URL
       typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: newOffset });
+      // Trigger data re-fetch with new offset
       typeof props.reFetch === 'function' &&
         props.reFetch({ offset: newOffset, limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT });
     },
     handleNextClick() {
-      const newOffset = state.offset + props.itemsPerPage!;
-      state.offset = newOffset;
+      const newOffset = state._offset + props.itemsPerPage!;
+      state._offset = newOffset;
+      // Update query string in URL
       typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: newOffset });
+      // Trigger data re-fetch with new offset
       typeof props.reFetch === 'function' &&
         props.reFetch({ offset: newOffset, limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT });
     },
@@ -38,8 +42,8 @@ export default function Paginate(props: PaginateProps) {
 
   onMount(() => {
     const _offsetFromBrowserQS = offsetFromBrowserQS();
-    if (typeof _offsetFromBrowserQS === 'number' && state.offset !== _offsetFromBrowserQS) {
-      state.offset = _offsetFromBrowserQS;
+    if (typeof _offsetFromBrowserQS === 'number' && state._offset !== _offsetFromBrowserQS) {
+      state._offset = _offsetFromBrowserQS;
       typeof props.reFetch === 'function' &&
         props.reFetch({ offset: _offsetFromBrowserQS, limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT });
     } else {
