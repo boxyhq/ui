@@ -86,7 +86,7 @@ jobs:
 
     strategy:
       matrix:
-        framework: [react, vue2, svelte]
+        framework: [react, svelte]
       fail-fast: false
     defaults:
       run:
