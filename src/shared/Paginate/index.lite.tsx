@@ -2,6 +2,7 @@ import { onMount, onUpdate, useStore } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
 import { PaginateProps } from '../types';
 import { ITEMS_PER_PAGE_DEFAULT } from './utils';
+import styles from './index.module.css';
 
 export default function Paginate(props: PaginateProps) {
   const state = useStore({
@@ -73,7 +74,7 @@ export default function Paginate(props: PaginateProps) {
 
   return (
     <nav aria-label='Pagination Navigation'>
-      <ul>
+      <ul class={styles.ul}>
         <li>
           <Button
             name='Prev'

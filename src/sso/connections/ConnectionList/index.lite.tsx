@@ -206,15 +206,15 @@ export default function ConnectionList(props: ConnectionListProps) {
               actions={state.actions}
               {...props.tableProps}
             />
-            <Show when={state.isPaginated}>
-              <Paginate
-                itemsPerPage={props.paginate?.itemsPerPage}
-                currentPageItemsCount={state.connectionListData.length}
-                handlePageChange={props.paginate?.handlePageChange}
-                reFetch={reFetch}
-              />
-            </Show>
           </div>
+          <Show when={state.isPaginated}>
+            <Paginate
+              itemsPerPage={props.paginate?.itemsPerPage}
+              currentPageItemsCount={state.connectionListData.length}
+              handlePageChange={props.paginate?.handlePageChange}
+              reFetch={reFetch}
+            />
+          </Show>
         </Show>
       </div>
     </LoadingContainer>
