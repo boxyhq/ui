@@ -1,4 +1,4 @@
-import { onMount, useStore } from '@builder.io/mitosis';
+import { onMount, onUpdate, useStore } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
 import { PaginateProps } from '../types';
 import { ITEMS_PER_PAGE_DEFAULT } from './utils';
@@ -40,17 +40,36 @@ export default function Paginate(props: PaginateProps) {
     return null;
   }
 
-  onMount(() => {
+  function reFetchUsingBrowserQS() {
     const _offsetFromBrowserQS = offsetFromBrowserQS();
     if (typeof _offsetFromBrowserQS === 'number' && state._offset !== _offsetFromBrowserQS) {
+      // console.log(`triggering refetch for offset=${_offsetFromBrowserQS},state._offset=${state._offset}`);
       state._offset = _offsetFromBrowserQS;
       typeof props.reFetch === 'function' &&
-        props.reFetch({ offset: _offsetFromBrowserQS, limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT });
-    } else {
+        props.reFetch({
+          offset: _offsetFromBrowserQS,
+          limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT,
+        });
+      return true;
+    }
+    return false;
+  }
+
+  onMount(() => {
+    if (!reFetchUsingBrowserQS()) {
       // set offset to 0 in qs
       typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: 0 });
     }
   });
+
+  onUpdate(() => {
+    // console.log(`adding popstate event listener for ${state._offset}`);
+    window.addEventListener('popstate', reFetchUsingBrowserQS);
+    return () => {
+      // console.log(`removing popstate event listener for ${state._offset}`);
+      window.removeEventListener('popstate', reFetchUsingBrowserQS);
+    };
+  }, [state._offset]);
 
   return (
     <nav aria-label='Pagination Navigation'>
