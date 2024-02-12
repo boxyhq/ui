@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { WellKnownURLs } from './well-known';
+import { Button } from './shared/Button';
 
 import './index.css';
 
 function App() {
   return (
     <>
-      <button className='btn btn-primary btn-md'>Create Connection</button>
+    <Button />
+      <WellKnownURLs jacksonUrl="/abc" />
     </>
   );
 }
