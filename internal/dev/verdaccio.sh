@@ -17,10 +17,10 @@ npm publish --registry http://localhost:4873/
 cd ../../jackson
 npm uninstall @boxyhq/internal-ui
 npm i --save-exact --registry http://localhost:4873/ @boxyhq/internal-ui@$VERSION
-# rm -rf .next
+rm -rf .next
 
 # Install the published version in `boxyhq/saas-app`
-cd ../saas-app
-npm uninstall @boxyhq/internal-ui
-npm i --save-exact --registry http://localhost:4873/ @boxyhq/internal-ui@$VERSION
-rm -rf .next
+# cd ../saas-app
+# npm uninstall @boxyhq/internal-ui
+# npm i --save-exact --registry http://localhost:4873/ @boxyhq/internal-ui@$VERSION
+# rm -rf .next
