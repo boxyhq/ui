@@ -3,6 +3,7 @@ import Button from '../Button/index.lite';
 import { PaginateProps } from '../types';
 import { ITEMS_PER_PAGE_DEFAULT } from './utils';
 import styles from './index.module.css';
+import PaginateContext from './paginate.context.lite';
 
 export default function Paginate(props: PaginateProps) {
   const state = useStore({
@@ -73,25 +74,28 @@ export default function Paginate(props: PaginateProps) {
   }, [state._offset]);
 
   return (
-    <nav aria-label='Pagination Navigation'>
-      <ul class={styles.ul}>
-        <li>
-          <Button
-            name='Prev'
-            variant='outline'
-            handleClick={state.handlePreviousClick}
-            disabled={state.isPreviousDisabled}
-            aria-label='Goto Previous Page'></Button>
-        </li>
-        <li>
-          <Button
-            name='Next'
-            variant='outline'
-            handleClick={state.handleNextClick}
-            disabled={state.isNextDisabled}
-            aria-label='Goto Next Page'></Button>
-        </li>
-      </ul>
-    </nav>
+    <PaginateContext.Provider value={{ offset: state._offset }}>
+      {props.children}
+      <nav aria-label='Pagination Navigation'>
+        <ul class={styles.ul}>
+          <li>
+            <Button
+              name='Prev'
+              variant='outline'
+              handleClick={state.handlePreviousClick}
+              disabled={state.isPreviousDisabled}
+              aria-label='Goto Previous Page'></Button>
+          </li>
+          <li>
+            <Button
+              name='Next'
+              variant='outline'
+              handleClick={state.handleNextClick}
+              disabled={state.isNextDisabled}
+              aria-label='Goto Next Page'></Button>
+          </li>
+        </ul>
+      </nav>
+    </PaginateContext.Provider>
   );
 }

@@ -157,4 +157,5 @@ export interface PaginateProps {
   reFetch: (payload: PaginatePayload) => any;
   itemsPerPage?: number;
   currentPageItemsCount: number;
+  children?: any;
 }
