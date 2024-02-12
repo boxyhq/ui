@@ -1,4 +1,1 @@
-import { Button } from './shared/Button';
-import { WellKnownURLs } from './well-known';
-
-export { Button, WellKnownURLs };
+export { WellKnownURLs } from './components/WellKnownURLs';
