@@ -11,8 +11,6 @@ export const WellKnownURLs = ({ jacksonUrl }: { jacksonUrl?: string }) => {
   const downloadText = t('download');
   const baseUrl = jacksonUrl ?? '';
 
-  console.log("From Kiran")
-
   const links = [
     {
       title: t('sp_metadata'),

@@ -25,7 +25,7 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: ['react', 'react/jsx-runtime', 'react-dom', 'tailwindcss', 'daisyui', 'next', 'next-i18next'],
-    }
+      external: ['react', 'react/jsx-runtime', 'react-dom', 'next', 'next-i18next'],
+    },
   },
 });
