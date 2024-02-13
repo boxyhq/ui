@@ -8,29 +8,30 @@ import PaginateContext from './paginate.context.lite';
 export default function Paginate(props: PaginateProps) {
   const state = useStore({
     _offset: 0,
+    get _itemsPerPage() {
+      return props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT;
+    },
     get isPreviousDisabled(): boolean {
       return state._offset === 0;
     },
-    get isNextDisabled() {
-      return props.currentPageItemsCount < props.itemsPerPage!;
+    get isNextDisabled(): boolean {
+      return props.currentPageItemsCount < state._itemsPerPage;
     },
     handlePreviousClick() {
-      const newOffset = state._offset - props.itemsPerPage!;
+      const newOffset = state._offset - state._itemsPerPage;
       state._offset = newOffset;
       // Update query string in URL
       typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: newOffset });
       // Trigger data re-fetch with new offset
-      typeof props.reFetch === 'function' &&
-        props.reFetch({ offset: newOffset, limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT });
+      typeof props.reFetch === 'function' && props.reFetch({ offset: newOffset, limit: state._itemsPerPage });
     },
     handleNextClick() {
-      const newOffset = state._offset + props.itemsPerPage!;
+      const newOffset = state._offset + state._itemsPerPage;
       state._offset = newOffset;
       // Update query string in URL
       typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: newOffset });
       // Trigger data re-fetch with new offset
-      typeof props.reFetch === 'function' &&
-        props.reFetch({ offset: newOffset, limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT });
+      typeof props.reFetch === 'function' && props.reFetch({ offset: newOffset, limit: state._itemsPerPage });
     },
   });
 
@@ -50,7 +51,7 @@ export default function Paginate(props: PaginateProps) {
       typeof props.reFetch === 'function' &&
         props.reFetch({
           offset: _offsetFromBrowserQS,
-          limit: props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT,
+          limit: state._itemsPerPage,
         });
       return true;
     }
