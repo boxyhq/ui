@@ -1,7 +1,6 @@
 import { ConfirmationPromptProps, PaginateProps, TableCol, TableProps } from '../../shared/types';
 
 export interface ConnectionListProps {
-  children?: any;
   cols?: ('name' | 'label' | 'provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
   tableCaption?: string;
   idpEntityID?: string;
