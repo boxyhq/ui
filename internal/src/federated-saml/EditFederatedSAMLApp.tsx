@@ -1,10 +1,11 @@
 import useSWR from 'swr';
 import { SAMLFederationApp } from '@boxyhq/saml-jackson';
 import fetcher from '@/utils/fetcher';
-import Loading from '@/shared/Loading';
+import { Loading } from '@/shared/Loading';
 import { EditBranding } from './EditBranding';
 import { Edit } from './Edit';
 import { EditAttributesMapping } from './EditAttributesMapping';
+import { DeleteCard } from '@/shared/DeleteCard';
 
 export const EditFederatedSAMLApp = ({
   urls,
@@ -17,6 +18,7 @@ export const EditFederatedSAMLApp = ({
   onError?: (error: Error) => void;
   excludeFields?: 'product'[];
 }) => {
+  // TODO: mutate after patching
   const { data, isLoading, error, mutate } = useSWR<{ data: SAMLFederationApp }>(urls.get, fetcher);
 
   if (isLoading) {
@@ -39,6 +41,11 @@ export const EditFederatedSAMLApp = ({
       <Edit app={app} urls={urls} onError={onError} onSuccess={onSuccess} excludeFields={excludeFields} />
       <EditAttributesMapping app={app} urls={{ patch: urls.patch }} onError={onError} onSuccess={onSuccess} />
       <EditBranding app={app} urls={{ patch: urls.patch }} onError={onError} onSuccess={onSuccess} />
+      <DeleteCard
+        title='Delete SAML Federation App'
+        description='This action cannot be undone. This will permanently delete the SAML Federation App'
+        buttonLabel='Delete App'
+      />
     </div>
   );
 };

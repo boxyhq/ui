@@ -16,7 +16,8 @@
     "dist",
     "index.d.ts",
     "well-known.d.ts",
-    "federated-saml.d.ts"
+    "federated-saml.d.ts",
+    "shared.d.ts"
   ],
   "types": "./index.d.ts",
   "exports": {
@@ -27,6 +28,10 @@
     "./federated-saml": {
       "types": "./dist/federated-saml/index.d.ts",
       "import": "./dist/federated-saml.js"
+    },
+    "./shared": {
+      "types": "./dist/shared/index.d.ts",
+      "import": "./dist/shared.js"
     }
   },
   "scripts": {
