@@ -1,4 +1,4 @@
-import { Show, onMount, onUpdate, useStore } from '@builder.io/mitosis';
+import { Show, onMount, onUnMount, useStore } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
 import { PaginateProps } from '../types';
 import { ITEMS_PER_PAGE_DEFAULT } from './utils';
@@ -48,34 +48,37 @@ export default function Paginate(props: PaginateProps) {
 
   function reFetchUsingBrowserQS() {
     const _offsetFromBrowserQS = offsetFromBrowserQS();
-    if (typeof _offsetFromBrowserQS === 'number' && state._offset !== _offsetFromBrowserQS) {
-      // console.log(`triggering refetch for offset=${_offsetFromBrowserQS},state._offset=${state._offset}`);
+    if (typeof _offsetFromBrowserQS === 'number') {
+      // console.log(`offset ${_offsetFromBrowserQS} found in url`);
       state._offset = _offsetFromBrowserQS;
+      // console.log(`fetching with offset ${_offsetFromBrowserQS}`);
       typeof props.reFetch === 'function' &&
         props.reFetch({
           offset: _offsetFromBrowserQS,
           limit: state._itemsPerPage,
         });
-      return true;
+    } else {
+      // console.log(`no offset found in url, setting offset to 0 in url`);
+      typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: 0 });
+      // console.log(`fetching with offset 0`);
+      typeof props.reFetch === 'function' &&
+        props.reFetch({
+          offset: 0,
+          limit: state._itemsPerPage,
+        });
     }
-    return false;
   }
 
   onMount(() => {
-    if (!reFetchUsingBrowserQS()) {
-      // set offset to 0 in qs
-      typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: 0 });
-    }
+    // console.log(`adding popstate event listener`);
+    window.addEventListener('popstate', reFetchUsingBrowserQS);
+    reFetchUsingBrowserQS();
   });
 
-  onUpdate(() => {
-    // console.log(`adding popstate event listener for ${state._offset}`);
-    window.addEventListener('popstate', reFetchUsingBrowserQS);
-    return () => {
-      // console.log(`removing popstate event listener for ${state._offset}`);
-      window.removeEventListener('popstate', reFetchUsingBrowserQS);
-    };
-  }, [state._offset]);
+  onUnMount(() => {
+    // console.log(`removing popstate event listener`);
+    window.removeEventListener('popstate', reFetchUsingBrowserQS);
+  });
 
   return (
     <PaginateContext.Provider value={{ offset: state._offset }}>

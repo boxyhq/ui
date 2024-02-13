@@ -172,16 +172,16 @@ export default function ConnectionList(props: ConnectionListProps) {
   }
 
   onUpdate(() => {
-    getFieldsData(
-      state.listFetchUrl({
-        getUrl: state.getUrl,
-        tenant: props.tenant,
-        product: props.product,
-        displaySorted: props.displaySorted,
-        offset: state.isPaginated ? 0 : undefined,
-        limit: state.isPaginated ? state.itemsPerPage : undefined,
-      })
-    );
+    if (!state.isPaginated) {
+      getFieldsData(
+        state.listFetchUrl({
+          getUrl: state.getUrl,
+          tenant: props.tenant,
+          product: props.product,
+          displaySorted: props.displaySorted,
+        })
+      );
+    }
   }, [state.getUrl, props.tenant, props.product, props.displaySorted, state.isPaginated, state.itemsPerPage]);
 
   return (
