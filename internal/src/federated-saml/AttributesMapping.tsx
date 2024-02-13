@@ -32,10 +32,10 @@ export const AttributesMapping = ({
       {mappings.length > 0 && (
         <div className='flex space-x-20 items-center pb-2'>
           <label className='label font-semibold'>
-            <span className='label-text'>{t('bui-service-provider-attribute')}</span>
+            <span className='label-text'>{t('bui-fs-service-provider-attribute')}</span>
           </label>
           <label className='label font-semibold'>
-            <span className='label-text'>{t('bui-identity-provider-attribute')}</span>
+            <span className='label-text'>{t('bui-fs-identity-provider-attribute')}</span>
           </label>
         </div>
       )}
@@ -57,7 +57,7 @@ export const AttributesMapping = ({
         ))}
         <div>
           <button className='btn btn-primary btn-sm btn-outline' type='button' onClick={addAnother}>
-            {mappings.length === 0 ? t('bui-add-mapping') : t('bui-add-another')}
+            {mappings.length === 0 ? t('bui-fs-add-mapping') : t('bui-fs-add-another')}
           </button>
         </div>
       </div>
@@ -120,7 +120,7 @@ const AttributeRow = ({
           value={attributeMapping.value}>
           <option value=''></option>
           <option value='' disabled>
-            {t('bui-saml-attributes')}
+            {t('bui-fs-saml-attributes')}
           </option>
           {standardAttributes.saml.map((attribute) => (
             <option key={attribute} value={attribute}>
@@ -128,7 +128,7 @@ const AttributeRow = ({
             </option>
           ))}
           <option value='' disabled>
-            {t('bui-oidc-attributes')}
+            {t('bui-fs-oidc-attributes')}
           </option>
           {standardAttributes.oidc.map((attribute) => (
             <option key={attribute} value={attribute}>

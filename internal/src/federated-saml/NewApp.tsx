@@ -78,7 +78,7 @@ export const NewApp = ({
       <Card className='p-6 rounded space-y-3'>
         <label className='form-control w-full'>
           <div className='label'>
-            <span className='label-text'>{t('name')}</span>
+            <span className='label-text'>{t('bui-fs-name')}</span>
           </div>
           <input
             type='text'
@@ -92,7 +92,7 @@ export const NewApp = ({
         </label>
         <label className='form-control w-full'>
           <div className='label'>
-            <span className='label-text'>{t('tenant')}</span>
+            <span className='label-text'>{t('bui-fs-tenant')}</span>
           </div>
           <input
             type='text'
@@ -107,7 +107,7 @@ export const NewApp = ({
         {!excludeFields?.includes('product') && (
           <label className='form-control w-full'>
             <div className='label'>
-              <span className='label-text'>{t('product')}</span>
+              <span className='label-text'>{t('bui-fs-product')}</span>
             </div>
             <input
               type='text'
@@ -122,7 +122,7 @@ export const NewApp = ({
         )}
         <label className='form-control w-full'>
           <div className='label'>
-            <span className='label-text'>{t('acs_url')}</span>
+            <span className='label-text'>{t('bui-fs-acs-url')}</span>
           </div>
           <input
             type='url'
@@ -136,15 +136,15 @@ export const NewApp = ({
         </label>
         <label className='form-control w-full'>
           <div className='label'>
-            <span className='label-text'>{t('entity_id')}</span>
+            <span className='label-text'>{t('bui-fs-entity-id')}</span>
             <span className='label-text-alt'>
               <div className='flex items-center gap-1'>
                 <span
                   className='cursor-pointer border-stone-600 border p-1 rounded'
                   onClick={generateEntityId}>
-                  {t('generate_sp_entity_id')}
+                  {t('bui-fs-generate-sp-entity-id')}
                 </span>
-                <div className='tooltip tooltip-left' data-tip={t('saml_federation_entity_id_instruction')}>
+                <div className='tooltip tooltip-left' data-tip={t('bui-fs-entity-id-instruction')}>
                   <QuestionMarkCircleIcon className='h-5 w-5' />
                 </div>
               </div>
@@ -160,33 +160,33 @@ export const NewApp = ({
             required
           />
           <label className='label'>
-            <span className='label-text-alt'>{t('entity-id-change-restriction')}</span>
+            <span className='label-text-alt'>{t('bui-fs-entity-id-change-restriction')}</span>
           </label>
         </label>
         <label className='form-control w-full'>
           <label className='label'>
-            <span className='label-text'>{t('tenants')}</span>
+            <span className='label-text'>{t('bui-fs-tenants')}</span>
           </label>
           <TagsInput
             value={formik.values.tenants}
             onChange={(tags: string[]) => formik.setFieldValue('tenants', tags)}
             onlyUnique={true}
             inputProps={{
-              placeholder: t('enter_tenant'),
+              placeholder: t('bui-fs-enter-tenant'),
             }}
             focusedClassName='input-focused'
             addOnBlur={true}
           />
           <label className='label'>
-            <span className='label-text-alt'>{t('tenants_mapping_description')}</span>
+            <span className='label-text-alt'>{t('bui-fs-tenants-mapping-desc')}</span>
           </label>
         </label>
         <label className='form-control w-full'>
           <div className='label'>
-            <span className='label-text'>{t('attribute_mappings')}</span>
+            <span className='label-text'>{t('bui-fs-attribute-mappings')}</span>
           </div>
           <div className='label'>
-            <span className='label-text-alt'>{t('attribute-mappings-description')}</span>
+            <span className='label-text-alt'>{t('bui-fs-attribute-mappings-desc')}</span>
           </div>
         </label>
         <AttributesMapping
@@ -195,13 +195,13 @@ export const NewApp = ({
         />
         <div className='flex gap-2 justify-end pt-6'>
           <Link href={urls.cancel} className='btn btn-secondary btn-outline btn-md'>
-            {t('cancel')}
+            {t('bui-fs-cancel')}
           </Link>
           <Button
             className='btn btn-primary btn-md'
             loading={formik.isSubmitting}
             disabled={!formik.dirty || !formik.isValid}>
-            Create App
+            {t('bui-fs-create-app')}
           </Button>
         </div>
       </Card>

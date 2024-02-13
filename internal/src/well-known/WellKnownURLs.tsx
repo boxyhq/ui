@@ -7,56 +7,56 @@ export const WellKnownURLs = ({ jacksonUrl }: { jacksonUrl?: string }) => {
   const { t } = useTranslation('common');
   const [view, setView] = useState<'idp-config' | 'auth' | 'saml-fed'>('idp-config');
 
-  const viewText = t('bui-view');
-  const downloadText = t('bui-download');
+  const viewText = t('bui-wku-view');
+  const downloadText = t('bui-wku-download');
   const baseUrl = jacksonUrl ?? '';
 
   const links = [
     {
-      title: t('bui-sp-metadata'),
-      description: t('bui-sp-metadata-description'),
+      title: t('bui-wku-sp-metadata'),
+      description: t('bui-wku-sp-metadata-desc'),
       href: `${baseUrl}/.well-known/sp-metadata`,
       buttonText: viewText,
       type: 'idp-config',
     },
     {
-      title: t('bui-saml-configuration'),
-      description: t('bui-sp-config-description'),
+      title: t('bui-wku-saml-configuration'),
+      description: t('bui-wku-sp-config-desc'),
       href: `${baseUrl}/.well-known/saml-configuration`,
       buttonText: viewText,
       type: 'idp-config',
     },
     {
-      title: t('bui-saml-public-cert'),
-      description: t('bui-saml-public-cert-description'),
+      title: t('bui-wku-saml-public-cert'),
+      description: t('bui-wku-saml-public-cert-desc'),
       href: `${baseUrl}/.well-known/saml.cer`,
       buttonText: downloadText,
       type: 'idp-config',
     },
     {
-      title: t('bui-oidc-configuration'),
-      description: t('bui-oidc-config-description'),
+      title: t('bui-wku-oidc-configuration'),
+      description: t('bui-wku-oidc-config-desc'),
       href: `${baseUrl}/.well-known/oidc-configuration`,
       buttonText: viewText,
       type: 'idp-config',
     },
     {
-      title: t('bui-oidc_discovery'),
-      description: t('bui-oidc-discovery-description'),
+      title: t('bui-wku-oidc-discovery'),
+      description: t('bui-wku-oidc-discovery-desc'),
       href: `${baseUrl}/.well-known/openid-configuration`,
       buttonText: viewText,
       type: 'auth',
     },
     {
-      title: t('bui-idp_metadata'),
-      description: t('bui-idp-metadata-description'),
+      title: t('bui-wku-idp-metadata'),
+      description: t('bui-wku-idp-metadata-desc'),
       href: `${baseUrl}/.well-known/idp-metadata`,
       buttonText: viewText,
       type: 'saml-fed',
     },
     {
-      title: t('bui-idp-configuration'),
-      description: t('bui-idp-config-description'),
+      title: t('bui-wku-idp-configuration'),
+      description: t('bui-wku-idp-config-desc'),
       href: `${baseUrl}/.well-known/idp-configuration`,
       buttonText: viewText,
       type: 'saml-fed',
@@ -66,29 +66,29 @@ export const WellKnownURLs = ({ jacksonUrl }: { jacksonUrl?: string }) => {
   return (
     <>
       <h2 className='text-emphasis text-xl font-semibold leading-5 tracking-wide dark:text-white py-2'>
-        {t('bui-well-known-urls-title')}
+        {t('bui-wku-heading')}
       </h2>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
         <Tab
           isActive={view === 'idp-config'}
           setIsActive={() => setView('idp-config')}
-          title={t('bui-idp-configuration')}
-          description={t('bui-desc-idp-configuration')}
-          label={t('bui-idp-configuration-links')}
+          title={t('bui-wku-idp-configuration-links')}
+          description={t('bui-wku-desc-idp-configuration')}
+          label={t('bui-wku-idp-configuration-links')}
         />
         <Tab
           isActive={view === 'auth'}
           setIsActive={() => setView('auth')}
-          title={t('bui-auth-integration')}
-          description={t('bui-desc-auth-integration')}
-          label={t('bui-auth-integration-links')}
+          title={t('bui-wku-auth-integration-links')}
+          description={t('bui-wku-desc-auth-integration')}
+          label={t('bui-wku-auth-integration-links')}
         />
         <Tab
           isActive={view === 'saml-fed'}
           setIsActive={() => setView('saml-fed')}
-          title={t('bui-saml-federation')}
-          description={t('bui-desc-saml-federation')}
-          label={t('bui-saml-federation-links')}
+          title={t('bui-wku-saml-federation-links')}
+          description={t('bui-wku-desc-saml-federation')}
+          label={t('bui-wku-saml-federation-links')}
         />
       </div>
       <div className='space-y-3 mt-8'>
