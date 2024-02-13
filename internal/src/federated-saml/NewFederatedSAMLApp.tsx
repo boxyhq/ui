@@ -13,7 +13,7 @@ type NewSAMLFederationApp = Pick<
   'name' | 'tenant' | 'product' | 'acsUrl' | 'entityId' | 'tenants' | 'mappings'
 >;
 
-export const NewApp = ({
+export const NewFederatedSAMLApp = ({
   samlAudience = 'https://saml.boxyhq.com',
   urls,
   onSuccess,

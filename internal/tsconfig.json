@@ -8,6 +8,10 @@
     "types": ["vite/client"],
     "esModuleInterop": true,
     "strict": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "paths": {
+      "@/shared/*": ["src/shared/*"],
+      "@/utils/*": ["src/utils/*"]
+    }
   }
 }
