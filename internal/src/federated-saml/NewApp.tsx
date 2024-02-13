@@ -5,8 +5,7 @@ import { Card, Button } from 'react-daisyui';
 import { useTranslation } from 'next-i18next';
 import { SAMLFederationApp } from '@boxyhq/saml-jackson';
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
-
-import { defaultHeaders } from 'src/utils/request';
+import { defaultHeaders } from '../utils/request';
 import { AttributesMapping } from './AttributesMapping';
 
 type NewSAMLFederationApp = Pick<
@@ -14,16 +13,16 @@ type NewSAMLFederationApp = Pick<
   'name' | 'tenant' | 'product' | 'acsUrl' | 'entityId' | 'tenants' | 'mappings'
 >;
 
-export const NewFederatedSAMLApp = ({
-  samlAudience,
+export const NewApp = ({
+  samlAudience = 'https://saml.boxyhq.com',
   urls,
   onSuccess,
   onError,
   onEntityIdGenerated,
   excludeFields,
 }: {
-  samlAudience: string;
-  urls: { post: string };
+  samlAudience?: string;
+  urls: { post: string; cancel: string };
   onSuccess?: (data: SAMLFederationApp) => void;
   onError?: (error: Error) => void;
   onEntityIdGenerated?: (entityId: string) => void;
@@ -195,11 +194,11 @@ export const NewFederatedSAMLApp = ({
           onAttributeMappingsChange={(mappings) => formik.setFieldValue('mappings', mappings)}
         />
         <div className='flex gap-2 justify-end pt-6'>
-          <Link href='/admin/federated-saml' className='btn btn-secondary btn-outline'>
+          <Link href={urls.cancel} className='btn btn-secondary btn-outline btn-md'>
             {t('cancel')}
           </Link>
           <Button
-            className='btn btn-primary'
+            className='btn btn-primary btn-md'
             loading={formik.isSubmitting}
             disabled={!formik.dirty || !formik.isValid}>
             Create App

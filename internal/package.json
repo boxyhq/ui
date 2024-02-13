@@ -1,15 +1,32 @@
 {
   "name": "@boxyhq/internal-ui",
+  "description": "Shared React UI components for BoxyHQ SaaS and Admin Portal",
   "version": "0.0.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "directory": "react",
+    "url": "https://github.com/boxyhq/ui"
+  },
+  "homepage": "https://github.com/boxyhq/ui",
+  "bugs": {
+    "url": "https://github.com/boxyhq/ui/issues?q=is%3Aopen+is%3Aissue+label%3Asdk"
+  },
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts",
+    "well-known.d.ts",
+    "federated-saml.d.ts"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "types": "./index.d.ts",
   "exports": {
-    ".": {
-      "import": "./dist/index.js"
+    "./well-known": {
+      "types": "./dist/well-known/index.d.ts",
+      "import": "./dist/well-known.js"
+    },
+    "./federated-saml": {
+      "types": "./dist/federated-saml/index.d.ts",
+      "import": "./dist/federated-saml.js"
     }
   },
   "scripts": {

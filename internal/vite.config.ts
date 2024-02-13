@@ -5,6 +5,19 @@ import viteTsconfigPaths from 'vite-tsconfig-paths';
 import typescript from '@rollup/plugin-typescript';
 
 export default defineConfig({
+  build: {
+    sourcemap: true,
+    lib: {
+      entry: {
+        'well-known': resolve(__dirname, 'src/well-known/index.ts'),
+        'federated-saml': resolve(__dirname, 'src/federated-saml/index.ts'),
+      },
+      formats: ['es'],
+    },
+    rollupOptions: {
+      external: ['react', 'react/jsx-runtime', 'react-dom', 'next', 'next-i18next'],
+    },
+  },
   plugins: [
     react(),
     viteTsconfigPaths(),
@@ -16,16 +29,4 @@ export default defineConfig({
       rootDir: resolve(__dirname, 'src'),
     }),
   ],
-  build: {
-    sourcemap: true,
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'InternalUI',
-      fileName: 'index',
-      formats: ['es'],
-    },
-    rollupOptions: {
-      external: ['react', 'react/jsx-runtime', 'react-dom', 'next', 'next-i18next'],
-    },
-  },
 });
