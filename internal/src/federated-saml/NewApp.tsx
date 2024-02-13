@@ -97,7 +97,7 @@ export const NewApp = ({
           <input
             type='text'
             placeholder='acme'
-            className='input input-bordered w-full'
+            className='input input-bordered w-full text-sm'
             name='tenant'
             value={formik.values.tenant}
             onChange={formik.handleChange}

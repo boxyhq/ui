@@ -32,10 +32,10 @@ export const AttributesMapping = ({
       {mappings.length > 0 && (
         <div className='flex space-x-20 items-center pb-2'>
           <label className='label font-semibold'>
-            <span className='label-text'>{t('bui-fs-service-provider-attribute')}</span>
+            <span className='label-text'>{t('bui-fs-sp-attribute')}</span>
           </label>
           <label className='label font-semibold'>
-            <span className='label-text'>{t('bui-fs-identity-provider-attribute')}</span>
+            <span className='label-text'>{t('bui-fs-idp-attribute')}</span>
           </label>
         </div>
       )}
