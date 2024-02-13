@@ -1,4 +1,4 @@
-import { onMount, onUpdate, useStore } from '@builder.io/mitosis';
+import { Show, onMount, onUpdate, useStore } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
 import { PaginateProps } from '../types';
 import { ITEMS_PER_PAGE_DEFAULT } from './utils';
@@ -10,6 +10,9 @@ export default function Paginate(props: PaginateProps) {
     _offset: 0,
     get _itemsPerPage() {
       return props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT;
+    },
+    get isPaginationHidden(): boolean {
+      return state._offset === 0 && props.currentPageItemsCount < state._itemsPerPage;
     },
     get isPreviousDisabled(): boolean {
       return state._offset === 0;
@@ -77,26 +80,28 @@ export default function Paginate(props: PaginateProps) {
   return (
     <PaginateContext.Provider value={{ offset: state._offset }}>
       {props.children}
-      <nav aria-label='Pagination Navigation'>
-        <ul class={styles.ul}>
-          <li>
-            <Button
-              name='Prev'
-              variant='outline'
-              handleClick={state.handlePreviousClick}
-              disabled={state.isPreviousDisabled}
-              aria-label='Goto Previous Page'></Button>
-          </li>
-          <li>
-            <Button
-              name='Next'
-              variant='outline'
-              handleClick={state.handleNextClick}
-              disabled={state.isNextDisabled}
-              aria-label='Goto Next Page'></Button>
-          </li>
-        </ul>
-      </nav>
+      <Show when={!state.isPaginationHidden}>
+        <nav aria-label='Pagination Navigation'>
+          <ul class={styles.ul}>
+            <li>
+              <Button
+                name='Prev'
+                variant='outline'
+                handleClick={state.handlePreviousClick}
+                disabled={state.isPreviousDisabled}
+                aria-label='Goto Previous Page'></Button>
+            </li>
+            <li>
+              <Button
+                name='Next'
+                variant='outline'
+                handleClick={state.handleNextClick}
+                disabled={state.isNextDisabled}
+                aria-label='Goto Next Page'></Button>
+            </li>
+          </ul>
+        </nav>
+      </Show>
     </PaginateContext.Provider>
   );
 }
