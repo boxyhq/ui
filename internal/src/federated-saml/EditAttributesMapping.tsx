@@ -48,8 +48,8 @@ export const EditAttributesMapping = ({
       <Card>
         <Card.Body>
           <Card.Header>
-            <Card.Title>{t('attribute-mappings')}</Card.Title>
-            <Card.Description>{t('attribute-mappings-description')}</Card.Description>
+            <Card.Title>{t('bui-attribute-mappings')}</Card.Title>
+            <Card.Description>{t('bui-attribute-mappings-description')}</Card.Description>
           </Card.Header>
           <AttributesMapping
             mappings={formik.values.mappings || []}
@@ -64,7 +64,7 @@ export const EditAttributesMapping = ({
             className='btn btn-primary btn-md'
             loading={formik.isSubmitting}
             disabled={!formik.dirty || !formik.isValid}>
-            {t('save-changes')}
+            {t('bui-save-changes')}
           </Button>
         </Card.Footer>
       </Card>

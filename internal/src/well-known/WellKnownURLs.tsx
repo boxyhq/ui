@@ -7,56 +7,56 @@ export const WellKnownURLs = ({ jacksonUrl }: { jacksonUrl?: string }) => {
   const { t } = useTranslation('common');
   const [view, setView] = useState<'idp-config' | 'auth' | 'saml-fed'>('idp-config');
 
-  const viewText = t('view');
-  const downloadText = t('download');
+  const viewText = t('bui-view');
+  const downloadText = t('bui-download');
   const baseUrl = jacksonUrl ?? '';
 
   const links = [
     {
-      title: t('sp_metadata'),
-      description: t('sp_metadata_description'),
+      title: t('bui-sp-metadata'),
+      description: t('bui-sp-metadata-description'),
       href: `${baseUrl}/.well-known/sp-metadata`,
       buttonText: viewText,
       type: 'idp-config',
     },
     {
-      title: t('saml_configuration'),
-      description: t('sp_config_description'),
+      title: t('bui-saml-configuration'),
+      description: t('bui-sp-config-description'),
       href: `${baseUrl}/.well-known/saml-configuration`,
       buttonText: viewText,
       type: 'idp-config',
     },
     {
-      title: t('saml_public_cert'),
-      description: t('saml_public_cert_description'),
+      title: t('bui-saml-public-cert'),
+      description: t('bui-saml-public-cert-description'),
       href: `${baseUrl}/.well-known/saml.cer`,
       buttonText: downloadText,
       type: 'idp-config',
     },
     {
-      title: t('oidc_configuration'),
-      description: t('oidc_config_description'),
+      title: t('bui-oidc-configuration'),
+      description: t('bui-oidc-config-description'),
       href: `${baseUrl}/.well-known/oidc-configuration`,
       buttonText: viewText,
       type: 'idp-config',
     },
     {
-      title: t('oidc_discovery'),
-      description: t('oidc_discovery_description'),
+      title: t('bui-oidc_discovery'),
+      description: t('bui-oidc-discovery-description'),
       href: `${baseUrl}/.well-known/openid-configuration`,
       buttonText: viewText,
       type: 'auth',
     },
     {
-      title: t('idp_metadata'),
-      description: t('idp_metadata_description'),
+      title: t('bui-idp_metadata'),
+      description: t('bui-idp-metadata-description'),
       href: `${baseUrl}/.well-known/idp-metadata`,
       buttonText: viewText,
       type: 'saml-fed',
     },
     {
-      title: t('idp_configuration'),
-      description: t('idp_config_description'),
+      title: t('bui-idp-configuration'),
+      description: t('bui-idp-config-description'),
       href: `${baseUrl}/.well-known/idp-configuration`,
       buttonText: viewText,
       type: 'saml-fed',
@@ -66,29 +66,29 @@ export const WellKnownURLs = ({ jacksonUrl }: { jacksonUrl?: string }) => {
   return (
     <>
       <h2 className='text-emphasis text-xl font-semibold leading-5 tracking-wide dark:text-white py-2'>
-        {t('here_are_the_set_of_uris_you_would_need_access_to')}:
+        {t('bui-well-known-urls-title')}
       </h2>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
         <Tab
           isActive={view === 'idp-config'}
           setIsActive={() => setView('idp-config')}
-          title={t('idp_configuration_title')}
-          description={t('idp_configuration_description')}
-          label={t('idp_configuration_label')}
+          title={t('bui-idp-configuration')}
+          description={t('bui-desc-idp-configuration')}
+          label={t('bui-idp-configuration-links')}
         />
         <Tab
           isActive={view === 'auth'}
           setIsActive={() => setView('auth')}
-          title={t('auth_integration_title')}
-          description={t('auth_integration_description')}
-          label={t('auth_integration_label')}
+          title={t('bui-auth-integration')}
+          description={t('bui-desc-auth-integration')}
+          label={t('bui-auth-integration-links')}
         />
         <Tab
           isActive={view === 'saml-fed'}
           setIsActive={() => setView('saml-fed')}
-          title={t('saml_fed_configuration_title')}
-          description={t('saml_fed_configuration_description')}
-          label={t('saml_fed_configuration_label')}
+          title={t('bui-saml-federation')}
+          description={t('bui-desc-saml-federation')}
+          label={t('bui-saml-federation-links')}
         />
       </div>
       <div className='space-y-3 mt-8'>

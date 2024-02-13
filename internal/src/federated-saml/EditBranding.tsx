@@ -49,13 +49,13 @@ export const EditBranding = ({
       <Card>
         <Card.Body>
           <Card.Header>
-            <Card.Title>{t('customize-branding')}</Card.Title>
-            <Card.Description>{t('desc-saml-fed-app-branding')}</Card.Description>
+            <Card.Title>{t('bui-customize-branding')}</Card.Title>
+            <Card.Description>{t('bui-desc-saml-fed-app-branding')}</Card.Description>
           </Card.Header>
           <div className='flex flex-col'>
             <label className='form-control w-full'>
               <div className='label'>
-                <span className='label-text'>{t('logo-url')}</span>
+                <span className='label-text'>{t('bui-logo-url')}</span>
               </div>
               <input
                 type='url'
@@ -66,12 +66,12 @@ export const EditBranding = ({
                 onChange={formik.handleChange}
               />
               <label className='label'>
-                <span className='label-text-alt'>{t('desc-logo-url')}</span>
+                <span className='label-text-alt'>{t('bui-desc-logo-url')}</span>
               </label>
             </label>
             <label className='form-control w-full'>
               <div className='label'>
-                <span className='label-text'>{t('favicon-url')}</span>
+                <span className='label-text'>{t('bui-favicon-url')}</span>
               </div>
               <input
                 type='url'
@@ -82,13 +82,13 @@ export const EditBranding = ({
                 onChange={formik.handleChange}
               />
               <label className='label'>
-                <span className='label-text-alt'>{t('desc-favicon-url')}</span>
+                <span className='label-text-alt'>{t('bui-desc-favicon-url')}</span>
               </label>
             </label>
             <label className='form-control'>
               <div className='flex'>
                 <label className='label pr-3'>
-                  <span className='label-text'>{t('primary-color')}</span>
+                  <span className='label-text'>{t('bui-primary-color')}</span>
                 </label>
               </div>
               <div className='flex gap-3 border-[1px] border-gray-200 rounded-md p-2 w-fit'>
@@ -101,7 +101,7 @@ export const EditBranding = ({
                 />
               </div>
               <label className='label'>
-                <span className='label-text-alt'>{t('desc-primary-color')}</span>
+                <span className='label-text-alt'>{t('bui-desc-primary-color')}</span>
               </label>
             </label>
           </div>
@@ -112,7 +112,7 @@ export const EditBranding = ({
             className='btn btn-primary btn-md'
             loading={formik.isSubmitting}
             disabled={!formik.dirty || !formik.isValid}>
-            {t('save-changes')}
+            {t('bui-save-changes')}
           </Button>
         </Card.Footer>
       </Card>
