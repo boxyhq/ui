@@ -9,6 +9,7 @@ import { BadgeProps, PaginatePayload, TableProps } from '../../../shared/types';
 import { sendHTTPRequest } from '../../../shared/http';
 import Paginate from '../../../shared/Paginate/index.lite';
 import { ITEMS_PER_PAGE_DEFAULT } from '../../../shared/Paginate/utils';
+import PaginatedTable from '../../../shared/Table/paginated.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -185,33 +186,40 @@ export default function ConnectionList(props: ConnectionListProps) {
 
   return (
     <LoadingContainer isBusy={state.isConnectionListLoading}>
-      <Show
-        when={state.connectionListData?.length > 0}
-        else={
-          <Show
-            when={state.showErrorComponent}
-            else={
-              <Show when={props.children} else={<EmptyState title='No connections found.' />}>
-                {props.children}
-              </Show>
-            }>
-            <EmptyState title={state.errorMessage} variant='error' />
-          </Show>
-        }>
-        <div class={state.classes.tableContainer}>
-          <Table
-            cols={state.colsToDisplay}
-            data={state.connectionListData}
-            actions={state.actions}
-            {...props.tableProps}
-          />
-        </div>
-        <Show when={state.isPaginated}>
-          <Paginate
-            itemsPerPage={props.paginate?.itemsPerPage}
-            currentPageItemsCount={state.connectionListData.length}
-            handlePageChange={props.paginate?.handlePageChange}
-            reFetch={reFetch}></Paginate>
+      <Show when={state.isPaginated}>
+        <Paginate
+          itemsPerPage={props.paginate?.itemsPerPage}
+          currentPageItemsCount={state.connectionListData.length}
+          handlePageChange={props.paginate?.handlePageChange}
+          reFetch={reFetch}>
+          <div class={state.classes.tableContainer}>
+            <PaginatedTable
+              cols={state.colsToDisplay}
+              data={state.connectionListData}
+              actions={state.actions}
+              showErrorComponent={state.showErrorComponent}
+              errorMessage={state.errorMessage}
+              tableProps={props.tableProps}
+            />
+          </div>
+        </Paginate>
+      </Show>
+      <Show when={!state.isPaginated}>
+        <Show
+          when={state.connectionListData?.length > 0}
+          else={
+            <Show when={state.showErrorComponent} else={<EmptyState title='No connections found.' />}>
+              <EmptyState title={state.errorMessage} variant='error' />
+            </Show>
+          }>
+          <div class={state.classes.tableContainer}>
+            <Table
+              cols={state.colsToDisplay}
+              data={state.connectionListData}
+              actions={state.actions}
+              {...props.tableProps}
+            />
+          </div>
         </Show>
       </Show>
     </LoadingContainer>
