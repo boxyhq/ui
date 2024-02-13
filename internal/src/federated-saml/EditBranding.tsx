@@ -25,7 +25,7 @@ export const EditBranding = ({
     initialValues: {
       logoUrl: app.logoUrl,
       faviconUrl: app.faviconUrl,
-      primaryColor: app.primaryColor,
+      primaryColor: app.primaryColor || '#25c2a0',
     },
     onSubmit: async (values) => {
       const rawResponse = await fetch(urls.patch, {
@@ -66,7 +66,7 @@ export const EditBranding = ({
                 onChange={formik.handleChange}
               />
               <label className='label'>
-                <span className='label-text-alt'>{t('bui-fs-desc-logo-url')}</span>
+                <span className='label-text-alt'>{t('bui-fs-favicon-url-desc')}</span>
               </label>
             </label>
             <label className='form-control w-full'>
@@ -82,7 +82,7 @@ export const EditBranding = ({
                 onChange={formik.handleChange}
               />
               <label className='label'>
-                <span className='label-text-alt'>{t('bui-fs-desc-favicon-url')}</span>
+                <span className='label-text-alt'>{t('bui-fs-favicon-url-desc')}</span>
               </label>
             </label>
             <label className='form-control'>
@@ -101,7 +101,7 @@ export const EditBranding = ({
                 />
               </div>
               <label className='label'>
-                <span className='label-text-alt'>{t('bui-fs-desc-primary-color')}</span>
+                <span className='label-text-alt'>{t('bui-fs-primary-color-desc')}</span>
               </label>
             </label>
           </div>

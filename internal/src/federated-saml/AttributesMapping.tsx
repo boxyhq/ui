@@ -110,7 +110,7 @@ const AttributeRow = ({
           </div>
         </div>
         <select
-          className='select select-bordered join-item select-sm rounded w-80'
+          className='select select-bordered join-item select-sm rounded w-40'
           onChange={(e) => {
             onMappingChange({
               key: attributeMapping.key,
@@ -123,17 +123,13 @@ const AttributeRow = ({
             {t('bui-fs-saml-attributes')}
           </option>
           {standardAttributes.saml.map((attribute) => (
-            <option key={attribute} value={attribute}>
-              {attribute}
-            </option>
+            <option key={attribute}>{attribute}</option>
           ))}
           <option value='' disabled>
             {t('bui-fs-oidc-attributes')}
           </option>
           {standardAttributes.oidc.map((attribute) => (
-            <option key={attribute} value={attribute}>
-              {attribute}
-            </option>
+            <option key={attribute}>{attribute}</option>
           ))}
         </select>
       </div>
