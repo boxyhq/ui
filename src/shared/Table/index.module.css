@@ -29,6 +29,10 @@
   color: rgb(55 65 81);
 }
 
+.td {
+  word-break: break-all;
+}
+
 .th,
 .td {
   padding: 0.75rem 1.5rem;
@@ -56,5 +60,3 @@ tbody .tr:hover {
   display: inline-flex;
   align-items: baseline;
 }
-
-

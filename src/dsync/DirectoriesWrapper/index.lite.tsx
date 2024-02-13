@@ -66,7 +66,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       <Show when={state.view === 'LIST'}>
         <div class={styles.listview}>
           <div class={styles.header}>
-            <h5 class={styles.h5}>{props.title || 'Manage Dsync Connections'}</h5>
+            <h5 class={styles.h5}>{props.title || 'Manage DSync Connections'}</h5>
             <div class={styles.ctoa}>
               <Button
                 name='New Directory'
