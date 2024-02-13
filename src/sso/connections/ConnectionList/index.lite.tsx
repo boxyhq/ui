@@ -10,8 +10,6 @@ import { sendHTTPRequest } from '../../../shared/http';
 import Paginate from '../../../shared/Paginate/index.lite';
 import { ITEMS_PER_PAGE_DEFAULT } from '../../../shared/Paginate/utils';
 
-import Test from './test.lite';
-
 const DEFAULT_VALUES = {
   isSettingsView: false,
   connectionListData: [] as ConnectionData<any>[],
@@ -213,9 +211,7 @@ export default function ConnectionList(props: ConnectionListProps) {
             itemsPerPage={props.paginate?.itemsPerPage}
             currentPageItemsCount={state.connectionListData.length}
             handlePageChange={props.paginate?.handlePageChange}
-            reFetch={reFetch}>
-            <Test />
-          </Paginate>
+            reFetch={reFetch}></Paginate>
         </Show>
       </Show>
     </LoadingContainer>
