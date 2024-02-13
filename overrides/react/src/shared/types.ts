@@ -147,6 +147,7 @@ export interface TableProps {
     icon?: string;
     iconSpan?: string;
   };
+  noMoreResults?: boolean;
 }
 
 export interface ConfirmationPromptProps {

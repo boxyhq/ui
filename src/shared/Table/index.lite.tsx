@@ -42,19 +42,33 @@ export default function Table(props: TableProps) {
         </tr>
       </thead>
       <tbody>
-        <For each={props.data}>
-          {(item, index) => (
-            <tr class={state.classes.tr} key={index}>
-              <For each={props.cols}>
-                {(col, index) => (
-                  <td class={state.classes.td} key={index}>
-                    <TableCell col={col} rowData={item} actions={props.actions} classNames={state.classes} />
-                  </td>
-                )}
-              </For>
-            </tr>
-          )}
-        </For>
+        <Show when={props.noMoreResults}>
+          <tr>
+            <td colSpan={props.cols.length} class={defaultClasses.noMoreResults}>
+              No more results found
+            </td>
+          </tr>
+        </Show>
+        <Show when={!props.noMoreResults}>
+          <For each={props.data}>
+            {(item, index) => (
+              <tr class={state.classes.tr} key={index}>
+                <For each={props.cols}>
+                  {(col, index) => (
+                    <td class={state.classes.td} key={index}>
+                      <TableCell
+                        col={col}
+                        rowData={item}
+                        actions={props.actions}
+                        classNames={state.classes}
+                      />
+                    </td>
+                  )}
+                </For>
+              </tr>
+            )}
+          </For>
+        </Show>
       </tbody>
     </table>
   );
