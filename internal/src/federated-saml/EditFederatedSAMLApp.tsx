@@ -1,11 +1,11 @@
 import useSWR from 'swr';
 import { SAMLFederationApp } from '@boxyhq/saml-jackson';
 import fetcher from '@/utils/fetcher';
-import { Loading } from '@/shared/Loading';
 import { EditBranding } from './EditBranding';
 import { Edit } from './Edit';
 import { EditAttributesMapping } from './EditAttributesMapping';
-import { DeleteCard } from '@/shared/DeleteCard';
+import { DeleteCard, Loading } from '@/shared';
+import { useTranslation } from 'next-i18next';
 
 export const EditFederatedSAMLApp = ({
   urls,
@@ -18,6 +18,8 @@ export const EditFederatedSAMLApp = ({
   onError?: (error: Error) => void;
   excludeFields?: 'product'[];
 }) => {
+  const { t } = useTranslation('common');
+
   // TODO: mutate after patching
   const { data, isLoading, error, mutate } = useSWR<{ data: SAMLFederationApp }>(urls.get, fetcher);
 
@@ -42,9 +44,9 @@ export const EditFederatedSAMLApp = ({
       <EditAttributesMapping app={app} urls={{ patch: urls.patch }} onError={onError} onSuccess={onSuccess} />
       <EditBranding app={app} urls={{ patch: urls.patch }} onError={onError} onSuccess={onSuccess} />
       <DeleteCard
-        title='Delete SAML Federation App'
-        description='This action cannot be undone. This will permanently delete the SAML Federation App'
-        buttonLabel='Delete App'
+        title={t('bui-fs-delete-app-title')}
+        description={t('bui-fs-delete-app-desc')}
+        buttonLabel={t('bui-fs-delete-app-button')}
       />
     </div>
   );

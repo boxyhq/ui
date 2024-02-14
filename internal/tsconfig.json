@@ -10,7 +10,7 @@
     "strict": true,
     "noImplicitAny": false,
     "paths": {
-      "@/shared/*": ["src/shared/*"],
+      "@/shared": ["src/shared/index.ts"],
       "@/utils/*": ["src/utils/*"]
     }
   }
