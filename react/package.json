@@ -60,20 +60,20 @@
   "dependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-router-dom": "6.20.1"
+    "react-router-dom": "6.22.0"
   },
   "devDependencies": {
-    "@mdx-js/react": "3.0.0",
-    "@rollup/plugin-typescript": "11.1.5",
-    "@types/node": "20.10.4",
-    "@types/react": "18.2.43",
+    "@mdx-js/react": "3.0.1",
+    "@rollup/plugin-typescript": "11.1.6",
+    "@types/node": "20.11.17",
+    "@types/react": "18.2.55",
     "@vitejs/plugin-react": "4.2.1",
     "rimraf": "5.0.5",
     "serve": "14.2.1",
-    "vite": "4.5.0",
-    "vite-pages-theme-doc": "4.1.7",
-    "vite-plugin-css-injected-by-js": "3.3.0",
-    "vite-plugin-react-pages": "4.1.6"
+    "vite": "5.1.2",
+    "vite-pages-theme-doc": "5.0.0",
+    "vite-plugin-css-injected-by-js": "3.4.0",
+    "vite-plugin-react-pages": "5.0.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
