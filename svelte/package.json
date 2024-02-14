@@ -60,7 +60,7 @@
 		"@typescript-eslint/parser": "6.13.2",
 		"eslint": "8.55.0",
 		"eslint-config-prettier": "9.0.0",
-		"eslint-plugin-svelte": "2.34.0",
+		"eslint-plugin-svelte": "2.35.1",
 		"prettier": "3.0.3",
 		"prettier-plugin-svelte": "3.2.0",
 		"prismjs": "1.29.0",
