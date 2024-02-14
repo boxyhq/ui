@@ -65,7 +65,7 @@ export const WellKnownURLs = ({ jacksonUrl }: { jacksonUrl?: string }) => {
 
   return (
     <>
-      <h2 className='text-emphasis text-xl font-semibold leading-5 tracking-wide dark:text-white py-2'>
+      <h2 className='text-emphasis text-xl font-semibold leading-5 tracking-wide dark:text-white pb-4'>
         {t('bui-wku-heading')}
       </h2>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
