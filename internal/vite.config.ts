@@ -6,7 +6,6 @@ import typescript from '@rollup/plugin-typescript';
 
 export default defineConfig({
   build: {
-    sourcemap: true,
     lib: {
       entry: {
         'well-known': resolve(__dirname, 'src/well-known/index.ts'),
