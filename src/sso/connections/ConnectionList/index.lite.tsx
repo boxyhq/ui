@@ -130,6 +130,14 @@ export default function ConnectionList(props: ConnectionListProps) {
       }
       return _url;
     },
+    get baseFetchUrl(): string {
+      return state.listFetchUrl({
+        getUrl: state.getUrl,
+        tenant: props.tenant,
+        product: props.product,
+        displaySorted: props.displaySorted,
+      });
+    },
   });
 
   async function getFieldsData(url: string) {
@@ -162,10 +170,7 @@ export default function ConnectionList(props: ConnectionListProps) {
   function reFetch(payload: PaginatePayload) {
     getFieldsData(
       state.listFetchUrl({
-        getUrl: state.getUrl,
-        tenant: props.tenant,
-        product: props.product,
-        displaySorted: props.displaySorted,
+        getUrl: state.baseFetchUrl,
         ...payload,
       })
     );
@@ -173,16 +178,9 @@ export default function ConnectionList(props: ConnectionListProps) {
 
   onUpdate(() => {
     if (!state.isPaginated) {
-      getFieldsData(
-        state.listFetchUrl({
-          getUrl: state.getUrl,
-          tenant: props.tenant,
-          product: props.product,
-          displaySorted: props.displaySorted,
-        })
-      );
+      getFieldsData(state.baseFetchUrl);
     }
-  }, [state.getUrl, props.tenant, props.product, props.displaySorted, state.isPaginated, state.itemsPerPage]);
+  }, [state.baseFetchUrl, state.isPaginated]);
 
   return (
     <LoadingContainer isBusy={state.isConnectionListLoading}>
