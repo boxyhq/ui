@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
-import { Loading, Table, EmptyState } from '@/shared';
+import { Loading, Table, EmptyState, Error } from '@/shared';
 import { useTranslation } from 'next-i18next';
 import { SAMLFederationApp } from '@boxyhq/saml-jackson';
 import { PencilIcon } from '@heroicons/react/24/outline';
@@ -23,11 +23,9 @@ export const FederatedSAMLApps = ({
     return <Loading />;
   }
 
-  // TODO: Add an error component
-  // if (error) {
-  //   onError?.(error);
-  //   return;
-  // }
+  if (error) {
+    return <Error message={error.message} />;
+  }
 
   if (!data) {
     return null;
@@ -100,8 +98,6 @@ export const FederatedSAMLApps = ({
       ],
     });
   });
-
-  console.log('Body:', body);
 
   return <Table noMoreResults={noMoreResults} cols={cols} body={body} />;
 };
