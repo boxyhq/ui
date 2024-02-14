@@ -55,6 +55,12 @@
   color: inherit;
   border: 1px solid var(--secondary-color);
 }
+
+.outline:hover {
+  background-color: oklch(0.2 0 0);
+  color: oklch(1 0 0);
+}
+
 .destructive {
   background: #ef4444;
 }
