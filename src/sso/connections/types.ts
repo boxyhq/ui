@@ -2,8 +2,6 @@ import { ConfirmationPromptProps, PaginateProps, TableCol, TableProps } from '..
 
 export interface ConnectionListProps {
   cols?: ('name' | 'label' | 'provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
-  tableCaption?: string;
-  idpEntityID?: string;
   isSettingsView?: boolean;
   urls: {
     get: string;
