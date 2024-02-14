@@ -45,10 +45,8 @@
     "vite-tsconfig-paths": "4.3.1"
   },
   "devDependencies": {
-    "@heroicons/react": "2.1.1",
     "@rollup/plugin-typescript": "11.1.6",
     "@types/react": "18.2.55",
-    "@types/react-dom": "18.2.19",
     "@typescript-eslint/eslint-plugin": "6.21.0",
     "@typescript-eslint/parser": "6.21.0",
     "@vitejs/plugin-react": "4.2.1",
@@ -57,28 +55,16 @@
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-react-refresh": "0.4.5",
-    "next": "14.1.0",
-    "next-i18next": "13.3.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
     "typescript": "5.3.3",
-    "vite": "5.1.0",
-    "react-hot-toast": "2.4.1",
-    "react-daisyui": "5.0.0",
-    "@boxyhq/saml-jackson": "1.18.7",
-    "react-tagsinput": "3.20.3",
-    "swr": "2.2.4",
-    "formik": "2.4.5"
+    "vite": "5.1.0"
   },
   "peerDependencies": {
     "@heroicons/react": "2.1.1",
     "next": "14.1.0",
     "next-i18next": "13.3.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "react-hot-toast": "2.4.1",
     "react-daisyui": "5.0.0",
-    "@boxyhq/saml-jackson": "*",
+    "@boxyhq/saml-jackson": "1.18.7",
     "react-tagsinput": "3.20.3",
     "swr": "2.2.4",
     "formik": "2.4.5"
