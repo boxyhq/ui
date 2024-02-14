@@ -9,20 +9,20 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "core-js": "3.34.0",
+    "core-js": "3.36.0",
     "prismjs": "1.29.0",
     "vue": "2.7.16",
     "vue-router": "3.6.5"
   },
   "devDependencies": {
-    "@babel/core": "7.23.5",
-    "@babel/eslint-parser": "7.22.15",
+    "@babel/core": "7.23.9",
+    "@babel/eslint-parser": "7.23.10",
     "@vue/cli-plugin-babel": "5.0.8",
     "@vue/cli-plugin-eslint": "5.0.8",
     "@vue/cli-plugin-router": "5.0.8",
     "@vue/cli-service": "5.0.8",
     "cpy-cli": "5.0.0",
-    "eslint": "8.55.0",
+    "eslint": "8.56.0",
     "eslint-plugin-vue": "9.19.2"
   }
 }

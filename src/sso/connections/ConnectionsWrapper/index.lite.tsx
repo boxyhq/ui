@@ -34,6 +34,13 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
         state.connectionsAdded && state.connections.some((connection) => connection.deactivated === false)
       );
     },
+    get connectionFetchURL(): string {
+      let _url = props.urls.get;
+      const [urlPath, qs] = _url.split('?');
+      const urlParams = new URLSearchParams(qs);
+      urlParams.set('clientID', state.connectionToEdit.clientID);
+      return `${urlPath}?${urlParams}`;
+    },
     switchToCreateView() {
       state.view = 'CREATE';
     },
@@ -90,7 +97,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
       <Show when={state.view === 'LIST'}>
         <div class={defaultClasses.listView}>
           <div class={defaultClasses.header}>
-            <h5 class={defaultClasses.h5}>Manage SSO Connections</h5>
+            <h5 class={defaultClasses.h5}>{props.title || 'Manage SSO Connections'}</h5>
             <div class={defaultClasses.ctoa}>
               <Show when={props.urls?.spMetadata}>
                 <Anchor
@@ -100,7 +107,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
                 <Spacer x={4} />
               </Show>
               <Button
-                name='Add Connection'
+                name='New Connection'
                 handleClick={state.switchToCreateView}
                 classNames={props.classNames?.button?.ctoa}
               />
@@ -111,7 +118,9 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             {...props.componentProps.connectionList}
             urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}></ConnectionList>
+            handleListFetchComplete={state.handleListFetchComplete}
+            tenant={props.defaults?.tenants || props.defaults?.tenant}
+            product={props.defaults?.product}></ConnectionList>
         </div>
       </Show>
       <Show when={state.view === 'EDIT'}>
@@ -130,7 +139,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{
               delete: props.urls.delete,
               patch: props.urls.patch,
-              get: `${props.urls.get}?clientID=${state.connectionToEdit.clientID}`,
+              get: state.connectionFetchURL,
             }}
             {...props.componentProps.editOIDCConnection}
           />
@@ -147,7 +156,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
             urls={{
               delete: props.urls.delete,
               patch: props.urls.patch,
-              get: `${props.urls.get}?clientID=${state.connectionToEdit.clientID}`,
+              get: state.connectionFetchURL,
             }}
             {...props.componentProps.editSAMLConnection}
           />
@@ -163,6 +172,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           cancelCallback={state.switchToListView}
           successCallback={state.createSuccessCallback}
           errorCallback={props.errorCallback}
+          defaults={props.defaults}
           urls={{
             post: props.urls.post,
           }}

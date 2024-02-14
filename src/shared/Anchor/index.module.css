@@ -29,5 +29,5 @@
 .button {
   border: 1px solid var(--primary-color);
   padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius);
 }

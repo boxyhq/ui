@@ -1,14 +1,14 @@
 import { onUpdate } from '@builder.io/mitosis';
-import { THEME } from './defaultTheme';
+import type { Theme } from './types';
 
 interface ThemerProps {
-  overrideTheme?: Partial<typeof THEME>;
+  overrideTheme?: Partial<Theme>;
   children: any;
 }
 
 export default function Themer(props: ThemerProps) {
   onUpdate(() => {
-    Object.entries({ ...THEME, ...props.overrideTheme }).forEach(([cssVar, value]) => {
+    Object.entries({ ...props.overrideTheme }).forEach(([cssVar, value]) => {
       document.documentElement.style.setProperty(cssVar, value);
     });
   }, [props.overrideTheme]);

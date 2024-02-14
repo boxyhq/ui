@@ -84,7 +84,28 @@ export default function ConnectionList(props: ConnectionListProps) {
       ];
     },
     get listFetchUrl() {
-      return props.urls.get;
+      let _url = props.urls.get;
+      const [urlPath, qs] = _url.split('?');
+      const urlParams = new URLSearchParams(qs);
+      if (props.tenant) {
+        if (Array.isArray(props.tenant)) {
+          for (const _tenant of props.tenant) {
+            urlParams.append('tenant', _tenant);
+          }
+        } else {
+          urlParams.set('tenant', props.tenant);
+        }
+      }
+      if (props.product) {
+        urlParams.set('product', props.product);
+      }
+      if (props.displaySorted) {
+        urlParams.set('sort', 'true');
+      }
+      if (urlParams.toString()) {
+        return `${urlPath}?${urlParams}`;
+      }
+      return _url;
     },
   });
 

@@ -37,6 +37,12 @@
   border: 1px solid transparent;
 }
 
+.input:read-only,
+.textarea:read-only {
+  opacity: 0.8;
+  background-color: var(--secondary-color);
+}
+
 .label {
   display: block;
   font-weight: 500;

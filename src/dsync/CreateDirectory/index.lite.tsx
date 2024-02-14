@@ -1,4 +1,4 @@
-import { Show, onMount, useStore } from '@builder.io/mitosis';
+import { Show, onUpdate, useStore } from '@builder.io/mitosis';
 import {
   type CreateDirectoryProps,
   type Directory,
@@ -25,6 +25,9 @@ const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
   google_domain: '',
   log_webhook_events: false,
 };
+
+type Keys = keyof typeof DEFAULT_DIRECTORY_VALUES;
+type Values = (typeof DEFAULT_DIRECTORY_VALUES)[Keys];
 
 export default function CreateDirectory(props: CreateDirectoryProps) {
   const state = useStore({
@@ -63,14 +66,14 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
       }
       return true;
     },
+    updateDirectory(data: Partial<typeof DEFAULT_DIRECTORY_VALUES>) {
+      return { ...state.directory, ...data };
+    },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement;
       const value = target.type === 'checkbox' ? target.checked : target.value;
 
-      state.directory = {
-        ...state.directory,
-        [target.id]: value,
-      };
+      state.directory = state.updateDirectory({ [target.id as Keys]: value });
     },
     onSubmit(event: Event) {
       event.preventDefault();
@@ -100,9 +103,13 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     },
   });
 
-  onMount(() => {
-    state.directory.webhook_url = props.defaultWebhookEndpoint || '';
-  });
+  onUpdate(() => {
+    state.directory = state.updateDirectory({
+      tenant: props.tenant ?? state.directory.tenant,
+      product: props.product ?? state.directory.product,
+      webhook_url: props.defaultWebhookEndpoint ?? state.directory.webhook_url,
+    });
+  }, [props.tenant, props.product, props.defaultWebhookEndpoint]);
 
   return (
     <div>

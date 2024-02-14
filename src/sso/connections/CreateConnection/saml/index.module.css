@@ -17,3 +17,8 @@
   display: flex;
   gap: 0.5rem;
 }
+
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+}

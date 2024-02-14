@@ -27,6 +27,15 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       return state.directoriesAdded && state.directories.some((directory) => directory.deactivated === false);
     },
     directoryToEdit: DEFAULT_VALUES.directoryToEdit,
+    get directoryFetchURL(): string {
+      let _url = props.urls.get;
+      const [urlPath, qs] = _url.split('?');
+      const urlParams = new URLSearchParams(qs);
+      if (urlParams.toString()) {
+        return `${urlPath}/${state.directoryToEdit.id}?${urlParams}`;
+      }
+      return `${urlPath}/${state.directoryToEdit.id}`;
+    },
     switchToCreateView() {
       state.view = 'CREATE';
     },
@@ -57,10 +66,10 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       <Show when={state.view === 'LIST'}>
         <div class={styles.listview}>
           <div class={styles.header}>
-            <h5 class={styles.h5}>Manage Dsync Connections</h5>
+            <h5 class={styles.h5}>{props.title || 'Manage DSync Connections'}</h5>
             <div class={styles.ctoa}>
               <Button
-                name='Add Connection'
+                name='New Directory'
                 handleClick={state.switchToCreateView}
                 classNames={props.classNames?.button?.ctoa}
               />
@@ -71,7 +80,9 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
             {...props.componentProps?.directoryList}
             urls={{ get: props.urls.get }}
             handleActionClick={state.switchToEditView}
-            handleListFetchComplete={state.handleListFetchComplete}></DirectoryList>
+            handleListFetchComplete={state.handleListFetchComplete}
+            tenant={props.tenant}
+            product={props.product}></DirectoryList>
         </div>
       </Show>
       <Show when={state.view === 'EDIT'}>
@@ -88,7 +99,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           urls={{
             patch: `${props.urls.patch}/${state.directoryToEdit.id}`,
             delete: `${props.urls.delete}/${state.directoryToEdit.id}`,
-            get: `${props.urls.get}/${state.directoryToEdit.id}`,
+            get: state.directoryFetchURL,
           }}
         />
       </Show>
@@ -107,6 +118,8 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           urls={{
             post: props.urls.post,
           }}
+          tenant={props.tenant}
+          product={props.product}
         />
       </Show>
     </div>

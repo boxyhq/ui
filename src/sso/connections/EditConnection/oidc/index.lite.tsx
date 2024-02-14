@@ -98,6 +98,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             formObj.oidcMetadata = {} as OIDCSSOConnection['oidcMetadata'];
           }
           formObj.oidcMetadata![key.replace('oidcMetadata.', '')] = val;
+        } else if (key === 'sortOrder') {
+          // pass sortOrder only if set to non-empty string
+          val !== '' && (formObj[key] = +val); // convert sortOrder into number
         } else {
           formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val;
         }
@@ -168,6 +171,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             state.oidcConnection = {
               ..._connection,
               name: _connection.name || '',
+              label: _connection.label || '',
               tenant: _connection.tenant || '',
               product: _connection.product || '',
               description: _connection.description || '',
@@ -182,6 +186,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               'oidcMetadata.token_endpoint': _connection.oidcProvider.metadata?.token_endpoint || '',
               'oidcMetadata.jwks_uri': _connection.oidcProvider.metadata?.jwks_uri || '',
               'oidcMetadata.userinfo_endpoint': _connection.oidcProvider.metadata?.userinfo_endpoint || '',
+              sortOrder: _connection.sortOrder ?? '',
             };
           }
           state.hasDiscoveryUrl = _connection.oidcProvider.discoveryUrl ? true : false;
@@ -228,6 +233,18 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   placeholder='MyApp'
                   required={false}
                   value={state.oidcConnection.name || ''}
+                  handleInputChange={state.handleChange}
+                />
+                <Spacer y={6} />
+              </Show>
+              <Show when={!state.isExcluded('label')}>
+                <InputField
+                  label='Connection label (Optional)'
+                  id='label'
+                  classNames={state.classes.inputField}
+                  placeholder='An internal label to identify the connection'
+                  required={false}
+                  value={state.oidcConnection.label!}
                   handleInputChange={state.handleChange}
                 />
                 <Spacer y={6} />
@@ -370,6 +387,24 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               placeholder='https://example.com/userinfo'
             />
             <Spacer y={6} />
+            <Show when={state.formVariant === 'advanced'}>
+              <Show when={!state.isExcluded('sortOrder')}>
+                <InputField
+                  label='Sort Order'
+                  id='sortOrder'
+                  classNames={state.classes.inputField}
+                  type='number'
+                  min='0'
+                  placeholder='10'
+                  value={state.oidcConnection.sortOrder as string}
+                  handleInputChange={state.handleChange}
+                />
+                <div id='sortOrder-hint' class={defaultClasses.hint}>
+                  Connections will be sorted (in a listing view like IdP Selection) using this setting. Higher
+                  values will be displayed first.
+                </div>
+              </Show>
+            </Show>
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
