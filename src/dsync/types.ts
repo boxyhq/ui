@@ -99,7 +99,7 @@ export interface DirectoriesWrapperProps {
     section?: string;
   };
   componentProps?: {
-    directoryList?: Partial<Omit<DirectoryListProps, 'handleActionClick'>>;
+    directoryList?: Partial<DirectoryListProps>;
     createDirectory?: Partial<CreateDirectoryProps>;
     editDirectory?: Partial<EditDirectoryProps>;
   };
