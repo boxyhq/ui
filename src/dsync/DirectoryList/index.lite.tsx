@@ -134,7 +134,12 @@ export default function DirectoryList(props: DirectoryListProps) {
           </Show>
         }>
         <div class={state.classes.tableContainer}>
-          <Table cols={state.colsToDisplay} data={state.directoryListData} actions={state.actions} />
+          <Table
+            cols={state.colsToDisplay}
+            data={state.directoryListData}
+            actions={state.actions}
+            classNames={{ iconSpan: defaultClasses.iconSpan }}
+          />
         </div>
       </Show>
     </LoadingContainer>

@@ -1,3 +1,7 @@
 .tableContainer {
   border-width: 1px;
 }
+
+.iconSpan:not(:first-child) {
+  margin-left: 0.5rem;
+}
