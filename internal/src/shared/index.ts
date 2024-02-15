@@ -4,3 +4,4 @@ export { Card } from './Card';
 export { Table } from './Table';
 export { EmptyState } from './EmptyState';
 export { Error } from './Error';
+export { Badge } from './Badge';

@@ -1,12 +1,13 @@
 import { Button } from 'react-daisyui';
 import { useTranslation } from 'next-i18next';
+import { Badge } from './Badge';
 
+const tableWrapperClass = 'rounder border';
+const tableClass = 'w-full text-left text-sm text-gray-500 dark:text-gray-400';
 const trClass = 'border-b bg-white last:border-b-0 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800';
 const tdClassBase = 'px-6 py-3 text-sm text-gray-500 dark:text-gray-400';
 const tdClass = `whitespace-nowrap ${tdClassBase}`;
 const tdClassWrap = `break-all ${tdClassBase}`;
-const tableWrapperClass = 'rounder border';
-const tableClass = 'w-full text-left text-sm text-gray-500 dark:text-gray-400';
 const theadClass = 'bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400';
 const trHeadClass = 'hover:bg-gray-50';
 const thClass = 'px-6 py-3';
@@ -53,7 +54,7 @@ export const TableBody = ({
       <tbody>
         <tr>
           <td colSpan={cols.length} className='px-6 py-3 text-center text-sm text-gray-500'>
-            {t('no_more_results')}
+            {t('bui-shared-no-more-results')}
           </td>
         </tr>
       </tbody>
@@ -68,7 +69,7 @@ export const TableBody = ({
             {row.cells?.map((cell: any, index: number) => {
               return (
                 <td key={row.id + '-td-' + index} className={cell.wrap ? tdClassWrap : tdClass}>
-                  {cell.buttons?.length === 0 ? null : (
+                  {!cell.buttons || cell.buttons?.length === 0 ? null : (
                     <div className='flex space-x-2'>
                       {cell.buttons?.map((button: any, index: number) => {
                         return (
@@ -84,7 +85,7 @@ export const TableBody = ({
                       })}
                     </div>
                   )}
-                  {cell.actions?.length === 0 ? null : (
+                  {!cell.actions || cell.actions?.length === 0 ? null : (
                     <span className='flex gap-3'>
                       {cell.actions?.map((action: any, index: number) => {
                         return (
@@ -104,8 +105,7 @@ export const TableBody = ({
                       })}
                     </span>
                   )}
-                  {/* {cell.badge ? <Badge color={cell.badge.color}>{cell.badge.text}</Badge> : null} */}
-                  {cell.badge ? <>{cell.badge.text}</> : null}
+                  {cell.badge ? <Badge color={cell.badge.color}>{cell.badge.text}</Badge> : null}
                   {cell.text ? cell.text : null}
                   {cell.element ? cell.element : null}
                 </td>
