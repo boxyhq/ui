@@ -6,13 +6,15 @@ import { SAMLFederationApp } from '@boxyhq/saml-jackson';
 import { PencilIcon } from '@heroicons/react/24/outline';
 import { TableBodyType } from '../shared/Table';
 
+type ExcludeFields = keyof Pick<SAMLFederationApp, 'product'>;
+
 export const FederatedSAMLApps = ({
   urls,
   excludeFields,
   onEdit,
 }: {
   urls: { get: string };
-  excludeFields?: (keyof SAMLFederationApp)[];
+  excludeFields?: ExcludeFields[];
   onEdit?: (app: SAMLFederationApp) => void;
 }) => {
   const { t } = useTranslation('common');
@@ -66,7 +68,7 @@ export const FederatedSAMLApps = ({
   ];
 
   if (excludeFields) {
-    columns = columns.filter((column) => !excludeFields.includes(column.key as keyof SAMLFederationApp));
+    columns = columns.filter((column) => !excludeFields.includes(column.key as ExcludeFields));
   }
 
   const cols = columns.map(({ label }) => label);
