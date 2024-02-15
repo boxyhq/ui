@@ -13,6 +13,7 @@ export interface CreateDirectoryProps {
   classNames?: {
     fieldContainer?: string;
     input?: string;
+    select?: string;
     label?: string;
     button?: { ctoa?: string };
   };
@@ -92,6 +93,7 @@ export interface DirectoriesWrapperProps {
     button?: { ctoa?: string; destructive?: string };
     input?: string;
     textarea?: string;
+    select?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
     secretInput?: string;
     section?: string;
