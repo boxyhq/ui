@@ -39,9 +39,14 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     switchToCreateView() {
       state.view = 'CREATE';
     },
-    switchToEditView(action: 'edit' | 'view', directory: any) {
-      state.view = 'EDIT';
-      state.directoryToEdit = directory;
+    handleActionClick(action: 'edit' | 'view', directory: any) {
+      if (action === 'edit') {
+        state.view = 'EDIT';
+        state.directoryToEdit = directory;
+      } else {
+        typeof props.componentProps?.directoryList?.handleActionClick === 'function' &&
+          props.componentProps.directoryList.handleActionClick('view', directory);
+      }
     },
     switchToListView() {
       state.view = 'LIST';
@@ -79,7 +84,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           <DirectoryList
             {...props.componentProps?.directoryList}
             urls={{ get: props.urls.get }}
-            handleActionClick={state.switchToEditView}
+            handleActionClick={state.handleActionClick}
             handleListFetchComplete={state.handleListFetchComplete}
             tenant={props.tenant}
             product={props.product}></DirectoryList>
