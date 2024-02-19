@@ -60,13 +60,13 @@
   "dependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-router-dom": "6.22.0"
+    "react-router-dom": "6.22.1"
   },
   "devDependencies": {
     "@mdx-js/react": "3.0.1",
     "@rollup/plugin-typescript": "11.1.6",
     "@types/node": "20.11.19",
-    "@types/react": "18.2.55",
+    "@types/react": "18.2.56",
     "@vitejs/plugin-react": "4.2.1",
     "rimraf": "5.0.5",
     "serve": "14.2.1",
