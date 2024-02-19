@@ -1,15 +1,12 @@
 import { useStore, onUpdate, Show } from '@builder.io/mitosis';
 import type { ConnectionData, ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
-import EmptyState from '../../../shared/EmptyState/index.lite';
-import cssClassAssembler from '../../utils/cssClassAssembler';
-import defaultClasses from './index.module.css';
-import Table from '../../../shared/Table/index.lite';
-import { BadgeProps, PaginatePayload, TableProps } from '../../../shared/types';
+import { BadgeProps, PageToken, PaginatePayload, TableProps } from '../../../shared/types';
 import { sendHTTPRequest } from '../../../shared/http';
 import Paginate from '../../../shared/Paginate/index.lite';
 import { ITEMS_PER_PAGE_DEFAULT } from '../../../shared/Paginate/utils';
 import PaginatedTable from '../../../shared/Table/paginated.lite';
+import NonPaginatedTable from '../../../shared/Table/non-paginated.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -20,6 +17,7 @@ export default function ConnectionList(props: ConnectionListProps) {
   const state = useStore({
     connectionListData: DEFAULT_VALUES.connectionListData,
     isConnectionListLoading: true,
+    pageTokenMap: {} as Record<number, PageToken>,
     showErrorComponent: false,
     errorMessage: '',
     get getUrl() {
@@ -31,11 +29,7 @@ export default function ConnectionList(props: ConnectionListProps) {
     get itemsPerPage() {
       return props.paginate?.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT;
     },
-    get classes() {
-      return {
-        tableContainer: cssClassAssembler(props.classNames?.tableContainer, defaultClasses.tableContainer),
-      };
-    },
+
     get colsToDisplay() {
       return (props.cols || ['name', 'provider', 'tenant', 'product', 'type', 'status', 'actions']).map(
         (_col) => {
@@ -116,6 +110,10 @@ export default function ConnectionList(props: ConnectionListProps) {
         urlParams.set('product', params.product);
       }
 
+      if (params.pageToken) {
+        urlParams.set('pageToken', params.pageToken);
+      }
+
       if (params.displaySorted) {
         urlParams.set('sort', 'true');
       }
@@ -140,6 +138,10 @@ export default function ConnectionList(props: ConnectionListProps) {
     },
   });
 
+  function updateTokenMap(offset: number, token: PageToken) {
+    return { ...state.pageTokenMap, [offset]: token };
+  }
+
   async function getFieldsData(url: string) {
     state.isConnectionListLoading = true;
     const data = await sendHTTPRequest<ConnectionData<SAMLSSORecord | OIDCSSORecord>[]>(url);
@@ -151,7 +153,9 @@ export default function ConnectionList(props: ConnectionListProps) {
         state.errorMessage = data.error.message;
         typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
       } else {
-        const _connectionsListData = data.map((connection: ConnectionData<any>) => {
+        const isTokenizedPagination = typeof data === 'object' && 'pageToken' in data;
+        const _data = isTokenizedPagination ? data.data : data;
+        const _connectionsListData = _data.map((connection: ConnectionData<any>) => {
           return {
             ...connection,
             provider: state.connectionProviderName(connection),
@@ -160,20 +164,29 @@ export default function ConnectionList(props: ConnectionListProps) {
             isSystemSSO: connection.isSystemSSO,
           };
         });
+
         state.connectionListData = _connectionsListData;
+
         typeof props.handleListFetchComplete === 'function' &&
           props.handleListFetchComplete(_connectionsListData);
+
+        if (isTokenizedPagination) {
+          return data.pageToken;
+        }
       }
     }
   }
 
-  function reFetch(payload: PaginatePayload) {
-    getFieldsData(
+  async function reFetch(payload: PaginatePayload) {
+    const pageToken = await getFieldsData(
       state.listFetchUrl({
         getUrl: state.baseFetchUrl,
         ...payload,
       })
     );
+    if (pageToken) {
+      state.pageTokenMap = updateTokenMap(payload.offset, pageToken);
+    }
   }
 
   onUpdate(() => {
@@ -189,36 +202,29 @@ export default function ConnectionList(props: ConnectionListProps) {
           itemsPerPage={props.paginate?.itemsPerPage}
           currentPageItemsCount={state.connectionListData.length}
           handlePageChange={props.paginate?.handlePageChange}
-          reFetch={reFetch}>
-          <div class={state.classes.tableContainer}>
-            <PaginatedTable
-              cols={state.colsToDisplay}
-              data={state.connectionListData}
-              actions={state.actions}
-              showErrorComponent={state.showErrorComponent}
-              errorMessage={state.errorMessage}
-              tableProps={props.tableProps}
-            />
-          </div>
+          reFetch={reFetch}
+          pageTokenMap={state.pageTokenMap}>
+          <PaginatedTable
+            cols={state.colsToDisplay}
+            data={state.connectionListData}
+            actions={state.actions}
+            showErrorComponent={state.showErrorComponent}
+            errorMessage={state.errorMessage}
+            emptyStateMessage='No connections found.'
+            tableProps={props.tableProps}
+          />
         </Paginate>
       </Show>
       <Show when={!state.isPaginated}>
-        <Show
-          when={state.connectionListData?.length > 0}
-          else={
-            <Show when={state.showErrorComponent} else={<EmptyState title='No connections found.' />}>
-              <EmptyState title={state.errorMessage} variant='error' />
-            </Show>
-          }>
-          <div class={state.classes.tableContainer}>
-            <Table
-              cols={state.colsToDisplay}
-              data={state.connectionListData}
-              actions={state.actions}
-              {...props.tableProps}
-            />
-          </div>
-        </Show>
+        <NonPaginatedTable
+          cols={state.colsToDisplay}
+          data={state.connectionListData}
+          actions={state.actions}
+          showErrorComponent={state.showErrorComponent}
+          errorMessage={state.errorMessage}
+          emptyStateMessage='No connections found.'
+          tableProps={props.tableProps}
+        />
       </Show>
     </LoadingContainer>
   );

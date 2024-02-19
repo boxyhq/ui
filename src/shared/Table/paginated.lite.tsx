@@ -3,6 +3,7 @@ import EmptyState from '../EmptyState/index.lite';
 import Table from './index.lite';
 import { TableProps } from '../types';
 import PaginateContext from '../Paginate/paginate.context.lite';
+import styles from './index.module.css';
 
 type PaginatedTableProps = {
   cols: TableProps['cols'];
@@ -11,6 +12,7 @@ type PaginatedTableProps = {
   tableProps?: TableProps;
   showErrorComponent: boolean;
   errorMessage: string;
+  emptyStateMessage: string;
 };
 
 export default function PaginatedTable(props: PaginatedTableProps) {
@@ -29,17 +31,19 @@ export default function PaginatedTable(props: PaginatedTableProps) {
     <Show
       when={!state.showEmptyData}
       else={
-        <Show when={props.showErrorComponent} else={<EmptyState title='No connections found.' />}>
+        <Show when={props.showErrorComponent} else={<EmptyState title={props.emptyStateMessage} />}>
           <EmptyState title={props.errorMessage} variant='error' />
         </Show>
       }>
-      <Table
-        cols={props.cols}
-        data={props.data}
-        actions={props.actions}
-        noMoreResults={state.showNoMoreResults}
-        {...props.tableProps}
-      />
+      <div class={styles.tableContainer}>
+        <Table
+          cols={props.cols}
+          data={props.data}
+          actions={props.actions}
+          noMoreResults={state.showNoMoreResults}
+          {...props.tableProps}
+        />
+      </div>
     </Show>
   );
 }
