@@ -52,11 +52,14 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     get classes() {
       return {
         fieldContainer: cssClassAssembler(props.classNames?.fieldContainer, defaultClasses.fieldContainer),
-        label: cssClassAssembler(props.classNames?.label, defaultClasses.label),
         inputField: {
           label: props.classNames?.label,
           input: props.classNames?.input,
           container: props.classNames?.fieldContainer,
+        },
+        select: {
+          label: props.classNames?.label,
+          select: props.classNames?.select,
         },
       };
     },
@@ -133,6 +136,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
           <div class={state.classes.fieldContainer}>
             <Select
               label='Directory provider'
+              classNames={state.classes.select}
               options={state.providers}
               selectedValue={state.directory.type}
               handleChange={state.setProvider}

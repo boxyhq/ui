@@ -36,6 +36,11 @@ export default function DirectoryList(props: DirectoryListProps) {
     get actions(): TableProps['actions'] {
       return [
         {
+          icon: 'EyeIcon',
+          label: 'View',
+          handleClick: (directory: Directory) => props.handleActionClick('view', directory),
+        },
+        {
           icon: 'PencilIcon',
           label: 'Edit',
           handleClick: (directory: Directory) => props.handleActionClick('edit', directory),
@@ -129,7 +134,12 @@ export default function DirectoryList(props: DirectoryListProps) {
           </Show>
         }>
         <div class={state.classes.tableContainer}>
-          <Table cols={state.colsToDisplay} data={state.directoryListData} actions={state.actions} />
+          <Table
+            cols={state.colsToDisplay}
+            data={state.directoryListData}
+            actions={state.actions}
+            classNames={{ iconSpan: defaultClasses.iconSpan }}
+          />
         </div>
       </Show>
     </LoadingContainer>
