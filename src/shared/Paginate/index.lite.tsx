@@ -21,20 +21,33 @@ export default function Paginate(props: PaginateProps) {
       return props.currentPageItemsCount < state._itemsPerPage;
     },
     handlePreviousClick() {
-      const newOffset = state._offset - state._itemsPerPage;
+      const currentOffset = state._offset;
+      const newOffset = currentOffset - state._itemsPerPage;
       state._offset = newOffset;
+
       // Update query string in URL
       typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: newOffset });
       // Trigger data re-fetch with new offset
-      typeof props.reFetch === 'function' && props.reFetch({ offset: newOffset, limit: state._itemsPerPage });
+      typeof props.reFetch === 'function' &&
+        props.reFetch({
+          offset: newOffset,
+          limit: state._itemsPerPage,
+          pageToken: props.pageTokenMap[newOffset - state._itemsPerPage],
+        });
     },
     handleNextClick() {
-      const newOffset = state._offset + state._itemsPerPage;
+      const currentOffset = state._offset;
+      const newOffset = currentOffset + state._itemsPerPage;
       state._offset = newOffset;
       // Update query string in URL
       typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: newOffset });
       // Trigger data re-fetch with new offset
-      typeof props.reFetch === 'function' && props.reFetch({ offset: newOffset, limit: state._itemsPerPage });
+      typeof props.reFetch === 'function' &&
+        props.reFetch({
+          offset: newOffset,
+          limit: state._itemsPerPage,
+          pageToken: props.pageTokenMap[currentOffset],
+        });
     },
   });
 
