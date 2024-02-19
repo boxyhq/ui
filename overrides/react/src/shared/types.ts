@@ -159,11 +159,14 @@ export interface ConfirmationPromptProps {
   cancelCallback: (event: Event) => void;
 }
 
+export type PageToken = string | null;
+
 export type PaginatePayload = { offset: number; limit: number };
 
 export interface PaginateProps {
   handlePageChange?: (payload: Partial<PaginatePayload>) => void;
   reFetch: (payload: PaginatePayload) => any;
+  pageTokenMap: Record<number, PageToken>;
   itemsPerPage?: number;
   currentPageItemsCount: number;
   children?: any;
