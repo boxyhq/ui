@@ -51,6 +51,7 @@ export type ButtonProps = {
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
   isLoading?: boolean;
+  icon?: 'LeftArrowIcon' | 'RightArrowIcon';
 } & ButtonHTMLAttributes;
 
 export interface ToggleSwitchProps {

@@ -103,6 +103,7 @@ export default function Paginate(props: PaginateProps) {
               <Button
                 name='Prev'
                 variant='outline'
+                icon='LeftArrowIcon'
                 handleClick={state.handlePreviousClick}
                 disabled={state.isPreviousDisabled}
                 aria-label='Goto Previous Page'></Button>
@@ -111,6 +112,7 @@ export default function Paginate(props: PaginateProps) {
               <Button
                 name='Next'
                 variant='outline'
+                icon='RightArrowIcon'
                 handleClick={state.handleNextClick}
                 disabled={state.isNextDisabled}
                 aria-label='Goto Next Page'></Button>
