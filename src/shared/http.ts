@@ -27,7 +27,7 @@ export async function sendHTTPRequest<U = any>(url: string, options?: RequestIni
     }
 
     if (pageToken && typeof responseContent === 'object') {
-      return { data: responseContent, pageToken };
+      return { data: responseContent, pageToken } as U;
     }
 
     return responseContent;
