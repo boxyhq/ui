@@ -144,7 +144,8 @@ export default function ConnectionList(props: ConnectionListProps) {
 
   async function getFieldsData(url: string) {
     state.isConnectionListLoading = true;
-    const data = await sendHTTPRequest<ConnectionData<SAMLSSORecord | OIDCSSORecord>[]>(url);
+    type ConnectionList = ConnectionData<SAMLSSORecord | OIDCSSORecord>[];
+    const data = await sendHTTPRequest<ConnectionList | { data: ConnectionList; pageToken: PageToken }>(url);
 
     state.isConnectionListLoading = false;
     if (data) {

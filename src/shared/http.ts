@@ -9,7 +9,7 @@ async function parseResponseContent(response: Response) {
 }
 
 /** undefined for 204 No content */
-type ApiSuccess<T> = T | { data: T; pageToken: string } | undefined;
+type ApiSuccess<T> = T | undefined;
 
 export type ApiResponse<T = any> = ApiSuccess<T> | { error: { message: string } };
 
