@@ -20,7 +20,7 @@ export interface ConnectionListProps {
   product?: string;
   // If true will sort the list display based on sortOrder of the connection
   displaySorted?: boolean;
-  paginate?: Partial<Omit<PaginateProps, 'currentPageItemsCount'>>;
+  paginate?: Partial<Pick<PaginateProps, 'itemsPerPage' | 'handlePageChange'>>;
 }
 
 export interface CreateConnectionProps {

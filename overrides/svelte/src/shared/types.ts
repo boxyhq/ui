@@ -117,7 +117,7 @@ export interface ConfirmationPromptProps {
 
 export type PageToken = string | null;
 
-export type PaginatePayload = { offset: number; limit: number };
+export type PaginatePayload = { offset: number; limit: number; pageToken?: PageToken };
 
 export interface PaginateProps {
   handlePageChange?: (payload: Partial<PaginatePayload>) => void;
