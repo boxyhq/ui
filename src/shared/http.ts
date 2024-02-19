@@ -9,7 +9,7 @@ async function parseResponseContent(response: Response) {
 }
 
 /** undefined for 204 No content */
-type ApiSuccess<T> = T | undefined;
+type ApiSuccess<T> = T | { data: T; pageToken: string } | undefined;
 
 export type ApiResponse<T = any> = ApiSuccess<T> | { error: { message: string } };
 
@@ -19,10 +19,15 @@ export async function sendHTTPRequest<U = any>(url: string, options?: RequestIni
     if (response.status === 204) {
       return;
     }
+    const pageToken = response.headers.get('jackson-pagetoken');
     const responseContent = await parseResponseContent(response);
 
     if (!response.ok) {
       throw new ApiError(response.status, responseContent.error.message);
+    }
+
+    if (pageToken && typeof responseContent === 'object') {
+      return { data: responseContent, pageToken };
     }
 
     return responseContent;
