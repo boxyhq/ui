@@ -4,7 +4,6 @@ import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
 import { BadgeProps, PageToken, PaginatePayload, TableProps } from '../../../shared/types';
 import { sendHTTPRequest } from '../../../shared/http';
 import Paginate from '../../../shared/Paginate/index.lite';
-import { ITEMS_PER_PAGE_DEFAULT } from '../../../shared/Paginate/utils';
 import PaginatedTable from '../../../shared/Table/paginated.lite';
 import NonPaginatedTable from '../../../shared/Table/non-paginated.lite';
 
@@ -26,10 +25,6 @@ export default function ConnectionList(props: ConnectionListProps) {
     get isPaginated() {
       return props.paginate !== undefined;
     },
-    get itemsPerPage() {
-      return props.paginate?.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT;
-    },
-
     get colsToDisplay() {
       return (props.cols || ['name', 'provider', 'tenant', 'product', 'type', 'status', 'actions']).map(
         (_col) => {
