@@ -50,7 +50,7 @@ export default function ConnectionList(props: ConnectionListProps) {
               name: 'name',
               badge: {
                 position: 'right',
-                badgeText: 'system',
+                badgeText: 'System',
                 variant: 'info',
                 shouldDisplayBadge(rowData) {
                   return rowData.isSystemSSO;

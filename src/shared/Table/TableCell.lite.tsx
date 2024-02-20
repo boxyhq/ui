@@ -75,7 +75,7 @@ export default function TableCell(props: TableCellProps) {
           when={!state.displayBadge}
           else={
             <Fragment>
-              <Show when={state.badgePosition === 'surround' || state.displayBadge}>
+              <Show when={state.badgePosition === 'surround'}>
                 <Badge
                   badgeText={state.badgeText}
                   ariaLabel={state.badgeLabel}
