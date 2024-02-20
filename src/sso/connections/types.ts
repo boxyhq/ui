@@ -15,7 +15,7 @@ export interface ConnectionListProps {
   classNames?: {
     tableContainer?: string;
   };
-  tableProps?: TableProps;
+  tableProps?: Pick<TableProps, 'tableCaption' | 'classNames'>;
   tenant?: string | string[];
   product?: string;
   // If true will sort the list display based on sortOrder of the connection
