@@ -3,11 +3,11 @@ import { DirectorySyncProviders, type Directory } from '../types';
 import LoadingContainer from '../../shared/LoadingContainer/index.lite';
 import type { DirectoryListProps, DirectoryType } from '../types';
 import defaultClasses from './index.module.css';
-import cssClassAssembler from '../../sso/utils/cssClassAssembler';
-import Table from '../../shared/Table/index.lite';
-import { BadgeProps, TableProps } from '../../shared/types';
-import EmptyState from '../../shared/EmptyState/index.lite';
+import { BadgeProps, PageToken, PaginatePayload, TableProps } from '../../shared/types';
 import { sendHTTPRequest } from '../../shared/http';
+import Paginate from '../../shared/Paginate/index.lite';
+import PaginatedTable from '../../shared/Table/paginated.lite';
+import NonPaginatedTable from '../../shared/Table/non-paginated.lite';
 
 const DEFAULT_VALUES = {
   directoryListData: [] as Directory[],
@@ -23,15 +23,14 @@ export default function DirectoryList(props: DirectoryListProps) {
       }));
     },
     isDirectoryListLoading: true,
+    pageTokenMap: {} as Record<number, PageToken>,
     showErrorComponent: false,
     errorMessage: '',
-    get classes() {
-      return {
-        tableContainer: cssClassAssembler(props.classNames?.tableContainer, defaultClasses.tableContainer),
-      };
+    get getUrl() {
+      return props.urls.get;
     },
-    get displayTenantProduct() {
-      return props.setupLinkToken ? false : true;
+    get isPaginated() {
+      return props.paginate !== undefined;
     },
     get actions(): TableProps['actions'] {
       return [
@@ -71,76 +70,134 @@ export default function DirectoryList(props: DirectoryListProps) {
         }
       }) as TableProps['cols'];
     },
-    get listFetchUrl() {
-      let _url = props.urls.get;
+    listFetchUrl(
+      params: Partial<PaginatePayload> & Pick<DirectoryListProps, 'tenant' | 'product'> & { getUrl: string }
+    ) {
+      let _url = params.getUrl;
       const [urlPath, qs] = _url.split('?');
       const urlParams = new URLSearchParams(qs);
-      if (props.tenant) {
-        urlParams.set('tenant', props.tenant);
+      if (params.tenant) {
+        urlParams.set('tenant', params.tenant);
       }
-      if (props.product) {
-        urlParams.set('product', props.product);
+      if (params.product) {
+        urlParams.set('product', params.product);
+      }
+      if (params.pageToken) {
+        urlParams.set('pageToken', params.pageToken);
+      }
+
+      if (params?.offset !== undefined) {
+        urlParams.set('pageOffset', `${params.offset}`);
+        urlParams.set('pageLimit', `${params.limit}`);
       }
       if (urlParams.toString()) {
         return `${urlPath}?${urlParams}`;
       }
       return _url;
     },
+    get baseFetchUrl(): string {
+      return state.listFetchUrl({
+        getUrl: state.getUrl,
+        tenant: props.tenant,
+        product: props.product,
+      });
+    },
+    get tablePropsComputed() {
+      return {
+        ...props.tableProps,
+        classNames: { ...props.tableProps?.classNames, iconSpan: defaultClasses.iconSpan },
+      };
+    },
   });
 
-  onUpdate(() => {
-    async function getFieldsData(directoryListUrl: string) {
-      // fetch request for obtaining directory lists data
-      const response = await sendHTTPRequest<{ data: Directory[] }>(directoryListUrl);
-      state.isDirectoryListLoading = false;
-      if (response) {
-        if ('error' in response && response.error) {
-          state.showErrorComponent = true;
-          state.errorMessage = response.error.message;
-          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-        } else if ('data' in response) {
-          const directoriesListData = response.data.map((directory: Directory) => {
-            return {
-              ...directory,
-              id: directory.id,
-              name: directory.name,
-              tenant: directory.tenant,
-              product: directory.product,
-              type: state.providers.find(({ value }) => value === directory.type)?.text as DirectoryType,
-              status: directory.deactivated ? 'Inactive' : 'Active',
-            };
-          });
-          state.directoryListData = directoriesListData;
-          typeof props.handleListFetchComplete === 'function' && props.handleListFetchComplete(response.data);
+  function updateTokenMap(offset: number, token: PageToken) {
+    return { ...state.pageTokenMap, [offset]: token };
+  }
+
+  async function getFieldsData(directoryListUrl: string) {
+    // fetch request for obtaining directory lists data
+    const response = await sendHTTPRequest<
+      { data: Directory[] } | { data: { data: Directory[] }; pageToken: PageToken }
+    >(directoryListUrl);
+    state.isDirectoryListLoading = false;
+    if (response) {
+      if ('error' in response && response.error) {
+        state.showErrorComponent = true;
+        state.errorMessage = response.error.message;
+        typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
+      } else if ('data' in response) {
+        const isTokenizedPagination = 'pageToken' in response;
+        const _data = isTokenizedPagination ? response.data.data : response.data;
+        const directoriesListData = _data.map((directory: Directory) => {
+          return {
+            ...directory,
+            id: directory.id,
+            name: directory.name,
+            tenant: directory.tenant,
+            product: directory.product,
+            type: state.providers.find(({ value }) => value === directory.type)?.text as DirectoryType,
+            status: directory.deactivated ? 'Inactive' : 'Active',
+          };
+        });
+        state.directoryListData = directoriesListData;
+        typeof props.handleListFetchComplete === 'function' &&
+          props.handleListFetchComplete(directoriesListData);
+
+        if (isTokenizedPagination) {
+          return response.pageToken;
         }
       }
     }
-    getFieldsData(state.listFetchUrl);
-  }, [state.listFetchUrl]);
+  }
+
+  async function reFetch(payload: PaginatePayload) {
+    const pageToken = await getFieldsData(
+      state.listFetchUrl({
+        getUrl: state.baseFetchUrl,
+        ...payload,
+      })
+    );
+    if (pageToken) {
+      state.pageTokenMap = updateTokenMap(payload.offset, pageToken);
+    }
+  }
+
+  onUpdate(() => {
+    if (!state.isPaginated) {
+      getFieldsData(state.baseFetchUrl);
+    }
+  }, [state.baseFetchUrl, state.isPaginated]);
 
   return (
     <LoadingContainer isBusy={state.isDirectoryListLoading}>
-      <Show
-        when={state.directoryListData.length > 0}
-        else={
-          <Show
-            when={state.showErrorComponent}
-            else={
-              <Show when={props.children} else={<EmptyState title='No directories found.' />}>
-                {props.children}
-              </Show>
-            }>
-            <EmptyState title={state.errorMessage} variant='error' />
-          </Show>
-        }>
-        <div class={state.classes.tableContainer}>
-          <Table
+      <Show when={state.isPaginated}>
+        <Paginate
+          itemsPerPage={props.paginate?.itemsPerPage}
+          currentPageItemsCount={state.directoryListData.length}
+          handlePageChange={props.paginate?.handlePageChange}
+          reFetch={reFetch}
+          pageTokenMap={state.pageTokenMap}>
+          <PaginatedTable
             cols={state.colsToDisplay}
             data={state.directoryListData}
             actions={state.actions}
-            classNames={{ iconSpan: defaultClasses.iconSpan }}
+            showErrorComponent={state.showErrorComponent}
+            errorMessage={state.errorMessage}
+            emptyStateMessage='No directories found.'
+            tableProps={state.tablePropsComputed}
           />
-        </div>
+        </Paginate>
+      </Show>
+      <Show when={!state.isPaginated}>
+        <NonPaginatedTable
+          cols={state.colsToDisplay}
+          data={state.directoryListData}
+          actions={state.actions}
+          showErrorComponent={state.showErrorComponent}
+          errorMessage={state.errorMessage}
+          emptyStateMessage='No directories found.'
+          tableProps={state.tablePropsComputed}
+        />
       </Show>
     </LoadingContainer>
   );

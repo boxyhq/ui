@@ -1,4 +1,4 @@
-import { ConfirmationPromptProps, TableCol } from '../shared/types';
+import { ConfirmationPromptProps, PaginateProps, TableCol, TableProps } from '../shared/types';
 
 export interface CreateDirectoryProps {
   excludeFields?: Array<keyof UnSavedDirectory>;
@@ -36,10 +36,7 @@ export interface DeleteDirectoryProps {
 }
 
 export interface DirectoryListProps {
-  children?: any;
-  tableCaption?: string;
   cols?: ('name' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
-  setupLinkToken?: string;
   urls: {
     get: string;
   };
@@ -49,8 +46,10 @@ export interface DirectoryListProps {
   classNames?: {
     tableContainer?: string;
   };
+  tableProps?: Pick<TableProps, 'tableCaption' | 'classNames'>;
   tenant?: string;
   product?: string;
+  paginate?: Partial<Pick<PaginateProps, 'itemsPerPage' | 'handlePageChange'>>;
 }
 
 export interface EditDirectoryProps {
