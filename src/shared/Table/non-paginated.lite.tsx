@@ -19,9 +19,10 @@ export default function NonPaginatedTable(props: NonPaginatedTableProps) {
     <Show
       when={props.data?.length > 0}
       else={
-        <Show when={props.showErrorComponent} else={<EmptyState title={props.emptyStateMessage} />}>
-          <EmptyState title={props.errorMessage} variant='error' />
-        </Show>
+        <>
+          {props.showErrorComponent && <EmptyState title={props.errorMessage} variant='error' />}
+          {!props.showErrorComponent && <EmptyState title={props.emptyStateMessage} />}
+        </>
       }>
       <div class={styles.tableContainer}>
         <Table cols={props.cols} data={props.data} actions={props.actions} {...props.tableProps} />

@@ -31,9 +31,10 @@ export default function PaginatedTable(props: PaginatedTableProps) {
     <Show
       when={!state.showEmptyData}
       else={
-        <Show when={props.showErrorComponent} else={<EmptyState title={props.emptyStateMessage} />}>
-          <EmptyState title={props.errorMessage} variant='error' />
-        </Show>
+        <>
+          {props.showErrorComponent && <EmptyState title={props.errorMessage} variant='error' />}
+          {!props.showErrorComponent && <EmptyState title={props.emptyStateMessage} />}
+        </>
       }>
       <div class={styles.tableContainer}>
         <Table
