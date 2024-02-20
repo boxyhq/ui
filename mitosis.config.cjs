@@ -134,6 +134,6 @@ module.exports = {
     vue2: VUE_OPTIONS,
     svelte: { typescript: true },
   },
-  targets: ['react', 'angular', 'vue', 'vue2', 'svelte'],
+  targets: ['react', 'angular', 'vue', 'svelte'],
   exclude: ['src/css.d.ts'],
 };
