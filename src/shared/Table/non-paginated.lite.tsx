@@ -8,7 +8,7 @@ type NonPaginatedTableProps = {
   cols: TableProps['cols'];
   data: TableProps['data'];
   actions: TableProps['actions'];
-  tableProps?: TableProps;
+  tableProps?: Pick<TableProps, 'tableCaption' | 'classNames'>;
   showErrorComponent: boolean;
   errorMessage: string;
   emptyStateMessage: string;
