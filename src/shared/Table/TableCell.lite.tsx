@@ -88,14 +88,14 @@ export default function TableCell(props: TableCellProps) {
                     badgeText={state.badgeText}
                     ariaLabel={state.badgeLabel}
                     variant={state.badgeVariant}></Badge>
-                  <Spacer x={2} />
+                  {state.cellValue !== undefined && <Spacer x={2} />}
                   {state.cellValue}
                 </Fragment>
               </Show>
               <Show when={state.badgePosition === 'right'}>
                 <Fragment>
                   {state.cellValue}
-                  <Spacer x={2} />
+                  {state.cellValue !== undefined && <Spacer x={2} />}
                   <Badge
                     badgeText={state.badgeText}
                     ariaLabel={state.badgeLabel}
