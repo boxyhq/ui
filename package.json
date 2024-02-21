@@ -6,7 +6,6 @@
   "scripts": {
     "postcss:cp2react": "postcss --dir 'react/src'",
     "postcss:cp2vue": "postcss --dir 'vue/src'",
-    "postcss:cp2vue2": "postcss --dir 'vue2/src'",
     "postcss:cp2angular": "postcss --dir 'angular/projects/boxyhq/angular-ui/tmp/src'",
     "postcss:cp2svelte": "postcss --dir 'svelte/src/tmp/src'",
     "copycss": "run-p 'postcss:* -- src/**/*.css --base src'",
@@ -18,7 +17,6 @@
     "cleanup:mitosis-out": "run-p '_cleanup:*'",
     "_cleanup:react": "rimraf react/src/* -g !.gitignore",
     "_cleanup:vue": "rimraf vue/src/* -g !.gitignore",
-    "_cleanup:vue2": "rimraf vue2/src/* -g !.gitignore",
     "_cleanup:svelte": "rimraf svelte/src/lib/* -g !.gitignore -g !.npmignore",
     "_cleanup:angular": "rimraf angular/projects/boxyhq/angular-ui/sso/src/* angular/projects/boxyhq/angular-ui/shared/src/* -g !.gitignore"
   },
