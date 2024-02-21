@@ -54,6 +54,9 @@ export default function TableCell(props: TableCellProps) {
       }
       return _col.badge?.variant;
     },
+    get isEmptyValue(): boolean {
+      return state.cellValue === undefined || state.cellValue === '' || state.cellValue === null;
+    },
   });
 
   return (
@@ -88,14 +91,14 @@ export default function TableCell(props: TableCellProps) {
                     badgeText={state.badgeText}
                     ariaLabel={state.badgeLabel}
                     variant={state.badgeVariant}></Badge>
-                  {state.cellValue !== undefined && <Spacer x={2} />}
+                  {!state.isEmptyValue && <Spacer x={2} />}
                   {state.cellValue}
                 </Fragment>
               </Show>
               <Show when={state.badgePosition === 'right'}>
                 <Fragment>
                   {state.cellValue}
-                  {state.cellValue !== undefined && <Spacer x={2} />}
+                  {!state.isEmptyValue && <Spacer x={2} />}
                   <Badge
                     badgeText={state.badgeText}
                     ariaLabel={state.badgeLabel}
