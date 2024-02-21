@@ -8,6 +8,7 @@ import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
 import Anchor from '../../../shared/Anchor/index.lite';
 import CreateSSOConnection from '../CreateConnection/index.lite';
+import { PaginatePayload } from '../../../shared/types';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionData<any>[],
@@ -44,9 +45,17 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
     switchToCreateView() {
       state.view = 'CREATE';
     },
-    switchToEditView(action: 'edit', connection: ConnectionData<any>) {
-      state.view = 'EDIT';
-      state.connectionToEdit = connection;
+    handleConnectionListActionClick(
+      action: 'edit' | 'pageChange',
+      payload: ConnectionData<any> | PaginatePayload
+    ) {
+      if (action === 'edit') {
+        state.view = 'EDIT';
+        state.connectionToEdit = payload;
+      }
+      if (action === 'pageChange') {
+        // call route change callback
+      }
     },
     switchToListView() {
       state.view = 'LIST';
@@ -117,7 +126,7 @@ export default function ConnectionsWrapper(props: ConnectionsWrapperProp) {
           <ConnectionList
             {...props.componentProps.connectionList}
             urls={{ get: props.urls.get }}
-            handleActionClick={state.switchToEditView}
+            handleActionClick={state.handleConnectionListActionClick}
             handleListFetchComplete={state.handleListFetchComplete}
             tenant={props.defaults?.tenants || props.defaults?.tenant}
             product={props.defaults?.product}></ConnectionList>

@@ -1,12 +1,11 @@
 import { useStore, onUpdate, Show } from '@builder.io/mitosis';
 import type { ConnectionData, ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
-import EmptyState from '../../../shared/EmptyState/index.lite';
-import cssClassAssembler from '../../utils/cssClassAssembler';
-import defaultClasses from './index.module.css';
-import Table from '../../../shared/Table/index.lite';
-import { BadgeProps, TableProps } from '../../../shared/types';
+import { BadgeProps, PageToken, PaginatePayload, TableProps } from '../../../shared/types';
 import { sendHTTPRequest } from '../../../shared/http';
+import Paginate from '../../../shared/Paginate/index.lite';
+import PaginatedTable from '../../../shared/Table/paginated.lite';
+import NonPaginatedTable from '../../../shared/Table/non-paginated.lite';
 
 const DEFAULT_VALUES = {
   isSettingsView: false,
@@ -17,12 +16,14 @@ export default function ConnectionList(props: ConnectionListProps) {
   const state = useStore({
     connectionListData: DEFAULT_VALUES.connectionListData,
     isConnectionListLoading: true,
+    pageTokenMap: {} as Record<number, PageToken>,
     showErrorComponent: false,
     errorMessage: '',
-    get classes() {
-      return {
-        tableContainer: cssClassAssembler(props.classNames?.tableContainer, defaultClasses.tableContainer),
-      };
+    get getUrl() {
+      return props.urls.get;
+    },
+    get isPaginated() {
+      return props.paginate !== undefined;
     },
     get colsToDisplay() {
       return (props.cols || ['name', 'provider', 'tenant', 'product', 'type', 'status', 'actions']).map(
@@ -49,7 +50,7 @@ export default function ConnectionList(props: ConnectionListProps) {
               name: 'name',
               badge: {
                 position: 'right',
-                badgeText: 'system',
+                badgeText: 'System',
                 variant: 'info',
                 shouldDisplayBadge(rowData) {
                   return rowData.isSystemSSO;
@@ -83,34 +84,63 @@ export default function ConnectionList(props: ConnectionListProps) {
         },
       ];
     },
-    get listFetchUrl() {
-      let _url = props.urls.get;
+    listFetchUrl(
+      params: Partial<PaginatePayload> &
+        Pick<ConnectionListProps, 'tenant' | 'product' | 'displaySorted'> & { getUrl: string }
+    ) {
+      let _url = params.getUrl;
       const [urlPath, qs] = _url.split('?');
       const urlParams = new URLSearchParams(qs);
-      if (props.tenant) {
-        if (Array.isArray(props.tenant)) {
-          for (const _tenant of props.tenant) {
+      if (params.tenant) {
+        if (Array.isArray(params.tenant)) {
+          for (const _tenant of params.tenant) {
             urlParams.append('tenant', _tenant);
           }
         } else {
-          urlParams.set('tenant', props.tenant);
+          urlParams.set('tenant', params.tenant);
         }
       }
-      if (props.product) {
-        urlParams.set('product', props.product);
+
+      if (params.product) {
+        urlParams.set('product', params.product);
       }
-      if (props.displaySorted) {
+
+      if (params.pageToken) {
+        urlParams.set('pageToken', params.pageToken);
+      }
+
+      if (params.displaySorted) {
         urlParams.set('sort', 'true');
       }
+
+      if (params?.offset !== undefined) {
+        urlParams.set('pageOffset', `${params.offset}`);
+        urlParams.set('pageLimit', `${params.limit}`);
+      }
+
       if (urlParams.toString()) {
         return `${urlPath}?${urlParams}`;
       }
       return _url;
     },
+    get baseFetchUrl(): string {
+      return state.listFetchUrl({
+        getUrl: state.getUrl,
+        tenant: props.tenant,
+        product: props.product,
+        displaySorted: props.displaySorted,
+      });
+    },
   });
 
+  function updateTokenMap(offset: number, token: PageToken) {
+    return { ...state.pageTokenMap, [offset]: token };
+  }
+
   async function getFieldsData(url: string) {
-    const data = await sendHTTPRequest<ConnectionData<SAMLSSORecord | OIDCSSORecord>[]>(url);
+    state.isConnectionListLoading = true;
+    type ConnectionList = ConnectionData<SAMLSSORecord | OIDCSSORecord>[];
+    const data = await sendHTTPRequest<ConnectionList | { data: ConnectionList; pageToken: PageToken }>(url);
 
     state.isConnectionListLoading = false;
     if (data) {
@@ -119,7 +149,9 @@ export default function ConnectionList(props: ConnectionListProps) {
         state.errorMessage = data.error.message;
         typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
       } else {
-        const _connectionsListData = data.map((connection: ConnectionData<any>) => {
+        const isTokenizedPagination = typeof data === 'object' && 'pageToken' in data;
+        const _data = isTokenizedPagination ? data.data : data;
+        const _connectionsListData = _data.map((connection: ConnectionData<any>) => {
           return {
             ...connection,
             provider: state.connectionProviderName(connection),
@@ -128,44 +160,68 @@ export default function ConnectionList(props: ConnectionListProps) {
             isSystemSSO: connection.isSystemSSO,
           };
         });
+
         state.connectionListData = _connectionsListData;
+
         typeof props.handleListFetchComplete === 'function' &&
           props.handleListFetchComplete(_connectionsListData);
+
+        if (isTokenizedPagination) {
+          return data.pageToken;
+        }
       }
     }
   }
 
+  async function reFetch(payload: PaginatePayload) {
+    const pageToken = await getFieldsData(
+      state.listFetchUrl({
+        getUrl: state.baseFetchUrl,
+        ...payload,
+      })
+    );
+    if (pageToken) {
+      state.pageTokenMap = updateTokenMap(payload.offset, pageToken);
+    }
+  }
+
   onUpdate(() => {
-    state.isConnectionListLoading = true;
-    getFieldsData(state.listFetchUrl);
-  }, [state.listFetchUrl]);
+    if (!state.isPaginated) {
+      getFieldsData(state.baseFetchUrl);
+    }
+  }, [state.baseFetchUrl, state.isPaginated]);
 
   return (
     <LoadingContainer isBusy={state.isConnectionListLoading}>
-      <div>
-        <Show
-          when={state.connectionListData?.length > 0}
-          else={
-            <Show
-              when={state.showErrorComponent}
-              else={
-                <Show when={props.children} else={<EmptyState title='No connections found.' />}>
-                  {props.children}
-                </Show>
-              }>
-              <EmptyState title={state.errorMessage} variant='error' />
-            </Show>
-          }>
-          <div class={state.classes.tableContainer}>
-            <Table
-              cols={state.colsToDisplay}
-              data={state.connectionListData}
-              actions={state.actions}
-              {...props.tableProps}
-            />
-          </div>
-        </Show>
-      </div>
+      <Show when={state.isPaginated}>
+        <Paginate
+          itemsPerPage={props.paginate?.itemsPerPage}
+          currentPageItemsCount={state.connectionListData.length}
+          handlePageChange={props.paginate?.handlePageChange}
+          reFetch={reFetch}
+          pageTokenMap={state.pageTokenMap}>
+          <PaginatedTable
+            cols={state.colsToDisplay}
+            data={state.connectionListData}
+            actions={state.actions}
+            showErrorComponent={state.showErrorComponent}
+            errorMessage={state.errorMessage}
+            emptyStateMessage='No connections found.'
+            tableProps={props.tableProps}
+          />
+        </Paginate>
+      </Show>
+      <Show when={!state.isPaginated}>
+        <NonPaginatedTable
+          cols={state.colsToDisplay}
+          data={state.connectionListData}
+          actions={state.actions}
+          showErrorComponent={state.showErrorComponent}
+          errorMessage={state.errorMessage}
+          emptyStateMessage='No connections found.'
+          tableProps={props.tableProps}
+        />
+      </Show>
     </LoadingContainer>
   );
 }

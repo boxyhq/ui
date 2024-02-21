@@ -34,7 +34,7 @@ export interface BadgeProps {
   variant?: 'success' | 'info' | 'warning';
 }
 
-export interface ButtonProps {
+export type ButtonProps = {
   buttonRef?: any;
   name: string;
   type?: 'submit' | 'reset' | 'button';
@@ -42,7 +42,8 @@ export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
   isLoading?: boolean;
-}
+  icon?: 'LeftArrowIcon' | 'RightArrowIcon';
+} & HTMLButtonElement;
 
 export interface ToggleSwitchProps {
   label: string;
@@ -102,6 +103,7 @@ export interface TableProps {
     icon?: string;
     iconSpan?: string;
   };
+  noMoreResults?: boolean;
 }
 
 export interface ConfirmationPromptProps {
@@ -111,4 +113,17 @@ export interface ConfirmationPromptProps {
   promptMessage: string;
   confirmationCallback: (event: Event) => void;
   cancelCallback: (event: Event) => void;
+}
+
+export type PageToken = string | null;
+
+export type PaginatePayload = { offset: number; limit: number; pageToken?: PageToken };
+
+export interface PaginateProps {
+  handlePageChange?: (payload: Partial<PaginatePayload>) => void;
+  reFetch: (payload: PaginatePayload) => any;
+  pageTokenMap: Record<number, PageToken>;
+  itemsPerPage?: number;
+  currentPageItemsCount: number;
+  children?: any;
 }

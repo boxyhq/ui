@@ -1,4 +1,4 @@
-import type { SVGAttributes } from 'vue';
+import type { SVGAttributes, ButtonHTMLAttributes } from 'vue';
 
 export type SVGProps = SVGAttributes;
 
@@ -43,7 +43,7 @@ export interface ModalProps {
   children?: any;
 }
 
-export interface ButtonProps {
+export type ButtonProps = {
   buttonRef?: any;
   name: string;
   type?: 'submit' | 'reset' | 'button';
@@ -51,7 +51,8 @@ export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
   isLoading?: boolean;
-}
+  icon?: 'LeftArrowIcon' | 'RightArrowIcon';
+} & ButtonHTMLAttributes;
 
 export interface ToggleSwitchProps {
   label: string;
@@ -110,6 +111,7 @@ export interface TableProps {
     icon?: string;
     iconSpan?: string;
   };
+  noMoreResults?: boolean;
 }
 
 export interface ConfirmationPromptProps {
@@ -119,4 +121,17 @@ export interface ConfirmationPromptProps {
   promptMessage: string;
   confirmationCallback: (event: Event) => void;
   cancelCallback: (event: Event) => void;
+}
+
+export type PageToken = string | null;
+
+export type PaginatePayload = { offset: number; limit: number; pageToken?: PageToken };
+
+export interface PaginateProps {
+  handlePageChange?: (payload: Partial<PaginatePayload>) => void;
+  reFetch: (payload: PaginatePayload) => any;
+  pageTokenMap: Record<number, PageToken>;
+  itemsPerPage?: number;
+  currentPageItemsCount: number;
+  children?: any;
 }

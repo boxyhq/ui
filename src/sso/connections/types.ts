@@ -1,28 +1,26 @@
-import { ConfirmationPromptProps, TableCol, TableProps } from '../../shared/types';
+import { ConfirmationPromptProps, PaginateProps, TableCol, TableProps } from '../../shared/types';
 
 export interface ConnectionListProps {
-  children?: any;
   cols?: ('name' | 'label' | 'provider' | 'tenant' | 'product' | 'type' | 'status' | 'actions' | TableCol)[];
-  tableCaption?: string;
-  idpEntityID?: string;
   isSettingsView?: boolean;
   urls: {
     get: string;
   };
   errorCallback?: (errMessage: string) => void;
   handleListFetchComplete?: (connections: ConnectionData<any>[]) => void;
-  handleActionClick: (action: 'edit', connection: ConnectionData<any>) => void;
+  handleActionClick: (action: 'edit', payload: ConnectionData<any>) => void;
   /**
    * Classnames for each inner components that make up the component.
    */
   classNames?: {
     tableContainer?: string;
   };
-  tableProps?: TableProps;
+  tableProps?: Pick<TableProps, 'tableCaption' | 'classNames'>;
   tenant?: string | string[];
   product?: string;
   // If true will sort the list display based on sortOrder of the connection
   displaySorted?: boolean;
+  paginate?: Partial<Pick<PaginateProps, 'itemsPerPage' | 'handlePageChange'>>;
 }
 
 export interface CreateConnectionProps {

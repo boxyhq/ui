@@ -42,12 +42,6 @@ jobs:
           name: mitosis-out-vue
           path: |
             ./vue/src
-      - name: Export framework code for vue2
-        uses: actions/upload-artifact@v4
-        with:
-          name: mitosis-out-vue2
-          path: |
-            ./vue2/src
       - name: Export framework code for angular
         uses: actions/upload-artifact@v4
         with:

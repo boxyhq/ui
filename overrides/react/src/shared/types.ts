@@ -1,4 +1,10 @@
-import type { SVGAttributes, ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
+import type {
+  SVGAttributes,
+  ComponentPropsWithRef,
+  ReactElement,
+  ReactNode,
+  ButtonHTMLAttributes,
+} from 'react';
 
 export type SVGProps = SVGAttributes<SVGSVGElement>;
 
@@ -43,7 +49,9 @@ export interface ModalProps {
   children?: any;
 }
 
-export interface ButtonProps extends ComponentPropsWithRef<'button'> {
+export interface ButtonProps
+  extends ComponentPropsWithRef<'button'>,
+    ButtonHTMLAttributes<HTMLButtonElement> {
   buttonRef?: HTMLButtonElement;
   name: string;
   type?: 'submit' | 'reset' | 'button';
@@ -51,6 +59,7 @@ export interface ButtonProps extends ComponentPropsWithRef<'button'> {
   variant?: 'primary' | 'secondary' | 'destructive' | 'outline';
   classNames?: string;
   isLoading?: boolean;
+  icon?: 'LeftArrowIcon' | 'RightArrowIcon';
 }
 
 export interface ToggleSwitchProps {
@@ -139,6 +148,7 @@ export interface TableProps {
     icon?: string;
     iconSpan?: string;
   };
+  noMoreResults?: boolean;
 }
 
 export interface ConfirmationPromptProps {
@@ -148,4 +158,17 @@ export interface ConfirmationPromptProps {
   promptMessage: string;
   confirmationCallback: (event: Event) => void;
   cancelCallback: (event: Event) => void;
+}
+
+export type PageToken = string | null;
+
+export type PaginatePayload = { offset: number; limit: number; pageToken?: PageToken };
+
+export interface PaginateProps {
+  handlePageChange?: (payload: Partial<PaginatePayload>) => void;
+  reFetch: (payload: PaginatePayload) => any;
+  pageTokenMap: Record<number, PageToken>;
+  itemsPerPage?: number;
+  currentPageItemsCount: number;
+  children?: any;
 }

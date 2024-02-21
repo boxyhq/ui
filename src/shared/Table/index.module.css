@@ -60,3 +60,10 @@ tbody .tr:hover {
   display: inline-flex;
   align-items: baseline;
 }
+
+.noMoreResults {
+  padding: 1.5rem 0.75rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}

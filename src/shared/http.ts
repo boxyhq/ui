@@ -19,10 +19,15 @@ export async function sendHTTPRequest<U = any>(url: string, options?: RequestIni
     if (response.status === 204) {
       return;
     }
+    const pageToken = response.headers.get('jackson-pagetoken');
     const responseContent = await parseResponseContent(response);
 
     if (!response.ok) {
       throw new ApiError(response.status, responseContent.error.message);
+    }
+
+    if (pageToken && typeof responseContent === 'object') {
+      return { data: responseContent, pageToken } as U;
     }
 
     return responseContent;

@@ -20,7 +20,7 @@ const VUE_OPTIONS = {
   api: 'composition',
 };
 
-const components = ['Login', 'CreateOIDCConnection', 'CreateSAMLConnection', 'ConnectionList'];
+const components = ['Login', 'CreateOIDCConnection', 'CreateSAMLConnection'];
 
 const isMitosisNode = (x) => x && x['@type'] === '@builder.io/mitosis/node';
 
@@ -134,6 +134,6 @@ module.exports = {
     vue2: VUE_OPTIONS,
     svelte: { typescript: true },
   },
-  targets: ['react', 'angular', 'vue', 'vue2', 'svelte'],
+  targets: ['react', 'angular', 'vue', 'svelte'],
   exclude: ['src/css.d.ts'],
 };
