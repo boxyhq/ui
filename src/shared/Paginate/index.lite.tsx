@@ -1,28 +1,24 @@
 import { Show, onMount, onUnMount, useStore } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
 import { PaginateProps } from '../types';
-import { ITEMS_PER_PAGE_DEFAULT } from './utils';
 import styles from './index.module.css';
 import PaginateContext from './paginate.context.lite';
 
 export default function Paginate(props: PaginateProps) {
   const state = useStore({
     _offset: 0,
-    get _itemsPerPage() {
-      return props.itemsPerPage ?? ITEMS_PER_PAGE_DEFAULT;
-    },
     get isPaginationHidden(): boolean {
-      return state._offset === 0 && props.currentPageItemsCount < state._itemsPerPage;
+      return state._offset === 0 && props.currentPageItemsCount < props.itemsPerPage;
     },
     get isPreviousDisabled(): boolean {
       return state._offset === 0;
     },
     get isNextDisabled(): boolean {
-      return props.currentPageItemsCount < state._itemsPerPage;
+      return props.currentPageItemsCount < props.itemsPerPage;
     },
     handlePreviousClick() {
       const currentOffset = state._offset;
-      const newOffset = currentOffset - state._itemsPerPage;
+      const newOffset = currentOffset - props.itemsPerPage;
       state._offset = newOffset;
 
       // Update query string in URL
@@ -31,13 +27,13 @@ export default function Paginate(props: PaginateProps) {
       typeof props.reFetch === 'function' &&
         props.reFetch({
           offset: newOffset,
-          limit: state._itemsPerPage,
-          pageToken: props.pageTokenMap[newOffset - state._itemsPerPage],
+          limit: props.itemsPerPage,
+          pageToken: props.pageTokenMap[newOffset - props.itemsPerPage],
         });
     },
     handleNextClick() {
       const currentOffset = state._offset;
-      const newOffset = currentOffset + state._itemsPerPage;
+      const newOffset = currentOffset + props.itemsPerPage;
       state._offset = newOffset;
       // Update query string in URL
       typeof props.handlePageChange === 'function' && props.handlePageChange({ offset: newOffset });
@@ -45,7 +41,7 @@ export default function Paginate(props: PaginateProps) {
       typeof props.reFetch === 'function' &&
         props.reFetch({
           offset: newOffset,
-          limit: state._itemsPerPage,
+          limit: props.itemsPerPage,
           pageToken: props.pageTokenMap[currentOffset],
         });
     },
@@ -68,7 +64,7 @@ export default function Paginate(props: PaginateProps) {
       typeof props.reFetch === 'function' &&
         props.reFetch({
           offset: _offsetFromBrowserQS,
-          limit: state._itemsPerPage,
+          limit: props.itemsPerPage,
         });
     } else {
       // console.log(`no offset found in url, setting offset to 0 in url`);
@@ -77,7 +73,7 @@ export default function Paginate(props: PaginateProps) {
       typeof props.reFetch === 'function' &&
         props.reFetch({
           offset: 0,
-          limit: state._itemsPerPage,
+          limit: props.itemsPerPage,
         });
     }
   }
