@@ -49,7 +49,7 @@ export interface DirectoryListProps {
   tableProps?: Pick<TableProps, 'tableCaption' | 'classNames'>;
   tenant?: string;
   product?: string;
-  paginate?: Partial<Pick<PaginateProps, 'itemsPerPage' | 'handlePageChange'>>;
+  paginate?: Pick<PaginateProps, 'itemsPerPage'> & Partial<Pick<PaginateProps, 'handlePageChange'>>;
 }
 
 export interface EditDirectoryProps {

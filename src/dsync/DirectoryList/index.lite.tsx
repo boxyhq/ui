@@ -172,7 +172,7 @@ export default function DirectoryList(props: DirectoryListProps) {
     <LoadingContainer isBusy={state.isDirectoryListLoading}>
       <Show when={state.isPaginated}>
         <Paginate
-          itemsPerPage={props.paginate?.itemsPerPage}
+          itemsPerPage={props.paginate!.itemsPerPage}
           currentPageItemsCount={state.directoryListData.length}
           handlePageChange={props.paginate?.handlePageChange}
           reFetch={reFetch}
