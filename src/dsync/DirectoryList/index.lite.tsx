@@ -30,7 +30,7 @@ export default function DirectoryList(props: DirectoryListProps) {
       return props.urls.get;
     },
     get isPaginated() {
-      return props.paginate !== undefined;
+      return props.paginate?.itemsPerPage !== undefined;
     },
     get actions(): TableProps['actions'] {
       return [

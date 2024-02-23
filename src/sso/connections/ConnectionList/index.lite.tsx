@@ -23,7 +23,7 @@ export default function ConnectionList(props: ConnectionListProps) {
       return props.urls.get;
     },
     get isPaginated() {
-      return props.paginate !== undefined;
+      return props.paginate?.itemsPerPage !== undefined;
     },
     get colsToDisplay() {
       return (props.cols || ['name', 'provider', 'tenant', 'product', 'type', 'status', 'actions']).map(
