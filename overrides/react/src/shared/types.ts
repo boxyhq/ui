@@ -168,7 +168,7 @@ export interface PaginateProps {
   handlePageChange?: (payload: Partial<PaginatePayload>) => void;
   reFetch: (payload: PaginatePayload) => any;
   pageTokenMap: Record<number, PageToken>;
-  itemsPerPage?: number;
+  itemsPerPage: number;
   currentPageItemsCount: number;
   children?: any;
 }

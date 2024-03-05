@@ -23,7 +23,7 @@ export default function ConnectionList(props: ConnectionListProps) {
       return props.urls.get;
     },
     get isPaginated() {
-      return props.paginate !== undefined;
+      return props.paginate?.itemsPerPage !== undefined;
     },
     get colsToDisplay() {
       return (props.cols || ['name', 'provider', 'tenant', 'product', 'type', 'status', 'actions']).map(
@@ -195,7 +195,7 @@ export default function ConnectionList(props: ConnectionListProps) {
     <LoadingContainer isBusy={state.isConnectionListLoading}>
       <Show when={state.isPaginated}>
         <Paginate
-          itemsPerPage={props.paginate?.itemsPerPage}
+          itemsPerPage={props.paginate!.itemsPerPage}
           currentPageItemsCount={state.connectionListData.length}
           handlePageChange={props.paginate?.handlePageChange}
           reFetch={reFetch}
