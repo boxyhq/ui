@@ -458,7 +458,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     readOnly
                     classNames={state.classes.inputField}
                     value={state.oidcConnection.oidcClientId || ''}
-                    handleInputChange={state.handleChange}
                     aria-describedby='oidc-clientid-hint'
                   />
                 </div>
