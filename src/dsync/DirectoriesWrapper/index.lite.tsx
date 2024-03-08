@@ -39,10 +39,13 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     switchToCreateView() {
       state.view = 'CREATE';
     },
+    switchToEditView(directory: Directory) {
+      state.view = 'EDIT';
+      state.directoryToEdit = directory;
+    },
     handleActionClick(action: 'edit' | 'view', directory: any) {
       if (action === 'edit') {
-        state.view = 'EDIT';
-        state.directoryToEdit = directory;
+        state.switchToEditView(directory);
       } else {
         typeof props.componentProps?.directoryList?.handleActionClick === 'function' &&
           props.componentProps.directoryList.handleActionClick('view', directory);
@@ -60,7 +63,9 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           connection,
         });
       }
-      if (operation !== 'COPY') {
+      if (operation === 'CREATE') {
+        state.switchToEditView(connection!);
+      } else if (operation !== 'COPY') {
         state.switchToListView();
       }
     },
