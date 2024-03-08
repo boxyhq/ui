@@ -19,6 +19,7 @@ export interface CreateDirectoryProps {
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the create component standalone */
   displayHeader?: boolean;
+  disableGoogleProvider?: boolean;
   tenant?: string;
   product?: string;
 }

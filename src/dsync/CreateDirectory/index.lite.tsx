@@ -35,10 +35,17 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
     showDomain: false,
     isSaving: false,
     get providers() {
-      return Object.entries<string>(DirectorySyncProviders)?.map(([value, text]) => ({
-        value,
-        text,
-      }));
+      return Object.entries<string>(DirectorySyncProviders)
+        ?.map(([value, text]) => ({
+          value,
+          text,
+        }))
+        .filter(({ value }) => {
+          if (props.disableGoogleProvider) {
+            return value !== 'google';
+          }
+          return true;
+        });
     },
     setProvider(event: any) {
       const _val = event?.target?.value;
