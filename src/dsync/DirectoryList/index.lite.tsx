@@ -33,6 +33,15 @@ export default function DirectoryList(props: DirectoryListProps) {
       return props.paginate?.itemsPerPage !== undefined;
     },
     get actions(): TableProps['actions'] {
+      if (props.hideViewAction) {
+        return [
+          {
+            icon: 'PencilIcon',
+            label: 'Edit',
+            handleClick: (directory: Directory) => props.handleActionClick('edit', directory),
+          },
+        ];
+      }
       return [
         {
           icon: 'EyeIcon',

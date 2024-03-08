@@ -43,6 +43,7 @@ export interface DirectoryListProps {
   errorCallback?: (errMessage: string) => void;
   handleListFetchComplete?: (directories: Directory[]) => void;
   handleActionClick: (action: 'edit' | 'view', directory: any) => void;
+  hideViewAction?: boolean;
   classNames?: {
     tableContainer?: string;
   };
