@@ -172,7 +172,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
-        <Show when={!state.isExcluded('scim_endpoint')}>
+        <Show when={!state.isExcluded('scim_endpoint') && state.directoryUpdated?.type !== 'google'}>
           <InputWithCopyButton
             label='SCIM Endpoint'
             text={state.directoryUpdated.scim?.endpoint}
@@ -181,7 +181,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
-        <Show when={!state.isExcluded('scim_token')}>
+        <Show when={!state.isExcluded('scim_token') && state.directoryUpdated?.type !== 'google'}>
           <InputWithCopyButton
             label='SCIM Token'
             text={state.directoryUpdated.scim?.secret}
