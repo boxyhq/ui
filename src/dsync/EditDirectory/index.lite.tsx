@@ -108,6 +108,16 @@ export default function EditDirectory(props: EditDirectoryProps) {
     get directoryFetchUrl() {
       return props.urls.get;
     },
+    get googleSCIMAuthzURL(): string | undefined {
+      if (!state.directoryUpdated.google_authorizationUrl) {
+        return undefined;
+      }
+      let _url = state.directoryUpdated.google_authorizationUrl;
+      const [urlPath, qs] = _url.split('?');
+      const urlParams = new URLSearchParams(qs);
+      urlParams.set('directoryId', state.directoryToEdit.id);
+      return `${urlPath}?${urlParams}`;
+    },
   });
 
   onUpdate(() => {
@@ -200,10 +210,10 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
-        <Show when={state.directoryUpdated?.type === 'google' && props.urls.googleSCIMAuthz}>
+        <Show when={state.directoryUpdated?.type === 'google' && state.googleSCIMAuthzURL}>
           <InputWithCopyButton
             label='Google SCIM Authorization url'
-            text={props.urls.googleSCIMAuthz!}
+            text={state.googleSCIMAuthzURL}
             copyDoneCallback={props.successCallback}
             classNames={state.classes.inputField}
           />
