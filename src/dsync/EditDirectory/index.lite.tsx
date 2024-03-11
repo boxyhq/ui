@@ -200,6 +200,18 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
+        <Show when={state.directoryUpdated?.type === 'google' && props.urls.googleSCIMAuthz}>
+          <InputWithCopyButton
+            label='Google SCIM Authorization url'
+            text={props.urls.googleSCIMAuthz!}
+            copyDoneCallback={props.successCallback}
+            classNames={state.classes.inputField}
+          />
+          <div id='scim-authz-hint' class={defaultClasses.hint}>
+            The URL that your tenant needs to authorize the application to access their Google Directory.
+          </div>
+          <Spacer y={6} />
+        </Show>
         <Show when={!state.isExcluded('webhook_url')}>
           <InputField
             type='url'

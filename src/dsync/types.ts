@@ -59,6 +59,7 @@ export interface EditDirectoryProps {
     patch: string;
     delete: string;
     get: string;
+    googleSCIMAuthz?: string;
   };
   errorCallback?: (errMessage: string) => void;
   successCallback?: (info: { operation: 'UPDATE' | 'DELETE' | 'COPY'; connection?: Directory }) => void;
@@ -114,10 +115,12 @@ export interface DirectoriesWrapperProps {
     post: string;
     patch: string;
     delete: string;
+    googleSCIMAuthz?: string;
   };
   title?: string;
   tenant?: string;
   product?: string;
+  disableGoogleProvider?: boolean;
 }
 
 export type ApiSuccess<T> = { data: T; pageToken?: string };

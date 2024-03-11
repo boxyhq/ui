@@ -26,6 +26,16 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
     get dsyncEnabled(): boolean {
       return state.directoriesAdded && state.directories.some((directory) => directory.deactivated === false);
     },
+    get googleSCIMAuthzURL(): string | undefined {
+      if (props.disableGoogleProvider) {
+        return undefined;
+      }
+      let _url = props.urls.googleSCIMAuthz!;
+      const [urlPath, qs] = _url.split('?');
+      const urlParams = new URLSearchParams(qs);
+      urlParams.set('directoryId', state.directoryToEdit.id);
+      return `${urlPath}?${urlParams}`;
+    },
     directoryToEdit: DEFAULT_VALUES.directoryToEdit,
     get directoryFetchURL(): string {
       let _url = props.urls.get;
@@ -109,6 +119,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           urls={{
             patch: `${props.urls.patch}/${state.directoryToEdit.id}`,
             delete: `${props.urls.delete}/${state.directoryToEdit.id}`,
+            googleSCIMAuthz: state.googleSCIMAuthzURL,
             get: state.directoryFetchURL,
           }}
         />
@@ -130,6 +141,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
           }}
           tenant={props.tenant}
           product={props.product}
+          disableGoogleProvider={props.disableGoogleProvider}
         />
       </Show>
     </div>
