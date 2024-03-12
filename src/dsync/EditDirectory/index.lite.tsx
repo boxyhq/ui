@@ -109,10 +109,10 @@ export default function EditDirectory(props: EditDirectoryProps) {
       return props.urls.get;
     },
     get googleSCIMAuthzURL(): string | undefined {
-      if (!state.directoryUpdated.google_authorizationUrl) {
+      if (!state.directoryUpdated.google_authorization_url) {
         return undefined;
       }
-      let _url = state.directoryUpdated.google_authorizationUrl;
+      let _url = state.directoryUpdated.google_authorization_url;
       const [urlPath, qs] = _url.split('?');
       const urlParams = new URLSearchParams(qs);
       urlParams.set('directoryId', state.directoryToEdit.id);
