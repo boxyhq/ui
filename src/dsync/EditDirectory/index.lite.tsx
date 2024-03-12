@@ -115,7 +115,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
       let _url = state.directoryUpdated.google_authorization_url;
       const [urlPath, qs] = _url.split('?');
       const urlParams = new URLSearchParams(qs);
-      urlParams.set('directoryId', state.directoryToEdit.id);
+      urlParams.set('directoryId', state.directoryUpdated.id);
       return `${urlPath}?${urlParams}`;
     },
   });
