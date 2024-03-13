@@ -108,6 +108,16 @@ export default function EditDirectory(props: EditDirectoryProps) {
     get directoryFetchUrl() {
       return props.urls.get;
     },
+    get googleSCIMAuthzURL(): string | undefined {
+      if (!state.directoryUpdated.google_authorization_url) {
+        return undefined;
+      }
+      let _url = state.directoryUpdated.google_authorization_url;
+      const [urlPath, qs] = _url.split('?');
+      const urlParams = new URLSearchParams(qs);
+      urlParams.set('directoryId', state.directoryUpdated.id);
+      return `${urlPath}?${urlParams}`;
+    },
   });
 
   onUpdate(() => {
@@ -172,7 +182,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
-        <Show when={!state.isExcluded('scim_endpoint')}>
+        <Show when={!state.isExcluded('scim_endpoint') && state.directoryUpdated?.type !== 'google'}>
           <InputWithCopyButton
             label='SCIM Endpoint'
             text={state.directoryUpdated.scim?.endpoint}
@@ -181,7 +191,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
-        <Show when={!state.isExcluded('scim_token')}>
+        <Show when={!state.isExcluded('scim_token') && state.directoryUpdated?.type !== 'google'}>
           <InputWithCopyButton
             label='SCIM Token'
             text={state.directoryUpdated.scim?.secret}
@@ -198,6 +208,18 @@ export default function EditDirectory(props: EditDirectoryProps) {
             handleInputChange={state.handleChange}
             classNames={state.classes.inputField}
           />
+          <Spacer y={6} />
+        </Show>
+        <Show when={state.directoryUpdated?.type === 'google' && state.googleSCIMAuthzURL}>
+          <InputWithCopyButton
+            label='Google SCIM Authorization url'
+            text={state.googleSCIMAuthzURL}
+            copyDoneCallback={props.successCallback}
+            classNames={state.classes.inputField}
+          />
+          <div id='scim-authz-hint' class={defaultClasses.hint}>
+            The URL that your tenant needs to authorize the application to access their Google Directory.
+          </div>
           <Spacer y={6} />
         </Show>
         <Show when={!state.isExcluded('webhook_url')}>

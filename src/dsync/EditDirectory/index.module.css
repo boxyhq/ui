@@ -53,3 +53,8 @@
   display: flex;
   gap: 0.5rem;
 }
+
+.hint {
+  font-size: 0.75rem;
+  line-height: 2rem;
+}
