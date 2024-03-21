@@ -74,6 +74,8 @@ export interface EditDirectoryProps {
   excludeFields?: Array<keyof (UnSavedDirectory & { scim_endpoint: string; scim_token: string })>;
   /** Use this boolean to toggle the header display on/off. Useful when using the edit component standalone */
   displayHeader?: boolean;
+  /** Use this boolean to toggle the save button display on/off. Useful when using the edit component in setup links */
+  hideSave?: boolean;
 }
 
 export interface ToggleDirectoryStatusProps {

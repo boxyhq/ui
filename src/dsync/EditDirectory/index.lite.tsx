@@ -207,7 +207,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
-        <Show when={state.directoryUpdated?.type === 'google'}>
+        <Show when={!state.isExcluded('google_domain') && state.directoryUpdated?.type === 'google'}>
           <InputField
             label='Directory domain'
             id='google_domain'
@@ -217,7 +217,12 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
-        <Show when={state.directoryUpdated?.type === 'google' && state.googleSCIMAuthzURL}>
+        <Show
+          when={
+            !state.isExcluded('google_authorization_url') &&
+            state.directoryUpdated?.type === 'google' &&
+            state.googleSCIMAuthzURL
+          }>
           <InputWithCopyButton
             label='Google SCIM Authorization url'
             text={state.googleSCIMAuthzURL}
@@ -267,13 +272,15 @@ export default function EditDirectory(props: EditDirectoryProps) {
           <Show when={typeof props.cancelCallback === 'function'}>
             <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
           </Show>
-          <Button
-            type='submit'
-            name='Save'
-            variant='primary'
-            classNames={props.classNames?.button?.ctoa}
-            isLoading={state.isSaving}
-          />
+          <Show when={!props.hideSave}>
+            <Button
+              type='submit'
+              name='Save'
+              variant='primary'
+              classNames={props.classNames?.button?.ctoa}
+              isLoading={state.isSaving}
+            />
+          </Show>
         </div>
       </form>
       <section class={state.classes.section}>
