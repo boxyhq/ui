@@ -15,7 +15,12 @@ import { sendHTTPRequest } from '../../shared/http';
 
 type FormState = Pick<
   UnSavedDirectory,
-  'name' | 'log_webhook_events' | 'webhook_url' | 'webhook_secret' | 'google_domain'
+  | 'name'
+  | 'log_webhook_events'
+  | 'webhook_url'
+  | 'webhook_secret'
+  | 'google_domain'
+  | 'google_authorization_url'
 >;
 
 const DEFAULT_FORM_STATE: FormState = {
@@ -24,6 +29,7 @@ const DEFAULT_FORM_STATE: FormState = {
   webhook_url: '',
   webhook_secret: '',
   google_domain: '',
+  google_authorization_url: '',
 };
 
 export default function EditDirectory(props: EditDirectoryProps) {
