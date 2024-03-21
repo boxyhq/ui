@@ -97,7 +97,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       </Show>
       <Show when={state.view === 'EDIT'}>
         <div class={styles.header}>
-          <h5 class={styles.h5}>Edit Dsync Connection</h5>
+          <h5 class={styles.h5}>Edit DSync Connection</h5>
         </div>
         <EditDirectory
           {...props.componentProps?.editDirectory}
@@ -115,7 +115,7 @@ export default function DirectoriesWrapper(props: DirectoriesWrapperProps) {
       </Show>
       <Show when={state.view === 'CREATE'}>
         <div class={styles.header}>
-          <h5 class={styles.h5}>Create Dsync Connection</h5>
+          <h5 class={styles.h5}>Create DSync Connection</h5>
         </div>
         <Spacer y={5} />
         <CreateDirectory
