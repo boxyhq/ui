@@ -27,7 +27,6 @@ const DEFAULT_DIRECTORY_VALUES: UnSavedDirectory = {
 };
 
 type Keys = keyof typeof DEFAULT_DIRECTORY_VALUES;
-type Values = (typeof DEFAULT_DIRECTORY_VALUES)[Keys];
 
 export default function CreateDirectory(props: CreateDirectoryProps) {
   const state = useStore({
@@ -118,6 +117,7 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
       tenant: props.tenant ?? state.directory.tenant,
       product: props.product ?? state.directory.product,
       webhook_url: props.defaultWebhookEndpoint ?? state.directory.webhook_url,
+      webhook_secret: props.defaultWebhookSecret ?? state.directory.webhook_secret,
     });
   }, [props.tenant, props.product, props.defaultWebhookEndpoint]);
 

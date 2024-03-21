@@ -5,7 +5,8 @@ export interface CreateDirectoryProps {
   urls: {
     post: string;
   };
-  defaultWebhookEndpoint?: string | undefined;
+  defaultWebhookEndpoint?: string;
+  defaultWebhookSecret?: string;
   successCallback?: (info: { operation: 'CREATE'; connection?: Directory }) => void;
   errorCallback?: (errMsg: string) => void;
   // To handle cancel button click
