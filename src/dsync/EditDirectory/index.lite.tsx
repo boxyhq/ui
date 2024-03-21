@@ -140,8 +140,9 @@ export default function EditDirectory(props: EditDirectoryProps) {
             ...directoryData,
             name: directoryData.name,
             log_webhook_events: directoryData.log_webhook_events,
-            webhook_url: directoryData.webhook.endpoint || '',
-            webhook_secret: directoryData.webhook.secret || '',
+            webhook_url: directoryData.webhook?.endpoint || '',
+            webhook_secret: directoryData.webhook?.secret || '',
+            google_authorization_url: directoryData.google_authorization_url || '',
             google_domain: directoryData.google_domain || '',
             deactivated: directoryData.deactivated,
           };
