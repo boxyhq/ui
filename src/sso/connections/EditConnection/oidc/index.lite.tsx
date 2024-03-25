@@ -88,6 +88,17 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
 
       state.oidcConnection = state.updateConnection(id, targetValue);
     },
+    resetOIDCMetadataFields() {
+      const currentVal = state.oidcConnection;
+      state.oidcConnection = {
+        ...currentVal,
+        'oidcMetadata.issuer': '',
+        'oidcMetadata.authorization_endpoint': '',
+        'oidcMetadata.token_endpoint': '',
+        'oidcMetadata.jwks_uri': '',
+        'oidcMetadata.userinfo_endpoint': '',
+      };
+    },
     saveSSOConnection(event: Event) {
       event.preventDefault();
 
@@ -116,6 +127,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           if (data && 'error' in data) {
             typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
           } else {
+            if (state.oidcConnection.oidcDiscoveryUrl) {
+              state.resetOIDCMetadataFields();
+            }
             typeof props.successCallback === 'function' &&
               props.successCallback({ operation: 'UPDATE', connection: formObj, connectionIsOIDC: true });
           }
