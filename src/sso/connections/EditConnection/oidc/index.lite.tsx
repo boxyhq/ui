@@ -175,7 +175,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               tenant: _connection.tenant || '',
               product: _connection.product || '',
               description: _connection.description || '',
-              redirectUrl: _connection.redirectUrl.join(`\r\n`),
+              redirectUrl: _connection.redirectUrl?.join(`\r\n`),
               defaultRedirectUrl: _connection.defaultRedirectUrl,
               oidcClientId: _connection.oidcProvider.clientId || '',
               oidcClientSecret: _connection.oidcProvider.clientSecret || '',

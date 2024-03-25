@@ -160,7 +160,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               clientID: _connection.clientID,
               clientSecret: _connection.clientSecret,
               description: _connection.description || '',
-              redirectUrl: _connection.redirectUrl.join(`\r\n`),
+              redirectUrl: _connection.redirectUrl?.join(`\r\n`),
               defaultRedirectUrl: _connection.defaultRedirectUrl,
               rawMetadata: _connection.rawMetadata || '',
               metadataUrl: _connection.metadataUrl || '',
