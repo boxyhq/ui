@@ -51,7 +51,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
     },
-    hasDiscoveryUrl: true,
     get formVariant() {
       return props.variant || 'basic';
     },
@@ -74,9 +73,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     },
     isExcluded(fieldName: keyof OIDCSSOConnection) {
       return !!(props.excludeFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
-    },
-    toggleHasDiscoveryUrl() {
-      state.hasDiscoveryUrl = !state.hasDiscoveryUrl;
     },
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.oidcConnection, [key]: newValue };
@@ -203,7 +199,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               sortOrder: _connection.sortOrder ?? '',
             };
           }
-          state.hasDiscoveryUrl = _connection.oidcProvider.discoveryUrl ? true : false;
         }
       }
     }
