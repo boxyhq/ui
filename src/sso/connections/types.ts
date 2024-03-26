@@ -50,7 +50,7 @@ export interface CreateConnectionProps {
     radioContainer?: string;
     label?: string;
     fieldContainer?: string;
-    button?: { ctoa?: string };
+    button?: { ctoa?: string; cancel?: string };
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the connection component standalone */
   displayHeader?: boolean;
@@ -249,7 +249,7 @@ export interface EditOIDCConnectionProps {
     get: string;
   };
   classNames?: {
-    button?: { ctoa?: string; destructive?: string };
+    button?: { ctoa?: string; destructive?: string; cancel?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
     fieldContainer?: string;
     secretInput?: string;
@@ -284,7 +284,7 @@ export interface EditSAMLConnectionProps {
     get: string;
   };
   classNames?: {
-    button?: { ctoa?: string; destructive?: string };
+    button?: { ctoa?: string; destructive?: string; cancel?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
     fieldContainer?: string;
     secretInput?: string;
@@ -304,7 +304,7 @@ export interface ConnectionsWrapperProp {
   title?: string;
   defaults?: Partial<SSOConnection & Pick<SAMLSSOConnection, 'forceAuthn'> & { tenants: string[] }>;
   classNames?: {
-    button?: { ctoa?: string; destructive?: string };
+    button?: { ctoa?: string; destructive?: string; cancel?: string };
     input?: string;
     select?: string;
     textarea?: string;

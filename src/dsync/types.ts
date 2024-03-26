@@ -16,7 +16,7 @@ export interface CreateDirectoryProps {
     input?: string;
     select?: string;
     label?: string;
-    button?: { ctoa?: string };
+    button?: { ctoa?: string; cancel?: string };
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the create component standalone */
   displayHeader?: boolean;
@@ -65,7 +65,7 @@ export interface EditDirectoryProps {
   successCallback?: (info: { operation: 'UPDATE' | 'DELETE' | 'COPY'; connection?: Directory }) => void;
   cancelCallback?: () => void;
   classNames?: {
-    button?: { ctoa?: string; destructive?: string };
+    button?: { ctoa?: string; destructive?: string; cancel?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
     fieldContainer?: string;
     label?: string;
@@ -94,7 +94,7 @@ export interface ToggleDirectoryStatusProps {
 
 export interface DirectoriesWrapperProps {
   classNames?: {
-    button?: { ctoa?: string; destructive?: string };
+    button?: { ctoa?: string; destructive?: string; cancel?: string };
     input?: string;
     textarea?: string;
     select?: string;

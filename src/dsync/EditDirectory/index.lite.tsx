@@ -270,7 +270,13 @@ export default function EditDirectory(props: EditDirectoryProps) {
         </Show>
         <div class={defaultClasses.formAction}>
           <Show when={typeof props.cancelCallback === 'function'}>
-            <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
+            <Button
+              type='button'
+              name='Cancel'
+              handleClick={props.cancelCallback}
+              variant='outline'
+              classNames={props.classNames?.button?.cancel}
+            />
           </Show>
           <Show when={!props.hideSave}>
             <Button

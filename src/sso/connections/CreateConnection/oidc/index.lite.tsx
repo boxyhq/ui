@@ -408,7 +408,13 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         {/* TODO: bring translation support */}
         <div class={defaultClasses.formAction}>
           <Show when={typeof props.cancelCallback === 'function'}>
-            <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
+            <Button
+              type='button'
+              name='Cancel'
+              handleClick={props.cancelCallback}
+              variant='outline'
+              classNames={props.classNames?.button?.cancel}
+            />
           </Show>
           <Button
             type='submit'
