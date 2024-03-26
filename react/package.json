@@ -66,11 +66,11 @@
     "@mdx-js/react": "3.0.1",
     "@rollup/plugin-typescript": "11.1.6",
     "@types/node": "20.11.30",
-    "@types/react": "18.2.67",
+    "@types/react": "18.2.69",
     "@vitejs/plugin-react": "4.2.1",
     "rimraf": "5.0.5",
     "serve": "14.2.1",
-    "vite": "5.2.2",
+    "vite": "5.2.6",
     "vite-pages-theme-doc": "5.0.0",
     "vite-plugin-css-injected-by-js": "3.5.0",
     "vite-plugin-react-pages": "5.0.0"
