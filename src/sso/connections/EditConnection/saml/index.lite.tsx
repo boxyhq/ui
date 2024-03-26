@@ -160,7 +160,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               clientID: _connection.clientID,
               clientSecret: _connection.clientSecret,
               description: _connection.description || '',
-              redirectUrl: _connection.redirectUrl.join(`\r\n`),
+              redirectUrl: _connection.redirectUrl?.join(`\r\n`),
               defaultRedirectUrl: _connection.defaultRedirectUrl,
               rawMetadata: _connection.rawMetadata || '',
               metadataUrl: _connection.metadataUrl || '',
@@ -334,7 +334,13 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
             </Show>
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
-                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
+                <Button
+                  type='button'
+                  name='Cancel'
+                  handleClick={props.cancelCallback}
+                  variant='outline'
+                  classNames={props.classNames?.button?.cancel}
+                />
               </Show>
               <Button
                 type='submit'
@@ -422,7 +428,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   <Button
                     name='Delete'
                     handleClick={state.toggleDelConfirmation}
-                    variant='outline'
+                    variant='destructive'
                     type='button'
                     classNames={props.classNames?.button?.destructive}
                   />

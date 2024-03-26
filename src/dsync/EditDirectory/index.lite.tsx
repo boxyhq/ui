@@ -15,7 +15,12 @@ import { sendHTTPRequest } from '../../shared/http';
 
 type FormState = Pick<
   UnSavedDirectory,
-  'name' | 'log_webhook_events' | 'webhook_url' | 'webhook_secret' | 'google_domain'
+  | 'name'
+  | 'log_webhook_events'
+  | 'webhook_url'
+  | 'webhook_secret'
+  | 'google_domain'
+  | 'google_authorization_url'
 >;
 
 const DEFAULT_FORM_STATE: FormState = {
@@ -24,6 +29,7 @@ const DEFAULT_FORM_STATE: FormState = {
   webhook_url: '',
   webhook_secret: '',
   google_domain: '',
+  google_authorization_url: '',
 };
 
 export default function EditDirectory(props: EditDirectoryProps) {
@@ -134,8 +140,9 @@ export default function EditDirectory(props: EditDirectoryProps) {
             ...directoryData,
             name: directoryData.name,
             log_webhook_events: directoryData.log_webhook_events,
-            webhook_url: directoryData.webhook.endpoint || '',
-            webhook_secret: directoryData.webhook.secret || '',
+            webhook_url: directoryData.webhook?.endpoint || '',
+            webhook_secret: directoryData.webhook?.secret || '',
+            google_authorization_url: directoryData.google_authorization_url || '',
             google_domain: directoryData.google_domain || '',
             deactivated: directoryData.deactivated,
           };
@@ -200,7 +207,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
-        <Show when={state.directoryUpdated?.type === 'google'}>
+        <Show when={!state.isExcluded('google_domain') && state.directoryUpdated?.type === 'google'}>
           <InputField
             label='Directory domain'
             id='google_domain'
@@ -210,7 +217,12 @@ export default function EditDirectory(props: EditDirectoryProps) {
           />
           <Spacer y={6} />
         </Show>
-        <Show when={state.directoryUpdated?.type === 'google' && state.googleSCIMAuthzURL}>
+        <Show
+          when={
+            !state.isExcluded('google_authorization_url') &&
+            state.directoryUpdated?.type === 'google' &&
+            state.googleSCIMAuthzURL
+          }>
           <InputWithCopyButton
             label='Google SCIM Authorization url'
             text={state.googleSCIMAuthzURL}
@@ -258,15 +270,23 @@ export default function EditDirectory(props: EditDirectoryProps) {
         </Show>
         <div class={defaultClasses.formAction}>
           <Show when={typeof props.cancelCallback === 'function'}>
-            <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
+            <Button
+              type='button'
+              name='Cancel'
+              handleClick={props.cancelCallback}
+              variant='outline'
+              classNames={props.classNames?.button?.cancel}
+            />
           </Show>
-          <Button
-            type='submit'
-            name='Save'
-            variant='primary'
-            classNames={props.classNames?.button?.ctoa}
-            isLoading={state.isSaving}
-          />
+          <Show when={!props.hideSave}>
+            <Button
+              type='submit'
+              name='Save'
+              variant='primary'
+              classNames={props.classNames?.button?.ctoa}
+              isLoading={state.isSaving}
+            />
+          </Show>
         </div>
       </form>
       <section class={state.classes.section}>
@@ -278,7 +298,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           <Button
             name='Delete'
             handleClick={state.toggleDelConfirmation}
-            variant='outline'
+            variant='destructive'
             type='button'
             classNames={props.classNames?.button?.destructive}
           />

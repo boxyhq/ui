@@ -51,7 +51,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     toggleDelConfirmation() {
       state.showDelConfirmation = !state.showDelConfirmation;
     },
-    hasDiscoveryUrl: true,
     get formVariant() {
       return props.variant || 'basic';
     },
@@ -75,9 +74,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     isExcluded(fieldName: keyof OIDCSSOConnection) {
       return !!(props.excludeFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
     },
-    toggleHasDiscoveryUrl() {
-      state.hasDiscoveryUrl = !state.hasDiscoveryUrl;
-    },
     updateConnection(key: Keys, newValue: Values) {
       return { ...state.oidcConnection, [key]: newValue };
     },
@@ -87,6 +83,17 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
       const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
 
       state.oidcConnection = state.updateConnection(id, targetValue);
+    },
+    resetOIDCMetadataFields() {
+      const currentVal = state.oidcConnection;
+      state.oidcConnection = {
+        ...currentVal,
+        'oidcMetadata.issuer': '',
+        'oidcMetadata.authorization_endpoint': '',
+        'oidcMetadata.token_endpoint': '',
+        'oidcMetadata.jwks_uri': '',
+        'oidcMetadata.userinfo_endpoint': '',
+      };
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
@@ -116,6 +123,9 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
           if (data && 'error' in data) {
             typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
           } else {
+            if (state.oidcConnection.oidcDiscoveryUrl) {
+              state.resetOIDCMetadataFields();
+            }
             typeof props.successCallback === 'function' &&
               props.successCallback({ operation: 'UPDATE', connection: formObj, connectionIsOIDC: true });
           }
@@ -175,7 +185,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               tenant: _connection.tenant || '',
               product: _connection.product || '',
               description: _connection.description || '',
-              redirectUrl: _connection.redirectUrl.join(`\r\n`),
+              redirectUrl: _connection.redirectUrl?.join(`\r\n`),
               defaultRedirectUrl: _connection.defaultRedirectUrl,
               oidcClientId: _connection.oidcProvider.clientId || '',
               oidcClientSecret: _connection.oidcProvider.clientSecret || '',
@@ -189,7 +199,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               sortOrder: _connection.sortOrder ?? '',
             };
           }
-          state.hasDiscoveryUrl = _connection.oidcProvider.discoveryUrl ? true : false;
         }
       }
     }
@@ -394,7 +403,13 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
             </Show>
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
-                <Button type='button' name='Cancel' handleClick={props.cancelCallback} variant='outline' />
+                <Button
+                  type='button'
+                  name='Cancel'
+                  handleClick={props.cancelCallback}
+                  variant='outline'
+                  classNames={props.classNames?.button?.cancel}
+                />
               </Show>
               <Button
                 type='submit'
@@ -477,7 +492,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   <Button
                     name='Delete'
                     handleClick={state.toggleDelConfirmation}
-                    variant='outline'
+                    variant='destructive'
                     type='button'
                     classNames={props.classNames?.button?.destructive}
                   />

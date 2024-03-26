@@ -27,20 +27,15 @@
 }
 
 .btn:focus-visible {
-  --ring-offset-shadow: 0 0 0 var(--ring-offset-width) var(--ring-offset-color);
-  --ring-shadow: 0 0 0 calc(2px + var(--ring-offset-width)) var(--ring-color);
-  box-shadow:
-    var(--ring-offset-shadow),
-    var(--ring-shadow),
-    0 0 0 #0000;
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+  outline: solid var(--ring-offset-color) var(--ring-offset-width);
+  outline-offset: var(--ring-offset);
 }
 
 .primary:active:not(:disabled) {
   background: var(--primary-active);
   transform: scale(0.99);
 }
+
 .btn:disabled {
   opacity: 50%;
   cursor: not-allowed;

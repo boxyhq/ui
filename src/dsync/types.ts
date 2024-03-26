@@ -5,7 +5,8 @@ export interface CreateDirectoryProps {
   urls: {
     post: string;
   };
-  defaultWebhookEndpoint?: string | undefined;
+  defaultWebhookEndpoint?: string;
+  defaultWebhookSecret?: string;
   successCallback?: (info: { operation: 'CREATE'; connection?: Directory }) => void;
   errorCallback?: (errMsg: string) => void;
   // To handle cancel button click
@@ -15,7 +16,7 @@ export interface CreateDirectoryProps {
     input?: string;
     select?: string;
     label?: string;
-    button?: { ctoa?: string };
+    button?: { ctoa?: string; cancel?: string };
   };
   /** Use this boolean to toggle the header display on/off. Useful when using the create component standalone */
   displayHeader?: boolean;
@@ -64,7 +65,7 @@ export interface EditDirectoryProps {
   successCallback?: (info: { operation: 'UPDATE' | 'DELETE' | 'COPY'; connection?: Directory }) => void;
   cancelCallback?: () => void;
   classNames?: {
-    button?: { ctoa?: string; destructive?: string };
+    button?: { ctoa?: string; destructive?: string; cancel?: string };
     confirmationPrompt?: ConfirmationPromptProps['classNames'];
     fieldContainer?: string;
     label?: string;
@@ -74,6 +75,8 @@ export interface EditDirectoryProps {
   excludeFields?: Array<keyof (UnSavedDirectory & { scim_endpoint: string; scim_token: string })>;
   /** Use this boolean to toggle the header display on/off. Useful when using the edit component standalone */
   displayHeader?: boolean;
+  /** Use this boolean to toggle the save button display on/off. Useful when using the edit component in setup links */
+  hideSave?: boolean;
 }
 
 export interface ToggleDirectoryStatusProps {
@@ -91,7 +94,7 @@ export interface ToggleDirectoryStatusProps {
 
 export interface DirectoriesWrapperProps {
   classNames?: {
-    button?: { ctoa?: string; destructive?: string };
+    button?: { ctoa?: string; destructive?: string; cancel?: string };
     input?: string;
     textarea?: string;
     select?: string;
@@ -160,6 +163,7 @@ export type Directory = {
   google_domain?: string;
   google_access_token?: string;
   google_refresh_token?: string;
+  google_authorization_url?: string;
 };
 
 export type UnSavedDirectory = Omit<Directory, 'id' | 'scim' | 'deactivated' | 'webhook'> & {
