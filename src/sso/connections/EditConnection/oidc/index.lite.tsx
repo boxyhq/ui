@@ -492,7 +492,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                   <Button
                     name='Delete'
                     handleClick={state.toggleDelConfirmation}
-                    variant='outline'
+                    variant='destructive'
                     type='button'
                     classNames={props.classNames?.button?.destructive}
                   />

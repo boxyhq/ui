@@ -428,7 +428,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   <Button
                     name='Delete'
                     handleClick={state.toggleDelConfirmation}
-                    variant='outline'
+                    variant='destructive'
                     type='button'
                     classNames={props.classNames?.button?.destructive}
                   />

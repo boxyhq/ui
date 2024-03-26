@@ -298,7 +298,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
           <Button
             name='Delete'
             handleClick={state.toggleDelConfirmation}
-            variant='outline'
+            variant='destructive'
             type='button'
             classNames={props.classNames?.button?.destructive}
           />
