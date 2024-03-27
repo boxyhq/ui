@@ -298,6 +298,8 @@ export interface EditSAMLConnectionProps {
   displayHeader?: boolean;
   /** Use this boolean to toggle the info card display on/off. Useful when using the connection component standalone */
   displayInfo?: boolean;
+  /**  Use this boolean to toggle the idp metadata display on/off. Default: false */
+  displayIdpMetadata?: boolean;
 }
 
 export interface ConnectionsWrapperProp {

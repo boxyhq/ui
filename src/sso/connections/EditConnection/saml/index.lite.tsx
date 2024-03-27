@@ -378,20 +378,24 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                       <Spacer y={6} />
                     </Show>
                   </Show>
+                  <Show when={props.displayIdpMetadata === true}>
+                    <div class={defaultClasses.container}>
+                      <span class={state.classes.label}>IdP Metadata</span>
+                      <Spacer y={2} />
+                      <pre aria-readonly={true} class={defaultClasses.pre}>
+                        {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
+                      </pre>
+                    </div>
+                    <Spacer y={6} />
+                  </Show>
                   <div class={defaultClasses.container}>
-                    <span class={state.classes.label}>IdP Metadata</span>
-                    <Spacer y={2} />
-                    <pre aria-readonly={true} class={defaultClasses.pre}>
-                      {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
-                    </pre>
-                  </div>
-                  <Spacer y={6} />
-                  <div class={defaultClasses.container}>
-                    <span class={state.classes.label}>IdP Certificate Validity</span>
-                    <Spacer y={2} />
-                    <pre aria-readonly={true} class={defaultClasses.pre}>
-                      {state.samlConnection.idpMetadata?.validTo}
-                    </pre>
+                    <InputField
+                      id='idp_cert_validity'
+                      label='IdP Certificate Validity'
+                      readOnly={true}
+                      classNames={state.classes.inputField}
+                      value={state.samlConnection.idpMetadata?.validTo!}
+                    />
                   </div>
                   <Spacer y={6} />
                   <InputWithCopyButton
