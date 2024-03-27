@@ -378,14 +378,16 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                       <Spacer y={6} />
                     </Show>
                   </Show>
-                  <div class={defaultClasses.container}>
-                    <span class={state.classes.label}>IdP Metadata</span>
-                    <Spacer y={2} />
-                    <pre aria-readonly={true} class={defaultClasses.pre}>
-                      {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
-                    </pre>
-                  </div>
-                  <Spacer y={6} />
+                  <Show when={props.displayIdpMetadata === true}>
+                    <div class={defaultClasses.container}>
+                      <span class={state.classes.label}>IdP Metadata</span>
+                      <Spacer y={2} />
+                      <pre aria-readonly={true} class={defaultClasses.pre}>
+                        {JSON.stringify(state.samlConnection.idpMetadata, null, 2)}
+                      </pre>
+                    </div>
+                    <Spacer y={6} />
+                  </Show>
                   <div class={defaultClasses.container}>
                     <span class={state.classes.label}>IdP Certificate Validity</span>
                     <Spacer y={2} />
