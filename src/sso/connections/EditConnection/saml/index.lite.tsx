@@ -392,7 +392,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                     <InputField
                       id='idp_cert_validity'
                       label='IdP Certificate Validity'
-                      readonly={true}
+                      readOnly={true}
                       classNames={state.classes.inputField}
                       value={state.samlConnection.idpMetadata?.validTo!}
                     />
