@@ -3,7 +3,8 @@ import ItemRow from './ItemRow.lite';
 
 type ItemListProps = {
   currentlist: string | string[];
-  handleItemListUpdate: (newList: string[]) => void;
+  fieldName: string;
+  handleItemListUpdate: (fieldName: string, newList: string[]) => void;
 };
 
 export default function ItemList(props: ItemListProps) {
@@ -12,12 +13,18 @@ export default function ItemList(props: ItemListProps) {
       return Array.isArray(props.currentlist) ? props.currentlist : [props.currentlist];
     },
     addAnother: () => {
-      props.handleItemListUpdate([...state.list, '']);
+      props.handleItemListUpdate(props.fieldName, [...state.list, '']);
     },
     handleItemUpdate: (newItem: string, index: number) => {
       const newList = [...state.list];
       newList[index] = newItem;
-      props.handleItemListUpdate(newList);
+      props.handleItemListUpdate(props.fieldName, newList);
+    },
+    handleItemDelete: (index: number) => {
+      props.handleItemListUpdate(
+        props.fieldName,
+        state.list.filter((_, i) => i !== index)
+      );
     },
   });
 
@@ -29,14 +36,18 @@ export default function ItemList(props: ItemListProps) {
             <div>
               <ItemRow
                 item={item}
-                handleItemUpdate={(newItem) => state.handleItemUpdate(newItem, index)}
-                handleItemDelete={() => props.handleItemListUpdate(state.list.filter((_, i) => i !== index))}
+                index={index}
+                handleItemUpdate={state.handleItemUpdate}
+                handleItemDelete={state.handleItemDelete}
               />
             </div>
           )}
         </For>
         <div>
-          <button className='btn btn-primary btn-sm btn-outline' type='button' onClick={state.addAnother}>
+          <button
+            className='btn btn-primary btn-sm btn-outline'
+            type='button'
+            onClick={(event) => state.addAnother()}>
             bui-fs-add
           </button>
         </div>

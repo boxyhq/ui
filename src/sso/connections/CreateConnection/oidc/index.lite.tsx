@@ -23,7 +23,7 @@ const INITIAL_VALUES = {
     description: '',
     tenant: '',
     product: '',
-    redirectUrl: [] as string[],
+    redirectUrl: [''],
     defaultRedirectUrl: '',
     oidcClientSecret: '',
     oidcClientId: '',
@@ -52,6 +52,9 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       const id = target.id as Keys;
       const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value as Values;
       state.oidcConnection = state.updateConnection({ [id]: targetValue });
+    },
+    handleItemListUpdate(fieldName: string, listValue: string[]) {
+      state.oidcConnection = state.updateConnection({ [fieldName]: listValue });
     },
     save(event: Event) {
       event.preventDefault();
@@ -255,19 +258,9 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           <Show when={!state.isExcluded('redirectUrl')}>
             <ItemList
               currentlist={state.oidcConnection.redirectUrl}
-              handleItemListUpdate={(newList: string[]) => state.updateConnection({ redirectUrl: newList })}
+              fieldName='redirectUrl'
+              handleItemListUpdate={state.handleItemListUpdate}
             />
-            {/* <TextArea
-              label='Allowed redirect URLs (newline separated)'
-              id='redirectUrl'
-              classNames={state.classes.textarea}
-              required
-              readOnly={state.isReadOnly('redirectUrl')}
-              aria-describedby='redirectUrl-hint'
-              placeholder='http://localhost:3366'
-              value={state.oidcConnection.redirectUrl}
-              handleInputChange={state.handleChange}
-            /> */}
             <div id='redirectUrl-hint' class={defaultClasses.hint}>
               URL to redirect the user to after login. You can specify multiple URLs by separating them with a
               new line.
