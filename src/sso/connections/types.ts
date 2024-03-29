@@ -112,7 +112,7 @@ export interface IssuerMetadata {
 
 interface SSOConnection {
   defaultRedirectUrl: string;
-  redirectUrl: string;
+  redirectUrl: string[];
   tenant: string;
   product: string;
   name?: string;
