@@ -33,7 +33,7 @@ export default function ItemList({
         ))}
         <div>
           <button className='btn btn-primary btn-sm btn-outline' type='button' onClick={addAnother}>
-            {'bui-fs-add'}
+            bui-fs-add
           </button>
         </div>
       </div>
