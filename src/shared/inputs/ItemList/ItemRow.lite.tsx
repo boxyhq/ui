@@ -1,15 +1,13 @@
 import XMarkIcon from '../../icons/XMarkIcon.lite';
 import styles from '../index.module.css';
 
-export default function ItemRow({
-  item,
-  onItemChange,
-  onItemDelete,
-}: {
+type ItemRowProps = {
   item: string;
-  onItemChange: (newItem: string) => void;
-  onItemDelete: () => void;
-}) {
+  handleItemChange: (newItem: string) => void;
+  handleItemDelete: () => void;
+};
+
+export default function ItemRow({ item, handleItemChange, handleItemDelete }: ItemRowProps) {
   return (
     <div className='flex space-x-3 items-center'>
       <input
@@ -18,11 +16,11 @@ export default function ItemRow({
         name='item'
         value={item}
         onChange={(e) => {
-          onItemChange(e.target.value);
+          handleItemChange(e.target.value);
         }}
         required
       />
-      <button type='button' onClick={onItemDelete}>
+      <button type='button' onClick={handleItemDelete}>
         <XMarkIcon svgAttrs={{ class: styles['svg'] }} />
       </button>
     </div>

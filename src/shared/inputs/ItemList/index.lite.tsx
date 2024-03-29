@@ -1,41 +1,43 @@
-import { For } from '@builder.io/mitosis';
+import { For, useStore } from '@builder.io/mitosis';
 import ItemRow from './ItemRow.lite';
 
-export default function ItemList({
-  currentlist,
-  onItemListChange,
-}: {
+type ItemListProps = {
   currentlist: string | string[];
-  onItemListChange: (list: string[]) => void;
-}) {
-  const list = Array.isArray(currentlist) ? currentlist : [currentlist];
+  handleItemListChange: (list: string[]) => void;
+};
 
-  const addAnother = () => {
-    onItemListChange([...list, '']);
-  };
+export default function ItemList(props: ItemListProps) {
+  const state = useStore({
+    get list() {
+      return Array.isArray(props.currentlist) ? props.currentlist : [props.currentlist];
+    },
+    addAnother: () => {
+      props.handleItemListChange([...state.list, '']);
+    },
+  });
 
   return (
     <div>
       <div className='flex flex-col gap-4'>
-        <For each={list}>
+        <For each={state.list}>
           {(item, index) => (
             <div key={index}>
               <ItemRow
                 item={item}
-                onItemChange={(newItem) => {
-                  const newList = [...list];
+                handleItemChange={(newItem) => {
+                  const newList = [...state.list];
                   newList[index] = newItem;
-                  onItemListChange(newList);
+                  props.handleItemListChange(newList);
                 }}
-                onItemDelete={() => {
-                  onItemListChange(list.filter((_, i) => i !== index));
+                handleItemDelete={() => {
+                  props.handleItemListChange(state.list.filter((_, i) => i !== index));
                 }}
               />
             </div>
           )}
         </For>
         <div>
-          <button className='btn btn-primary btn-sm btn-outline' type='button' onClick={addAnother}>
+          <button className='btn btn-primary btn-sm btn-outline' type='button' onClick={state.addAnother}>
             bui-fs-add
           </button>
         </div>
