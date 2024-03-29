@@ -3,11 +3,11 @@ import styles from '../index.module.css';
 
 type ItemRowProps = {
   item: string;
-  handleItemChange: (newItem: string) => void;
+  handleItemUpdate: (newItem: string) => void;
   handleItemDelete: () => void;
 };
 
-export default function ItemRow({ item, handleItemChange, handleItemDelete }: ItemRowProps) {
+export default function ItemRow({ item, handleItemUpdate, handleItemDelete }: ItemRowProps) {
   return (
     <div className='flex space-x-3 items-center'>
       <input
@@ -16,7 +16,7 @@ export default function ItemRow({ item, handleItemChange, handleItemDelete }: It
         name='item'
         value={item}
         onChange={(e) => {
-          handleItemChange(e.target.value);
+          handleItemUpdate(e.target.value);
         }}
         required
       />

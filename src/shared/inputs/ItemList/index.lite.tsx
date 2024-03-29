@@ -3,7 +3,7 @@ import ItemRow from './ItemRow.lite';
 
 type ItemListProps = {
   currentlist: string | string[];
-  handleItemListChange: (list: string[]) => void;
+  handleItemListUpdate: (newList: string[]) => void;
 };
 
 export default function ItemList(props: ItemListProps) {
@@ -12,7 +12,12 @@ export default function ItemList(props: ItemListProps) {
       return Array.isArray(props.currentlist) ? props.currentlist : [props.currentlist];
     },
     addAnother: () => {
-      props.handleItemListChange([...state.list, '']);
+      props.handleItemListUpdate([...state.list, '']);
+    },
+    handleItemUpdate: (newItem: string, index: number) => {
+      const newList = [...state.list];
+      newList[index] = newItem;
+      props.handleItemListUpdate(newList);
     },
   });
 
@@ -21,17 +26,11 @@ export default function ItemList(props: ItemListProps) {
       <div className='flex flex-col gap-4'>
         <For each={state.list}>
           {(item, index) => (
-            <div key={index}>
+            <div>
               <ItemRow
                 item={item}
-                handleItemChange={(newItem) => {
-                  const newList = [...state.list];
-                  newList[index] = newItem;
-                  props.handleItemListChange(newList);
-                }}
-                handleItemDelete={() => {
-                  props.handleItemListChange(state.list.filter((_, i) => i !== index));
-                }}
+                handleItemUpdate={(newItem) => state.handleItemUpdate(newItem, index)}
+                handleItemDelete={() => props.handleItemListUpdate(state.list.filter((_, i) => i !== index))}
               />
             </div>
           )}
