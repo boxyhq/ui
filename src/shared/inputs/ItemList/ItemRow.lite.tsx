@@ -19,7 +19,10 @@ export default function ItemRow(props: ItemRowProps) {
         onChange={(event) => props.handleItemUpdate(event.target.value, props.index)}
         required
       />
-      <button type='button' onClick={(event) => props.handleItemDelete(props.index)}>
+      <button
+        type='button'
+        onClick={(event) => props.handleItemDelete(props.index)}
+        disabled={props.index === 0}>
         <XMarkIcon svgAttrs={{ class: styles['svg'] }} />
       </button>
     </div>
