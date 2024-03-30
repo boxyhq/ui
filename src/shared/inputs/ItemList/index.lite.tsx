@@ -48,7 +48,7 @@ export default function ItemList(props: ItemListProps) {
             className='btn btn-primary btn-sm btn-outline'
             type='button'
             onClick={(event) => state.addAnother()}>
-            bui-fs-add
+            Add
           </button>
         </div>
       </div>
