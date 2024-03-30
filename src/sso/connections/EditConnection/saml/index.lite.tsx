@@ -16,6 +16,7 @@ import TextArea from '../../../../shared/inputs/TextArea/index.lite';
 import { InputWithCopyButton } from '../../../../shared';
 import LoadingContainer from '../../../../shared/LoadingContainer/index.lite';
 import { ApiResponse, sendHTTPRequest } from '../../../../shared/http';
+import ItemList from '../../../../shared/inputs/ItemList/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -30,7 +31,7 @@ const INITIAL_VALUES = {
     clientID: '',
     clientSecret: '',
     description: '',
-    redirectUrl: '',
+    redirectUrl: [''],
     defaultRedirectUrl: '',
     rawMetadata: '',
     metadataUrl: '',
@@ -74,15 +75,18 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
     isExcluded(fieldName: keyof SAMLSSOConnection) {
       return !!(props.excludeFields as (keyof SAMLSSOConnection)[])?.includes(fieldName);
     },
-    updateConnection(key: Keys, newValue: Values) {
-      return { ...state.samlConnection, [key]: newValue };
+    updateConnection(data: Partial<SAMLSSOConnection>) {
+      return { ...state.samlConnection, ...data };
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
       const id = target.id as Keys;
       const targetValue = id !== 'forceAuthn' ? target.value : (target as HTMLInputElement).checked;
 
-      state.samlConnection = state.updateConnection(id, targetValue);
+      state.samlConnection = state.updateConnection({ [id]: targetValue });
+    },
+    handleItemListUpdate(fieldName: string, listValue: string[]) {
+      state.samlConnection = state.updateConnection({ [fieldName]: listValue });
     },
     saveSSOConnection(event: Event) {
       event.preventDefault();
@@ -160,7 +164,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
               clientID: _connection.clientID,
               clientSecret: _connection.clientSecret,
               description: _connection.description || '',
-              redirectUrl: _connection.redirectUrl?.join(`\r\n`),
+              redirectUrl: _connection.redirectUrl,
               defaultRedirectUrl: _connection.defaultRedirectUrl,
               rawMetadata: _connection.rawMetadata || '',
               metadataUrl: _connection.metadataUrl || '',
@@ -241,15 +245,10 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 <Spacer y={6} />
               </Show>
               <Show when={!state.isExcluded('redirectUrl')}>
-                <TextArea
-                  label='Allowed redirect URLs (newline separated)'
-                  id='redirectUrl'
-                  classNames={state.classes.textarea}
-                  required
-                  aria-describedby='redirectUrl-hint'
-                  placeholder='http://localhost:3366'
-                  value={state.samlConnection.redirectUrl!}
-                  handleInputChange={state.handleChange}
+                <ItemList
+                  currentlist={state.samlConnection.redirectUrl}
+                  fieldName='redirectUrl'
+                  handleItemListUpdate={state.handleItemListUpdate}
                 />
                 <div id='redirectUrl-hint' class={defaultClasses.hint}>
                   URL to redirect the user to after login. You can specify multiple URLs by separating them

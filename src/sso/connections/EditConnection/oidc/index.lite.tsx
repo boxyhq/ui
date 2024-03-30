@@ -15,19 +15,19 @@ import Button from '../../../../shared/Button/index.lite';
 import Spacer from '../../../../shared/Spacer/index.lite';
 import ConfirmationPrompt from '../../../../shared/ConfirmationPrompt/index.lite';
 import InputField from '../../../../shared/inputs/InputField/index.lite';
-import TextArea from '../../../../shared/inputs/TextArea/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
 import Card from '../../../../shared/Card/index.lite';
 import { InputWithCopyButton } from '../../../../shared';
 import LoadingContainer from '../../../../shared/LoadingContainer/index.lite';
 import { ApiResponse, sendHTTPRequest } from '../../../../shared/http';
+import ItemList from '../../../../shared/inputs/ItemList/index.lite';
 
 const INITIAL_VALUES = {
   name: '',
   tenant: '',
   product: '',
   description: '',
-  redirectUrl: '',
+  redirectUrl: [''],
   defaultRedirectUrl: '',
   oidcClientSecret: '',
   oidcClientId: '',
@@ -74,15 +74,18 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
     isExcluded(fieldName: keyof OIDCSSOConnection) {
       return !!(props.excludeFields as (keyof OIDCSSOConnection)[])?.includes(fieldName);
     },
-    updateConnection(key: Keys, newValue: Values) {
-      return { ...state.oidcConnection, [key]: newValue };
+    updateConnection(data: Partial<OIDCSSOConnection>) {
+      return { ...state.oidcConnection, ...data };
     },
     handleChange(event: Event) {
       const target = event.target as HTMLInputElement | HTMLTextAreaElement;
       const id = target.id as Keys;
       const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value;
 
-      state.oidcConnection = state.updateConnection(id, targetValue);
+      state.oidcConnection = state.updateConnection({ [id]: targetValue });
+    },
+    handleItemListUpdate(fieldName: string, listValue: string[]) {
+      state.oidcConnection = state.updateConnection({ [fieldName]: listValue });
     },
     resetOIDCMetadataFields() {
       const currentVal = state.oidcConnection;
@@ -185,7 +188,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               tenant: _connection.tenant || '',
               product: _connection.product || '',
               description: _connection.description || '',
-              redirectUrl: _connection.redirectUrl?.join(`\r\n`),
+              redirectUrl: _connection.redirectUrl,
               defaultRedirectUrl: _connection.defaultRedirectUrl,
               oidcClientId: _connection.oidcProvider.clientId || '',
               oidcClientSecret: _connection.oidcProvider.clientSecret || '',
@@ -272,15 +275,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 <Spacer y={6} />
               </Show>
               <Show when={!state.isExcluded('redirectUrl')}>
-                <TextArea
-                  label='Allowed redirect URLs (newline separated)'
-                  id='redirectUrl'
-                  classNames={state.classes.textarea}
-                  required
-                  aria-describedby='redirectUrl-hint'
-                  placeholder='http://localhost:3366'
-                  value={state.oidcConnection.redirectUrl || ''}
-                  handleInputChange={state.handleChange}
+                <ItemList
+                  currentlist={state.oidcConnection.redirectUrl}
+                  fieldName='redirectUrl'
+                  handleItemListUpdate={state.handleItemListUpdate}
                 />
                 <div id='redirectUrl-hint' class={defaultClasses.hint}>
                   URL to redirect the user to after login. You can specify multiple URLs by separating them

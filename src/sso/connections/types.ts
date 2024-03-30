@@ -160,7 +160,7 @@ export interface SAMLSSORecord extends Omit<SAMLSSOConnection, 'redirectUrl'> {
 }
 
 export type SAMLFormState = {
-  [K in keyof SAMLSSORecord]: K extends 'redirectUrl' ? string : SAMLSSORecord[K];
+  [K in keyof SAMLSSORecord]: K extends 'redirectUrl' ? string[] : SAMLSSORecord[K];
 };
 
 export interface OIDCSSORecord extends Omit<SSOConnection, 'redirectUrl'> {
@@ -179,7 +179,7 @@ export interface OIDCSSORecord extends Omit<SSOConnection, 'redirectUrl'> {
 }
 
 export type OIDCFormState = {
-  [K in keyof OIDCSSORecord]: K extends 'redirectUrl' ? string : OIDCSSORecord[K];
+  [K in keyof OIDCSSORecord]: K extends 'redirectUrl' ? string[] : OIDCSSORecord[K];
 } & {
   oidcClientSecret: string;
   oidcClientId: string;
