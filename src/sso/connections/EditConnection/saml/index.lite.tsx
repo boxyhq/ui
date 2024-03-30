@@ -249,6 +249,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   currentlist={state.samlConnection.redirectUrl}
                   fieldName='redirectUrl'
                   handleItemListUpdate={state.handleItemListUpdate}
+                  errorCallback={props.errorCallback}
                 />
                 <div id='redirectUrl-hint' class={defaultClasses.hint}>
                   URL to redirect the user to after login. You can specify multiple URLs by separating them
