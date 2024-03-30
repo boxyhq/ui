@@ -5,6 +5,7 @@ type ItemListProps = {
   currentlist: string | string[];
   fieldName: string;
   handleItemListUpdate: (fieldName: string, newList: string[]) => void;
+  errorCallback?: (errorMessage: string) => void;
 };
 
 export default function ItemList(props: ItemListProps) {
@@ -17,8 +18,14 @@ export default function ItemList(props: ItemListProps) {
     },
     handleItemUpdate: (newItem: string, index: number) => {
       const newList = [...state.list];
-      newList[index] = newItem;
-      props.handleItemListUpdate(props.fieldName, newList);
+      const _index = newList.findIndex((item) => item === newItem);
+      if (_index !== -1 && _index !== index) {
+        typeof props.errorCallback === 'function' &&
+          props.errorCallback(`Duplicate item, ensure that the value is not already added`);
+      } else {
+        newList[index] = newItem;
+        props.handleItemListUpdate(props.fieldName, newList);
+      }
     },
     handleItemDelete: (index: number) => {
       props.handleItemListUpdate(
