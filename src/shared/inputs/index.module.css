@@ -60,3 +60,7 @@
   height: 1.25rem;
   width: 1.25rem;
 }
+
+.fieldset {
+  border: 0;
+}
