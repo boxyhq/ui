@@ -3,11 +3,12 @@ import ItemRow from './ItemRow.lite';
 import styles from '../index.module.css';
 import listStyles from './index.module.css';
 import cssClassAssembler from '../../../sso/utils/cssClassAssembler';
+import Button from '../../Button/index.lite';
 
 type ItemListProps = {
   label: string;
   inputType: 'text' | 'url' | 'number' | 'password';
-  classNames?: { label?: string };
+  classNames?: { label?: string; input?: string };
   currentlist: string | string[];
   fieldName: string;
   handleItemListUpdate: (fieldName: string, newList: string[]) => void;
@@ -61,6 +62,7 @@ export default function ItemList(props: ItemListProps) {
     get cssClass() {
       return {
         label: cssClassAssembler(props.classNames?.label, styles.label),
+        input: cssClassAssembler(props.classNames?.input, styles.input),
       };
     },
   });
@@ -71,7 +73,7 @@ export default function ItemList(props: ItemListProps) {
       <div class={listStyles.rowContainer}>
         <For each={state.list}>
           {(item, index) => (
-            <div>
+            <div key={index}>
               <ItemRow
                 inputType={props.inputType}
                 item={item}
@@ -82,6 +84,7 @@ export default function ItemList(props: ItemListProps) {
                 disableDelete={index === 0 && state.list.length === 1}
                 handleBlur={state.checkDuplicates}
                 disabled={state.duplicateEntryIndex !== undefined && state.duplicateEntryIndex !== index}
+                classNames={{ input: state.cssClass.input }}
               />
               <Show when={state.duplicateEntryIndex === index}>
                 <span class={listStyles.hint}>Duplicate entries not allowed.</span>
@@ -90,13 +93,14 @@ export default function ItemList(props: ItemListProps) {
           )}
         </For>
         <div>
-          <button
-            className='btn btn-primary btn-sm btn-outline'
+          <Button
             type='button'
+            variant='outline'
+            classNames={listStyles['add']}
+            onClick={(event) => state.addAnother()}
+            name='Add URL'
             disabled={state.duplicateEntryIndex !== undefined}
-            onClick={(event) => state.addAnother()}>
-            Add URL
-          </button>
+          />
         </div>
       </div>
     </fieldset>

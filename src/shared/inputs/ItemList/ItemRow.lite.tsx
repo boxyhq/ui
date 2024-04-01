@@ -1,5 +1,6 @@
 import XMarkIcon from '../../icons/XMarkIcon.lite';
 import styles from '../index.module.css';
+import itemStyles from './index.module.css';
 
 type ItemRowProps = {
   inputType: 'text' | 'url' | 'number' | 'password';
@@ -11,14 +12,15 @@ type ItemRowProps = {
   isDuplicateItem?: boolean;
   disableDelete?: boolean;
   disabled?: boolean;
+  classNames: { input: string };
 };
 
 export default function ItemRow(props: ItemRowProps) {
   return (
-    <div className='flex space-x-3 items-center'>
+    <div class={itemStyles.row}>
       <input
         type={props.inputType || 'text'}
-        className='input input-bordered input-sm w-full'
+        class={`${props.classNames.input} ${styles['input-sm']} ${itemStyles['input']}`}
         name='item'
         value={props.item}
         onChange={(event) => props.handleItemUpdate(event.target.value, props.index)}
