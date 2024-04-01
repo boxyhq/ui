@@ -23,6 +23,7 @@
 
 .input {
   flex: 1;
+  font-size: 0.875rem !important;
 }
 
 .add {
