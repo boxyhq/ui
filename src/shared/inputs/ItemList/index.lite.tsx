@@ -81,7 +81,7 @@ export default function ItemList(props: ItemListProps) {
                 handleItemDelete={state.handleItemDelete}
                 disableDelete={index === 0 && state.list.length === 1}
                 handleBlur={state.checkDuplicates}
-                readOnly={state.duplicateEntryIndex !== undefined && state.duplicateEntryIndex !== index}
+                disabled={state.duplicateEntryIndex !== undefined && state.duplicateEntryIndex !== index}
               />
               <Show when={state.duplicateEntryIndex === index}>
                 <span class={listStyles.hint}>Duplicate entries not allowed.</span>

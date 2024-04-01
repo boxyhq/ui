@@ -10,7 +10,7 @@ type ItemRowProps = {
   handleBlur: (index: number) => void;
   isDuplicateItem?: boolean;
   disableDelete?: boolean;
-  readOnly?: boolean;
+  disabled?: boolean;
 };
 
 export default function ItemRow(props: ItemRowProps) {
@@ -24,7 +24,7 @@ export default function ItemRow(props: ItemRowProps) {
         onChange={(event) => props.handleItemUpdate(event.target.value, props.index)}
         onBlur={(event) => props.handleBlur(props.index)}
         required
-        disabled={props.readOnly}
+        disabled={props.disabled}
       />
       <button
         type='button'
