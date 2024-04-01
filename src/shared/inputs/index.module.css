@@ -55,3 +55,11 @@
   display: flex;
   justify-content: space-between;
 }
+
+.fieldset {
+  border: 0;
+}
+
+.input-sm {
+  height: 2rem !important;
+}

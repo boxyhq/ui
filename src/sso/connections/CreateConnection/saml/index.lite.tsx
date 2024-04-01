@@ -11,6 +11,7 @@ import Checkbox from '../../../../shared/Checkbox/index.lite';
 import InputField from '../../../../shared/inputs/InputField/index.lite';
 import TextArea from '../../../../shared/inputs/TextArea/index.lite';
 import Select from '../../../../shared/Select/index.lite';
+import ItemList from '../../../../shared/inputs/ItemList/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -23,7 +24,7 @@ const INITIAL_VALUES = {
     description: '',
     tenant: '',
     product: '',
-    redirectUrl: '',
+    redirectUrl: [''],
     defaultRedirectUrl: '',
     rawMetadata: '',
     metadataUrl: '',
@@ -50,6 +51,9 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
       ) as Values;
 
       state.samlConnection = state.updateConnection({ [id]: targetValue });
+    },
+    handleItemListUpdate(fieldName: string, listValue: string[]) {
+      state.samlConnection = state.updateConnection({ [fieldName]: listValue });
     },
     save(event: Event) {
       event.preventDefault();
@@ -237,20 +241,17 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
             <Spacer y={6} />
           </Show>
           <Show when={!state.isExcluded('redirectUrl')}>
-            <TextArea
-              label='Allowed redirect URLs (newline separated)'
-              id='redirectUrl'
-              classNames={state.classes.textarea}
-              required
-              readOnly={state.isReadOnly('redirectUrl')}
-              aria-describedby='redirectUrl-hint'
-              placeholder='http://localhost:3366'
-              value={state.samlConnection.redirectUrl}
-              handleInputChange={state.handleChange}
+            <ItemList
+              inputType='url'
+              label='Allowed redirect URLs'
+              currentlist={state.samlConnection.redirectUrl}
+              fieldName='redirectUrl'
+              handleItemListUpdate={state.handleItemListUpdate}
+              classNames={state.classes.inputField}
             />
             <div id='redirectUrl-hint' class={defaultClasses.hint}>
-              URL to redirect the user to after login. You can specify multiple URLs by separating them with a
-              new line.
+              URL(s) to redirect the user to after login. Only the URLs in this list are allowed in the OAuth
+              flow.
             </div>
             <Spacer y={6} />
           </Show>

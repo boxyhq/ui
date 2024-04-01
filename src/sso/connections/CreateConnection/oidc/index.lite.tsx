@@ -8,9 +8,9 @@ import Spacer from '../../../../shared/Spacer/index.lite';
 import Separator from '../../../../shared/Separator/index.lite';
 import Anchor from '../../../../shared/Anchor/index.lite';
 import InputField from '../../../../shared/inputs/InputField/index.lite';
-import TextArea from '../../../../shared/inputs/TextArea/index.lite';
 import SecretInputFormControl from '../../../../shared/inputs/SecretInputFormControl/index.lite';
 import Select from '../../../../shared/Select/index.lite';
+import ItemList from '../../../../shared/inputs/ItemList/index.lite';
 
 const DEFAULT_VALUES = {
   variant: 'basic',
@@ -23,7 +23,7 @@ const INITIAL_VALUES = {
     description: '',
     tenant: '',
     product: '',
-    redirectUrl: '',
+    redirectUrl: [''],
     defaultRedirectUrl: '',
     oidcClientSecret: '',
     oidcClientId: '',
@@ -53,10 +53,13 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
       const targetValue = (event.currentTarget as HTMLInputElement | HTMLTextAreaElement)?.value as Values;
       state.oidcConnection = state.updateConnection({ [id]: targetValue });
     },
+    handleItemListUpdate(fieldName: string, listValue: string[]) {
+      state.oidcConnection = state.updateConnection({ [fieldName]: listValue });
+    },
     save(event: Event) {
       event.preventDefault();
 
-      const formObj = {} as Partial<OIDCSSOConnection>;
+      const formObj = {} as any;
       Object.entries(state.oidcConnection).map(([key, val]) => {
         if (key.startsWith('oidcMetadata.')) {
           if (formObj.oidcMetadata === undefined) {
@@ -67,7 +70,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
           // pass sortOrder only if set to non-empty string
           val !== '' && (formObj[key] = +val); // convert sortOrder into number
         } else {
-          formObj[key as keyof Omit<OIDCSSOConnection, 'oidcMetadata'>] = val as string;
+          formObj[key] = val;
         }
       });
       state.isSaving = true;
@@ -253,20 +256,17 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
             <Spacer y={6} />
           </Show>
           <Show when={!state.isExcluded('redirectUrl')}>
-            <TextArea
-              label='Allowed redirect URLs (newline separated)'
-              id='redirectUrl'
-              classNames={state.classes.textarea}
-              required
-              readOnly={state.isReadOnly('redirectUrl')}
-              aria-describedby='redirectUrl-hint'
-              placeholder='http://localhost:3366'
-              value={state.oidcConnection.redirectUrl}
-              handleInputChange={state.handleChange}
+            <ItemList
+              inputType='url'
+              label='Allowed redirect URLs'
+              currentlist={state.oidcConnection.redirectUrl}
+              fieldName='redirectUrl'
+              handleItemListUpdate={state.handleItemListUpdate}
+              classNames={state.classes.inputField}
             />
             <div id='redirectUrl-hint' class={defaultClasses.hint}>
-              URL to redirect the user to after login. You can specify multiple URLs by separating them with a
-              new line.
+              URL(s) to redirect the user to after login. Only the URLs in this list are allowed in the OAuth
+              flow.
             </div>
             <Spacer y={6} />
           </Show>

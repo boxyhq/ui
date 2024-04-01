@@ -28,7 +28,6 @@ export const saveConnection = async <T = SAMLSSORecord | OIDCSSORecord>({
   } = formObj;
 
   const encodedRawMetadata = window.btoa((rawMetadata as string) || '');
-  const redirectUrlList = (redirectUrl as string)?.split(/\r\n|\r|\n/);
 
   const res = await sendHTTPRequest<T>(url, {
     method: isEditView ? 'PATCH' : 'POST',
@@ -42,7 +41,7 @@ export const saveConnection = async <T = SAMLSSORecord | OIDCSSORecord>({
       oidcMetadata: connectionIsOIDC ? oidcMetadata : undefined,
       oidcClientId: connectionIsOIDC ? oidcClientId : undefined,
       oidcClientSecret: connectionIsOIDC ? oidcClientSecret : undefined,
-      redirectUrl: redirectUrl && redirectUrlList ? JSON.stringify(redirectUrlList) : undefined,
+      redirectUrl: JSON.stringify(redirectUrl), // TODO: validate redirect url inside form to have atlease one entry
       metadataUrl: connectionIsSAML ? metadataUrl : undefined,
     }),
   });

@@ -1,0 +1,42 @@
+.rowContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.error {
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 0.5rem;
+  color: #ef4444;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.input {
+  flex: 1;
+  font-size: 0.875rem !important;
+}
+
+.add {
+  height: 2rem;
+}
+
+.svg {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: #ef4444;
+}
+
+:disabled .svg {
+  color: grey;
+  cursor: not-allowed;
+}
