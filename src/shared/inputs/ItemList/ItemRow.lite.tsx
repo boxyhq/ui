@@ -32,7 +32,7 @@ export default function ItemRow(props: ItemRowProps) {
         type='button'
         onClick={(event) => props.handleItemDelete(props.index)}
         disabled={props.disableDelete}>
-        <XMarkIcon svgAttrs={{ class: styles['svg'] }} />
+        <XMarkIcon svgAttrs={{ class: itemStyles['svg'] }} />
       </button>
     </div>
   );
