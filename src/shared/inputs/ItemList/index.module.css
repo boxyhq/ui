@@ -5,9 +5,14 @@
   margin-top: 0.5rem;
 }
 
-.hint {
+.error {
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 0.75rem;
   line-height: 0.5rem;
+  color: #ef4444;
 }
 
 .row {

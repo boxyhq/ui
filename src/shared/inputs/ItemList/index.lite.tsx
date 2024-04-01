@@ -4,6 +4,7 @@ import styles from '../index.module.css';
 import listStyles from './index.module.css';
 import cssClassAssembler from '../../../sso/utils/cssClassAssembler';
 import Button from '../../Button/index.lite';
+import ExclamationTriangle from '../../icons/ExclamationTriangle.lite';
 
 type ItemListProps = {
   label: string;
@@ -87,7 +88,10 @@ export default function ItemList(props: ItemListProps) {
                 classNames={{ input: state.cssClass.input }}
               />
               <Show when={state.duplicateEntryIndex === index}>
-                <span class={listStyles.hint}>Duplicate entries not allowed.</span>
+                <span class={listStyles.error}>
+                  <ExclamationTriangle svgAttrs={{ class: listStyles['svg'], 'aria-hidden': true }} />
+                  Duplicate entries not allowed.
+                </span>
               </Show>
             </div>
           )}
