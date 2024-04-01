@@ -84,7 +84,7 @@ export default function ItemList(props: ItemListProps) {
                 readOnly={state.duplicateEntryIndex !== undefined && state.duplicateEntryIndex !== index}
               />
               <Show when={state.duplicateEntryIndex === index}>
-                <span>Duplicate entries not allowed</span>
+                <span class={listStyles.hint}>Duplicate entries not allowed.</span>
               </Show>
             </div>
           )}

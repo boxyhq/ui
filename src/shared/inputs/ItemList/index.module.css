@@ -4,3 +4,8 @@
   gap: 1rem;
   margin-top: 0.5rem;
 }
+
+.hint {
+  font-size: 0.75rem;
+  line-height: 0.5rem;
+}
