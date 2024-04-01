@@ -276,13 +276,16 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
               </Show>
               <Show when={!state.isExcluded('redirectUrl')}>
                 <ItemList
+                  inputType='url'
+                  label='Allowed redirect URLs'
                   currentlist={state.oidcConnection.redirectUrl}
                   fieldName='redirectUrl'
                   handleItemListUpdate={state.handleItemListUpdate}
+                  classNames={state.classes.inputField}
                 />
                 <div id='redirectUrl-hint' class={defaultClasses.hint}>
-                  URL to redirect the user to after login. You can specify multiple URLs by separating them
-                  with a new line.
+                  URL(s) to redirect the user to after login. Only the URLs in this list are allowed in the
+                  OAuth flow.
                 </div>
                 <Spacer y={6} />
               </Show>
