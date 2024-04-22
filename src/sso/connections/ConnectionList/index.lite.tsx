@@ -140,34 +140,38 @@ export default function ConnectionList(props: ConnectionListProps) {
   async function getFieldsData(url: string) {
     state.isConnectionListLoading = true;
     type ConnectionList = ConnectionData<SAMLSSORecord | OIDCSSORecord>[];
-    const data = await sendHTTPRequest<ConnectionList | { data: ConnectionList; pageToken: PageToken }>(url);
+    const response = await sendHTTPRequest<ConnectionList | { data: ConnectionList; pageToken: PageToken }>(
+      url
+    );
 
     state.isConnectionListLoading = false;
-    if (data) {
-      if ('error' in data) {
+    if (response && typeof response === 'object') {
+      if ('error' in response && response.error) {
         state.showErrorComponent = true;
-        state.errorMessage = data.error.message;
-        typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
+        state.errorMessage = response.error.message;
+        typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
       } else {
-        const isTokenizedPagination = typeof data === 'object' && 'pageToken' in data;
-        const _data = isTokenizedPagination ? data.data : data;
-        const _connectionsListData = _data.map((connection: ConnectionData<any>) => {
-          return {
-            ...connection,
-            provider: state.connectionProviderName(connection),
-            type: 'oidcProvider' in connection ? 'OIDC' : 'SAML',
-            status: connection.deactivated ? 'Inactive' : 'Active',
-            isSystemSSO: connection.isSystemSSO,
-          };
-        });
+        const isTokenizedPagination = typeof response === 'object' && 'pageToken' in response;
+        const _data = isTokenizedPagination ? response.data : response;
+        if (Array.isArray(_data)) {
+          const _connectionsListData = _data.map((connection: ConnectionData<any>) => {
+            return {
+              ...connection,
+              provider: state.connectionProviderName(connection),
+              type: 'oidcProvider' in connection ? 'OIDC' : 'SAML',
+              status: connection.deactivated ? 'Inactive' : 'Active',
+              isSystemSSO: connection.isSystemSSO,
+            };
+          });
 
-        state.connectionListData = _connectionsListData;
+          state.connectionListData = _connectionsListData;
 
-        typeof props.handleListFetchComplete === 'function' &&
-          props.handleListFetchComplete(_connectionsListData);
+          typeof props.handleListFetchComplete === 'function' &&
+            props.handleListFetchComplete(_connectionsListData);
+        }
 
         if (isTokenizedPagination) {
-          return data.pageToken;
+          return response.pageToken;
         }
       }
     }
