@@ -123,7 +123,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
         connectionIsOIDC: true,
         callback: async (data) => {
           state.isSaving = false;
-          if (data && 'error' in data) {
+          if (data?.error) {
             typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
           } else {
             if (state.oidcConnection.oidcDiscoveryUrl) {
@@ -143,7 +143,7 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
         clientId: state.oidcConnection.clientID!,
         clientSecret: state.oidcConnection.clientSecret!,
         callback: async (data: ApiResponse<undefined>) => {
-          if (data && 'error' in data) {
+          if (data?.error) {
             typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
           } else {
             typeof props.successCallback === 'function' &&
@@ -175,10 +175,10 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
 
       state.isConnectionLoading = false;
 
-      if (data) {
-        if ('error' in data) {
+      if (data && typeof data === 'object') {
+        if ('error' in data && data.error) {
           typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
-        } else {
+        } else if (Array.isArray(data)) {
           const _connection = data[0];
           if (_connection) {
             state.oidcConnection = {
