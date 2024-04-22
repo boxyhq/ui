@@ -80,7 +80,7 @@ export default function CreateOIDCConnection(props: CreateConnectionProps) {
         connectionIsOIDC: true,
         callback: async (data) => {
           state.isSaving = false;
-          if (data) {
+          if (data && typeof data === 'object') {
             if ('error' in data) {
               typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
             } else {
