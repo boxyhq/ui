@@ -85,7 +85,7 @@ export interface ToggleDirectoryStatusProps {
     patch: string;
   };
   errorCallback?: (errMsg: string) => void;
-  successCallback?: (info: { operation: 'UPDATE' }) => void;
+  successCallback?: (info: { operation: 'UPDATE'; connection?: Directory }) => void;
   classNames?: {
     container?: string;
     confirmationPrompt?: ConfirmationPromptProps['classNames'];

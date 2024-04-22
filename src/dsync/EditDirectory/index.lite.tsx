@@ -76,10 +76,10 @@ export default function EditDirectory(props: EditDirectoryProps) {
           body: JSON.stringify(state.directoryUpdated),
         });
         state.isSaving = false;
-        if (response) {
+        if (response && typeof response === 'object') {
           if ('error' in response && response.error) {
             typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-          } else if ('data' in response) {
+          } else if ('data' in response && response.data) {
             typeof props.successCallback === 'function' &&
               props.successCallback({ operation: 'UPDATE', connection: response.data });
           }
@@ -93,10 +93,12 @@ export default function EditDirectory(props: EditDirectoryProps) {
           method: 'DELETE',
         });
 
-        if (response && 'error' in response && response.error) {
-          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-        } else {
-          typeof props.successCallback === 'function' && props.successCallback({ operation: 'DELETE' });
+        if (response && typeof response === 'object') {
+          if (response.error) {
+            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
+          } else {
+            typeof props.successCallback === 'function' && props.successCallback({ operation: 'DELETE' });
+          }
         }
       }
 
@@ -131,7 +133,7 @@ export default function EditDirectory(props: EditDirectoryProps) {
       const response = await sendHTTPRequest<{ data: Directory }>(url);
 
       state.isDirectoryLoading = false;
-      if (response) {
+      if (response && typeof response === 'object') {
         if ('error' in response && response.error) {
           typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
         } else if ('data' in response) {
