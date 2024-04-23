@@ -96,10 +96,10 @@ export default function CreateDirectory(props: CreateDirectoryProps) {
           body: JSON.stringify(body),
         });
         state.isSaving = false;
-        if (response) {
+        if (response && typeof response === 'object') {
           if ('error' in response && response.error) {
             typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-          } else if ('data' in response) {
+          } else if ('data' in response && response.data) {
             typeof props.successCallback === 'function' &&
               props.successCallback({ operation: 'CREATE', connection: response.data });
           }

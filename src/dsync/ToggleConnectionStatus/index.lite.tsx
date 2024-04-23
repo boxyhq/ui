@@ -36,7 +36,7 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
           deactivated: status,
         };
 
-        const response = await sendHTTPRequest<Directory>(props.urls.patch, {
+        const response = await sendHTTPRequest<{ data: Directory }>(props.urls.patch, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -45,11 +45,13 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
         });
 
         state.displayPrompt = false;
-
-        if (response && 'error' in response && response.error) {
-          typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-        } else {
-          typeof props.successCallback === 'function' && props.successCallback({ operation: 'UPDATE' });
+        if (response && typeof response === 'object') {
+          if ('error' in response && response.error) {
+            typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
+          } else if ('data' in response && response.data) {
+            typeof props.successCallback === 'function' &&
+              props.successCallback({ operation: 'UPDATE', connection: response.data });
+          }
         }
       }
       toggle();

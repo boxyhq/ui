@@ -101,7 +101,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
         connectionIsSAML: true,
         callback: async (data) => {
           state.isSaving = false;
-          if (data && 'error' in data) {
+          if (data?.error) {
             typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
           } else {
             typeof props.successCallback === 'function' &&
@@ -118,7 +118,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
         clientId: state.samlConnection.clientID!,
         clientSecret: state.samlConnection.clientSecret!,
         callback: async (data: ApiResponse<undefined>) => {
-          if (data && 'error' in data) {
+          if (data?.error) {
             typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
           } else {
             typeof props.successCallback === 'function' &&
@@ -149,10 +149,10 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
       const data = await sendHTTPRequest<SAMLSSORecord[]>(url);
       state.isConnectionLoading = false;
 
-      if (data) {
-        if ('error' in data) {
+      if (data && typeof data === 'object') {
+        if ('error' in data && data.error) {
           typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
-        } else {
+        } else if (Array.isArray(data)) {
           const _connection = data[0];
           if (_connection) {
             state.samlConnection = {

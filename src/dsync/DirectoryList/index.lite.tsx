@@ -129,7 +129,7 @@ export default function DirectoryList(props: DirectoryListProps) {
       { data: Directory[] } | { data: { data: Directory[] }; pageToken: PageToken }
     >(directoryListUrl);
     state.isDirectoryListLoading = false;
-    if (response) {
+    if (response && typeof response === 'object') {
       if ('error' in response && response.error) {
         state.showErrorComponent = true;
         state.errorMessage = response.error.message;
@@ -137,21 +137,22 @@ export default function DirectoryList(props: DirectoryListProps) {
       } else if ('data' in response) {
         const isTokenizedPagination = 'pageToken' in response;
         const _data = isTokenizedPagination ? response.data.data : response.data;
-        const directoriesListData = _data.map((directory: Directory) => {
-          return {
-            ...directory,
-            id: directory.id,
-            name: directory.name,
-            tenant: directory.tenant,
-            product: directory.product,
-            type: state.providers.find(({ value }) => value === directory.type)?.text as DirectoryType,
-            status: directory.deactivated ? 'Inactive' : 'Active',
-          };
-        });
-        state.directoryListData = directoriesListData;
-        typeof props.handleListFetchComplete === 'function' &&
-          props.handleListFetchComplete(directoriesListData);
-
+        if (Array.isArray(_data)) {
+          const directoriesListData = _data.map((directory: Directory) => {
+            return {
+              ...directory,
+              id: directory.id,
+              name: directory.name,
+              tenant: directory.tenant,
+              product: directory.product,
+              type: state.providers.find(({ value }) => value === directory.type)?.text as DirectoryType,
+              status: directory.deactivated ? 'Inactive' : 'Active',
+            };
+          });
+          state.directoryListData = directoriesListData;
+          typeof props.handleListFetchComplete === 'function' &&
+            props.handleListFetchComplete(directoriesListData);
+        }
         if (isTokenizedPagination) {
           return response.pageToken;
         }

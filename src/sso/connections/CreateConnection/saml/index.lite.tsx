@@ -67,7 +67,7 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         connectionIsSAML: true,
         callback: async (data) => {
           state.isSaving = false;
-          if (data) {
+          if (data && typeof data === 'object') {
             if ('error' in data) {
               typeof props.errorCallback === 'function' && props.errorCallback(data.error.message);
             } else {
