@@ -40,7 +40,7 @@
   "devDependencies": {
     "@builder.io/eslint-plugin-mitosis": "0.0.16",
     "@builder.io/mitosis": "0.3.9",
-    "@builder.io/mitosis-cli": "0.3.8",
+    "@builder.io/mitosis-cli": "0.3.9",
     "@typescript-eslint/eslint-plugin": "7.13.1",
     "@typescript-eslint/parser": "7.13.1",
     "cpy": "11.0.1",
