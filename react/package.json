@@ -65,7 +65,7 @@
   "devDependencies": {
     "@mdx-js/react": "3.0.1",
     "@rollup/plugin-typescript": "11.1.6",
-    "@types/node": "20.14.9",
+    "@types/node": "20.14.10",
     "@types/react": "18.3.3",
     "@vitejs/plugin-react": "4.3.1",
     "rimraf": "5.0.7",
