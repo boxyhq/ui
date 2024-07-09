@@ -49,7 +49,7 @@
     "postcss": "8.4.38",
     "postcss-cli": "11.0.0",
     "prettier": "3.3.2",
-    "rimraf": "5.0.7",
+    "rimraf": "6.0.0",
     "traverse": "0.6.9",
     "typescript": "5.4.5"
   }
