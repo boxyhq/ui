@@ -48,9 +48,8 @@ export default function ToggleConnectionStatus(props: ToggleDirectoryStatusProps
         if (response && typeof response === 'object') {
           if ('error' in response && response.error) {
             typeof props.errorCallback === 'function' && props.errorCallback(response.error.message);
-          } else if ('data' in response && response.data) {
-            typeof props.successCallback === 'function' &&
-              props.successCallback({ operation: 'UPDATE', connection: response.data });
+          } else {
+            typeof props.successCallback === 'function' && props.successCallback({ operation: 'UPDATE' });
           }
         }
       }
