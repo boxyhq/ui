@@ -41,7 +41,7 @@
     "@builder.io/eslint-plugin-mitosis": "0.0.16",
     "@builder.io/mitosis": "0.3.22",
     "@builder.io/mitosis-cli": "0.3.19",
-    "@typescript-eslint/eslint-plugin": "8.1.0",
+    "@typescript-eslint/eslint-plugin": "8.2.0",
     "@typescript-eslint/parser": "8.1.0",
     "cpy": "11.1.0",
     "eslint": "9.9.0",
