@@ -5,38 +5,53 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/react"
+      interval: 'daily'
+    groups:
+      typescript-eslint:
+        patterns:
+          - '@typescript-eslint/*'
+      mitosis:
+        patterns:
+          - '@builder.io/mitosis*'
+  - package-ecosystem: 'npm'
+    directory: '/react'
     schedule:
-      interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/vue"
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/vue'
     schedule:
-      interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/vue2"
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/vue2'
     schedule:
-      interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/vue2/docs" # vue2 docs app
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/vue2/docs' # vue2 docs app
     ignore:
-      - dependency-name: "vue"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: 'vue'
+        update-types: ['version-update:semver-major']
     schedule:
-      interval: "daily"      
-  - package-ecosystem: "npm"
-    directory: "/svelte"
+      interval: 'daily'
+  - package-ecosystem: 'npm'
+    directory: '/svelte'
     schedule:
-      interval: "daily"
-  - package-ecosystem: "npm"
-    directory: "/angular"
+      interval: 'daily'
+    groups:
+      typescript-eslint:
+        patterns:
+          - '@typescript-eslint/*'
+  - package-ecosystem: 'npm'
+    directory: '/angular'
     schedule:
-      interval: "daily"
+      interval: 'daily'
+    groups:
+      angular:
+        patterns:
+          - '@angular/*'
   - package-ecosystem: 'github-actions'
     directory: '/'
     schedule:
-      interval: 'daily'      
+      interval: 'daily'
