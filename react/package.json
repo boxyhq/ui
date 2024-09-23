@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@mdx-js/react": "3.0.1",
-    "@rollup/plugin-typescript": "11.1.6",
+    "@rollup/plugin-typescript": "12.1.0",
     "@types/node": "22.5.5",
     "@types/react": "18.3.8",
     "@vitejs/plugin-react": "4.3.1",
