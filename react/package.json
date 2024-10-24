@@ -63,7 +63,7 @@
     "react-router-dom": "6.27.0"
   },
   "devDependencies": {
-    "@mdx-js/react": "3.0.1",
+    "@mdx-js/react": "3.1.0",
     "@rollup/plugin-typescript": "12.1.0",
     "@types/node": "22.7.9",
     "@types/react": "18.3.11",
