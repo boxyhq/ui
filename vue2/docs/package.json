@@ -23,6 +23,6 @@
     "@vue/cli-service": "5.0.8",
     "cpy-cli": "5.0.0",
     "eslint": "9.14.0",
-    "eslint-plugin-vue": "9.30.0"
+    "eslint-plugin-vue": "9.31.0"
   }
 }
