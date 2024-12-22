@@ -58,15 +58,15 @@
     "prepare": "npm run build-lib"
   },
   "dependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-router-dom": "7.0.2"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-router-dom": "7.1.0"
   },
   "devDependencies": {
     "@mdx-js/react": "3.1.0",
-    "@rollup/plugin-typescript": "12.1.1",
+    "@rollup/plugin-typescript": "12.1.2",
     "@types/node": "22.10.2",
-    "@types/react": "18.3.12",
+    "@types/react": "19.0.2",
     "@vitejs/plugin-react": "4.3.4",
     "rimraf": "6.0.1",
     "serve": "14.2.4",
@@ -76,8 +76,8 @@
     "vite-plugin-react-pages": "5.0.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "overrides": {
     "vite-plugin-react-pages": {
