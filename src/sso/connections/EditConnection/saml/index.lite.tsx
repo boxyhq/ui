@@ -37,6 +37,7 @@ const INITIAL_VALUES = {
     metadataUrl: '',
     forceAuthn: false as boolean,
     sortOrder: '' as unknown as string | number,
+    acsUrlOverride: '',
   } as SAMLFormState,
 };
 
@@ -334,6 +335,21 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                 </div>
               </Show>
             </Show>
+            <Spacer y={6} />
+            <Show when={state.formVariant === 'advanced'}>
+              <Show when={!state.isExcluded('acsUrlOverride')}>
+                <InputField
+                  label='ACS Url Override'
+                  id='acsUrlOverride'
+                  classNames={state.classes.inputField}
+                  type='url'
+                  placeholder='10'
+                  value={state.samlConnection.acsUrlOverride as string}
+                  handleInputChange={state.handleChange}
+                />
+              </Show>
+            </Show>
+            <Spacer y={6} />
             <div class={defaultClasses.formAction}>
               <Show when={typeof props.cancelCallback === 'function'}>
                 <Button

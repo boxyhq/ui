@@ -30,6 +30,7 @@ const INITIAL_VALUES = {
     metadataUrl: '',
     sortOrder: '' as unknown as string | number,
     forceAuthn: false as boolean,
+    acsUrlOverride: '',
   },
 };
 
@@ -331,6 +332,20 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               label='Force Authentication'
               name='forceAuthn'
               id='forceAuthn'
+            />
+          </Show>
+        </Show>
+        <Spacer y={6} />
+        <Show when={state.formVariant === 'advanced'}>
+          <Show when={!state.isExcluded('acsUrlOverride')}>
+            <InputField
+              label='ACS URL Override'
+              id='acsUrlOverride'
+              classNames={state.classes.inputField}
+              placeholder='http://localhost:3366/login/saml'
+              type='url'
+              value={state.samlConnection.acsUrlOverride}
+              handleInputChange={state.handleChange}
             />
           </Show>
         </Show>

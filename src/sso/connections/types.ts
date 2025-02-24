@@ -126,6 +126,7 @@ export interface SAMLSSOConnection extends SSOConnection {
   forceAuthn?: boolean;
   rawMetadata?: string;
   metadataUrl?: string;
+  acsUrlOverride?: string;
 }
 
 export interface OIDCSSOConnection extends SSOConnection {
