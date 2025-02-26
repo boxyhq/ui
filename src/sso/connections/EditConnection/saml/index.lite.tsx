@@ -343,7 +343,7 @@ export default function EditSAMLConnection(props: EditSAMLConnectionProps) {
                   id='acsUrlOverride'
                   classNames={state.classes.inputField}
                   type='url'
-                  placeholder='10'
+                  placeholder='https://yourcompany.com/app/saml/acs'
                   value={state.samlConnection.acsUrlOverride as string}
                   handleInputChange={state.handleChange}
                 />

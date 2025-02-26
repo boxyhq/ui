@@ -325,6 +325,20 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
         </Show>
         <Spacer y={6} />
         <Show when={state.formVariant === 'advanced'}>
+          <Show when={!state.isExcluded('acsUrlOverride')}>
+            <InputField
+              label='ACS URL Override'
+              id='acsUrlOverride'
+              classNames={state.classes.inputField}
+              placeholder='https://yourcompany.com/app/saml/acs'
+              type='url'
+              value={state.samlConnection.acsUrlOverride}
+              handleInputChange={state.handleChange}
+            />
+          </Show>
+        </Show>
+        <Spacer y={6} />
+        <Show when={state.formVariant === 'advanced'}>
           <Show when={!state.isExcluded('forceAuthn')}>
             <Checkbox
               checked={state.samlConnection.forceAuthn}
@@ -332,20 +346,6 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               label='Force Authentication'
               name='forceAuthn'
               id='forceAuthn'
-            />
-          </Show>
-        </Show>
-        <Spacer y={6} />
-        <Show when={state.formVariant === 'advanced'}>
-          <Show when={!state.isExcluded('acsUrlOverride')}>
-            <InputField
-              label='ACS URL Override'
-              id='acsUrlOverride'
-              classNames={state.classes.inputField}
-              placeholder='http://localhost:3366/login/saml'
-              type='url'
-              value={state.samlConnection.acsUrlOverride}
-              handleInputChange={state.handleChange}
             />
           </Show>
         </Show>
