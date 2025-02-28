@@ -307,6 +307,16 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                 <Spacer y={6} />
               </Show>
             </Show>
+            <InputField
+              label='Client ID [OIDC Provider]'
+              id='oidcClientId'
+              required={true}
+              readOnly
+              classNames={state.classes.inputField}
+              value={state.oidcConnection.oidcClientId || ''}
+              aria-describedby='oidc-clientid-hint'
+            />
+            <Spacer y={6} />
             <SecretInputFormControl
               classNames={{ input: props.classNames?.secretInput }}
               label='Client Secret [OIDC Provider]'
@@ -465,16 +475,6 @@ export default function EditOIDCConnection(props: EditOIDCConnectionProps) {
                     readOnly={true}
                     copyDoneCallback={props.successCallback}
                     handleChange={state.handleChange}
-                  />
-                  <Spacer y={6} />
-                  <InputField
-                    label='Client ID [OIDC Provider]'
-                    id='oidcClientId'
-                    required={true}
-                    readOnly
-                    classNames={state.classes.inputField}
-                    value={state.oidcConnection.oidcClientId || ''}
-                    aria-describedby='oidc-clientid-hint'
                   />
                 </div>
                 <Spacer y={6} />

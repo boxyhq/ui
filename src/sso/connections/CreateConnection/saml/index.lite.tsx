@@ -30,6 +30,7 @@ const INITIAL_VALUES = {
     metadataUrl: '',
     sortOrder: '' as unknown as string | number,
     forceAuthn: false as boolean,
+    acsUrlOverride: '',
   },
 };
 
@@ -320,6 +321,20 @@ export default function CreateSAMLConnection(props: CreateConnectionProps) {
               Connections will be sorted (in a listing view like IdP Selection) using this setting. Higher
               values will be displayed first.
             </div>
+          </Show>
+        </Show>
+        <Spacer y={6} />
+        <Show when={state.formVariant === 'advanced'}>
+          <Show when={!state.isExcluded('acsUrlOverride')}>
+            <InputField
+              label='ACS URL Override'
+              id='acsUrlOverride'
+              classNames={state.classes.inputField}
+              placeholder='https://yourcompany.com/app/saml/acs'
+              type='url'
+              value={state.samlConnection.acsUrlOverride}
+              handleInputChange={state.handleChange}
+            />
           </Show>
         </Show>
         <Spacer y={6} />
