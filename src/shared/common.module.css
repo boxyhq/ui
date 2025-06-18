@@ -1,36 +1,42 @@
 :root {
-  --primary-color: #25c2a0;
-  --primary-foreground-color: #002823;
-  --primary-hover: #0b967d;
-  --primary-active: #0d7865;
-  --primary-disabled: #98f7dc;
-  --primary-color-50: #f0fdf9;
-  --primary-color-100: #cbfced;
-  --primary-color-200: #98f7dc;
-  --primary-color-300: #5cecc8;
-  --primary-color-500: #12ba99;
-  --primary-color-600: #0b967d;
-  --primary-color-700: #0d7865;
-  --primary-color-800: #105f53;
-  --primary-color-900: #124f45;
-  --primary-color-950: #03302b;
+  --primary-color: #4f39f6;
+  --primary-foreground-color: #f0f0ff;
+  --primary-hover: #6b56ff;
+  --primary-active: #3d2fe0;
+  --primary-disabled: #cfc9ff;
+
+  --primary-color-50: #f6f5ff;
+  --primary-color-100: #e3e0ff;
+  --primary-color-200: #cfc9ff;
+  --primary-color-300: #a99fff;
+  --primary-color-500: #6b56ff;
+  --primary-color-600: #4f39f6;
+  --primary-color-700: #3d2fe0;
+  --primary-color-800: #2f25b8;
+  --primary-color-900: #251e8e;
+  --primary-color-950: #1a1665;
+
   --secondary-color: #f4f4f5;
-  /* --secondary-color: #27272a;  dark mode */
+  /* --secondary-color: #1e1b4b;  dark mode */
+
   --primary-text-color: #111827;
   /* --primary-text-color: #fafafa; dark mode */
-  --primary-text-color-500: #737584;
+  --primary-text-color-500: #6b6b8d;
+
   --ring-offset: 2px;
   --ring-offset-width: 2px;
-  --ring-offset-color: hsla(167, 68%, 45%, 0.2);
-  /* --ring-offset-color: hsl(240 10 3.9);  dark mode*/
-  --ring-color: hsl(240 5% 64.9%);
-  /* --ring-color: hsl(240 4.9% 83.9%);  dark mode */
+  --ring-offset-color: rgba(79, 57, 246, 0.2); /* based on primary */
+  /* --ring-offset-color: hsl(240 10 3.9);  dark mode */
+  --ring-color: hsl(250, 85%, 82%);
+  /* --ring-color: hsl(250, 40%, 90%);  dark mode */
+
   --border-color: #e5e7eb;
   --border-width: 1px;
   --border-radius: 0.25rem;
-  --alert-color-success: #36d399;
-  --alert-color-info: #3abff8;
-  --alert-color-warning: #fbbd23;
+
+  --alert-color-success: #3cd0ad; /* cooler green to match purple tone */
+  --alert-color-info: #5a8eff; /* cooler blue, friendlier with primary */
+  --alert-color-warning: #f4c150; /* softened yellow to avoid clashing */
 }
 
 .sr-only {
