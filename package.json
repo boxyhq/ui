@@ -44,7 +44,7 @@
     "@typescript-eslint/eslint-plugin": "8.34.1",
     "@typescript-eslint/parser": "8.34.1",
     "cpy": "11.1.0",
-    "eslint": "9.29.0",
+    "eslint": "9.37.0",
     "npm-run-all": "4.1.5",
     "postcss": "8.5.6",
     "postcss-cli": "11.0.1",
