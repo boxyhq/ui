@@ -31,25 +31,25 @@ jobs:
       - name: Run mitosis build
         run: npm run build
       - name: Export framework code for react
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: mitosis-out-react
           path: |
             ./react/src
       - name: Export framework code for vue
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: mitosis-out-vue
           path: |
             ./vue/src
       - name: Export framework code for angular
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: mitosis-out-angular
           path: |
             ./angular/projects/boxyhq/angular-ui/**/*
       - name: Export framework code for svelte
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: mitosis-out-svelte
           path: |
