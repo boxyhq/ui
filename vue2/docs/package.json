@@ -11,7 +11,7 @@
   "dependencies": {
     "core-js": "3.43.0",
     "prismjs": "1.30.0",
-    "vue": "2.7.16",
+    "vue": "3.5.26",
     "vue-router": "4.5.1"
   },
   "devDependencies": {
