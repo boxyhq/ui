@@ -98,7 +98,7 @@ jobs:
           node-version: 20
           registry-url: 'https://registry.npmjs.org'
           check-latest: true
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: mitosis-out-${{ matrix.framework }}
           path: ${{  matrix.framework == 'angular' && 'angular/projects/boxyhq/angular-ui' || matrix.framework == 'svelte' && 'svelte/src/lib' || format('./{0}/src',matrix.framework) }}
