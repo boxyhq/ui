@@ -11,6 +11,10 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write # Required for npm publish OIDC
+  contents: read
+
 jobs:
   mitosis-generate:
     runs-on: ubuntu-latest
