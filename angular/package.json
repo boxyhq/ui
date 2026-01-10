@@ -37,7 +37,7 @@
     "karma-jasmine-html-reporter": "2.1.0",
     "ng-packagr": "21.0.1",
     "postcss": "8.5.6",
-    "tailwindcss": "4.1.10",
+    "tailwindcss": "4.1.18",
     "typescript": "5.9.3"
   }
 }
