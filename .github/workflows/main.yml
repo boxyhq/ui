@@ -99,9 +99,8 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
-          check-latest: true
       - uses: actions/download-artifact@v7
         with:
           name: mitosis-out-${{ matrix.framework }}
@@ -117,5 +116,3 @@ jobs:
           json -I -f package.json -e "this.version=\"${PKG_VERSION}\""
 
           npm publish --tag ${{ needs.mitosis-generate.outputs.PUBLISH_TAG }} --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
