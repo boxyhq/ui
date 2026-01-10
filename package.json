@@ -51,6 +51,6 @@
     "prettier": "3.7.4",
     "rimraf": "6.1.2",
     "traverse": "0.6.11",
-    "typescript": "5.8.3"
+    "typescript": "5.9.3"
   }
 }
