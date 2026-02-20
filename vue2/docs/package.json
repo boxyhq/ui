@@ -12,7 +12,7 @@
     "core-js": "3.48.0",
     "prismjs": "1.30.0",
     "vue": "3.5.28",
-    "vue-router": "4.6.4"
+    "vue-router": "5.0.3"
   },
   "devDependencies": {
     "@babel/core": "7.29.0",
