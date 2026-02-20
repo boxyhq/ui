@@ -28,7 +28,7 @@
     "@angular/compiler-cli": "21.1.5",
     "@types/jasmine": "6.0.0",
     "@types/prismjs": "1.26.6",
-    "autoprefixer": "10.4.23",
+    "autoprefixer": "10.4.24",
     "jasmine-core": "6.0.1",
     "karma": "6.4.4",
     "karma-chrome-launcher": "3.2.0",
