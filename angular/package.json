@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "21.1.4",
-    "@angular/cli": "21.1.4",
+    "@angular/cli": "21.1.5",
     "@angular/compiler-cli": "21.1.5",
     "@types/jasmine": "6.0.0",
     "@types/prismjs": "1.26.6",
