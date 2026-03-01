@@ -65,7 +65,7 @@
 		"prettier": "3.8.1",
 		"prettier-plugin-svelte": "3.5.0",
 		"prismjs": "1.30.0",
-		"publint": "0.3.17",
+		"publint": "0.3.18",
 		"svelte": "5.53.6",
 		"svelte-check": "4.4.4",
 		"tslib": "2.8.1",
