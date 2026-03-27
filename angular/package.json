@@ -38,6 +38,6 @@
     "ng-packagr": "21.2.0",
     "postcss": "8.5.8",
     "tailwindcss": "4.2.1",
-    "typescript": "5.9.3"
+    "typescript": "6.0.2"
   }
 }
