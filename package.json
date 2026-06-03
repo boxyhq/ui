@@ -39,8 +39,8 @@
   "homepage": "https://github.com/boxyhq/ui#readme",
   "devDependencies": {
     "@builder.io/eslint-plugin-mitosis": "0.0.17",
-    "@builder.io/mitosis": "0.13.0",
-    "@builder.io/mitosis-cli": "0.13.0",
+    "@builder.io/mitosis": "0.13.1",
+    "@builder.io/mitosis-cli": "0.13.1",
     "@typescript-eslint/eslint-plugin": "8.59.2",
     "@typescript-eslint/parser": "8.59.2",
     "cpy": "13.2.2",
