@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/common": "21.2.12",
+    "@angular/common": "21.2.20",
     "@angular/compiler": "21.2.20",
     "@angular/core": "21.2.20",
     "@angular/platform-browser": "21.2.12",
