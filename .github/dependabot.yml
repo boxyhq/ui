@@ -9,6 +9,12 @@ updates:
     directory: '/'
     schedule:
       interval: 'daily'
+    ignore:
+      # TypeScript 7 is the native (Go) compiler and does not yet ship the full
+      # TS JS compiler API. typescript-eslint, vue-tsc, ts-jest and the Angular
+      # compiler all still need it. Drop this once they support TS 7.
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
     groups:
       typescript-eslint:
         patterns:
@@ -22,6 +28,10 @@ updates:
       interval: 'daily'
   - package-ecosystem: 'npm'
     directory: '/vue'
+    ignore:
+      # See the note on the root entry above.
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
     schedule:
       interval: 'daily'
   - package-ecosystem: 'npm'
@@ -37,6 +47,10 @@ updates:
       interval: 'daily'
   - package-ecosystem: 'npm'
     directory: '/svelte'
+    ignore:
+      # See the note on the root entry above.
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
     schedule:
       interval: 'daily'
     groups:
@@ -45,6 +59,10 @@ updates:
           - '@typescript-eslint/*'
   - package-ecosystem: 'npm'
     directory: '/angular'
+    ignore:
+      # See the note on the root entry above.
+      - dependency-name: 'typescript'
+        update-types: ['version-update:semver-major']
     schedule:
       interval: 'daily'
     groups:
