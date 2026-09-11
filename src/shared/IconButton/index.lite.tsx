@@ -8,7 +8,7 @@ import InfoIcon from '../icons/InfoIcon.lite';
 import LinkIcon from '../icons/LinkIcon.lite';
 import PlusIcon from '../icons/PlusIcon.lite';
 import CheckMarkIcon from '../icons/CheckMarkIcon.lite';
-import { IconButtonProps } from '../types';
+import type { IconButtonProps } from '../types';
 import cssClassAssembler from '../../sso/utils/cssClassAssembler';
 
 export default function IconButton(props: IconButtonProps) {

@@ -1,4 +1,4 @@
-import { ConfirmationPromptProps, PaginateProps, TableCol, TableProps } from '../shared/types';
+import type { ConfirmationPromptProps, PaginateProps, TableCol, TableProps } from '../shared/types';
 
 export interface CreateDirectoryProps {
   excludeFields?: Array<keyof UnSavedDirectory>;

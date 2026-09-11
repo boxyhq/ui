@@ -1,7 +1,7 @@
 import { Show, useContext, useStore } from '@builder.io/mitosis';
 import EmptyState from '../EmptyState/index.lite';
 import Table from './index.lite';
-import { TableProps } from '../types';
+import type { TableProps } from '../types';
 import PaginateContext from '../Paginate/paginate.context.lite';
 import styles from './index.module.css';
 

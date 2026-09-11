@@ -1,5 +1,5 @@
 import { useStore } from '@builder.io/mitosis';
-import { SVGProps } from '../types';
+import type { SVGProps } from '../types';
 
 
 export default function CheckMarkIcon(props: { svgAttrs?: SVGProps }) {

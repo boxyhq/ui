@@ -1,4 +1,4 @@
-import { SVGProps } from '../types';
+import type { SVGProps } from '../types';
 
 export default function RightArrowIcon(props: { svgAttrs?: SVGProps }) {
   return (

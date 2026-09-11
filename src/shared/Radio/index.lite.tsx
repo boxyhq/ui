@@ -1,5 +1,5 @@
 import { useStore } from '@builder.io/mitosis';
-import { RadioProps } from '../types';
+import type { RadioProps } from '../types';
 import styles from './index.module.css';
 import Spacer from '../Spacer/index.lite';
 

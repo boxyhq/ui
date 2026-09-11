@@ -19,7 +19,8 @@ import Separator from '../../../../shared/Separator/index.lite';
 import Card from '../../../../shared/Card/index.lite';
 import { InputWithCopyButton } from '../../../../shared';
 import LoadingContainer from '../../../../shared/LoadingContainer/index.lite';
-import { ApiResponse, sendHTTPRequest } from '../../../../shared/http';
+import { sendHTTPRequest } from '../../../../shared/http';
+import type { ApiResponse } from '../../../../shared/http';
 import ItemList from '../../../../shared/inputs/ItemList/index.lite';
 
 const INITIAL_VALUES = {

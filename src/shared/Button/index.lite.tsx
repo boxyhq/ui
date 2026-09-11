@@ -1,5 +1,5 @@
 import { Show, useStore } from '@builder.io/mitosis';
-import { ButtonProps } from '../types';
+import type { ButtonProps } from '../types';
 import styles from './index.module.css';
 import Spinner from '../Spinner/index.lite';
 import LeftArrowIcon from '../icons/LeftArrow.lite';

@@ -1,4 +1,4 @@
-import { ModalProps } from '../types';
+import type { ModalProps } from '../types';
 import { useStore, onMount, onUpdate } from '@builder.io/mitosis';
 
 export default function Modal(props: ModalProps) {
