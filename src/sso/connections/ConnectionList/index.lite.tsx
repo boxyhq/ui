@@ -1,7 +1,7 @@
 import { useStore, onUpdate, Show } from '@builder.io/mitosis';
 import type { ConnectionData, ConnectionListProps, OIDCSSORecord, SAMLSSORecord } from '../types';
 import LoadingContainer from '../../../shared/LoadingContainer/index.lite';
-import { BadgeProps, PageToken, PaginatePayload, TableProps } from '../../../shared/types';
+import type { BadgeProps, PageToken, PaginatePayload, TableProps } from '../../../shared/types';
 import { sendHTTPRequest } from '../../../shared/http';
 import Paginate from '../../../shared/Paginate/index.lite';
 import PaginatedTable from '../../../shared/Table/paginated.lite';

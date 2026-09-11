@@ -1,4 +1,4 @@
-import { SVGProps } from '../types';
+import type { SVGProps } from '../types';
 
 export default function ExclamationTriangle(props: { svgAttrs?: SVGProps }) {
   return (

@@ -1,6 +1,6 @@
 import { Show, onMount, onUnMount, useStore } from '@builder.io/mitosis';
 import Button from '../Button/index.lite';
-import { PaginateProps } from '../types';
+import type { PaginateProps } from '../types';
 import styles from './index.module.css';
 import PaginateContext from './paginate.context.lite';
 
