@@ -16,6 +16,18 @@ permissions:
   contents: read
 
 jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+          check-latest: true
+      - run: npm ci
+      - run: npm test
+
   mitosis-generate:
     runs-on: ubuntu-latest
     outputs:
@@ -79,7 +91,7 @@ jobs:
           echo "PUBLISH_TAG=${publishTag}" >> $GITHUB_OUTPUT
 
   build-publish-lib:
-    needs: ['mitosis-generate']
+    needs: ['mitosis-generate', 'unit-test']
     runs-on: ubuntu-latest
 
     strategy:
