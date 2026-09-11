@@ -11,6 +11,8 @@
     "copycss": "run-p 'postcss:* -- src/**/*.css --base src'",
     "mitosis:build": "mitosis build",
     "build": "npm run mitosis:build && npm run copycss",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "postbuild": "run-p angular:multi-entry svelte:lib-placement",
     "angular:multi-entry": "node scripts/angular-multi-entry.mjs",
     "svelte:lib-placement": "node scripts/svelte-lib-placement.mjs",
@@ -47,10 +49,11 @@
     "eslint": "10.10.0",
     "npm-run-all": "4.1.5",
     "postcss": "8.5.28",
-    "postcss-cli": "11.0.1",
+    "postcss-cli": "12.0.0",
     "prettier": "3.9.6",
     "rimraf": "6.1.3",
     "traverse": "0.6.11",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vitest": "^5.0.0"
   }
 }

@@ -62,10 +62,14 @@ export const deleteConnection = async ({
 }) => {
   const queryParams = new URLSearchParams({
     clientID: clientId,
-    clientSecret,
   });
+  // The client secret is a reusable credential, so it travels in a header
+  // rather than in the request URL.
   const res = await sendHTTPRequest<undefined>(`${url}?${queryParams}`, {
     method: 'DELETE',
+    headers: {
+      'x-polis-client-secret': clientSecret,
+    },
   });
   callback(res);
 };
