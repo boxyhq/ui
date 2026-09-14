@@ -8,7 +8,7 @@ import Button from '../../../shared/Button/index.lite';
 import Spacer from '../../../shared/Spacer/index.lite';
 import Anchor from '../../../shared/Anchor/index.lite';
 import CreateSSOConnection from '../CreateConnection/index.lite';
-import { PaginatePayload } from '../../../shared/types';
+import type { PaginatePayload } from '../../../shared/types';
 
 const DEFAULT_VALUES = {
   connectionListData: [] as ConnectionData<any>[],

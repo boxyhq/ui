@@ -1,10 +1,6 @@
 import { Show, onUpdate, useStore } from '@builder.io/mitosis';
-import {
-  type CreateDirectoryProps,
-  type Directory,
-  type UnSavedDirectory,
-  DirectorySyncProviders,
-} from '../types';
+import { DirectorySyncProviders } from '../types';
+import type { CreateDirectoryProps, Directory, UnSavedDirectory } from '../types';
 import defaultClasses from './index.module.css';
 import cssClassAssembler from '../../sso/utils/cssClassAssembler';
 import Button from '../../shared/Button/index.lite';

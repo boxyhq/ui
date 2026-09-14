@@ -1,5 +1,5 @@
 import Spinner from '../Spinner/index.lite';
-import { LoadingContainerProps } from '../types';
+import type { LoadingContainerProps } from '../types';
 import styles from './index.module.css';
 
 // Reference: https://adrianroselli.com/2020/11/more-accessible-skeletons.html

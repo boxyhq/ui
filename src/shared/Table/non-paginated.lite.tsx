@@ -1,7 +1,7 @@
 import { Show } from '@builder.io/mitosis';
 import EmptyState from '../EmptyState/index.lite';
 import Table from './index.lite';
-import { TableProps } from '../types';
+import type { TableProps } from '../types';
 import styles from './index.module.css';
 
 type NonPaginatedTableProps = {

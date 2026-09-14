@@ -1,5 +1,5 @@
 import { Show, useStore } from '@builder.io/mitosis';
-import { CardProps } from '../types';
+import type { CardProps } from '../types';
 import styles from './index.module.css';
 import CheckMarkIcon from '../icons/CheckMarkIcon.lite';
 import InfoIcon from '../icons/InfoIcon.lite';

@@ -1,5 +1,5 @@
 import { useStore } from '@builder.io/mitosis';
-import { LinkProps } from '../types';
+import type { LinkProps } from '../types';
 import styles from './index.module.css';
 
 export default function Anchor(props: LinkProps) {

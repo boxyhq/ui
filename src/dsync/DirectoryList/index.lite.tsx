@@ -1,9 +1,10 @@
 import { useStore, Show, onUpdate } from '@builder.io/mitosis';
-import { DirectorySyncProviders, type Directory } from '../types';
+import { DirectorySyncProviders } from '../types';
+import type { Directory } from '../types';
 import LoadingContainer from '../../shared/LoadingContainer/index.lite';
 import type { DirectoryListProps, DirectoryType } from '../types';
 import defaultClasses from './index.module.css';
-import { BadgeProps, PageToken, PaginatePayload, TableProps } from '../../shared/types';
+import type { BadgeProps, PageToken, PaginatePayload, TableProps } from '../../shared/types';
 import { sendHTTPRequest } from '../../shared/http';
 import Paginate from '../../shared/Paginate/index.lite';
 import PaginatedTable from '../../shared/Table/paginated.lite';

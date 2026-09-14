@@ -1,6 +1,6 @@
 import { Show, useStore } from '@builder.io/mitosis';
 import styles from './index.module.css';
-import { RadioGroupProps } from '../types';
+import type { RadioGroupProps } from '../types';
 import Spacer from '../Spacer/index.lite';
 
 export default function RadioGroup(props: RadioGroupProps) {

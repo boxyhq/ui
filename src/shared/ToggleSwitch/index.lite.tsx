@@ -1,4 +1,4 @@
-import { ToggleSwitchProps } from '../types';
+import type { ToggleSwitchProps } from '../types';
 import styles from './index.module.css';
 
 export default function ToggleSwitch(props: ToggleSwitchProps) {
